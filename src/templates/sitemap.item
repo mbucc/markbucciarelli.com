@@ -1,0 +1,7 @@
+  <url> 
+    <loc>http://markbucciarelli.com/{{URL}}</loc> 
+    <image:image>
+       <image:loc>http://markbucciarelli.com/img/{{IMG}}.png</image:loc>
+       <image:caption>{{IMG_ALT}}</image:caption>
+    </image:image>
+  </url>

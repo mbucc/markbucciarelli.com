@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Erlang and CQRS</title>
+    <link>http://markbucciarelli.com</link>
+    <description>Blogging as I teach myself Erlang and CQRS.</description>
+    <lastBuildDate>{{PUBDATE_ISO}}</lastBuildDate>
+    <language>en-us</language>
+    <category>Erlang</category>
+    <category>CQRS</category>

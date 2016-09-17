@@ -1,0 +1,28 @@
+      </ul>
+    </section>
+
+    <section>
+    
+    <section>
+      <p><span class="marginnote"><img src="img/headshot.jpg" alt="A headshot of me"/></span>I love to learn new stuff.</p>
+      <p>And when I get excited about a topic, I want to tell everyone about it.  My wife and kids are used to this by now, and despite not understanding my latest tech enthusiasm, they nod and smile at how excited I get.</p>
+      <p>But there are some things that I don't even try to explain to them.  It&rsquo;s too technical, there&rsquo;s too much background.  For example,</p>
+      <ul>
+        <li>assignment operator in Erlang is a friggen pattern matching expression! and</li>
+        <li>two really hard problems in SQL databases (maintaining indexes and replication) are done using event logs!</li>
+      </ul>
+      <p>So that&rsquo;s why I&rsquo;m creating this space &hellip; to give me a place to get this stuff out of my system.</p>
+      <p>I&rsquo;m going to focus on the two topics that currently fascinate me:</p>
+      <ol>
+      <li>the <a href="http://www.erlang.org">Erlang</a> programming language, and</li>
+      <li>the <a href="http://codebetter.com/gregyoung/2010/02/16/cqrs-task-based-uis-event-sourcing-agh/">command and query responsibility separation</a> pattern, commonly called &ldquo;CQRS.&rdquo;</li>
+      </ol>
+
+      <p>You can find my publically auditable identity at <a href="https://keybase.io/markb">keybase.io</a> and an RSS feed for this blog  at <a type="application/rss+xml" href="feed.rss">/feed.rss</a>.</p>
+
+      <p>Enjoy!</p>
+    </section>
+
+  </article>
+</body>
+</html>

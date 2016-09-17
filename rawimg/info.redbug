@@ -1,0 +1,9 @@
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Ritchie Valens"
+LOCATION="Chorleywood, United Kingdom"
+IMGSRC=redbug.png
+ALT="Closeup of bright red bug on deep green leaf."
+BLOG_TITLE="My first Erlang patch!"
+BLOG_POST="../2016-07-20_my_first_erlang_patch.html"
+SOURCE=https://unsplash.com/photos/fAMG3PDk830
+CAMERA="Canon EOS 7D @ 100mm, ISO 400, 1/200, f/3.36"

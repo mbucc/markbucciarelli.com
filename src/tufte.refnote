@@ -1,0 +1,3 @@
+            <label for="sn-meyer1" class="margin-toggle sidenote-number"></label>.
+            <input type="checkbox" id="sn-meyer1" class="margin-toggle"/>
+            <span class="sidenote"><a href="http://laser.inf.ethz.ch/2012/slides/Meyer/eiffel_laser_2012.pdf"><em>Eiffel: a language for software engineering</em></a> (PDF, p. 22)</span>
