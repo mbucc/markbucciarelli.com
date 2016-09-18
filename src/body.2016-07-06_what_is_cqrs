@@ -1,0 +1,114 @@
+    <section>
+    <div class="epigraph">
+	<blockquote>
+		<p>The processing of commands and queries is fundamentally asymmetrical &hellip;</p>
+		<footer>Greg Young, <cite><a href="http://codebetter.com/gregyoung/2010/02/16/cqrs-task-based-uis-event-sourcing-agh/">CQRS, Task Based UIs, Event Sourcing agh!</a></cite>  (2010)</footer>
+	</blockquote>
+    </div>
+
+        <h2>A Command modifies state.</h2>
+        <p>A command does something but does not return a result<label for="sn-meyer1" class="margin-toggle sidenote-number"></label>.
+            <input type="checkbox" id="sn-meyer1" class="margin-toggle"/>
+            <span class="sidenote"><a href="http://laser.inf.ethz.ch/2012/slides/Meyer/eiffel_laser_2012.pdf"><em>Eiffel: a language for software engineering</em></a> (PDF, p. 22)</span>
+        </p>
+    </section>
+
+    <section>
+        <h2>A Query reports the current state.</h2>
+        <p>A query returns a result but does not change the state<label for="sn-meyer2" class="margin-toggle sidenote-number"></label>.
+        <input type="checkbox" id="sn-meyer2" class="margin-toggle"/>
+        <span class="sidenote"><em>Ibid</em></span></p>
+        </p>
+    </section>
+
+    <section>
+        <h2>Command methods go in one object; query methods in another.</h2>
+        <p>This is the bit Greg Young added to create CQRS.</p>
+        <p>Otherwise, this pattern is the same as Bertrand Meyer's Command and Query Separation principal, which</p>
+        <blockquote>
+            <p>states that every method should either be a command that performs an action, or a query that returns data to the caller, but not both. In other words, <em>Asking a question should not change the answer.</em>  More formally, methods should return a value only if they are referentially transparent and hence possess no side effects.</p>
+            <footer>Wikipedia, <cite><a href="https://en.wikipedia.org/wiki/Command%E2%80%93query_separation">Command–query separation</a></cite> (retrieved July, 2016)</footer>
+        </blockquote>
+    </section>
+    </section>
+
+    <section>
+        <h2>So what's the big deal?</h2>
+
+        <p>In my experience, the database becomes the tight resource in a big system.  This CQRS pattern allows you to separate the write data model from the read data model, and this means:</p>
+        <ul>
+            <li>your write model could insert into an event log table with minimal indexing, that is partioned by date, and</li>
+            <li>your read model could be a set of non-normalized projections that match how data is shown in the user interface.</p>
+        </ul>
+        <p>Decoupling the read and write models forces you to figure out how to feed the read side from the write side.  The most common approach is to use events; every command emits one or more events.  The read model subscribes to those events and updates their state.  (Note that this event sourcing is not required as part of CQRS.)</p>
+        <p>Using events to integrate the read and write models has some nice properties:</p>
+        <ul>
+            <li>you can add a new projection at a later date and replay all events through that projection,</li>
+            <li>if you have a logic error in an existing projection, you can fix it and replay all events,</li>
+            <li>since the read-model projections match the user interface, queries are very fast,</li>
+            <li>you can scale read model and write model independently,</li>
+            <li>if you encounter a bug you know exactly what events triggered the error condition and can replay them in a testing environment.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>How to you ensure uniqueness?</h2>
+
+        <p>In CQRS, the command processors do not access read models.  (They are split.  Completely.) This leads to a a common question: how do to validate the command data?</p>
+
+        <blockquote>
+            <p>The problem I've come to now is validation. Every post have a shortUrl, and the shortUrl should be unique, but where should I put this validation in the domain?</p>
+            <footer><cite><a href="http://stackoverflow.com/questions/9455305/uniqueness-validation-when-using-cqrs-and-event-sourcing?rq=1">Uniqueness validation when using CQRS and Event sourcing</a></cite> (Tomas Jansson, 2012)</footer>
+        </blockquote>
+
+        <p>I have seen two different answers.</p>
+        <ol>
+            <li>Accept eventual consistency and deal with this
+            manually<label for="sn-option1" class="margin-toggle sidenote-number"></label>.
+            <input type="checkbox" id="sn-option1" class="margin-toggle"/>
+            <span class="sidenote"><a href="http://codebetter.com/gregyoung/2010/08/12/eventual-consistency-and-set-validation/"><em>Eventual Consistency and Set Validation</em></a> (Greg Young, 2010)</span>
+            It is low cost and low frequency and it is cheaper to just send an email and fix it manually.</li>
+            <li>The command processor should store enough state that it can ensure business rules are
+            met<label for="sn-option2" class="margin-toggle sidenote-number"></label>.
+            <input type="checkbox" id="sn-option2" class="margin-toggle"/>
+            <span class="sidenote"><a href="http://stackoverflow.com/a/13822693"><em>CQRS/Event Sourcing, how get consistent data to apply business rules?</em></a> (Chris Baxter, 2012)</span>
+            In this specific instance, the command processor should keep a list of all current short urls.  Access to that list should be synchronized.</li>
+        </ol>
+
+        <p>The second answer is from Domain Driven Design, and is my preferred approach.  I should be so blessed to have written a system so popular that the first approach is required!</p>
+
+    </section>
+
+    <section>
+        <h2>How to you handle errors?</h2>
+
+        <p>If the data sent by a command is invalid, and a command cannot return a value, how do you report an error back to the client?</p>
+        <p>The general consensus is to raise an
+        exception<label for="sn-errors" class="margin-toggle sidenote-number"></label>.
+            <input type="checkbox" id="sn-errors" class="margin-toggle"/>
+            <span class="sidenote"><a href="http://cqrs.nu/Faq/testing"><em>CQRS FAQ: Testing</em></a> (Edument)</span>
+        </p>
+        <p>To me, raising an exception performs the same function as returning a value, which breaks Meyer's rule.  Which leaves two choices:</p>
+	
+	<ol>
+	<li>return a value and break Meyer's command rule, or</li>
+	<li>don't return a value and expose a query that retrieves the error state.</li>
+	</ol>
+	
+	<p>I'll need to play around with this when I start building something real ...</p>
+	
+
+    </section>
+
+    <section>
+
+	<h2>Change Log</h2>
+
+       <h3>Aug. 17, 2016</h3>
+       <ul>
+       <li>Add lede.</li>
+       <li>Add my preference for dealing with uniqueness by keeping enough state in the command processor.</li>
+       <li>Expand discussion of error handling.</li>
+       </ul>
+    </section>
+

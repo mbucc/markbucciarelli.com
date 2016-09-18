@@ -1,0 +1,8 @@
+URL=2016-07-06_what_is_cqrs.html
+TITLE="What is CQRS?"
+PUBDATE="July 6, 2016"
+PUBDATE_ISO="Wed, 6 Jul 2016 12:00:00 GMT"
+LEDE="CQRS is short for the command query responsibility separation pattern. This post traces the history of this pattern, the benefits, and discusses two common stumbling blocks: error handling and data validation."
+IMG=bridge
+IMGINFO=bridge
+IMG_ALT="Empty footbridge leading to a jungle."

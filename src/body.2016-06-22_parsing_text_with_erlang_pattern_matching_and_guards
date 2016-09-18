@@ -1,0 +1,149 @@
+    <section>
+        <h2>Let's begin at the end.</h2>
+<pre class="code with-wrapping fullwidth">
+<line></line>
+<line>-module(m1).</line>
+<line></line>
+<line>-export([parse_time_part/1]).</line>
+<line></line>
+<line>% Given a string (e.g., "9:30 pm"), return the hour and minute as a list of</line>
+<line>% two integers.  If no meridian given, assume pm.</line>
+<line>parse_time_part(S) when is_list(S) -></line>
+<line>    {ok, HourMinute} = parse_time_parts(strip_tokens(S, ": ")),</line>
+<line>    HourMinute.</line>
+<line></line>
+<line>parse_time_parts([H, M, Meridian])</line>
+<line>    when Meridian =:= "AM";</line>
+<line>         Meridian =:= "am";</line>
+<line>         Meridian =:= "a.m.";</line>
+<line>         Meridian =:= "A.M." -></line>
+<line>    {ok, [HI, MI]} = parse_time_parts([H, M]),</line>
+<line>    {ok, [HI - 12, MI]};</line>
+<line>parse_time_parts([H, M, Meridian])</line>
+<line>    when Meridian =:= "PM";</line>
+<line>         Meridian =:= "pm";</line>
+<line>         Meridian =:= "p.m.";</line>
+<line>         Meridian =:= "P.M." -></line>
+<line>    parse_time_parts([H, M]);</line>
+<line>parse_time_parts([H, M]) -></line>
+<line>    {ok, [HI, 0]} = parse_time_parts([H]),</line>
+<line>    {I, _} = string:to_integer(M),</line>
+<line>    {ok, [HI, I]};</line>
+<line>parse_time_parts([H]) -></line>
+<line>    {I, _} = string:to_integer(H),</line>
+<line>    if</line>
+<line>       I < 12 -> {ok, [I + 12, 0]};</line>
+<line>       I >= 12 -> {ok, [I, 0]}</line>
+<line>    end.</line>
+<line></line>
+<line>% Tokenize based on characters in the string Sep and then strip any</line>
+<line>% trailing or leading spaces and commas from the tokens.</line>
+<line>strip_tokens(S, Sep) -></line>
+<line>    [string:strip(string:strip(X, both), both, $,)</line>
+<line>         || X <- string:tokens(S, Sep)].</line>
+<line>         </line>
+<line>-ifdef(TEST).</line>
+<line>-include_lib("eunit/include/eunit.hrl").</line>
+<line></line>
+<line>strip_tokens_test() -></line>
+<line>    ?assertEqual(["Monday, April 11, 2016", "9:00 pm"],</line>
+<line>                 (strip_tokens("Monday, April 11, 2016 ~ 9:00 pm", "~"))).</line>
+<line></line>
+<line>parse_time_part_test() -></line>
+<line>    ?assertEqual([19, 0], (parse_time_part("7"))),</line>
+<line>    ?assertEqual([17, 0], (parse_time_part("5:00"))),</line>
+<line>    ?assertEqual([21, 30], (parse_time_part("9:30"))),</line>
+<line>    ?assertEqual([17, 30], (parse_time_part("5:30 PM"))),</line>
+<line>    ?assertEqual([9, 30], (parse_time_part("9:30 AM"))).</line>
+<line></line>
+<line>-endif.</line>
+</pre>
+
+<p>The tests pass:</p>
+
+<pre class="code with-wrapping fullwidth">
+<line>$ erlc -DTEST m1.erl</line>
+<line>$ erl -run m1 test -run init stop -noshell</line>
+<line>  Test passed.</line>
+<line>$</line>
+</pre>
+
+<section>
+<h2>Function guards assert what arguments the function accepts.</h2>
+<pre class="code with-wrapping fullwidth">
+<line>parse_time_part(S) when is_list(S) -></line>
+<line>    {ok, HourMinute} = parse_time_parts(strip_tokens(S, ": ")),</line>
+<line>    HourMinute.</line>
+</pre>
+
+<p>The guard is <span class="code with-wrapping">when is_list(S)</span>.
+This is a <a href="http://www.cis.upenn.edu/~matuszek/Concise%20Guides/Concise%20Erlang.html#type_t_and_c">type test</a> that declares that the argument must be a list.
+(In Erlang, strings are lists of integers.)  The guard is both a declaration and an assertion:
+
+<pre class="code with-wrapping fullwidth">
+<line>~$ erl</line>
+<line>Erlang/OTP 18 [erts-7.3] [source-84db331] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V7.3  (abort with ^G)</line>
+<line>1> c(m1).</line>
+<line>{ok,m1}</line>
+<line>2> m1:parse_time_part(an_atom). </line>
+<line>** exception error: no function clause matching </line>
+<line>                    m1:parse_time_part(an_atom) (m1.erl, line 7)</line>
+<line>3> q().</line>
+<line>ok</line>
+<line>5> ~$ </line>
+</pre>
+
+<p>Guards are limited to the following:</p>
+<ul>
+<li>type tests</li>
+<li> boolean operators</li>
+<li> bitwise operators</li>
+<li> arithmetic operators</li>
+<li> relational operators</li>
+<li> and <a href="http://www.cis.upenn.edu/~matuszek/Concise%20Guides/Concise%20Erlang.html#pm_guards">a few built in functions</a> (aka "BIFs")
+</ul>
+
+
+
+<section>
+
+<h2>In a guard, a semicolon means OR.</h2>
+<pre class="code with-wrapping fullwidth">
+<line>parse_time_parts([H, M, Meridian])</line>
+<line>    when Meridian =:= "AM";</line>
+<line>         Meridian =:= "am";</line>
+<line>         Meridian =:= "a.m.";</line>
+<line>         Meridian =:= "A.M." -></line>
+<line>    {ok, [HI, MI]} = parse_time_parts([H, M]),</line>
+<line>    {ok, [HI - 12, MI]};</line>
+</pre>
+
+<p>There are four values of <span class=code>Meridian</span> this function will
+accept: AM, am, a.m. and A.M.</p>
+
+<p>To AND together guards, separate them with a comma.</p>
+    </section>
+
+    <section>
+    <h2>The order of functions matter.</h2>
+
+<pre class="code with-wrapping fullwidth">
+<line>parse_time_parts([H, M, Meridian])</line>
+<line>    when Meridian =:= "AM";</line>
+<line>         Meridian =:= "am";</line>
+<line>         Meridian =:= "a.m.";</line>
+<line>         Meridian =:= "A.M" -></line>
+<line>    {ok, [HI, MI]} = parse_time_parts([H, M]),</line>
+<line>    {ok, [HI - 12, MI]};</line>
+<line>parse_time_parts([H, M, Meridian])</line>
+<line>    when Meridian =:= "PM";</line>
+<line>         Meridian =:= "pm";</line>
+<line>         Meridian =:= "p.m.";</line>
+<line>         Meridian =:= "P.M" -></line>
+<line>    parse_time_parts([H, M]);</line>
+    </pre>
+
+	<p>Erlang will try the AM version of the function before the PM version, simply because it occurs first in the source.  It doesn't matter in this code, but often this feature is useful.</p>
+    </section>

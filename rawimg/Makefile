@@ -6,7 +6,6 @@ WIDTH=700
 D2=../www/imginfo
 
 all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
-		${D1}/atlas-slave.png \
 		${D1}/bridge.png ${D2}/bridge.html ${D2}/bridge.png \
 		${D1}/redbug.png ${D2}/redbug.html ${D2}/redbug.png \
 		${D1}/lightbulb.png ${D2}/lightbulb.html ${D2}/lightbulb.png \
@@ -18,8 +17,6 @@ all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 ./mn.jpg: mnopq.jpg
 	convert -modulate 110 -level 10% -crop 1250x880+0+820 $? $@
 
-${D1}/atlas-slave.png: atlas-slave.jpg
-	convert -interlace NONE -resize 200 -border 6x6 -bordercolor black  $? $@
 ${D1}/start_server.png: start_server.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
 ${D1}/add_a_name.png: add_a_name.png
@@ -28,9 +25,11 @@ ${D1}/%.png: %.jpg
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
 
 ${D2}/%.html: info.% template.mustache
+	mkdir -p ${D2}
 	./html.sh $@ > $@
 
 ${D2}/%.png: %.jpg
+	mkdir -p ${D2}
 	convert -interlace NONE -resize 1280 -border 8x8 -bordercolor black  $? $@
 
 #------------------------------------------------------------------------------

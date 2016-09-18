@@ -1,0 +1,8 @@
+URL=2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
+TITLE="Parsing text with Erlang: pattern matching and guards"
+PUBDATE="June 22, 2016"
+PUBDATE_ISO="Wed, 22 Jun 2016 12:00:00 GMT"
+LEDE="A simple example of parsing a time string and that illustrates some Erlang pattern matching and guard basics."
+IMG=mn
+IMGINFO=mnopq
+IMG_ALT="Spray painted letters on a city wall."

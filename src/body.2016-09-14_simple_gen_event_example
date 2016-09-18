@@ -1,0 +1,166 @@
+<section>
+
+    <div class="epigraph">
+        <blockquote>
+            <p>In OTP, an event manager is a named object to which events can be sent. An event can be, for example, an error, an alarm, or some information that is to be logged.</p>
+	    <p>In the event manager, zero, one, or many event handlers are installed. When the event manager is notified about an event, the event is processed by all the installed event handlers.</p>
+            <footer>Ericsson AB. <cite>OTP design principles, <a href="http://erlang.org/doc/design_principles/events.html"><u>Section 5 gen_event Behaviour</u></a></cite> (retrieved Sep. 14, 2016)</footer>
+        </blockquote>
+    </div>
+
+    <p>There are four things you need to do to use a OTP event manager:</p>
+
+    <ol>
+    <li>write an event handler,</li>
+    <li>start and name the event manager,</li>
+    <li>add a handler to the manager,</li>
+    <li>and notify the manager of an event</li>
+    </ol>
+
+    <h3>1. Write an event handler</h3>
+
+    <p>This is counter module is an event handler that counts events and prints status updates to stdout.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>-module(counter).</line>
+<line></line>
+<line>-behaviour(gen_event).</line>
+<line></line>
+<line>-export([code_change/3, handle_call/2, handle_event/2,</line>
+<line>         handle_info/2, init/1, terminate/2]).</line>
+<line></line>
+<line>init(_Args) -></line>
+<line>    io:put_chars("** 0: inititalize to zero\n"), {ok, 0}.</line>
+<line></line>
+<line>handle_event(Event, Count) -></line>
+<line>    io:format("** +1: got event ~p~n", [Event]),</line>
+<line>    {ok, Count + 1}.</line>
+<line></line>
+<line>handle_call(Request, Count) -></line>
+<line>    io:format("** got request ~p~n", [Request]),</line>
+<line>    {ok, Count, Count}.</line>
+<line></line>
+<line>code_change(_OldVsn, State, _Extra) -> {ok, State}.</line>
+<line></line>
+<line>handle_info(_Info, State) -> {noreply, State}.</line>
+<line></line>
+<line>terminate(_Args, _State) -> ok.</line>
+</pre>
+
+     <p>In this case, the state is simply the Count of events that have been received.  This could be as complex as you like.</p>
+
+    <p>(Note that the state is passed to the code_change event, so if you release a new version of the handler and need to change the state shape, you can transform the old state to the new as part of the upgrade.)</p>
+
+<h3>2. Start and name the event manager</h3>
+
+<p>We name the event manager &ldquo;event_dispatcher&rdquo;.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>    {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),</line>
+</pre>
+
+    <h3>3. Add a handler to the manager</h3>
+
+
+    <p>After this, events are sent to the counter's handle_event/2 method.</p>
+
+
+            <pre class="code with-wrapping fullwidth">
+<line>    gen_event:add_handler(event_dispatcher, counter, []),</line>
+</pre>
+
+
+    <h3>4. Notify the manager of an event</h3>
+
+    <p>An Event can be any Erlang term.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>    Event = {an, event, {can, [be, any, erlang]}, term},</line>
+<line>    ok = gen_event:notify(event_dispatcher, Event),</line>
+</pre>
+
+</section>
+
+<section>
+
+<h2>Getting at the state in the handler</h2>
+
+<p>With one additional step, the gen_event behavior makes it trivial to create a 
+CQRS read model<label for="sn-cqrs" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-cqrs" class="margin-toggle"/><span class="sidenote"><a href="2016-07-06_what_is_cqrs.html"><em>What is CQRS?</em></a></span> in your application.</p>
+
+<p>You need to get the data out of the event handler!</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>    Request = {so, can, the, call, request},</line>
+<line>    Count = gen_event:call(event_dispatcher, counter, Request),</line>
+</pre>
+
+
+<p>The gen_event:call/3 gives you synchronous access to the read model state.</p>
+
+</section>
+
+<section>
+
+<h2>Putting it all together</h2>
+
+<p>Using the counter model exactly as shown above, we can write an escript to show all of these steps.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ cat run.escript </line>
+<line>#! /usr/bin/env escript</line>
+<line></line>
+<line>main(_Argv) -></line>
+<line>    {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),</line>
+<line>    gen_event:add_handler(event_dispatcher, counter, []),</line>
+<line>    Event = {an, event, {can, [be, any, erlang]}, term},</line>
+<line>    ok = gen_event:notify(event_dispatcher, Event),</line>
+<line>    Request = {so, can, the, call, request},</line>
+<line>    Count = gen_event:call(event_dispatcher, counter, Request),</line>
+<line>    io:format("Event count = ~w~n", [Count]).</line>
+<line></line>
+<line>$ cat Makefile </line>
+<line>.PHONY: run</line>
+<line>run: counter.beam</line>
+<line>	./run.escript</line>
+<line></line>
+<line>%.beam: %.erl</line>
+<line>	erlc $?</line>
+<line></line>
+<line>$ make</line>
+<line>./run.escript</line>
+<line>** 0: inititalize to zero</line>
+<line>** +1: got event {an,event,{can,[be,any,erlang]},term}</line>
+<line>** got request {so,can,the,call,request}</line>
+<line>Event count = 1</line>
+<line></line>
+<line>$ </line>
+</pre>
+
+</section>
+
+<section>
+
+<h2>A major caveat ...</h2>
+
+<p>Unlike the 
+gen_server<label for="sn-gen_server" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-gen_server" class="margin-toggle"/>,<span class="sidenote">&ldquo;Gen_server is usually spawned as a separate process, and all user callbacks (such as Mod:handle_call/3, Mod:handle_cast/2, etc) are executed in the context of that process.&rdquo; <a href="https://erlangcentral.org/wiki/index.php/Gen_event_behavior_demystified"><em>Gen Event Behavior Demystified</em></a>, by Serge Aleynikov (retrieved Sep. 14, 2016)</span> the event manager executes all it's handlers in the process context of the event manager.  The event manager protects itself against handler code that crashes by silently removing the handler.</p>
+
+<p>If you are using a handler as a read model as I suggest above, silent removal will break your application.  So, either you need to write a bullet-proof handler or you need to come up with an approach that if a read model crashes, it does not miss any events.  But that's a topic for another blog.</p>
+
+
+</section>
+
+<section>
+<h2>Some resources</h2>
+
+<ul>
+<li><a href="https://erlangcentral.org/wiki/index.php/Gen_event_behavior_demystified">Gen Event Behavior Demystified</a>---already mentioned above, this wiki page is a well written and concise and describes one approach to supervising the handlers.</li>
+
+<li><a href="http://www.afronski.pl/2015/11/02/what-is-wrong-with-gen-event.html">What is wrong with gen_event?</a>---another good, if less positive, writeup on gen_event, discussing issues of state and supervision.  Mentions that since gen_event:notify/2 is asynchronous (and thus provides no backpressure), in a massive and extended event storm the process queue can grow so large it leads to a crash.</li>
+
+<li><a href="http://blog.differentpla.net/blog/2014/11/07/erlang-sup-event">Supervised event handlers in Erlang</a>---see the pattern?</li>
+
+</ul>
+
+</section>

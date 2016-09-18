@@ -1,0 +1,8 @@
+URL=2016-07-20_my_first_erlang_patch.html
+TITLE="My first Erlang patch"
+PUBDATE="July 20, 2016"
+PUBDATE_ISO="Wed, 20 Jul 2016 12:00:00 GMT"
+LEDE="Example of how you can contribute to Erlang by fixing a bug and having the fix committed to the Erlang source tree."
+IMG=redbug
+IMGINFO=redbug
+IMG_ALT="Closeup of bright red bug on deep green leaf."

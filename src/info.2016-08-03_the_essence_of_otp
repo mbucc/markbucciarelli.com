@@ -1,0 +1,8 @@
+URL=2016-08-03_the_essence_of_otp.html
+TITLE="The essence of OTP"
+PUBDATE="August 3, 2016"
+PUBDATE_ISO="Wed, 3 Aug 2016 12:00:00 GMT"
+LEDE="What is the most important section in Joe Armstrong&lsquo;s Erlang book? <em>The Road to the Generic Server.</em>  This post breaks down the first step along that road, illuminating the main idea behind OTP behaviors."
+IMG=lightbulb
+IMGINFO=lightbulb
+IMG_ALT="Single, old-fashioned lightbulb against a dark background."

@@ -1,0 +1,8 @@
+URL=2016-09-14_simple_gen_event_example.html
+TITLE="A simple gen_event example."
+PUBDATE="September 14, 2016"
+PUBDATE_ISO="Wed, 14 Sep 2016 12:00:00 GMT"
+LEDE="The gen_event behavior makes it simple to add basic event sourcing to your Erlang application."
+IMG=carnival
+IMGINFO=carnival
+IMG_ALT="Young couple walking through a closed, colorful, carnival."
