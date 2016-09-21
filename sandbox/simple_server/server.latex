@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage{msc}
+\usepackage{textcomp}
+%% so normal angle brackets work.
+\usepackage[T1]{fontenc}
+
+\begin{document}
+
+\begin{msc}{Start the server.}{dynamic instances}
+\declinst{m1}{ns.erl}{specific}
+\declinst{m2}{server1.erl}{generic}
+\dummyinst{m3}
+\mess[label position=below] {start(ns, ns)}{envleft}{m2}
+\nextlevel[2]
+\mess[label position=below] {init()}{m2}{m1}
+\nextlevel[2]
+\mess*[label position=below] {State}{m1}{m2}
+\nextlevel[2]
+\create[label position=below]{spawn(...)}{m2}{m3}{process id 0.59.0}{server}
+
+\nextlevel[2]
+
+\mess*[label position=below] {<0.59.0>}{m3}{m2}
+\nextlevel[2]
+
+\mess[label position=below] {register(ns, <0.59.0>)}{m2}{envright}
+\nextlevel[2]
+\mess*[label position=below] {true}{envright}{m2}
+\nextlevel[2]
+\mess*[label position=below] {true}{m2}{envleft}
+\nextlevel[2]
+\condition{Server up and running}{m2,m1,m3}
+\nextlevel[2]
+\end{msc}
+
+\begin{msc}{Add a name.}{dynamic instances}
+\declinst{m1}{ns.erl}{specific}
+\declinst{m2}{server1.erl}{generic}
+\declinst{m3}{}{server}
+\condition{Server up and running}{m2,m1,m3}
+\nextlevel[2]
+\mess[label position=below] {add(joe, ``at home'')}{envleft}{m1}
+\nextlevel[2]
+\mess[label position=below] {rpc(ns, \{add, joe, ``at home''\})}{m1}{m2}
+\nextlevel[2]
+\mess[label position=below] {self(), \{add, joe, ``at home''\}}{m2}{m3}
+\nextlevel[2]
+\mess[label position=below] {handle(\{add, joe, ``at home''\}, State)}{m3}{m1}
+\nextlevel[2]
+\mess*[label position=below] {\{ok, State1\}}{m1}{m3}
+\nextlevel[2]
+\mess*[label position=below] {\{ns, ok\}}{m3}{m2}
+\nextlevel[2]
+\mess*[label position=below] {ok}{m2}{m1}
+\nextlevel[2]
+\mess*[label position=below] {ok}{m1}{envleft}
+\nextlevel[2]
+
+\end{msc}
+
+\end{document}
