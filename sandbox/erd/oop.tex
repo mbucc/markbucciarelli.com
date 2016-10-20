@@ -47,27 +47,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-% This is a very, very basic example of how to draw an ER diagram with Tikz
-% The package also allows for weak entities, aggregations, and inheritance.
-% Positioning, edge labels, and edge styles are done the normal Tikz way,
-% the package just provides shortcuts for the common shapes and relationships
-% from the ER model.
-
-% You can find the package and documentation at:
-% https://www.assembla.com/wiki/show/tikz-er2
 \begin{center}
 \begin{tikzpicture}[node distance=6em, every edge/.style={link}]
 
-  \node[entity] (emp) {Employee};
-    \node[attribute] (e_id) [left=2em of emp] {\key{ID}} edge (emp);
-    \node[attribute] (e_name) [right=2em of emp] {Name} edge (emp);
-    \node[attribute] (e_sal) [above=2em of emp] {Salary} edge (emp);
+  \node[entity] (task) {Task};
+    \node[attribute] (e_name) [left=2em of task] {\key{Name}} edge (task);
+    \node[attribute] (e_name) [above=2em of task] {Completed?} edge (task);
+    \node[attribute] (e_name) [right=2em of task] {Canceled?} edge (task);
 
-  \node[relationship] (works) [below of=emp, node distance=8em] {WorksIn} edge (emp);
+  \node[relationship] (works) [below of=task, node distance=12em] {WorksOn} edge (task);
+    \node[attribute] (p_est1) [above left=2em of works] {First Estimate} edge (works);
+    \node[attribute] (p_est2) [left=2em of works] {Second Estimate} edge (works);
+    \node[attribute] (p_est3) [below left=2em of works] {Third Estimate} edge (works);
+    \node[attribute] (p_planned) [above right=2em of works] {Planned?} edge (works);
+    \node[attribute] (p_act)  [right=2em of works] {Actual} edge (works);
+    \node[attribute] (p_inter)  [below right=2em of works] {Interuptions} edge (works);
 
-  \node[entity] (dept) [below of=works, node distance=8em] {Department} edge (works);
-    \node[attribute] (d_num) [left=2em of dept] {\key{Num}} edge (dept);
-    \node[attribute] (d_name) [right=2em of dept] {Name} edge (dept);
+  \node[entity] (day) [below of=works, node distance=12em] {WorkDay} edge (works);
+    \node[attribute] (d_date) [left=2em of day] {\key{Date}} edge (day);
 
 \end{tikzpicture}
 \end{center}
