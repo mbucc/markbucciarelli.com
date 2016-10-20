@@ -1,0 +1,8 @@
+URL=2016-10-17_cqrs_versus_oop.html
+TITLE="Comparing CQRS and OOP data models"
+PUBDATE="October 17, 2016"
+PUBDATE_ISO="Wed, 17 Oct 2016 12:00:00 GMT"
+LEDE="Design and compare two data models for the Pomodoro Technique: one for CQRS and one for OOP."
+IMG=tomato
+IMGINFO=tomato
+IMG_ALT="A close up of a ripe, fresh tomato"

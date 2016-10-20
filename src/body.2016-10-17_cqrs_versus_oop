@@ -1,0 +1,88 @@
+<section>
+    <div class="epigraph">
+        <blockquote>
+    <p>Software products, services or line-of-business systems which need to store data can be built using an event log as the source of truth instead of relying on “traditional” databases.</p>
+        <footer>Adaptech Solutions. <cite><a href="http://adaptechsolutions.net/rise-of-the-robots-event-logs-vs-traditional-databases/"><u>Rise Of The Robots: Event Logs vs. “traditional” Databases</u></a></cite> Sep. 20, 2016</footer>
+        </blockquote>
+    </div>
+</section>
+
+<section>
+    <h2>Introduction to the Pomodoro Technique</h2>
+
+    <p>The <a href="http://pomodorotechnique.com/">Pomodoro Technique</a> improves your produtivity by having you</p>
+    <ol>
+        <li>work on one thing for 25 minutes straight,</li>
+        <li>become better at estimating time for a task, and</li>
+        <li>taking a five-minute breaks every half hour to let your mind rest</li>
+    </ol>
+    <p>I have been using this for the past two weeks, and have found that if I am able to maintain discipline, it is remarkably effective and that I am getting more done, feeling more satisfied at work, and becoming a better estimator.</p>
+</section>
+
+<section>
+    <h2>User Stories</h2>
+    <p>All of these stories are for a single user, the worker.</p>
+    <ol>
+        <li>At the start of my work day <b>I create a TODO list</b> for the day so that I work on the most important tasks first.</li>
+        <li>During a pomodoro, I must <b>work on one thing</b> and one thing only so that I become more productive.</li>
+        <li>When a pomodoro is done, I need to <b>take a five minute break</b> and cross off one of my estimated pomodoro's for that task.</li>
+        <li>When I complete four pomodoro's, I need to <b>take a 15-minute break</b> so that I can start the next task with vigor.</li>
+        <li>I need to <b>estimate the number of &ldquo;pomodoros&rdquo;</b> (25-minute chunks) each task will take so that I can record how accurate my estimates are.</li>
+        <li>During a pomodora, I need to <b>record interruptions</b> so that I can learn how much they affect my work day.</li>
+        <li>If I cross off all of my estimated blocks of time, and there is still work to do, I need to <b>re-estimate the time left</b> on that task.</li>
+        <li>I need to <b>maintain a master TODO list</b> so when I think of something else to do, I can record it there.</li>
+        <li>At the end of the day, I need to <b>summarize my day</b> by recording the number of:
+            <ol type="a">
+                <li>pomodoro's completed</li>
+                <li>interruptions, by type (internal and external)</li>
+                <li>tasks, by type (planned and unplanned)</li>
+                <li>hours worked</li>
+                <li>tasks that were underestimated</li>
+                <li>total pomodoro's (for completed tasks) that were not required (total over estimated)</li>
+            </ol>
+            so that over time I can gain a clear picture of how well I estimate.</li>
+    <ol>
+</section>
+
+<section>
+    <h2>OOP Data Model</h2>
+
+    <p>An object-oriented design focuses on the nouns in the system, since those are thought to be the more stable entities in the system.  The idea is that by modeling the stable entities, the software will require less change as the system evolves.</p>
+    <p>Pulling the major nouns out of the use cases above, we get</p>
+    <ul>
+    	<li>task</li>
+	<li>pomodoro</li>
+	<li>interruption</li>
+	<li>estimate</li>
+	<li>break</li>
+	<li>TODO list</li>
+	<li>work day</li
+	<li>record</li>
+    </ul>
+</section>
+
+<pre>
+
+http://www.plantuml.com/plantuml/uml/
+
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+hide methods
+hide stereotypes
+
+table(TASK_T) {
++ TASK_NAME
++ field2
+}
+
+table(Bar) {
++ field3
++ field4
+}
+
+Foo::field1 --> Bar::field3 : foo
+Foo::field2 --> Bar::field4 : bar
+@enduml
+</pre>
+
