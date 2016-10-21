@@ -52,16 +52,16 @@
 
   \node[entity] (task) {Task};
     \node[attribute] (e_name) [left=2em of task] {\key{Name}} edge (task);
-    \node[attribute] (e_name) [above=2em of task] {Completed?} edge (task);
-    \node[attribute] (e_name) [right=2em of task] {Canceled?} edge (task);
+    \node[attribute] (e_canc) [right=2em of task] {Canceled?} edge (task);
 
   \node[relationship] (works) [below of=task, node distance=12em] {WorksOn} edge (task);
-    \node[attribute] (p_est1) [above left=2em of works] {First Estimate} edge (works);
-    \node[attribute] (p_est2) [left=2em of works] {Second Estimate} edge (works);
-    \node[attribute] (p_est3) [below left=2em of works] {Third Estimate} edge (works);
-    \node[attribute] (p_planned) [above right=2em of works] {Planned?} edge (works);
-    \node[attribute] (p_act)  [right=2em of works] {Actual} edge (works);
-    \node[attribute] (p_inter)  [below right=2em of works] {Interuptions} edge (works);
+    \node[attribute] (w_est1) [above left=2em of works] {First Estimate} edge (works);
+    \node[attribute] (w_est2) [left=2em of works] {Second Estimate} edge (works);
+    \node[attribute] (w_est3) [below left=2em of works] {Third Estimate} edge (works);
+    \node[attribute] (w_act)  [right=2em of works] {Actual} edge (works);
+    \node[attribute] (w_inter) [below right=2em of works] {Interuptions} edge (works);
+    \node[attribute] (w_plan) [above right=2em and -0.2em of works] {Planned?} edge (works);
+    \node[attribute] (w_comp) [above right=1em and 6.5em of works] {Completed?} edge (works);
 
   \node[entity] (day) [below of=works, node distance=12em] {WorkDay} edge (works);
     \node[attribute] (d_date) [left=2em of day] {\key{Date}} edge (day);

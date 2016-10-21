@@ -1,3 +1,5 @@
+all: oop.pdf t.db
+
 t.db: oop_schema.sql
 	sqlite3 t.db < oop_schema.sql
 
