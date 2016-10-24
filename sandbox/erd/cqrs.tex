@@ -13,7 +13,7 @@
 % Set the document class to "article"
 % Pass it "letterpaper" option
 %\documentclass[letterpaper]{article}
-\documentclass[preview,border=12pt]{standalone}
+\documentclass[preview,border=12pt,varwidth=\maxdimen]{standalone}
 
 % We don't need the special font encodings, but still
 % good practice to include these. See:
@@ -37,6 +37,7 @@
 \tikzstyle{every entity} = [draw=blue!50!black!100, fill=blue!20]
 \tikzstyle{every attribute} = [draw=yellow!50!black!100, fill=yellow!20]
 \tikzstyle{every relationship} = [draw=green!50!black!100, fill=green!20]
+\tikzstyle{every isa} = [fill=green!20]
 
 % Don't indent paragraphs
 \usepackage{parskip}
@@ -51,21 +52,35 @@
 \begin{center}
 \begin{tikzpicture}[node distance=6em, every edge/.style={link}]
 
-  \node[entity] (task) {Task};
-    \node[attribute] (e_name) [left=2em of task] {\key{Name}} edge (task);
-    \node[attribute] (e_canc) [right=2em of task] {Canceled?} edge (task);
 
-  \node[relationship] (works) [below of=task, node distance=12em] {WorksOn} edge (task);
-    \node[attribute] (w_est1) [above left=2em of works] {First Estimate} edge (works);
-    \node[attribute] (w_est2) [left=2em of works] {Second Estimate} edge (works);
-    \node[attribute] (w_est3) [below left=2em of works] {Third Estimate} edge (works);
-    \node[attribute] (w_act)  [right=2em of works] {Actual} edge (works);
-    \node[attribute] (w_inter) [below right=2em of works] {Interuptions} edge (works);
-    \node[attribute] (w_plan) [above right=2em and -0.2em of works] {Planned?} edge (works);
-    \node[attribute] (w_comp) [above right=1em and 6.5em of works] {Completed?} edge (works);
+  \node[entity] (added) {TaskAdded};
+    \node[attribute] (p_task) [above =2em of added] {Name} edge (added);
+    \node[attribute] (p_plan) [above left =2em of added] {Planned?} edge (added);
 
-  \node[entity] (day) [below of=works, node distance=12em] {WorkDay} edge (works);
-    \node[attribute] (d_date) [left=2em of day] {\key{Date}} edge (day);
+  \node[isa] (isa) [below right of=added, node distance=11em] {ISA}
+    edge (added);
+
+  \node[entity] (start) [above of=isa, node distance=11em] {PomodoroStarted} edge (isa);
+    \node[attribute] (p_task) [above =2em of start] {Name} edge (start);
+
+  \node[entity] (done) [above right = 5em and 6em of isa] {PomodoroDone} edge (isa);
+    \node[attribute] (p_task) [above =2em of done] {Name} edge (done);
+
+  \node[entity] (done) [right of=isa, node distance=11em] {WorkDayEnded} edge (isa);
+
+  \node[entity] (taskdone) [below left of=isa, node distance=11em] {TaskDone} edge (isa);
+    \node[attribute] (t_task) [above =2em of taskdone] {Name} edge (taskdone);
+
+  \node[entity] (est) [left =8em of isa] {TaskEstimated} edge (isa);
+    \node[attribute] (e_task) [above =2em of est] {Name} edge (est);
+    \node[attribute] (e_est) [above left=2em of est] {Estimate} edge (est);
+
+
+  \node[entity] (event) [below =10em of isa] {Event} edge (isa);
+    \node[attribute] (e_id)   [below left=2em of event] {\key{Id}} edge (event);
+    \node[attribute] (e_date) [below=2em of event] {Date} edge (event);
+    \node[attribute] (e_time) [below right=2em of event] {Timestamp} edge (event);
+
 
 \end{tikzpicture}
 \end{center}

@@ -3,37 +3,29 @@
 
 @charset "UTF-8";
 
-@font-face {
-  font-family: "et-book";
-  src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
-  src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff") format("woff"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf") format("truetype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.svg#etbookromanosf") format("svg");
-  font-weight: normal;
-  font-style: normal
-}
+@font-face { font-family: "et-book";
+             src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
+             src: url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff") format("woff"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf") format("truetype"), url("et-book/et-book-roman-line-figures/et-book-roman-line-figures.svg#etbookromanosf") format("svg");
+             font-weight: normal;
+             font-style: normal; }
 
-@font-face {
-  font-family: "et-book";
-  src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
-  src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff") format("woff"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf") format("truetype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.svg#etbookromanosf") format("svg");
-  font-weight: normal;
-  font-style: italic
-}
+@font-face { font-family: "et-book";
+             src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
+             src: url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff") format("woff"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf") format("truetype"), url("et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.svg#etbookromanosf") format("svg");
+             font-weight: normal;
+             font-style: italic; }
 
-@font-face {
-  font-family: "et-book";
-  src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
-  src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff") format("woff"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf") format("truetype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.svg#etbookromanosf") format("svg");
-  font-weight: bold;
-  font-style: normal
-}
+@font-face { font-family: "et-book";
+             src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
+             src: url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff") format("woff"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf") format("truetype"), url("et-book/et-book-bold-line-figures/et-book-bold-line-figures.svg#etbookromanosf") format("svg");
+             font-weight: bold;
+             font-style: normal; }
 
-@font-face {
-  font-family: "et-book-roman-old-style";
-  src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
-  src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.woff") format("woff"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.ttf") format("truetype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.svg#etbookromanosf") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
+@font-face { font-family: "et-book-roman-old-style";
+             src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
+             src: url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix") format("embedded-opentype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.woff") format("woff"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.ttf") format("truetype"), url("et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.svg#etbookromanosf") format("svg");
+             font-weight: normal;
+             font-style: normal; }
 
 /* Tufte CSS styles */
 html { font-size: 15px; }
@@ -104,20 +96,20 @@ div.epigraph > blockquote, div.epigraph > blockquote > p { font-style: italic; }
 div.epigraph > blockquote > footer { font-style: normal; }
 
 div.epigraph > blockquote > footer > cite { font-style: italic; }
-
 /* end chapter epigraphs styles */
 
 blockquote { font-size: 1.4rem; }
 
-blockquote p { width: 50%; }
+blockquote p { width: 55%;
+               margin-right: 40px; }
 
-blockquote footer { width: 50%;
+blockquote footer { width: 55%;
                     font-size: 1.1rem;
                     text-align: right; }
 
-ol, ul { width: 45%;
-         -webkit-padding-start: 5%;
-         -webkit-padding-end: 5%; }
+section>ol, section>ul { width: 45%;
+                         -webkit-padding-start: 5%;
+                         -webkit-padding-end: 5%; }
 
 li { padding: 0.5rem 0; }
 
@@ -179,15 +171,6 @@ img { max-width: 100%; }
                          vertical-align: baseline;
                          position: relative; }
 
-.table-caption { float:right;
-                 clear:right;
-                 margin-right: -60%;
-                 width: 50%;
-                 margin-top: 0;
-                 margin-bottom: 0;
-                 font-size: 1.0rem;
-                 line-height: 1.6; }
-
 .sidenote-number { counter-increment: sidenote-counter; }
 
 .sidenote-number:after, .sidenote:before { content: counter(sidenote-counter) " ";
@@ -203,36 +186,36 @@ img { max-width: 100%; }
 .sidenote:before { content: counter(sidenote-counter) " ";
                    top: -0.5rem; }
 
-p, footer, table, div.table-wrapper-small, div.supertable-wrapper > p, div.booktabs-wrapper { width: 55%; }
+blockquote .sidenote, blockquote .marginnote { margin-right: -82%;
+                                               min-width: 59%;
+                                               text-align: left; }    
+
+p, footer, table { width: 55%; }
 
 div.fullwidth, table.fullwidth { width: 100%; }
 
 div.table-wrapper { overflow-x: auto;
                     font-family: "Trebuchet MS", "Gill Sans", "Gill Sans MT", sans-serif; }
 
-@media screen and (max-width: 760px) { p, footer { width: 90%; }
-                                       pre.code { width: 87.5%; }
-                                       ul { width: 85%; }
-                                       figure { max-width: 90%; }
-                                       figcaption, figure.fullwidth figcaption { margin-right: 0%;
-                                                                                 max-width: none; }
-                                       blockquote p, blockquote footer { width: 90%; }}
-
 .sans { font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
         letter-spacing: .03em; }
 
-.code { font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-        font-size: 1.125rem;
-        line-height: 1.6; }
+code { font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+       font-size: 1.0rem;
+       line-height: 1.42; }
 
-h1 .code, h2 .code, h3 .code { font-size: 0.80em; }
+.sans > code { font-size: 1.2rem; }
 
-.marginnote .code, .sidenote .code { font-size: 1rem; }
+h1 > code, h2 > code, h3 > code { font-size: 0.80em; }
+
+.marginnote > code, .sidenote > code { font-size: 1rem; }
+
+pre.code { font-size: 0.9rem;
+           width: 52.5%;
+           margin-left: 2.5%;
+           overflow-x: auto; }
 
 pre.code.fullwidth { width: 90%; }
-pre.code { width: 52.5%;
-           padding-left: 2.5%;
-           overflow-x: auto; }
 
 pre.code.with-wrapping { white-space: pre-wrap;
                          word-wrap: normal; }
@@ -246,12 +229,12 @@ pre.code.with-wrapping line { position: relative;
 pre.code.with-wrapping line::before { content: "";
                                       position: absolute;
                                       display: block;
-                                      top: 1.6em;
-                                      bottom: 0;
+                                      top: 1.0rem;
+                                      bottom: 0.2rem;
                                       left: 0;
-                                      width: 1.6em;
-                                      background: transparent url(img/line-wrap-arrow.svg) repeat-y 0 1.6em;
-                                      background-size: 1.6em 1.6em; }
+                                      width: 0.9rem;
+                                      background: transparent url(img/line-wrap-arrow.svg) repeat-y 0 0.9rem;
+                                      background-size: 0.9rem 0.9rem; }
 
 .fullwidth { max-width: 90%;
              clear:both; }
@@ -265,7 +248,19 @@ label.sidenote-number { display: inline; }
 
 label.margin-toggle:not(.sidenote-number) { display: none; }
 
-@media (max-width: 760px) { label.margin-toggle:not(.sidenote-number) { display: inline; }
+@media (max-width: 760px) { body { width: 84%;
+                                   padding-left: 8%;
+                                   padding-right: 8%; }
+                            p, footer { width: 100%; }
+                            pre.code { width: 97%; }
+                            ul { width: 85%; }
+                            figure { max-width: 90%; }
+                            figcaption, figure.fullwidth figcaption { margin-right: 0%;
+                                                                      max-width: none; }
+                            blockquote { margin-left: 1.5em;
+                                         margin-right: 0em; }
+                            blockquote p, blockquote footer { width: 100%; }
+                            label.margin-toggle:not(.sidenote-number) { display: inline; }
                             .sidenote, .marginnote { display: none; }
                             .margin-toggle:checked + .sidenote,
                             .margin-toggle:checked + .marginnote { display: block;
@@ -277,18 +272,5 @@ label.margin-toggle:not(.sidenote-number) { display: none; }
                                                                    vertical-align: baseline;
                                                                    position: relative; }
                             label { cursor: pointer; }
-                            pre.code { width: 90%;
-                                       padding: 0; }
-                            .table-caption { display: block;
-                                             float: right;
-                                             clear: both;
-                                             width: 98%;
-                                             margin-top: 1rem;
-                                             margin-bottom: 0.5rem;
-                                             margin-left: 1%;
-                                             margin-right: 1%;
-                                             vertical-align: baseline;
-                                             position: relative; }
-                            div.table-wrapper, table, table.booktabs { width: 85%; }
-                            div.table-wrapper { border-right: 1px solid #efefef; }
+                            div.table-wrapper, table { width: 85%; }
                             img { width: 100%; } }

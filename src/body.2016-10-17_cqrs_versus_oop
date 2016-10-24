@@ -30,8 +30,8 @@
         <li>I need to <b>estimate the number of &ldquo;pomodoros&rdquo;</b> (25-minute chunks) each task will take so that I can record how accurate my estimates are.</li>
         <li>During a pomodora, I need to <b>record interruptions</b> so that I can learn how much they affect my work day.</li>
         <li>If I cross off all of my estimated blocks of time, and there is still work to do, I need to <b>re-estimate the time left</b> on that task.</li>
-        <li>I need to <b>maintain a master TODO list</b> so when I think of something else to do, I can record it there.</li>
-        <li>At the end of the day, I need to <b>summarize my day</b> by recording the number of:
+        <li>I need to <b>maintain a master TODO list (an inventory)</b> so when I think of something else to do, I can record it there.</li>
+        <li>At the end of the day, I need to <b>summarize my day and add to a daily record</b> by recording the number of:
             <ol type="a">
                 <li>pomodoro's completed</li>
                 <li>interruptions, by type (internal and external)</li>
@@ -41,48 +41,184 @@
                 <li>total pomodoro's (for completed tasks) that were not required (total over estimated)</li>
             </ol>
             so that over time I can gain a clear picture of how well I estimate.</li>
-    <ol>
+    </ol>
 </section>
 
 <section>
-    <h2>OOP Data Model</h2>
+    <h2>OOP</h2>
+
+    <h3>The Nouns</h3>
 
     <p>An object-oriented design focuses on the nouns in the system, since those are thought to be the more stable entities in the system.  The idea is that by modeling the stable entities, the software will require less change as the system evolves.</p>
     <p>Pulling the major nouns out of the use cases above, we get</p>
     <ul>
-    	<li>task</li>
-	<li>pomodoro</li>
-	<li>interruption</li>
-	<li>estimate</li>
-	<li>break</li>
-	<li>TODO list</li>
-	<li>work day</li
-	<li>record</li>
+        <li>task</li>
+        <li>pomodoro</li>
+        <li>interruption</li>
+        <li>estimate</li>
+        <li>break</li>
+        <li>daily TODO list</li>
+        <li>master todo inventory</li>
+        <li>daily record</li>
     </ul>
+
+    <p>The nouns pomodoro, estimate, break are value 
+objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-vo" class="margin-toggle"/>
+<span class="marginnote"> 
+  A value object has no identity or life cycle.
+</span> and so show up as attributes and not entities.  The inventory and record nouns are views over the task and workday entity sets Task and WorkDay and relationship set WorksOn.</p>
+
+    
+    <h3>Entity-Relationship Diagram</h3>
+
+    <figure>
+        <img src="img/oop.png" />
+    </figure>
+
+    <h3>SQL Data Model</h3>
+    
+    <p>This model uses the Sqlite3 dialect.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>PRAGMA foreign_keys = ON</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS workson</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS workday</line>
+<line>;</line>
+<line>CREATE TABLE task(</line>
+<line>  name       TEXT PRIMARY KEY,</line>
+<line>  cancelled  TEXT NOT NULL CHECK (cancelled IN ('Y', 'N')) DEFAULT 'N'</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE workday(</line>
+<line>  date       TEXT PRIMARY KEY</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE workson(</line>
+<line>  task_name       TEXT    NOT NULL REFERENCES task    (name)       ON UPDATE CASCADE,</line>
+<line>  date            TEXT    NOT NULL REFERENCES workday (date)       ON UPDATE CASCADE,</line>
+<line>  first_estimate  INTEGER NOT NULL CHECK (first_estimate > 0), </line>
+<line>  planned         TEXT    NOT NULL CHECK (planned IN ('Y', 'N'))   DEFAULT 'Y',</line>
+<line>  interruptions   INTEGER NOT NULL CHECK (interruptions >= 0)      DEFAULT  0, </line>
+<line>  completed       TEXT    NOT NULL CHECK (completed IN ('Y', 'N')) DEFAULT 'N',</line>
+<line>  second_estimate INTEGER          CHECK (second_estimate > 0), </line>
+<line>  third_estimate  INTEGER          CHECK (third_estimate IS NULL </line>
+<line>                                          OR (second_estimate IS NOT NULL </line>
+<line>                                              AND third_estimate > 0)),</line>
+<line>  actual          INTEGER          CHECK (actual > 0), </line>
+<line>  PRIMARY KEY(task_name, date)</line>
+<line>)</line>
+<line>;</line>
+<line>DROP VIEW IF EXISTS record</line>
+<line>;</line>
+<line>CREATE VIEW record AS</line>
+<line>WITH actuals </line>
+<line>        AS (</line>
+<line>        SELECT   date</line>
+<line>               , sum(actual) n</line>
+<line>               , sum(interruptions) int</line>
+<line>          FROM workson</line>
+<line>         GROUP BY date),</line>
+<line>     planned </line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE planned = 'Y'</line>
+<line>         GROUP BY date),</line>
+<line>     unplanned </line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE planned = 'N'</line>
+<line>         GROUP BY date),</line>
+<line>     completed</line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE completed = 'Y'</line>
+<line>         GROUP BY date),</line>
+<line>     under</line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE second_estimate IS NOT NULL</line>
+<line>         GROUP BY date),</line>
+<line>     over</line>
+<line>        AS (</line>
+<line>        SELECT   date</line>
+<line>               , SUM(first_estimate) - sum(actual) n</line>
+<line>          FROM workson</line>
+<line>         WHERE completed = 'Y'</line>
+<line>           AND first_estimate > actual</line>
+<line>         GROUP BY date)</line>
+<line>SELECT   workday.date</line>
+<line>       , IFNULL(actuals.n,   0) AS pomodoros</line>
+<line>       , IFNULL(actuals.int, 0) AS interruptions</line>
+<line>       , IFNULL(planned.n,   0) AS planned_tasks</line>
+<line>       , IFNULL(unplanned.n, 0) AS unplanned_tasks</line>
+<line>       , IFNULL(under.n,     0) AS under_estimated_tasks</line>
+<line>       , IFNULL(over.n,      0) AS total_over_estimate</line>
+<line>  FROM workday</line>
+<line>  LEFT OUTER JOIN actuals   ON actuals.date   = workday.date</line>
+<line>  LEFT OUTER JOIN planned   ON planned.date   = workday.date</line>
+<line>  LEFT OUTER JOIN unplanned ON unplanned.date = workday.date</line>
+<line>  LEFT OUTER JOIN under     ON under.date     = workday.date</line>
+<line>  LEFT OUTER JOIN over      ON over.date      = workday.date</line>
+<line>;</line>
+<line>DROP VIEW IF EXISTS inventory</line>
+<line>;</line>
+<line>CREATE VIEW inventory AS</line>
+<line>SELECT name</line>
+<line>  FROM task</line>
+<line> WHERE name NOT IN (SELECT DISTINCT task_name</line>
+<line>                      FROM workson</line>
+<line>                     WHERE completed = 'Y')</line>
+<line>   AND cancelled = 'N'</line>
+<line>;</line>
+<line></line>
+</pre>
 </section>
 
-<pre>
+<section>
+    <h2>CQRS</h2>
 
-http://www.plantuml.com/plantuml/uml/
+    <p>In CQRS, we model by looking for:</p>
 
-@startuml
-!define table(x) class x << (T,#FFAAAA) >>
-!define primary_key(x) <u>x</u>
-hide methods
-hide stereotypes
+    <blockquote>
+        <p><em>things that happen</em> that lead to some kind of <em>new information</em> in the domain. We map these happenings to a set of events. Since events are about things that have taken place, they are named <em>in the past tense</em>.</p>
+        <footer>Edument, <cite><a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a></cite> (retrieved October 22, 2016)</footer>
+    </blockquote>
 
-table(TASK_T) {
-+ TASK_NAME
-+ field2
-}
+    <p>Re-reading through the use cases above, I see the following actions:</p>
 
-table(Bar) {
-+ field3
-+ field4
-}
+    <h3>The Actions</h3>
 
-Foo::field1 --> Bar::field3 : foo
-Foo::field2 --> Bar::field4 : bar
-@enduml
-</pre>
+    <ul>
+        <li>TodoCreatedlist</li>
+        <li>PomodoroStarted</li>
+        <li>PomodoroDone</li>
+        <li>BreakTaken</li>
+        <li>PomodorosEstimated</li>
+        <li>PomodoroInterrupted</li>
+        <li>TaskInventoryModified</li>
+        <li>DaySummarized</li>
+    </ul>
+
+</section>
+
+<section>
+<h2>Resources</h2>
+<ul>
+
+<li><a href="http://www.db-book.com/">Database System Concepts</a>, <i>Sixth Edition</i>, 2010, by Avi Silberschatz, Henry F. Korth, S. Sudarshan.</li>
+<li><a href="http://codex.cs.yale.edu/avi/db-book/db6/slide-dir/PPT-dir/ch7.ppt">Power Point</a> slides for <i>Database Design: The Entity-Relationship Approach</i> section from Part 2 of the above book.</li>
+<li><a href="https://bitbucket.org/pavel_calado/tikz-er2/wiki/Home">The Tikz-er2 Package</a>, P&aacute;vel Calado</li>
+<li>Edument CQRS Tutorial, <a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a>.
+</ul>
+</section>
+
 
