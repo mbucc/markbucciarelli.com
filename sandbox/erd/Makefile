@@ -1,8 +1,11 @@
-all: oop.db ../../rawimg/oop.png ../../rawimg/cqrs.png
+all: oop.db ../../rawimg/oop.png ../../rawimg/cqrs.png cqrs.db
 
 oop.db: oop.sql oop_data.sql
 	sqlite3 oop.db < oop.sql
 	sqlite3 oop.db < oop_data.sql
+
+cqrs.db: cqrs.sql 
+	sqlite3 cqrs.db < cqrs.sql
 
 ../../rawimg/oop.png: oop.png
 	cp $? $@

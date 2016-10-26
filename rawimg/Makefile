@@ -16,12 +16,15 @@ all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 		${D1}/tomato.png ${D2}/tomato.html ${D2}/tomato.png \
 		${D1}/start_server.png \
 		${D1}/oop.png \
+		${D1}/cqrs.png \
 		${D1}/add_a_name.png
 
 ./mn.jpg: mnopq.jpg
 	convert -modulate 110 -level 10% -crop 1250x880+0+820 $? $@
 
 ${D1}/oop.png: oop.png
+	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
+${D1}/cqrs.png: cqrs.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
 ${D1}/start_server.png: start_server.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@

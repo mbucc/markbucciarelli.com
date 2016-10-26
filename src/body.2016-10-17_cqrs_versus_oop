@@ -70,13 +70,13 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
 </span> and so show up as attributes and not entities.  The inventory and record nouns are views over the task and workday entity sets Task and WorkDay and relationship set WorksOn.</p>
 
     
-    <h3>Entity-Relationship Diagram</h3>
+    <h3>OOP Entity-Relationship Diagram</h3>
 
     <figure>
         <img src="img/oop.png" />
     </figure>
 
-    <h3>SQL Data Model</h3>
+    <h3>OOP Data Model</h3>
     
     <p>This model uses the Sqlite3 dialect.</p>
 
@@ -207,6 +207,15 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
         <li>TaskInventoryModified</li>
         <li>DaySummarized</li>
     </ul>
+
+    <h3>CQRS Entity-Relationship Diagram</h3>
+
+    <figure>
+        <img src="img/cqrs.png" />
+    </figure>
+
+    <h3>CQRS Data Model</h3>
+    
 
 </section>
 

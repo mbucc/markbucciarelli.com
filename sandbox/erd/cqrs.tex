@@ -75,11 +75,29 @@
     \node[attribute] (e_task) [above =2em of est] {Name} edge (est);
     \node[attribute] (e_est) [above left=2em of est] {Estimate} edge (est);
 
+  \node[entity] (inter) [below right of=isa, node distance=11em] {TaskInterrupted} edge (isa);
+    \node[attribute] (e_task) [above =2em of inter] {Name} edge (inter);
 
   \node[entity] (event) [below =10em of isa] {Event} edge (isa);
     \node[attribute] (e_id)   [below left=2em of event] {\key{Id}} edge (event);
     \node[attribute] (e_date) [below=2em of event] {Date} edge (event);
     \node[attribute] (e_time) [below right=2em of event] {Timestamp} edge (event);
+
+  \node[entity] (inventory) [left =11em of est] {Inventory};
+    \node[attribute] (i_task) [left =2em of inventory] {Name} edge (inventory);
+
+  \node[entity] (record) [left =25em of event] {Record};
+    \node[attribute] (r_Interruptions) [left=2em of record] {Interruptions} edge (record);
+    \node[attribute] (r_Date) [above=2em of record] {Date} edge (record);
+    \node[attribute] (r_Pomodoros) [below left=2em of record] {Pomodoros} edge (record);
+    \node[attribute] (r_Planned) [above left =2em of record] {Planned Tasks} edge (record);
+    \node[attribute] (r_Unplanned) [above right=2em of record] {Unplanned Tasks} edge (record);
+    \node[attribute] (r_Under) [right=2em of record] {Under Estimated Tasks } edge (record);
+    \node[attribute] (r_Total) [below right=2em of record] {Total Over Estimated} edge (record);
+
+  \node[entity] (error) [left =17em of added] {Error};
+    \node[attribute] (e_cmd) [left =2em of error] {Command Id} edge (error);
+    \node[attribute] (e_text) [above =2em of error] {Text} edge (error);
 
 
 \end{tikzpicture}
