@@ -124,6 +124,7 @@ info.feedheader: info.2*
 	mv t $@
 
 work/rss.header: info.feedheader templates/rss.header
+	rm -f work/*
 	(source $< && \
 		source ../rawimg/mustache.sh && \
 		mustache < templates/rss.header > $@)
@@ -155,9 +156,12 @@ work/%.xml: info.% templates/sitemap.item
 
 idx: ../www/index.html
 
-
 work/%.idx: info.% templates/idx.item
 	(source $< && \
 		source ../rawimg/mustache.sh && \
 		mustache < templates/idx.item > $@)
 
+
+.PHONY: clean
+clean:
+	rm -f work/*

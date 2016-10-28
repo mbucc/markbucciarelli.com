@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS pomodoro_started
 ;
 DROP TABLE IF EXISTS pomodoro_done
 ;
-DROP TABLE IF EXISTS work_day_ended
+DROP TABLE IF EXISTS work_day_done
 ;
 DROP TABLE IF EXISTS event
 ;
@@ -55,11 +55,11 @@ CREATE TABLE pomodoro_done(
   task_name    TEXT    NOT NULL
 )
 ;
-CREATE TABLE work_day_ended(
+CREATE TABLE work_day_done(
   event_id     INTEGER NOT NULL REFERENCES event (id)
 )
 ;
-CREATE TABLE inventory(
+CREATE TABLE record(
   date                  TEXT     NOT NULL,
   pomodoros             INTEGER,
   interruptions         INTEGER,
@@ -69,7 +69,7 @@ CREATE TABLE inventory(
   total_over_estimate   INTEGER
 )
 ;
-CREATE TABLE record(
+CREATE TABLE inventory(
   task_name    TEXT    NOT NULL
 )
 ;

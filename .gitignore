@@ -23,3 +23,15 @@ www/img/start_server.png
 www/feed.rss
 www/sitemap.xml
 t
+*.aux
+*.log
+t.*
+www/img/cqrs.png
+www/img/oop.png
+www/img/tomato.png
+modified:sandbox/erd/cqrs.png
+modified:sandbox/erd/cqrs.sql
+modified:sandbox/erd/cqrs.tex
+sandbox/erd/cqrs.db
+sandbox/erd/cqrs.pdf
+sandbox/erd/oop.db

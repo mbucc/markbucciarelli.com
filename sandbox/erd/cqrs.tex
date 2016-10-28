@@ -66,7 +66,7 @@
   \node[entity] (done) [above right = 5em and 6em of isa] {PomodoroDone} edge (isa);
     \node[attribute] (p_task) [above =2em of done] {Name} edge (done);
 
-  \node[entity] (done) [right of=isa, node distance=11em] {WorkDayEnded} edge (isa);
+  \node[entity] (done) [right of=isa, node distance=11em] {WorkDayDone} edge (isa);
 
   \node[entity] (taskdone) [below left of=isa, node distance=11em] {TaskDone} edge (isa);
     \node[attribute] (t_task) [above =2em of taskdone] {Name} edge (taskdone);

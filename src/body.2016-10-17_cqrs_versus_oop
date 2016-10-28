@@ -10,7 +10,7 @@
 <section>
     <h2>Introduction to the Pomodoro Technique</h2>
 
-    <p>The <a href="http://pomodorotechnique.com/">Pomodoro Technique</a> improves your produtivity by having you</p>
+    <p>The <a href="http://pomodorotechnique.com/">Pomodoro Technique</a> improves your productivity by having you</p>
     <ol>
         <li>work on one thing for 25 minutes straight,</li>
         <li>become better at estimating time for a task, and</li>
@@ -23,31 +23,29 @@
     <h2>User Stories</h2>
     <p>All of these stories are for a single user, the worker.</p>
     <ol>
-        <li>At the start of my work day <b>I create a TODO list</b> for the day so that I work on the most important tasks first.</li>
+        <li>At the start of my work day <b>I create a TO DO list</b> for the day so that I work on the most important tasks first.</li>
         <li>During a pomodoro, I must <b>work on one thing</b> and one thing only so that I become more productive.</li>
-        <li>When a pomodoro is done, I need to <b>take a five minute break</b> and cross off one of my estimated pomodoro's for that task.</li>
-        <li>When I complete four pomodoro's, I need to <b>take a 15-minute break</b> so that I can start the next task with vigor.</li>
+        <li>When a pomodoro is done, I need to <b>take a five minute break</b> and cross off one of my estimated pomodoros for that task.</li>
+        <li>When I complete four pomodoros, I need to <b>take a 15-minute break</b> so that I can start the next task with vigor.</li>
         <li>I need to <b>estimate the number of &ldquo;pomodoros&rdquo;</b> (25-minute chunks) each task will take so that I can record how accurate my estimates are.</li>
-        <li>During a pomodora, I need to <b>record interruptions</b> so that I can learn how much they affect my work day.</li>
+        <li>During a pomodoro, I need to <b>record interruptions</b> so that I can learn how much they affect my work day.</li>
         <li>If I cross off all of my estimated blocks of time, and there is still work to do, I need to <b>re-estimate the time left</b> on that task.</li>
-        <li>I need to <b>maintain a master TODO list (an inventory)</b> so when I think of something else to do, I can record it there.</li>
+        <li>I need to <b>maintain a master TO DO list (an inventory)</b> so when I think of something else to do, I can record it there.</li>
         <li>At the end of the day, I need to <b>summarize my day and add to a daily record</b> by recording the number of:
             <ol type="a">
-                <li>pomodoro's completed</li>
+                <li>pomodoros completed</li>
                 <li>interruptions, by type (internal and external)</li>
                 <li>tasks, by type (planned and unplanned)</li>
                 <li>hours worked</li>
                 <li>tasks that were underestimated</li>
-                <li>total pomodoro's (for completed tasks) that were not required (total over estimated)</li>
+                <li>total pomodoros (for completed tasks) that were not required (total over estimated)</li>
             </ol>
             so that over time I can gain a clear picture of how well I estimate.</li>
     </ol>
 </section>
 
 <section>
-    <h2>OOP</h2>
-
-    <h3>The Nouns</h3>
+    <h2>OOP Data Model</h2>
 
     <p>An object-oriented design focuses on the nouns in the system, since those are thought to be the more stable entities in the system.  The idea is that by modeling the stable entities, the software will require less change as the system evolves.</p>
     <p>Pulling the major nouns out of the use cases above, we get</p>
@@ -58,27 +56,31 @@
         <li>estimate</li>
         <li>break</li>
         <li>daily TODO list</li>
-        <li>master todo inventory</li>
+        <li>master TODO inventory</li>
         <li>daily record</li>
     </ul>
 
-    <p>The nouns pomodoro, estimate, break are value 
+    <p>The nouns pomodoro, estimate, break are value
 objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
 <input type="checkbox" id="mn-vo" class="margin-toggle"/>
-<span class="marginnote"> 
+<span class="marginnote">
   A value object has no identity or life cycle.
-</span> and so show up as attributes and not entities.  The inventory and record nouns are views over the task and workday entity sets Task and WorkDay and relationship set WorksOn.</p>
+</span> and are modeled as attributes and not entities.  The inventory and record nouns are views over the task and workday entity sets Task and WorkDay and relationship set WorksOn.</p>
 
-    
+
     <h3>OOP Entity-Relationship Diagram</h3>
 
-    <figure>
-        <img src="img/oop.png" />
-    </figure>
+    <p><figure><img src="img/oop.png" /></figure></p>
 
-    <h3>OOP Data Model</h3>
-    
-    <p>This model uses the Sqlite3 dialect.</p>
+    <h3>OOP SQL</h3> 
+
+<p>Here is the
+SQL<label for="mn-sql" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-sql" class="margin-toggle"/>
+<span class="marginnote">
+  All SQL in this blog entry was tested with SQLite.
+</span>
+that implements this model.</p>
 
             <pre class="code with-wrapping fullwidth">
 <line>PRAGMA foreign_keys = ON</line>
@@ -91,7 +93,7 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
 <line>;</line>
 <line>CREATE TABLE task(</line>
 <line>  name       TEXT PRIMARY KEY,</line>
-<line>  cancelled  TEXT NOT NULL CHECK (cancelled IN ('Y', 'N')) DEFAULT 'N'</line>
+<line>  canceled  TEXT NOT NULL CHECK (canceled IN ('Y', 'N')) DEFAULT 'N'</line>
 <line>)</line>
 <line>;</line>
 <line>CREATE TABLE workday(</line>
@@ -177,14 +179,14 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
 <line> WHERE name NOT IN (SELECT DISTINCT task_name</line>
 <line>                      FROM workson</line>
 <line>                     WHERE completed = 'Y')</line>
-<line>   AND cancelled = 'N'</line>
+<line>   AND canceled = 'N'</line>
 <line>;</line>
 <line></line>
 </pre>
 </section>
 
 <section>
-    <h2>CQRS</h2>
+    <h2>CQRS Data Model</h2>
 
     <p>In CQRS, we model by looking for:</p>
 
@@ -193,31 +195,197 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
         <footer>Edument, <cite><a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a></cite> (retrieved October 22, 2016)</footer>
     </blockquote>
 
-    <p>Re-reading through the use cases above, I see the following actions:</p>
+    <p>Re-reading through the use cases above, you can pull out the following actions:</p>
 
     <h3>The Actions</h3>
 
     <ul>
-        <li>TodoCreatedlist</li>
+        <li>TaskAdded</li>
+        <li>TaskEstimated</li>
+        <li>TaskInterrupted</li>
+        <li>TaskDone</li>
         <li>PomodoroStarted</li>
         <li>PomodoroDone</li>
-        <li>BreakTaken</li>
-        <li>PomodorosEstimated</li>
-        <li>PomodoroInterrupted</li>
-        <li>TaskInventoryModified</li>
-        <li>DaySummarized</li>
+        <li>WorkDayDone</li>
     </ul>
 
     <h3>CQRS Entity-Relationship Diagram</h3>
 
-    <figure>
-        <img src="img/cqrs.png" />
-    </figure>
+    <p><figure><img src="img/cqrs.png" /></figure></p>
 
-    <h3>CQRS Data Model</h3>
-    
+    <h3>CQRS SQL</h3>
+
+            <pre class="code with-wrapping fullwidth">
+<line>PRAGMA foreign_keys = ON</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_added</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_estimated</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS pomodoro_started</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS pomodoro_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS work_day_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS event</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS inventory</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS record</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS error</line>
+<line>;</line>
+<line>CREATE TABLE event(</line>
+<line>  id         INTEGER PRIMARY KEY,</line>
+<line>  date       TEXT     NOT NULL,</line>
+<line>  -- current_timestamp is in UTC timezone</line>
+<line>  timestamp  DATETIME NOT NULL DEFAULT current_timestamp,</line>
+<line>  type       TEXT     NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_added(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL,</line>
+<line>  planned      TEXT    NOT NULL CHECK (planned IN ('Y', 'N'))   DEFAULT 'Y'</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_estimated(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL,</line>
+<line>  estimate     INTEGER NOT NULL CHECK (estimate > 0)</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE pomodoro_started(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE pomodoro_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE work_day_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id)</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE record(</line>
+<line>  date                  TEXT     NOT NULL,</line>
+<line>  pomodoros             INTEGER,</line>
+<line>  interruptions         INTEGER,</line>
+<line>  planned_tasks         INTEGER  NOT NULL CHECK (planned_tasks > 0),</line>
+<line>  unplanned_tasks       INTEGER,</line>
+<line>  under_estimated_tasks INTEGER,</line>
+<line>  total_over_estimate   INTEGER</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE inventory(</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE error(</line>
+<line>  command_id  INTEGER NOT NULL,</line>
+<line>  text        TEXT NOT NULL</line>
+<line>)</line>
+<line>;</line>
+</pre>
+
+
 
 </section>
+
+<section>
+  <h2>The OOP and CQRS models are equivalent sources of truth.</h2>
+
+  <p>While extremely different in structure, the two data models support the user stories.</p>
+
+  <p>Some observations of the differences between the two models:</p>
+
+  <p>CQRS</p>
+
+  <ul>
+    <li>puts all business logic in commands and read models,
+    <li>has one table for each event type, and</li>
+    <li>keeps a strong decoupling between each database table</li>
+  </ul>
+
+  <p>OOP</p>
+  <ul>
+    <li>has fewer tables,</li>
+    <li>encodes business logic in the form of foreign keys and check constraints, and</li>
+    <li>has complex views that generate the reports.</li>
+  </ul>
+
+  <p>Overall, I find the CQRS model simpler because, although there are more tables, the tables are decoupled and there is no complex views.</p>
+</section>
+
+<section>
+
+  <h2>How do the models handle changes?</h2>
+
+  <p>Consider a few ways the system might change over time---how does each data model cope with the change?</p>
+
+  <h3>Change pomodoro size from 25 minutes to 50 minutes.</h3>
+
+    <p>OOP: No change required.</p>
+    <p>CQRS: No change required.  But since we store start and end event of each pomodoro the pomodoro length change is recorded in the event history and could be used in a read-model, if required.</p>
+    <p>Winner: CQRS wins.</p>
+
+  <h3>Differentiate between external and internal interruptions.</h3>
+
+    <p>OOP: Add two new fields internal_interruptions and external_interruptions.  Make existing field represent the total of those two.  Unclear how to migrate old records.</p>
+    <p>CQRS: Add a new event type TaskInterrupted_v2 that has a second attribute 'Internal?'.  Add same two new fields to record table.  Also unclear how to report on old and new records.</p>
+    <p>Winner: Tie.</p>
+
+  <h3>Add the ability to group small tasks into one pomodoro.</h3>
+
+    <p>Some tasks do not take 25 minutes.  In the Pomodoro method, you would group a few of these smaller tasks together and then make an estimate for the group.</p>
+    <p>Also, these groupings can vary from day-to-day.  For example, if you group four of them on day one, but only complete three of them, the one unfinished one could be grouped with a different set of small tasks on day two.</p>
+    <p>OOP:</p>
+
+    <p>The best way forward here was not clear to me.  Here is one approach that should work.</p>
+    
+    <ul>
+        <li>new table Group
+            <ol type=a>
+                <li>with fields id and task_name</li>
+                <li>unique key on (id, task_name)</li>
+                <li>task_name is foreign key to task.name.</li>
+            </ol>
+        </li>
+        <li>WorksOn
+            <ol type=a start=4>
+                <li>new field group_id that is nullable and is a foreign key to Group.id</li>
+                <li>Make task_name nullable</li>
+                <li>add constraint that either task_name or group_id must be non-null</li>
+                <li>add constraint that only one of task_name or group_id can be non-null</li>
+                <li>delete primary key</li>
+                <li>make unique key on (date, task_name, group_id)</li>
+            </ol>
+        </li>
+    </ul>
+
+    <p>CQRS: Add a new event TaskAddedToGroup with two attributes: group_name and task_name.  When adding a group, use the existing AddTask command with the group name.</p> 
+
+    <p>Winner: CQRS.</p>
+
+</section>
+
+<section>
+<h2>Summary</h2>
+
+<p>With CQRS you get a simpler data model that is more flexible to change.</p>
+<p>But ... this is just the data model side.  To be a true comparison, we need to compare the code as well.</p>
+</section>
+
 
 <section>
 <h2>Resources</h2>
