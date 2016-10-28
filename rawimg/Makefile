@@ -12,7 +12,6 @@ all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 		${D1}/lightning.png ${D2}/lightning.html ${D2}/lightning.png \
 		${D1}/arches.png ${D2}/arches.html ${D2}/arches.png \
 		${D1}/carnival.png ${D2}/carnival.html ${D2}/carnival.png \
-		${D1}/robots.png ${D2}/robots.html ${D2}/robots.png \
 		${D1}/tomato.png ${D2}/tomato.html ${D2}/tomato.png \
 		${D1}/start_server.png \
 		${D1}/oop.png \
@@ -67,9 +66,6 @@ arches.jpg:
 	mv t $@
 carnival.jpg:
 	curl -L https://unsplash.com/photos/J1bAgl8E8uQ/download -o t
-	mv t $@
-robots.jpg:
-	curl -L https://farm8.staticflickr.com/7279/7408451314_0bb1cca4c2_o_d.jpg -o t
 	mv t $@
 tomato.jpg:
 	curl -L https://unsplash.com/photos/uVPDAwgqLXY/download -o t

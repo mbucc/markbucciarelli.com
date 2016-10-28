@@ -329,15 +329,15 @@ that implements this model.</p>
 
 <section>
 
-  <h2>How do the models handle changes?</h2>
+  <h2>How do the models handle change?</h2>
 
   <p>Consider a few ways the system might change over time---how does each data model cope with the change?</p>
 
   <h3>Change pomodoro size from 25 minutes to 50 minutes.</h3>
 
     <p>OOP: No change required.</p>
-    <p>CQRS: No change required.  But since we store start and end event of each pomodoro the pomodoro length change is recorded in the event history and could be used in a read-model, if required.</p>
-    <p>Winner: CQRS wins.</p>
+    <p>CQRS: No change required.  Since we store start and end event of each pomodoro, the pomodoro duration data is stored in the event history and could be used in a read-model, if required.</p>
+    <p>Winner: CQRS.</p>
 
   <h3>Differentiate between external and internal interruptions.</h3>
 
