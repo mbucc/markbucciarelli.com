@@ -1,0 +1,16 @@
+{application, elli,
+ [
+  {description, "Simple appserver with Elli"},
+  {vsn, "1.0.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  inets
+                 ]},
+  {env, []},
+
+  {maintainers,["Mark Bucciarelli"]},
+  {licenses,["ISC"]},
+  {links,[{"blog","http://markbucciarelli.com"}]}
+ ]}.
