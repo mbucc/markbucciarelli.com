@@ -22,3 +22,4 @@ www/tufte.css: ${CSS} ${PATCH}
 .PHONY: clean
 clean:
 	rm -f  www/tufte.css www/img/line-wrap-arrow.svg
+	rm -f www/*.rej www/*.orig
