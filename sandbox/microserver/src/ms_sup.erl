@@ -1,4 +1,4 @@
--module(appserver_sup).
+-module(ms_sup).
 -behaviour(supervisor).
 -export([start_link/0]).
 -export([init/1]).

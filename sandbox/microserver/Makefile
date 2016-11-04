@@ -1,4 +1,4 @@
-all: setup ebin/appserver_sup.beam ebin/appserver_callback.beam ebin/appserver.app
+all: setup ebin/ms_sup.beam ebin/ms_callback.beam ebin/microserver.app
 
 setup: ebin src include priv
 ebin:
@@ -18,7 +18,7 @@ ${ELLI}/ebin:
 ebin/%.beam: src/%.erl ${ELLI}/ebin
 	ERL_LIBS=${ELLI} erlc -o ebin/ $<
 
-ebin/appserver.app: src/appserver.app.src
+ebin/microserver.app: src/microserver.app.src
 	cp $? $@
 
 .PHONY: clean
