@@ -1,4 +1,4 @@
--module(ms_callback).
+-module(es_callback).
 -export([handle/2, handle_event/3]).
 
 -include_lib("elli/include/elli.hrl").

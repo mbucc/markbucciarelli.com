@@ -1,4 +1,4 @@
--module(ms_sup).
+-module(es_sup).
 -behaviour(supervisor).
 -export([start_link/0]).
 -export([init/1]).
@@ -7,9 +7,9 @@ start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-    ElliOpts = [{callback, ms_callback}, {port, 3000}],
+    ElliOpts = [{callback, es_callback}, {port, 3000}],
     ElliSpec = {
-        ms_http,
+        es_http,
         {elli, start_link, [ElliOpts]},
         permanent,
         5000,
