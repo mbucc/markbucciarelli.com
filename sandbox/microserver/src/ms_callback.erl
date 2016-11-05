@@ -13,6 +13,10 @@ handle('GET',[<<"hello">>, <<"world">>], _Req) ->
     %% to signal success.
     {ok, [], <<"Hello World!">>};
 
+handle('GET',[<<"fail">>], _Req) ->
+    _D = 1/0,
+    {ok, [], <<"Should not get here.">>};
+
 handle(_, _, _Req) ->
     {404, [], <<"Not Found">>}.
 

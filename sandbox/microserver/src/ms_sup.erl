@@ -7,9 +7,9 @@ start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 init([]) ->
-    ElliOpts = [{callback, appserver_callback}, {port, 3000}],
+    ElliOpts = [{callback, ms_callback}, {port, 3000}],
     ElliSpec = {
-        appserver_http,
+        ms_http,
         {elli, start_link, [ElliOpts]},
         permanent,
         5000,

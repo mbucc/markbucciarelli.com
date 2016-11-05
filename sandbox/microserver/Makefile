@@ -1,4 +1,4 @@
-all: setup ebin/ms_sup.beam ebin/ms_callback.beam ebin/microserver.app
+all: setup ebin/ms_sup.beam ebin/ms_callback.beam ebin/microserver.app ebin/microserver.beam
 
 setup: ebin src include priv
 ebin:
@@ -23,4 +23,4 @@ ebin/microserver.app: src/microserver.app.src
 
 .PHONY: clean
 clean:
-	rm -f ebin/*.beam
+	rm -f ebin/*
