@@ -7,3 +7,8 @@ BLOG_TITLE="A simple Erlang application."
 BLOG_POST="../2016-11-09_a_simple_erlang_application.html"
 SOURCE=https://unsplash.com/@mkwlsn?photo=2zLEAIZi92M
 CAMERA="Canon EOS 6D @ 102mm, ISO 200, 6, f/6.34"
+CAMERA="Canon EOS 6D"
+FOCAL_LENGTH="@ 102mm,"
+ISO="ISO 200,"
+EXPOSURE_TIME="6 sec,"
+APERTURE="f/6.34"
