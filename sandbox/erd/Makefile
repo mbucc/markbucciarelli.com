@@ -1,4 +1,4 @@
-all: oop.db ../../rawimg/oop.png ../../rawimg/cqrs.png cqrs.db
+all: oop.db ../../src/img/oop.png ../../src/img/cqrs.png cqrs.db
 
 oop.db: oop.sql oop_data.sql
 	sqlite3 oop.db < oop.sql
@@ -7,14 +7,14 @@ oop.db: oop.sql oop_data.sql
 cqrs.db: cqrs.sql 
 	sqlite3 cqrs.db < cqrs.sql
 
-../../rawimg/oop.png: oop.png
+../../src/img/oop.png: oop.png
 	cp $? $@
 oop.png: oop.pdf
 	convert -density 300 $? -quality 90 $@
 oop.pdf: oop.tex
 	pdflatex oop.tex
 
-../../rawimg/cqrs.png: cqrs.png
+../../src/img/cqrs.png: cqrs.png
 	cp $? $@
 cqrs.png: cqrs.pdf
 	convert -density 300 $? -quality 90 $@
