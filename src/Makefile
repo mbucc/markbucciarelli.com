@@ -90,7 +90,7 @@ www: \
 work/%.header: info.% templates/www.header
 	mkdir -p work
 	(source $< && \
-		source ../rawimg/mustache.sh && \
+		source img/mustache.sh && \
 		mustache < templates/www.header > $@)
 
 # Footer is currently static data.
@@ -119,12 +119,12 @@ info.feedheader: info.2*
 work/rss.header: info.feedheader templates/rss.header
 	rm -f work/*
 	(source $< && \
-		source ../rawimg/mustache.sh && \
+		source img/mustache.sh && \
 		mustache < templates/rss.header > $@)
 
 work/%.rss: info.% templates/rss.item
 	(source $< && \
-		source ../rawimg/mustache.sh && \
+		source img/mustache.sh && \
 		mustache < templates/rss.item > $@)
 
 
@@ -138,7 +138,7 @@ sitemap: ../www/sitemap.xml
 
 work/%.xml: info.% templates/sitemap.item
 	(source $< && \
-		source ../rawimg/mustache.sh && \
+		source img/mustache.sh && \
 		mustache < templates/sitemap.item > $@)
 
 #-------------------------------------------------------------------------------
@@ -151,7 +151,7 @@ idx: ../www/index.html
 
 work/%.idx: info.% templates/idx.item
 	(source $< && \
-		source ../rawimg/mustache.sh && \
+		source img/mustache.sh && \
 		mustache < templates/idx.item > $@)
 
 
