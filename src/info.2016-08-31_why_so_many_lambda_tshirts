@@ -6,3 +6,14 @@ LEDE="Last week I was wrestling with some code when a light went off and I came 
 IMG=arches
 IMGINFO=arches
 IMG_ALT="Looking down a long pool that is inside a set of massive stone arches."
+
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Tyler Hendy"
+LOCATION="Seville, Spain"
+ALT="Looking down a long pool that is inside a set of massive stone arches"
+SOURCE=https://unsplash.com/photos/JoSbjuOLBz8
+CAMERA="Canon EOS 60D"
+FOCAL_LENGTH="@ 10mm,"
+ISO="ISO 320,"
+EXPOSURE_TIME="5 sec,"
+APERTURE="f/6.34"

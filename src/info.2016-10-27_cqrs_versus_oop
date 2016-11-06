@@ -6,3 +6,10 @@ LEDE="Design data models for the Pomodoro Technique, one for CQRS and one for OO
 IMG=tomato
 IMGINFO=tomato
 IMG_ALT="A close up of a ripe, bright-red tomato."
+
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Ivan Timov"
+LOCATION="Plovdiv, Bulgaria"
+ALT="A close up of a ripe, fresh tomato."
+SOURCE=https://unsplash.com/@ivantimov?photo=uVPDAwgqLXY
+CAMERA="Unknown camera"

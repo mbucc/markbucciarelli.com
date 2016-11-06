@@ -6,3 +6,14 @@ LEDE="The gen_event behavior makes it simple to add basic event sourcing to your
 IMG=carnival
 IMGINFO=carnival
 IMG_ALT="Young couple walking through a closed, colorful, carnival."
+
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Tim Gouwler"
+LOCATION="United States"
+ALT="Young couple walking through a closed, colorful, carnival."
+SOURCE=https://unsplash.com/photos/J1bAgl8E8uQ
+CAMERA="Nikon D3300"
+FOCAL_LENGTH="@ 50mm,"
+ISO="ISO 400,"
+EXPOSURE_TIME="1/500 sec,"
+APERTURE=""

@@ -1,9 +1,0 @@
-YEAR_TAKEN=2016
-PHOTOGRAPHER="Ivan Timov"
-LOCATION="Plovdiv, Bulgaria"
-IMGSRC=tomato.png
-ALT="A close up of a ripe, fresh tomato."
-BLOG_TITLE="CQRS vs. OOP: a Pomodoro throw down"
-BLOG_POST="../2016-10-27_cqrs_versus_oop.html"
-SOURCE=https://unsplash.com/@ivantimov?photo=uVPDAwgqLXY
-CAMERA="Unknown camera"

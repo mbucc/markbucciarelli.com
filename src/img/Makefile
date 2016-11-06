@@ -1,9 +1,9 @@
 # Smaller images
-D1=../www/img
+D1=../../www/img
 WIDTH=700
 
 # Larger images
-D2=../www/imginfo
+D2=../../www/imginfo
 
 all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 		${D1}/bridge.png ${D2}/bridge.html ${D2}/bridge.png \

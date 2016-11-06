@@ -1,12 +1,12 @@
 www/imginfo
 tmp
 www.tgz
-rawimg/mn.jpg
+src/img/mn.jpg
 *.beam
 *.swp
 src/work
 src/info.feedheader
-rawimg/*.jpg
+src/img/*.jpg
 www/*.html
 
 www/img/add_a_name.png

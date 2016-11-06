@@ -17,7 +17,7 @@
         <p>{{LEDE}}</p>
 
 	<figure>
-        <a href="imginfo/{{IMGINFO}}.html"><img src="img/{{IMG}}.png" alt="{{IMG_ALT}} class="webfeedsFeaturedVisual"/></a>
+        <a href="imginfo/{{IMGINFO}}.html"><img src="img/{{IMG}}.png" alt="{{ALT}} class="webfeedsFeaturedVisual"/></a>
 	</figure>
 
     </section>

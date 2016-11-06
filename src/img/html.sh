@@ -6,7 +6,7 @@
 #   ../www/picture_info/mnopq.html --> info.mnopq
 #
 
-FN=info.$(echo $1 | cut -d '/' -f 4 | sed 's/\.html//')
+FN=info.$(echo $1 | awk -F \/ '{print $NF}' | sed 's/\.html//')
 
 . $FN
 

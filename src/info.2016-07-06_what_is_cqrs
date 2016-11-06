@@ -6,3 +6,14 @@ LEDE="CQRS is short for the command query responsibility separation pattern. Thi
 IMG=bridge
 IMGINFO=bridge
 IMG_ALT="Empty footbridge leading to a jungle."
+
+YEAR_TAKEN=2015
+PHOTOGRAPHER="Tim Swaan"
+LOCATION="Whangarei, New Zealand"
+ALT="Empty footbridge leading to a jungle."
+SOURCE=https://unsplash.com/photos/eOpewngf68w
+CAMERA="Canon EOS 6D"
+FOCAL_LENGTH="@ 28mm,"
+ISO="ISO 1250,"
+EXPOSURE_TIME="1/250 sec,"
+APERTURE="f/6.33"

@@ -6,3 +6,14 @@ LEDE="Example of how you can contribute to Erlang by fixing a bug and having the
 IMG=redbug
 IMGINFO=redbug
 IMG_ALT="Closeup of bright red bug on deep green leaf."
+
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Ritchie Valens"
+LOCATION="Chorleywood, United Kingdom"
+ALT="Closeup of bright red bug on deep green leaf."
+SOURCE=https://unsplash.com/photos/fAMG3PDk830
+CAMERA="Canon EOS 7D"
+FOCAL_LENGTH="@ 100mm,"
+ISO="ISO 400,"
+EXPOSURE_TIME="1/200 sec,"
+APERTURE="f/3.36"
