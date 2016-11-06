@@ -6,6 +6,7 @@ WIDTH=700
 D2=../../www/imginfo
 
 all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
+		${D1}/service.png ${D2}/service.html ${D2}/service.png \
 		${D1}/bridge.png ${D2}/bridge.html ${D2}/bridge.png \
 		${D1}/redbug.png ${D2}/redbug.html ${D2}/redbug.png \
 		${D1}/lightbulb.png ${D2}/lightbulb.html ${D2}/lightbulb.png \

@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2016-11-09_a_simple_erlang_application.html \
 		../www/2016-10-27_cqrs_versus_oop.html \
 		../www/2016-09-14_simple_gen_event_example.html \
 		../www/2016-08-31_why_so_many_lambda_tshirts.html \
@@ -35,6 +36,7 @@ www: \
 		../www/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
 
 ../www/feed.rss: work/rss.header templates/rss.footer \
+		work/2016-11-09_a_simple_erlang_application.rss \
 		work/2016-10-27_cqrs_versus_oop.rss \
 		work/2016-09-14_simple_gen_event_example.rss \
 		work/2016-08-31_why_so_many_lambda_tshirts.rss \
@@ -49,6 +51,7 @@ www: \
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2016-11-09_a_simple_erlang_application.xml \
 		work/2016-10-27_cqrs_versus_oop.xml \
 		work/2016-09-14_simple_gen_event_example.xml \
 		work/2016-08-31_why_so_many_lambda_tshirts.xml \
@@ -63,6 +66,7 @@ www: \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2016-11-09_a_simple_erlang_application.idx \
 		work/2016-10-27_cqrs_versus_oop.idx \
 		work/2016-09-14_simple_gen_event_example.idx \
 		work/2016-08-31_why_so_many_lambda_tshirts.idx \

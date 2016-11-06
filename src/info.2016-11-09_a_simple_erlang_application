@@ -1,3 +1,10 @@
+URL=2016-11-09_a_simple_erlang_application.html
+TITLE="A Simple Erlang Application"
+PUBDATE="November 11, 2016"
+PUBDATE_ISO="Wed, 11 Nov 2016 00:00:00 GMT"
+LEDE="An HTTP server structured as an Erlang application.  Built with Elli, it uses ERL_LIBS and make instead of rebar."
+IMG=service
+IMGINFO=service
 
 YEAR_TAKEN=2016
 PHOTOGRAPHER="Mike Wilson"
