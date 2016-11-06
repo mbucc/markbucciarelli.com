@@ -70,4 +70,6 @@ carnival.jpg:
 tomato.jpg:
 	curl -L https://unsplash.com/photos/uVPDAwgqLXY/download -o t
 	mv t $@
-
+service.jpg:
+	curl -L https://unsplash.com/photos/2zLEAIZi92M/download -o t
+	mv t $@
