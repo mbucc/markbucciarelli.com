@@ -99,17 +99,9 @@ work/%.footer: templates/www.footer
 
 # Use sed to convert some simple things, but double quotes are too hard
 # (code, links, and img src's).  Do double-quotes in editor.
-work/%.body: body.%
+work/%.body: body.% quotify.sh
 	mkdir -p work
-	cat $? | sed -E \
-	-e "s/^'/\&lsquo;/" \
-	-e "s/-'/\&lsquo;/" \
-	-e "s/='/\&lsquo;/" \
-	-e "s/([ 	])'/\1\&lsquo;/g" \
-	-e "s/'/\&rsquo;/g" \
-	-e 's/\.\.\./\&hellip;/g' \
-	-e 's/---/\&mdash;/g' \
-	> $@
+	cat $< | ./quotify.sh > $@
 
 #-------------------------------------------------------------------------------
 #
