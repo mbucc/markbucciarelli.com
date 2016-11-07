@@ -164,39 +164,115 @@
 
 <h2>Notes</h2>
 
-<h3>Goals</h3>
+<h3>My Goals</h3>
 <ol>
 <li>simplest code possible</li>
-<li>want to understand and learn Erlang, not get some MVP up quickly that works like ``magic''</li>
-<li>ssl</li>
-<li>basic auth</li>
+<li>take my time and understand each step</li>
+<li>support SSL</li>
+<li>support basic auth</li>
 </ol>
 
 <h3>Why no rebar?</h3>
 
             <pre class="code with-wrapping fullwidth">
 <line>$ cd $HOME/src/rebar3/</line>
-<line>$ du -sh .</line>
-<line>6.5M	.</line>
+<line>$ du -sh src</line>
+<line>692K	src</line>
 <line>$ </line>
 </pre>
 
 <p>Violates goal #1.</p>
 
+<h3>Surprising behavior when no mod in application configuration file.</h3>
 
-<h3>Strange behavior when no mod in application configuration file.</h3>
+<p>Don't leave out the <code>mod</code> parameter in the app configuration file.</p>
 
-<h3>Really minimal HTTP server---no logging or Date header.</h3>
+<p>For example, if I change the config file to:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>{application, erlsrv, []}.</line>
+</pre>
+
+<p>I can start the application without error</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ ERL_LIBS=$HOME/src/elll erl -pa ebin</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> application:start(erlsrv).</line>
+<line>ok</line>
+<line>2> application:info().</line>
+</pre>
+
+<p>and the application is loaded</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>2> application:which_applications().</line>
+<line>[{erlsrv,[],[]},</line>
+<line> {stdlib,"ERTS  CXC 138 10","3.0"},</line>
+<line> {kernel,"ERTS  CXC 138 10","5.0"}]</line>
+<line>3> </line>
+</pre>
+
+<p>and shows as running</p>
+
+
+            <pre class="code with-wrapping fullwidth">
+<line>3> application:info().</line>
+<line>[{loaded,[{kernel,"ERTS  CXC 138 10","5.0"},</line>
+<line>          {stdlib,"ERTS  CXC 138 10","3.0"},</line>
+<line>          {erlsrv,[],[]}]},</line>
+<line> {loading,[]},</line>
+<line> {started,[{erlsrv,temporary},</line>
+<line>           {stdlib,permanent},</line>
+<line>           {kernel,permanent}]},</line>
+<line> {start_p_false,[]},</line>
+<line> {running,[{erlsrv,undefined},</line>
+<line>           {stdlib,undefined},</line>
+<line>           {kernel,<0.33.0>}]},</line>
+<line> {starting,[]}]</line>
+<line>4> </line>
+<line></line>
+</pre>
+
+<p>(There is supposed to be a process ID instead of the atom <code>undefined</code> on the line <code>{running,[{erlsrv,undefined}</code>.)</p>
+
+<p>Hitting the server with curl produces Connection refused:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ curl -v http://127.0.0.1:3000/hello/world</line>
+<line>*   Trying 127.0.0.1...</line>
+<line>* connect to 127.0.0.1 port 3000 failed: Connection refused</line>
+<line>* Failed to connect to 127.0.0.1 port 3000: Connection refused</line>
+<line>* Closing connection 0</line>
+<line>curl: (7) Failed to connect to 127.0.0.1 port 3000: Connection refused</line>
+<line>$ </line>
+</pre>
+
+<p>What's happening is that the the <code>mod</code> argument tells the application behavior what module holds the <code>start/2</code> method to call.  If we don't provide that module name, the behavior does not call any start method and the server is not started.</p>
 
 <h3>Why Elli?</h3>
 <p>Tried mochiweb, but I was too new to Erlang.</p>
 <p>Tried yaws and while creating an app was easy, but I got confused by yapp and embedded options.</p>
-<p>Tried cowboy, but tutorial didn't work for me (most likely due to my ignorance).</p>
-<p>Finally found Elli, which explained how it extended mochiweb which was simplest after all.</p>
+<p>Tried cowboy (or maybe it was Elixer?), but the tutorial didn't work for me (and I gave up quickly).</p>
+<p>By the time I found Elli, I was more familiar with Erlang.  Also, the github readme had exactly the code I needed.</li>
+<p>Also, it's lightweight:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ cd $HOME/src/elli</line>
+<line>$ du -sh src</line>
+<line> 92K	src</line>
+<line>$ </line>
+</pre>
+
+
 
 <h3>Next steps ...</h3>
 
-<p>In no particular order:</p>
+<p>This server is lacking pretty basic functionality.  Like logging.  Or including a Date HTTP header in the response.</p>
+
+<p>Some future steps, in no particular order:</p>
 
 <ul>
 <li>hot code reload</li>
