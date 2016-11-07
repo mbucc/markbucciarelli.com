@@ -98,9 +98,11 @@ work/%.header: info.% templates/www.header
 		mustache < templates/www.header > $@)
 
 # Footer is currently static data.
-work/%.footer: templates/www.footer
+work/%.footer: info.% templates/www.footer
 	mkdir -p work
-	cp $? $@
+	(source $< && \
+		source img/mustache.sh && \
+		mustache < templates/www.footer > $@)
 
 # Use sed to convert some simple things, but double quotes are too hard
 # (code, links, and img src's).  Do double-quotes in editor.
