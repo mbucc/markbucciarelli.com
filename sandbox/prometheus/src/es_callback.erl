@@ -6,14 +6,14 @@
 
 %% Delegate to handler functions
 handle(Req, _Args) ->
+    prometheus_counter:inc(http_requests_total),
     handle(Req#req.method, elli_request:path(Req), Req).
+
+handle('GET',[<<"metrics">>], _Req) ->
+    {ok, [], prometheus_text_format:format()};
 
 handle('GET',[<<"hello">>, <<"world">>], _Req) ->
     {ok, [], <<"Hello World!">>};
-
-handle('GET',[<<"fail">>], _Req) ->
-    _D = 1/0,
-    {ok, [], <<"Should not get here.">>};
 
 handle(_, _, _Req) ->
     {404, [], <<"Not Found">>}.
