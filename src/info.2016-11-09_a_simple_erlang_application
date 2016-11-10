@@ -1,7 +1,7 @@
 URL=2016-11-09_a_simple_erlang_application.html
 TITLE="A Simple Erlang Application"
-PUBDATE="November 11, 2016"
-PUBDATE_ISO="Wed, 11 Nov 2016 00:00:00 GMT"
+PUBDATE="November 9, 2016"
+PUBDATE_ISO="Wed, 9 Nov 2016 20:30:00 EST"
 LEDE="An HTTP server structured as an Erlang application.  Built with Elli, it uses ERL_LIBS and make instead of rebar."
 IMG=service
 IMGINFO=service
