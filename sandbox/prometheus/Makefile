@@ -1,4 +1,5 @@
-all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam
+all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam \
+		ebin/elli_prometheus.beam
 
 #------------------------------------------------------------------------------
 #
@@ -8,24 +9,27 @@ all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam
 
 SRC=${HOME}/src
 
+ELLI_GIT=https://github.com/knutin/elli.git
 ELLI_TAG=v1.0.5
+#ELLI_GIT=https://github.com/elli-lib/elli.git
+#ELLI_TAG=2.0.0
 ELLI=${SRC}/elli
-ELLI_BIN=${ELLI}
+ELLI_APP=${ELLI}
 
 PROMETHEUS_TAG=v3.1.0
 PROMETHEUS=${SRC}/prometheus.erl
-PROMETHEUS_BIN=${PROMETHEUS}/_build/default/lib/prometheus
+PROMETHEUS_APP=${PROMETHEUS}/_build/default/lib/prometheus
 
 ${ELLI}:
-	(cd ${SRC}; git clone https://github.com/knutin/elli.git)
+	(cd ${SRC}; git clone ${ELLI_GIT})
 	(cd ${ELLI}; git checkout tags/${ELLI_TAG})
-${ELLI_BIN}/ebin: ${ELLI}
+${ELLI_APP}/ebin: ${ELLI}
 	(cd ${ELLI} ; make)
 
 ${PROMETHEUS}:
 	(cd ${SRC}; git clone https://github.com/deadtrickster/prometheus.erl.git)
 	(cd ${PROMETHEUS}; git checkout tags/${PROMETHEUS_TAG})
-${PROMETHEUS_BIN}/ebin: ${PROMETHEUS}
+${PROMETHEUS_APP}/ebin: ${PROMETHEUS}
 	(cd ${PROMETHEUS} ; rebar3 compile)
 
 https://github.com/deadtrickster/prometheus.erl.git
@@ -38,10 +42,10 @@ https://github.com/deadtrickster/prometheus.erl.git
 #------------------------------------------------------------------------------
 
 
-ebin/%.beam: src/%.erl ${ELLI_BIN}/ebin ${PROMETHEUS_BIN}/ebin
-	ERL_LIBS=${ELLI_BIN}:${PROMETHEUS_BIN} erlc -o ebin/ $<
+ebin/%.beam: src/%.erl ${ELLI_APP}/ebin ${PROMETHEUS_APP}/ebin
+	ERL_LIBS=${ELLI_APP}:${PROMETHEUS_APP} erlc -o ebin/ $<
 
-ebin/erlsrv.app: src/erlsrv.app.src ${ELLI_BIN}/ebin ${PROMETHEUS_BIN}/ebin
+ebin/erlsrv.app: src/erlsrv.app.src ${ELLI_APP}/ebin ${PROMETHEUS_APP}/ebin
 	cp $< $@
 
 #------------------------------------------------------------------------------
