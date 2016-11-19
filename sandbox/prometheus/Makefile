@@ -40,7 +40,6 @@ ${PROMETHEUS}:
 ${PROMETHEUS_APP}/ebin: ${PROMETHEUS}
 	(cd ${PROMETHEUS} ; rebar3 compile)
 
-https://github.com/deadtrickster/prometheus.erl.git
 
 
 #------------------------------------------------------------------------------
