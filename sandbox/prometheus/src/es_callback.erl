@@ -14,20 +14,6 @@ handle('GET', [<<"hello">>, <<"world">>], _Req) ->
 handle(_, _, _Req) ->
     {404, [], <<"Not Found">>}.
 
-% Dump error information to stdout.
-dump(R, E, S) ->
-   io:format("exception thrown for request ~p~nexception=~p~nstacktrace=~p~n", [R, E, S]).
-
 %% @doc: Handle request events, like request completed, exception
 %% thrown, client timeout, etc. Must return 'ok'.
-
-handle_event(requestthrow, [Request, Exception, Stacktrace], _) -> 
-   dump(Request, Exception, Stacktrace),
-   ok;
-handle_event(requesterror, [Request, Exception, Stacktrace], _) ->
-   dump(Request, Exception, Stacktrace),
-   ok;
-handle_event(requestexit, [Request, Exception, Stacktrace], _) ->
-   dump(Request, Exception, Stacktrace),
-   ok;
 handle_event(_Event, _Data, _Args) -> ok.
