@@ -9,16 +9,24 @@ all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam \
 
 SRC=${HOME}/src
 
-ELLI_GIT=https://github.com/knutin/elli.git
-ELLI_TAG=v1.0.5
+# elli-lib is newer and changed handle_event() API (Timings --> {Timings, Sizes}).
+# However, there is a bug with using request_start, so I reverted to older Elli.
+# See https://github.com/elli-lib/elli/issues/19
 #ELLI_GIT=https://github.com/elli-lib/elli.git
 #ELLI_TAG=2.0.0
+#ELLI=${SRC}/elli
+#ELLI_APP=${ELLI}/_build/default/lib/elli
+
+ELLI_GIT=https://github.com/knutin/elli.git
+ELLI_TAG=v1.0.5
 ELLI=${SRC}/elli
 ELLI_APP=${ELLI}
 
+PROMETHEUS_GIT=https://github.com/deadtrickster/prometheus.erl.git
 PROMETHEUS_TAG=v3.1.0
 PROMETHEUS=${SRC}/prometheus.erl
 PROMETHEUS_APP=${PROMETHEUS}/_build/default/lib/prometheus
+
 
 ${ELLI}:
 	(cd ${SRC}; git clone ${ELLI_GIT})
@@ -27,7 +35,7 @@ ${ELLI_APP}/ebin: ${ELLI}
 	(cd ${ELLI} ; make)
 
 ${PROMETHEUS}:
-	(cd ${SRC}; git clone https://github.com/deadtrickster/prometheus.erl.git)
+	(cd ${SRC}; git clone ${PROMETHEUS_GIT})
 	(cd ${PROMETHEUS}; git checkout tags/${PROMETHEUS_TAG})
 ${PROMETHEUS_APP}/ebin: ${PROMETHEUS}
 	(cd ${PROMETHEUS} ; rebar3 compile)
@@ -57,3 +65,4 @@ ebin/erlsrv.app: src/erlsrv.app.src ${ELLI_APP}/ebin ${PROMETHEUS_APP}/ebin
 .PHONY: clean
 clean:
 	rm -f ebin/*
+	rm -rf data		# prometheus data

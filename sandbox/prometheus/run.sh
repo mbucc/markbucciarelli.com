@@ -1,11 +1,13 @@
 #! /bin/sh -ex
 
 SRC=${HOME}/src
-ELLI_TAG=v1.0.5
-ELLI=${SRC}/elli
-ELLI_BIN=${ELLI}
-PROMETHEUS_TAG=v3.1.0
-PROMETHEUS=${SRC}/prometheus.erl
-PROMETHEUS_BIN=${PROMETHEUS}/_build/default/lib/prometheus
 
-ERL_LIBS=${ELLI_BIN}:${PROMETHEUS_BIN}:. erl
+#ELLI=${SRC}/elli
+#ELLI_APP=${ELLI}/_build/default/lib/elli
+ELLI=${SRC}/elli
+ELLI_APP=${ELLI}
+
+PROMETHEUS=${SRC}/prometheus.erl
+PROMETHEUS_APP=${PROMETHEUS}/_build/default/lib/prometheus
+
+ERL_LIBS=${ELLI_APP}:${PROMETHEUS_APP}:. erl
