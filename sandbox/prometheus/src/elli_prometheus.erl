@@ -35,21 +35,28 @@ rawpath(#req{raw_path = Path}) ->
       [P] -> P
     end.
 
+
 handle_event(request_complete,
              [Req, ResponseCode, _ResponseHeaders, _ResponseBody,
               Timings],
              _Config) ->
     prometheus_counter:inc(http_requests_total,
                            [ResponseCode, rawpath(Req)]),
-    RequestStart = proplists:get_value(request_start,
-                                       Timings),
-    RequestEnd = proplists:get_value(request_end, Timings),
-    Microseconds = timer:now_diff(RequestEnd, RequestStart),
-    prometheus_histogram:observe(response_time_in_microseconds, [rawpath(Req)], Microseconds),
+    Start = proplists:get_value(request_start, Timings),
+    End = proplists:get_value(request_end, Timings),
+    Delta = timer:now_diff(End, Start),
+    io:format("handle_event: ~p  ~p  ~p~n",
+              [ResponseCode,
+               erlang:convert_time_unit(Delta, native,
+                                        micro_seconds),
+               rawpath(Req)]),
+    % The "_microseconds" suffix in the metric name is magic.
+    % Prometheus.erl converts the Erlang native time difference to microseconds.
+    prometheus_histogram:observe(response_time_in_microseconds,
+                                 [rawpath(Req)], Delta),
     ok;
 handle_event(chunk_complete,
-             [Req, ResponseCode, ResponseHeaders, _ClosingEnd,
-              Timings],
+             [Req, ResponseCode, ResponseHeaders, _ClosingEnd, Timings],
              Config) ->
     handle_event(request_complete,
                  [Req, ResponseCode, ResponseHeaders, <<>>, Timings],
@@ -72,7 +79,9 @@ handle_event(elli_startup, [], _Config) ->
     prometheus_histogram:new([{name,
                                response_time_in_microseconds},
                               {labels, [path]},
-                              {buckets, [100, 250, 500, 750, 1000]},
+                              {buckets,
+                               [10, 100, 1000, 10000, 100000, 300000, 500000,
+                                750000, 1000000, 1500000, 2000000, 3000000]},
                               {help,
                                "Microseconds between request receipt "
                                "and response send."}]),
