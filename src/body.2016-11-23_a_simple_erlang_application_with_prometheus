@@ -1,0 +1,263 @@
+<section>
+<h2>The Code</h2>
+
+<p>The code is identical to the code in <a href="2016-11-09_a_simple_erlang_application.html">A Simple Erlang Application</a>, with the following modifications:</p>
+
+<ul>
+<li>new dependency on an <a href="https://github.com/deadtrickster/prometheus.erl">Erlang client</a> for <a href="https://prometheus.io/">Prometheus.io</a>, a monitoring system and time series database,</li>
+<li>new handler to log metrics and expose an endpoint for Prometheus, and</li>
+<li>new child spec to call elli_middleware and stack the prometheus.io handler before the original handler.</li>
+</ul>
+
+<p>You can find the code for this blog entry <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/prometheus">here</a>.
+
+<h3>New dependency on Erlang client for Prometheus.io</h3>
+            <pre class="code with-wrapping fullwidth">
+<line>PROMETHEUS_GIT=https://github.com/deadtrickster/prometheus.erl.git</line>
+<line>PROMETHEUS_TAG=v3.1.0</line>
+<line>PROMETHEUS=${SRC}/prometheus.erl</line>
+<line>PROMETHEUS_APP=${PROMETHEUS}/_build/default/lib/prometheus</line>
+<line></line>
+<line>${PROMETHEUS}:</line>
+<line>	(cd ${SRC}; git clone ${PROMETHEUS_GIT})</line>
+<line>	(cd ${PROMETHEUS}; git checkout tags/${PROMETHEUS_TAG})</line>
+<line>${PROMETHEUS_APP}/ebin: ${PROMETHEUS}</line>
+<line>	(cd ${PROMETHEUS} ; rebar3 compile)</line>
+</pre>
+
+<p>This new section in the Makefile downloads and compiles the Erlang client for prometheus.  The <code>${PROMETHEUS_APP}/ebin</code> is then added as a dependency for compiling the Erlang code in this project.</p>
+
+
+<h3>New handler to log metrics and expose an endpoint for Prometheus</h3>
+
+
+            <pre class="code with-wrapping fullwidth">
+<line>%% @doc Exposes HTTP responses and timings as Prometheus metrics.</line>
+<line>%%</line>
+<line>%% Defines two metrics:</line>
+<line>%%</line>
+<line>%%        * the counter http_requests_total, with the label statuscode.</line>
+<line>%%</line>
+<line>%%        * the histogram http_response_microseconds</line>
+<line>%%</line>
+<line>%% The duration measures the time, in microseconds, between when</line>
+<line>%% the request line was received and the response was sent. This</line>
+<line>%% is as close we can get to the actual time of the request as</line>
+<line>%%  seen by the user.</line>
+<line></line>
+<line>-module(elli_prometheus).</line>
+<line></line>
+<line>-behaviour(elli_handler).</line>
+<line></line>
+<line>-include_lib("elli/include/elli.hrl").</line>
+<line></line>
+<line>-export([handle/2, handle_event/3]).</line>
+<line></line>
+<line>% Expose /metrics for Prometheus to pull.</line>
+<line>handle(Req, _Args) -></line>
+<line>    handle(Req#req.method, elli_request:path(Req), Req).</line>
+<line></line>
+<line>handle('GET', [<<"metrics">>], _Req) -></line>
+<line>    {ok, [], prometheus_text_format:format()};</line>
+<line>% All other requests are passed to normal handler.</line>
+<line>handle(_Verb, _Path, _Req) -> ignore.</line>
+<line></line>
+<line>% Return path, minus any query string, as a binary.</line>
+<line>rawpath(#req{raw_path = Path}) -></line>
+<line>    case binary:split(Path, [<<"?">>]) of</line>
+<line>      [P, _] -> P;</line>
+<line>      [P] -> P</line>
+<line>    end.</line>
+<line></line>
+<line></line>
+<line>handle_event(request_complete,</line>
+<line>             [Req, ResponseCode, _ResponseHeaders, _ResponseBody,</line>
+<line>              Timings],</line>
+<line>             _Config) -></line>
+<line>    prometheus_counter:inc(http_requests_total,</line>
+<line>                           [ResponseCode, rawpath(Req)]),</line>
+<line>    Start = proplists:get_value(request_start, Timings),</line>
+<line>    End = proplists:get_value(request_end, Timings),</line>
+<line>    Delta = timer:now_diff(End, Start),</line>
+<line>    io:format("handle_event: ~p  ~p  ~p~n",</line>
+<line>              [ResponseCode,</line>
+<line>               erlang:convert_time_unit(Delta, native,</line>
+<line>                                        micro_seconds),</line>
+<line>               rawpath(Req)]),</line>
+<line>    % The "_microseconds" suffix in the metric name is magic.</line>
+<line>    % Prometheus.erl converts the Erlang native time difference to microseconds.</line>
+<line>    prometheus_histogram:observe(response_time_in_microseconds,</line>
+<line>                                 [rawpath(Req)], Delta),</line>
+<line>    ok;</line>
+<line>handle_event(chunk_complete,</line>
+<line>             [Req, ResponseCode, ResponseHeaders, _ClosingEnd, Timings],</line>
+<line>             Config) -></line>
+<line>    handle_event(request_complete,</line>
+<line>                 [Req, ResponseCode, ResponseHeaders, <<>>, Timings],</line>
+<line>                 Config);</line>
+<line>handle_event(Event, [Req, _Exc, _Stack], _Config)</line>
+<line>    when Event =:= request_throw;</line>
+<line>         Event =:= request_exit;</line>
+<line>         Event =:= request_error;</line>
+<line>         Event =:= request_parse_error;</line>
+<line>         Event =:= bad_request;</line>
+<line>         Event =:= client_closed;</line>
+<line>         Event =:= client_timeout -></line>
+<line>    prometheus_counter:inc(http_requests_total,</line>
+<line>                           [Event, rawpath(Req)]),</line>
+<line>    ok;</line>
+<line>handle_event(elli_startup, [], _Config) -></line>
+<line>    prometheus_counter:new([{name, http_requests_total},</line>
+<line>                            {help, "Total HTTP requests"},</line>
+<line>                            {labels, [status, path]}]),</line>
+<line>    prometheus_histogram:new([{name,</line>
+<line>                               response_time_in_microseconds},</line>
+<line>                              {labels, [path]},</line>
+<line>                              {buckets,</line>
+<line>                               [10, 100, 1000, 10000, 100000, 300000, 500000,</line>
+<line>                                750000, 1000000, 1500000, 2000000, 3000000]},</line>
+<line>                              {help,</line>
+<line>                               "Microseconds between request receipt "</line>
+<line>                               "and response send."}]),</line>
+<line>    ok;</line>
+<line>handle_event(_, _, _) -></line>
+<line>    %% Future-proof.</line>
+<line>    ok.</line>
+</pre>
+
+<p>Lots of code here.  Some things of note:</p>
+
+<ol>
+<li>This is a regular elli callback module.</li>
+<li>If a callback module returns the atom <code>ignore</code>, the request is passed to the next handler in the chain.</li>
+<li>The <code>ellie_startup</code> event (the last <code>handle_event</code> in the listing above) is where you define the metrics.</li>
+<li>A metric label let's you create subtotals.  For example, <code>http_requests_total</code> has subtotals by status and resource.</li>
+<li>The <code>_microseconds</code> suffix on the metric name is ``magic''; that is, it signals the client library to convert native time to microseconds.  See full list of magic suffixes at <a href="https://github.com/deadtrickster/prometheus.erl/blob/6dd56bf321e99688108bb976283a80e4d82b3d30/src/prometheus_time.erl#L27-L37">lines 27 - 37</a> of <code>prometheus_time.erl</code></li>
+<li>This handler exposes the <code>/metrics</code> resource, which is the default endpoint that Prometheus looks for.</li>
+<li>This handler is decoupled from all other handlers.</li>
+</ol>
+
+<p>I figured out this code by looking at other elli middleware (for example, <a href="https://github.com/wooga/elli_access_log/blob/master/src/elli_access_log.erl">access logging</a>) and then finding the elli-lib/elli_prometheus <a href="https://github.com/elli-lib/elli_prometheus/blob/master/src/elli_prometheus.erl">example</a>.
+
+<h3>New child spec to call elli_middleware</h3>
+
+            <pre class="code with-wrapping fullwidth">
+<line>-module(es_sup).</line>
+<line></line>
+<line>-behaviour(supervisor).</line>
+<line></line>
+<line>-export([start_link/0]).</line>
+<line></line>
+<line>-export([init/1]).</line>
+<line></line>
+<line>start_link() -></line>
+<line>    supervisor:start_link({local, ?MODULE}, ?MODULE, []).</line>
+<line></line>
+<line>init([]) -></line>
+<line>    MiddlewareConfig = [{mods,</line>
+<line>                         [{elli_prometheus, []}, {es_callback, []}]}],</line>
+<line>    ElliOpts = [{callback, elli_middleware},</line>
+<line>                {callback_args, MiddlewareConfig}, {port, 3000}],</line>
+<line>    ElliSpec = {es_http, {elli, start_link, [ElliOpts]},</line>
+<line>                permanent, 5000, worker, [elli]},</line>
+<line>    {ok, {{one_for_one, 5, 10}, [ElliSpec]}}.</line>
+</pre>
+
+<p>The difference from the last blog post is in the <code>MiddlewareConfig</code> and the next two lines, where we stack two handlers: <code>elli_prometheus</code> (detailed in previous section) and <code>es_callback</code> (exactly the same as in the last blog post).</p>
+
+<h3>prometheus.yml</h3>
+
+
+            <pre class="code with-wrapping fullwidth">
+<line>global:</line>
+<line>  scrape_interval:     15s # By default, scrape targets every 15 seconds.</line>
+<line></line>
+<line>  # Attach these labels to any time series or alerts when communicating with</line>
+<line>  # external systems (federation, remote storage, Alertmanager).</line>
+<line>  external_labels:</line>
+<line>    monitor: 'codelab-monitor'</line>
+<line></line>
+<line># A scrape configuration containing exactly one endpoint to scrape:</line>
+<line># Here it's Prometheus itself.</line>
+<line>scrape_configs:</line>
+<line>  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.</line>
+<line>  #- job_name: 'prometheus'</line>
+<line></line>
+<line>    ## Override the global default and scrape targets from this job every 5 seconds.</line>
+<line>    #scrape_interval: 5s</line>
+<line></line>
+<line>    #static_configs:</line>
+<line>    #  - targets: ['localhost:9090']</line>
+<line></line>
+<line>  - job_name: 'erlsrv'</line>
+<line>    static_configs:</line>
+<line>      - targets: ['127.0.0.1:3000']</line>
+<line>      #- metrics_path: '/metrics'</line>
+</pre>
+
+<p>This configures prometheus.  After installing prometheus, change to directory that holds this file and start prometheus.</p>
+
+
+</section>
+<section>
+
+<h2>Notes</h2>
+
+<h3>elli: version 1.0.5 versus version 2.0.0</h3>
+
+<p>The elli_lib project on github has released a 2.0.0 version of elli with these changes (among others):</p>
+<ol>
+<li>tracks response size as well as timings</li>
+<li>uses Erlang's monotonic clock</li>
+<li>sprinkled <code>spec</code> definitions throughout the code base</li>
+<li>changes the semantics of request_start event</li>
+</ol>
+
+<p>The last change was giving me request durations that were over second seconds in some cases, which is why I stayed with version 1.0.5.</p>
+
+
+<h3>Built in metrics that come with prometheus.erl</h3>
+
+<p>By simply including the <code>prometheus.erl</code> client, I automatically get a ton of metrics exposed on the <code>/metrics</code> endpoint, including:</p>
+
+<ul>
+<li>Total number of context switches since the system started</li>
+<li>Garbage collection: number of GCs</li>
+<li>Garbage collection: bytes reclaimed</li>
+<li>Total length of the run-queues</li>
+<li>The total amount of memory currently allocated.</li>
+<li>... and so on.</li>
+</ul>
+
+<p>You can find the entire list in the README for <a href="https://github.com/deadtrickster/prometheus.erl">https://github.com/deadtrickster/prometheus.erl</a> in the section ``Erlang VM & OTP Collectors.''
+
+</section>
+
+<section>
+<h2>Prometheus Memory Consumption</h2>
+
+<p>I plan to run Prometheus on a Raspberry Pi 3, which only has 1G of RAM.  Some notes on promethus memory usage:</p>
+
+<ol>
+<li>stores metric data in ``chunks''</li>
+<li>each chunk is 1024 bytes</li>
+<li>keeps all ``currently used'' chunks in memory</li>
+<li>limit on in-memory chunks set by <code>storage.local.memory-chunks</code> config, default value is 1048576 bytes (1 MB)</li>
+<li>don't hit limit, as metric data is dropped (``throttled ingestion'')</li>
+<li><code>storage.local.retention</code> config defines how long to store metric history on disk</li>
+</ol>
+
+<p>Rule of thumb:</p>
+<ul>
+<li>prometheus RAM required = 3 x <code>storage.local.memory-chunks</code> x 1024 bytes</li>
+<li>plan for at least three active chunks for each time series you have</li>
+<li>monitor prometheus memory usage with two metrics exported by prometheus itself:
+<ol>
+<li><code>prometheus_local_storage_memory_chunks</code></li>
+<li><code>process_resident_memory_bytes</code></li>
+</ol>
+</li>
+</ul>
+
+<p>Reference: <a href="https://prometheus.io/docs/operating/storage/">https://prometheus.io/docs/operating/storage/</a>.
+</section>

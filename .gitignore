@@ -36,3 +36,8 @@ sandbox/erd/cqrs.db
 sandbox/erd/cqrs.pdf
 sandbox/erd/oop.db
 www/img/service.png
+sandbox/prometheus/data/
+ebin
+www/img/fire.png
+sandbox/prometheus/notes.error1.txt
+sandbox/prometheus/prome.1.script

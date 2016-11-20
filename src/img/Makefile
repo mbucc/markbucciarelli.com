@@ -14,6 +14,7 @@ all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 		${D1}/arches.png ${D2}/arches.html ${D2}/arches.png \
 		${D1}/carnival.png ${D2}/carnival.html ${D2}/carnival.png \
 		${D1}/tomato.png ${D2}/tomato.html ${D2}/tomato.png \
+		${D1}/fire.png ${D2}/fire.html ${D2}/fire.png \
 		${D1}/start_server.png \
 		${D1}/oop.png \
 		${D1}/cqrs.png \
@@ -73,4 +74,7 @@ tomato.jpg:
 	mv t $@
 service.jpg:
 	curl -L https://unsplash.com/photos/2zLEAIZi92M/download -o t
+	mv t $@
+fire.jpg:
+	curl -L http://unsplash.com/photos/2O2h72YF76A/download -o t
 	mv t $@
