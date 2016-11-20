@@ -4,9 +4,9 @@
 %%
 %%        * the counter http_requests_total, with the label statuscode.
 %%
-%%        * the histogram http_response_milliseconds
+%%        * the histogram http_response_microseconds
 %%
-%% The duration measures the time, in milliseconds, between when
+%% The duration measures the time, in microseconds, between when
 %% the request line was received and the response was sent. This
 %% is as close we can get to the actual time of the request as
 %%  seen by the user.
