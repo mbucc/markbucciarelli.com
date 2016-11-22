@@ -128,11 +128,11 @@
 <p>Lots of code here.  Some things of note:</p>
 
 <ol>
-<li>This is a regular elli callback module.</li>
-<li>If a callback module returns the atom <code>ignore</code>, the request is passed to the next handler in the chain.</li>
-<li>The <code>ellie_startup</code> event (the last <code>handle_event</code> in the listing above) is where you define the metrics.</li>
+<li>This is a normal elli callback module, just like <code>es_callback.erl</code> in the <a href="2016-11-09_a_simple_erlang_application.html">last blog entry</a>.  As shown in the next section, the <code>es_sup</code> module stacks the handlers when configuring <code>elli_middleware</code>.</li>
+<li>If a callback module returns the atom <code>ignore</code>, the request is passed to the next handler in the stack.</li>
+<li>The <code>elli_startup</code> event (the last <code>handle_event</code> in the listing above) is where you define the metrics.</li>
 <li>A metric label let's you create subtotals.  For example, <code>http_requests_total</code> has subtotals by status and resource.</li>
-<li>The <code>_microseconds</code> suffix on the metric name is ``magic''; that is, it signals the client library to convert native time to microseconds.  See full list of magic suffixes at <a href="https://github.com/deadtrickster/prometheus.erl/blob/6dd56bf321e99688108bb976283a80e4d82b3d30/src/prometheus_time.erl#L27-L37">lines 27 - 37</a> of <code>prometheus_time.erl</code></li>
+<li>The <code>_microseconds</code> suffix on the metric name is ``magic''; that is, it tells the client library to convert native time to microseconds.  See full list of magic suffixes at <a href="https://github.com/deadtrickster/prometheus.erl/blob/6dd56bf321e99688108bb976283a80e4d82b3d30/src/prometheus_time.erl#L27-L37">lines 27 - 37</a> of <code>prometheus_time.erl</code></li>
 <li>This handler exposes the <code>/metrics</code> resource, which is the default endpoint that Prometheus looks for.</li>
 <li>This handler is decoupled from all other handlers.</li>
 </ol>
@@ -163,39 +163,29 @@
 <line>    {ok, {{one_for_one, 5, 10}, [ElliSpec]}}.</line>
 </pre>
 
-<p>The difference from the last blog post is in the <code>MiddlewareConfig</code> and the next two lines, where we stack two handlers: <code>elli_prometheus</code> (detailed in previous section) and <code>es_callback</code> (exactly the same as in the last blog post).</p>
+<p>The difference from the last blog post is the <code>MiddlewareConfig</code>, which stacks the handlers and <code>ElliOpts</code>, which tells Elli to use the middleware (which itself is a handler).</p>
 
 <h3>prometheus.yml</h3>
 
-
             <pre class="code with-wrapping fullwidth">
 <line>global:</line>
-<line>  scrape_interval:     15s # By default, scrape targets every 15 seconds.</line>
+<line>  scrape_interval:     1s</line>
 <line></line>
-<line>  # Attach these labels to any time series or alerts when communicating with</line>
-<line>  # external systems (federation, remote storage, Alertmanager).</line>
 <line>  external_labels:</line>
-<line>    monitor: 'codelab-monitor'</line>
+<line>    monitor: 'elli-monitor'</line>
 <line></line>
-<line># A scrape configuration containing exactly one endpoint to scrape:</line>
-<line># Here it's Prometheus itself.</line>
 <line>scrape_configs:</line>
-<line>  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.</line>
-<line>  #- job_name: 'prometheus'</line>
-<line></line>
-<line>    ## Override the global default and scrape targets from this job every 5 seconds.</line>
-<line>    #scrape_interval: 5s</line>
-<line></line>
-<line>    #static_configs:</line>
-<line>    #  - targets: ['localhost:9090']</line>
+<line>  - job_name: 'prometheus'</line>
+<line>    static_configs:</line>
+<line>      - targets: ['localhost:9090']</line>
 <line></line>
 <line>  - job_name: 'erlsrv'</line>
 <line>    static_configs:</line>
 <line>      - targets: ['127.0.0.1:3000']</line>
-<line>      #- metrics_path: '/metrics'</line>
 </pre>
 
-<p>This configures prometheus.  After installing prometheus, change to directory that holds this file and start prometheus.</p>
+
+<p>This configures prometheus.  Change to directory that holds this file and start prometheus.</p>
 
 
 </section>
@@ -205,11 +195,11 @@
 
 <h3>elli: version 1.0.5 versus version 2.0.0</h3>
 
-<p>The elli_lib project on github has released a 2.0.0 version of elli with these changes (among others):</p>
+<p>The elli_lib project on GitHub has released a 2.0.0 version of elli with these changes (among others):</p>
 <ol>
 <li>tracks response size as well as timings</li>
 <li>uses Erlang's monotonic clock</li>
-<li>sprinkled <code>spec</code> definitions throughout the code base</li>
+<li>sprinkles lots of <code>spec</code> definitions throughout the code base</li>
 <li>changes the semantics of request_start event</li>
 </ol>
 
@@ -236,7 +226,7 @@
 <section>
 <h2>Prometheus Memory Consumption</h2>
 
-<p>I plan to run Prometheus on a Raspberry Pi 3, which only has 1G of RAM.  Some notes on promethus memory usage:</p>
+<p>I plan to run Prometheus on a Raspberry Pi 3, which only has 1G of RAM.  Some notes on prometheus memory usage:</p>
 
 <ol>
 <li>stores metric data in ``chunks''</li>
@@ -303,7 +293,7 @@
 <figure class="fullwidth">
 <img src="img/prometheus_http_requests.png"  alt="Graph of http requests against time looks sigmoid-ish" />
 </figure>
-<p>Prometheus graphs metrics by label and job.  I chose the same metric name as prometheus uses internally, so there is a collision; prometheus uses different labels than I did, so the first four rows in the legend have the labels code, handler, instance, and method (the Prometheus labels), and the last three have instance, job and path (the erlsrv labels).</p>
+<p>Prometheus graphs metrics by label and job.  I chose the same metric name as prometheus uses internally, so there is a name collision; prometheus uses different labels than I did, so the first four rows in the legend have the labels code, handler, instance, and method (the Prometheus labels), and the last three have instance, job and path (the erlsrv labels).</p>
 
 <h3>rate(response_time_in_microseconds_sum[15s]) / rate(response_time_in_microseconds_count[15s])</h3>
 <p>Prometheus supports expressions; this one computes average response time over last 15 seconds.</p>
@@ -318,7 +308,7 @@
 <img src="img/prometheus_erlang_vm_memory.png" />
 </figure>
 
-<p>System memory up over 16M, process memory just over 4M, both stable.</p>
+<p>System memory up over 16M, process memory just over 4M, both stable.  Not surprisingly, the ``load'' I put on (200 requests/second for a tiny response body with no backend work) doesn't register.</p>
 
 <h3>prometheus_local_storage_memory_chunks</h3>
 <p></p>
