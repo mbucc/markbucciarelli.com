@@ -1,6 +1,7 @@
 # Smaller images
 D1=../../www/img
 WIDTH=700
+FULLWIDTH=1200
 
 # Larger images
 D2=../../www/imginfo
@@ -16,6 +17,10 @@ all: ${D1}/mn.png ${D2}/mnopq.html ${D2}/mnopq.png \
 		${D1}/tomato.png ${D2}/tomato.html ${D2}/tomato.png \
 		${D1}/fire.png ${D2}/fire.html ${D2}/fire.png \
 		${D1}/start_server.png \
+                ${D1}/prometheus_chunks.png \
+                ${D1}/prometheus_erlang_vm_memory.png \
+                ${D1}/prometheus_http_requests.png \
+                ${D1}/prometheus_response_time.png \
 		${D1}/oop.png \
 		${D1}/cqrs.png \
 		${D1}/add_a_name.png
@@ -29,6 +34,14 @@ ${D1}/cqrs.png: cqrs.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
 ${D1}/start_server.png: start_server.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
+${D1}/prometheus_chunks.png: prometheus_chunks.png
+	convert -interlace NONE -resize ${FULLWIDTH} -border 3x3 -bordercolor black  $? $@
+${D1}/prometheus_erlang_vm_memory.png: prometheus_erlang_vm_memory.png
+	convert -interlace NONE -resize ${FULLWIDTH} -border 3x3 -bordercolor black  $? $@
+${D1}/prometheus_http_requests.png: prometheus_http_requests.png
+	convert -interlace NONE -resize ${FULLWIDTH} -border 3x3 -bordercolor black  $? $@
+${D1}/prometheus_response_time.png: prometheus_response_time.png
+	convert -interlace NONE -resize ${FULLWIDTH} -border 3x3 -bordercolor black  $? $@
 ${D1}/add_a_name.png: add_a_name.png
 	convert -interlace NONE -resize ${WIDTH} -border 6x6 -bordercolor black  $? $@
 ${D1}/%.png: %.jpg

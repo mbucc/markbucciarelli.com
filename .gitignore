@@ -8,6 +8,7 @@ src/work
 src/info.feedheader
 src/img/*.jpg
 www/*.html
+.DS_Store
 
 www/img/add_a_name.png
 www/img/arches.png
@@ -19,6 +20,10 @@ www/img/lightning.png
 www/img/mn.png
 www/img/redbug.png
 www/img/start_server.png
+www/img/prometheus_chunks.png
+www/img/prometheus_erlang_vm_memory.png
+www/img/prometheus_http_requests.png
+www/img/prometheus_response_time.png
 
 www/feed.rss
 www/sitemap.xml

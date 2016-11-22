@@ -261,3 +261,72 @@
 
 <p>Reference: <a href="https://prometheus.io/docs/operating/storage/">https://prometheus.io/docs/operating/storage/</a>.
 </section>
+
+<section>
+<h2>Results</h2>
+
+<p>Starting up the application</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ ./run.sh</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> application:start(erlsrv).</line>
+<line>ok</line>
+<line>2> </line>
+</pre>
+
+<p>and hitting it with some traffic</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>#! /bin/sh -e</line>
+<line># Lay siege to Elli.</line>
+<line></line>
+<line>CLIENTS=5</line>
+<line>DURATION=60S</line>
+<line>siege --log=siege.log -c $CLIENTS -t $DURATION http://127.0.0.1:3000/hello/world</line>
+<line></line>
+<line>CLIENTS=50</line>
+<line>DURATION=60S</line>
+<line>siege --log=siege.log -c $CLIENTS -t $DURATION http://127.0.0.1:3000/hello/world</line>
+<line></line>
+<line>CLIENTS=5</line>
+<line>DURATION=60S</line>
+<line>siege --log=siege.log -c $CLIENTS -t $DURATION http://127.0.0.1:3000/hello/world</line>
+</pre>
+
+<p>loads Prometheus with some data.  Here are a examples of Prometheus graphs.</p>
+
+<h3>http_requests_total</h3>
+<p></p>
+<figure class="fullwidth">
+<img src="img/prometheus_http_requests.png"  alt="Graph of http requests against time looks sigmoid-ish" />
+</figure>
+<p>Prometheus graphs metrics by label and job.  I chose the same metric name as prometheus uses internally, so there is a collision; prometheus uses different labels than I did, so the first four rows in the legend have the labels code, handler, instance, and method (the Prometheus labels), and the last three have instance, job and path (the erlsrv labels).</p>
+
+<h3>rate(response_time_in_microseconds_sum[15s]) / rate(response_time_in_microseconds_count[15s])</h3>
+<p>Prometheus supports expressions; this one computes average response time over last 15 seconds.</p>
+<figure class="fullwidth">
+<img src="img/prometheus_response_time.png" />
+</figure>
+<p>The <code>/metrics</code> page hovers under six microseconds, and <code>/hello/world</code> is well under one microsecond.</p>
+
+<h3>erlang_vm_memory_bytes_total</h3>
+<p></p>
+<figure class="fullwidth">
+<img src="img/prometheus_erlang_vm_memory.png" />
+</figure>
+
+<p>System memory up over 16M, process memory just over 4M, both stable.</p>
+
+<h3>prometheus_local_storage_memory_chunks</h3>
+<p></p>
+<figure class="fullwidth">
+<img src="img/prometheus_chunks.png" />
+</figure>
+
+<p>This one kept climbing to the right of this graph after I shut off erlsrv, until it plateaued at 7.5K.</p>
+
+
+</section>
