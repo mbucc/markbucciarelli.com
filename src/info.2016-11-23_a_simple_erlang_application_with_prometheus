@@ -1,7 +1,7 @@
 URL=2016-11-23_a_simple_erlang_application_with_prometheus.html
 TITLE="A Simple Erlang Application, with Prometheus"
 PUBDATE="November 23, 2016"
-PUBDATE_ISO="Wed, 23 Nov 2016 12:00:00 GMT"
+PUBDATE_ISO="Wed, 23 Nov 2016 11:25:00 GMT"
 LEDE="A simple HTTP server built with Elli that exposes metrics for Prometheus."
 
 IMG=fire
