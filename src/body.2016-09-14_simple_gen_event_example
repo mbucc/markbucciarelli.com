@@ -164,3 +164,12 @@ gen_server<label for="sn-gen_server" class="margin-toggle sidenote-number"></lab
 </ul>
 
 </section>
+
+    <section>
+       <h2>Change Log</h2>
+           <h3>Nov. 24, 2016</h3>
+               <ul>
+	          <li>Correct photographers last name.</li>
+	          <li>Add photo location as Coney Island.</li>
+	       </ul>
+    </section>
