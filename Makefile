@@ -1,12 +1,15 @@
 SRC=${HOME}/src
 
-all: css
+all: css www
 
 .PHONEY: deploy
-deploy:
-	(cd src ; make)
+deploy: www
 	rsync -avz ./www/ tinyvz:/home/markbucciarelli/www
 	ssh tinyvz chown -R markbucciarelli:markbucciarelli /home/markbucciarelli/www
+
+.PHONY: www
+www:
+	(cd src ; make)
 
 css: www/tufte.css
 
@@ -22,3 +25,4 @@ www/tufte.css: ${CSS} ${PATCH}
 clean:
 	rm -f  www/tufte.css www/img/line-wrap-arrow.svg
 	rm -f www/*.rej www/*.orig
+	(cd src ; make clean)
