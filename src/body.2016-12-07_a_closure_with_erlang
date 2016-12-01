@@ -1,0 +1,34 @@
+<section>
+  <h2>What is a closure?</h2>
+
+  <blockquote>
+    <p>closures (also lexical closures or function closures) are techniques for implementing lexically scoped name binding in languages with first-class functions.</p>
+    <footer>Wikipedia, <cite><a href="http://erlang.org/doc/design_principles/des_princ.htm://en.wikipedia.org/wiki/Closure_(computer_programming)">Closure (computer programming)</a></cite> (retrieved November 30, 2016) </footer>
+  </blockquote>
+
+  <p>That's not much help! Let's try Stack Exchange:</p>
+
+  <blockquote>
+    <p>The most simple way to think of a closure is a function that can be stored as a variable (referred to as a "first-class function"), that has a special ability to access other variables local to the scope it was created in.</p>
+    <footer>Software Engineering Stack Exchange, <cite><a href="http://softwareengineering.stackexchange.com/a/40708">What is a closure?</a></cite> (retrieved November 30, 2016)</footer>
+  </blockquote>
+
+  <p>Ok, that's a bit easier to understand.  It's a function that has access to variables that were in scope when it was defined.</p>
+
+  <p>Here's an example in JavaScript:</p>
+
+   <pre class="code with-wrapping fullwidth">
+<line>var name = "mark";</line>
+<line>var f = function() { alert("Hello " + name);};</line>
+<line>f();</line>
+</pre>
+
+   <p>And here is that code running:</p>
+
+  <figure>
+    <img src="img/javascript-closure.png" alt="Screen shot of running above code in Safari JavaScript console."/>
+  </figure>
+
+
+  <h2>Why would you need a closure?</h2>
+</section>

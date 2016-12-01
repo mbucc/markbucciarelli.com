@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2016-12-07_a_closure_with_erlang.html \
 		../www/2016-11-23_a_simple_erlang_application_with_prometheus.html \
 		../www/2016-11-09_a_simple_erlang_application.html \
 		../www/2016-10-27_cqrs_versus_oop.html \
@@ -37,6 +38,7 @@ www: \
 		../www/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
 
 ../www/feed.rss: work/rss.header templates/rss.footer \
+		work/2016-12-07_a_closure_with_erlang.rss \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.rss \
 		work/2016-11-09_a_simple_erlang_application.rss \
 		work/2016-10-27_cqrs_versus_oop.rss \
@@ -53,6 +55,7 @@ www: \
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2016-12-07_a_closure_with_erlang.xml \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.xml \
 		work/2016-11-09_a_simple_erlang_application.xml \
 		work/2016-10-27_cqrs_versus_oop.xml \
@@ -69,6 +72,7 @@ www: \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2016-12-07_a_closure_with_erlang.idx \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.idx \
 		work/2016-11-09_a_simple_erlang_application.idx \
 		work/2016-10-27_cqrs_versus_oop.idx \
@@ -168,3 +172,4 @@ work/%.idx: info.% templates/idx.item
 .PHONY: clean
 clean:
 	rm -f work/*
+	(cd img ; make clean)

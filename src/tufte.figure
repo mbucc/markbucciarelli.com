@@ -1,0 +1,6 @@
+  <!-- Optional: class="fullwidth" -->
+  <figure>
+    <img src="" alt="" />
+    <figcaption>Caption goes here</figcaption>
+  </figure>
+
