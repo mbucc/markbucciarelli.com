@@ -1,21 +1,55 @@
 <section>
+  <h2>What's the problem?</h2>
+
+  <p>The <a href="https://github.com/martinrehfeld/elli_basicauth">basic authentication middleware for Elli</a> is configured with an authorization function that takes three parameters: the request, the username and the password.  You configure the middleware with an <code>auth_fun</code> parameter,  is returned by the <code>auth_fun(Config)</code> in the code below:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>handle(Req, Config) -></line>
+<line>    {User, Password} = credentials(Req),</line>
+<line></line>
+<line>    case apply(auth_fun(Config), [Req, User, Password]) of</line>
+<line>        unauthorized -></line>
+<line>            throw({401,</line>
+<line>                   [{<<"WWW-Authenticate">>, auth_realm(Config)}],</line>
+<line>                   <<"Unauthorized">>});</line>
+<line></line>
+<line>        forbidden -></line>
+<line>            throw({403, [], <<"Forbidden">>});</line>
+<line></line>
+<line>        hidden -></line>
+<line>            throw({404, [], <<>>});</line>
+<line></line>
+<line>        _ -></line>
+<line>            ignore</line>
+<line>    end.</line>
+</pre>
+
+  <p>For example, a simple auth function that secures every resource is:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<l>auth_fun(_Req, User, Password) -></line>
+<l>  case {User, Password} of</line>
+<l>    case {User, Password} of</line>
+<l>        {undefined, undefined}      -> unauthorized;</line>
+<l>        {<<"admin">>, <<"secret">>} -> ok;</line>
+<l>        {User, Password}            -> forbidden</line>
+<l>    end.</line>
+</pre>
+
+
+  <p>How to remove the hard coded user/password without changing the function signature?</p>
+
+</section>
+</section>
+
   <h2>What is a closure?</h2>
-
-  <blockquote>
-    <p>closures (also lexical closures or function closures) are techniques for implementing lexically scoped name binding in languages with first-class functions.</p>
-    <footer>Wikipedia, <cite><a href="http://erlang.org/doc/design_principles/des_princ.htm://en.wikipedia.org/wiki/Closure_(computer_programming)">Closure (computer programming)</a></cite> (retrieved November 30, 2016) </footer>
-  </blockquote>
-
-  <p>That's not much help! Let's try Stack Exchange:</p>
 
   <blockquote>
     <p>The most simple way to think of a closure is a function that can be stored as a variable (referred to as a "first-class function"), that has a special ability to access other variables local to the scope it was created in.</p>
     <footer>Software Engineering Stack Exchange, <cite><a href="http://softwareengineering.stackexchange.com/a/40708">What is a closure?</a></cite> (retrieved November 30, 2016)</footer>
   </blockquote>
 
-  <p>Ok, that's a bit easier to understand.  It's a function that has access to variables that were in scope when it was defined.</p>
-
-  <p>Here's an example in JavaScript:</p>
+  <h3>Here's an example in JavaScript.</h3>
 
    <pre class="code with-wrapping fullwidth">
 <line>var name = "mark";</line>
@@ -23,12 +57,85 @@
 <line>f();</line>
 </pre>
 
+  <p>The variable <code>name</code> is defined and that variable is in scope and is used by the function <code>f</code>.  We could pass the variable <code>f</code> to another function and the variable <code>name</code> will still be in scope.  It is ``enclosed'' by the function.</p>
+
    <p>And here is that code running:</p>
 
   <figure>
     <img src="img/javascript-closure.png" alt="Screen shot of running above code in Safari JavaScript console."/>
   </figure>
 
+  <h3>And the equivalent code in Erlang.</h3>
 
-  <h2>Why would you need a closure?</h2>
+            <pre class="code with-wrapping fullwidth">
+<line>~$ erl</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> Name = "mark".</line>
+<line>"mark"</line>
+<line>2> F = fun() -> io:format("Hello ~s~n", [Name]) end.</line>
+<line>#Fun<erl_eval.20.52032458></line>
+<line>3> F().</line>
+<line>Hello mark</line>
+<line>ok</line>
+<line>4> </line>
+</pre>
+
+</section>
+
+<section>
+<h2>The Solution</h2>
+
+<h3>A function that accepts credentials as it's argument.</h3>
+
+<p>The <code>build_auth</code> function takes a list of <code>{user, password}</code> tuples.  For example, 
+<code>[ {<<"admin">>, <<"secret">>} ]</code>.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>build_auth(Passwords) -></line>
+<line>    fun (_Req, undefined, undefined) -> unauthorized;</line>
+<line>        (_Req, User, Password) -></line>
+<line>            case lists:member({User, Password}, Passwords) of </line>
+<line>              true -> ok;</line>
+<line>              _ -> forbidden</line>
+<line>            end</line>
+<line>    end.</line>
+</pre>
+
+<p>The syntax here is pretty interesting---the returned anonymous function uses pattern matching.</p>
+
+<ul>
+<li>If both user/pass are undefined, return unauthorized (first pattern).</li>
+<li>If user/pass is a valid password, return ok (second pattern).</li>
+<li>If neither of those cases match, return forbidden (second pattern).</li>
+</ul>
+
+<h3>The Elli middleware config code.</h3>
+
+<p>Here's the final configuration of the middleware in the supervisor:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>init(_Args) -></line>
+<line>    Passwords = load_passwords(),</line>
+<line>    BasicauthConfig = [{auth_fun, build_auth(Passwords)},</line>
+<line>                       {auth_realm, <<"Admin Area">>}],</line>
+<line>    MiddlewareConfig = [{mods,</line>
+<line>                         [{elli_basicauth, BasicauthConfig},</line>
+<line>                          {http_metric_handler, []}, {rest_handler, []}]}],</line>
+<line>    ElliOpts = [{callback, elli_middleware},</line>
+<line>                {callback_args, MiddlewareConfig}, {port, env:port()}],</line>
+<line>    ElliSpec = {metrics_http,</line>
+<line>                {elli, start_link, [ElliOpts]}, permanent, 5000, worker,</line>
+<line>                [elli]},</line>
+<line>    {ok, {{one_for_one, 5, 10}, [ElliSpec]}}.</line>
+</pre>
+
+<p>The <code>load_passwords</code> function is responsible for reading the credentials from disk.</p>
+
+<h3>Note that this example is not production code.</h3>
+
+<p>In this example, the passwords are stored in disk in clear text.  In production, at the very least I would use super long random passwords and hash them in the on-disk secrets file.  And perhaps rate-limit failed login attempts.</p>
+
+
 </section>
