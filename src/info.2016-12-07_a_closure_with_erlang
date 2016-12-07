@@ -2,7 +2,7 @@ URL=2016-12-07_a_closure_with_erlang.html
 TITLE="A closure with Erlang"
 PUBDATE="December 7, 2016"
 PUBDATE_ISO="Wed, 7 Dec 2016 11:25:00 GMT"
-LEDE="I recently hit a programming task where a closure was the perfect solution."
+LEDE="I recently hit a programming task where a closure was the perfect solution.  I describe the task, define a closure, and then present the solution."
 
 IMG=nest
 IMGINFO=nest
