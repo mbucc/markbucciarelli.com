@@ -174,4 +174,4 @@ clean:
 	rm -f work/*
 	(cd img ; make clean)
     @# aspell output
-    rm -f *.bak
+	rm -f *.bak
