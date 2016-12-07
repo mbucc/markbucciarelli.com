@@ -173,5 +173,5 @@ work/%.idx: info.% templates/idx.item
 clean:
 	rm -f work/*
 	(cd img ; make clean)
-    @# aspell output
+	@# aspell output
 	rm -f *.bak
