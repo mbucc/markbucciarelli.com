@@ -25,3 +25,4 @@ sandbox/prometheus/data/
 ebin
 sandbox/prometheus/notes.error1.txt
 sandbox/prometheus/prome.1.script
+*.bak
