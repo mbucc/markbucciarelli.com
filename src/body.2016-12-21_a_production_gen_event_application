@@ -1,9 +1,7 @@
 <section>
     <h2>My first production Erlang application.</h2>
 
-    <p>I recently deployed my first Erlang application to production!  Exclamation point because, well, production.  After all this blogging I have managed to put something together that I was comfortable putting out live on the internet.</p>
-    
-    <p>It's very simple, just an application to record emails sent and opened, but it has basic auth, is proxied behind nginx and exposes metrics to Prometheus.  Not surprisingly, it combines a bunch of the techniques I blogged about lately.</p>
+    <p>This month, I went live with a small application to record emails sent and opened, and has basic auth, is proxied behind nginx and exposes metrics to Prometheus.  Not surprisingly, it combines a bunch of the techniques I blogged about here.</p>
 
     <p>The application has the following modules:</p>
 
@@ -49,7 +47,12 @@
 
     <h3>Reading and writing events.</h3>
 
-    <p>Erlang makes reading and writing events particularly easy, as the <code>io:read/2</code> function supports reading an Erlang term directly from a file handle.  Writing an event is also very simple:</p>
+    <p>Erlang makes reading and writing events particularly easy, as the <code>io:read/2</code> function supports reading an Erlang term directly from a file handle.  Writing an event is also simple<label for="mn-period" class="margin-toggle">&#8853;</label>:
+<input type="checkbox" id="mn-period" class="margin-toggle"/>
+<span class="marginnote">
+  Note the period printed at the end of the term (after the ~p)!
+</span>
+    </p>
 
     <pre class="code with-wrapping fullwidth">
 <line>% Write event to event log.</line>
@@ -227,7 +230,35 @@
 <line>terminate(_Args, State) -></line>
 <line>    F = proplists:get_value(file, State), file:close(F), ok.</line>
 </pre>
+</section>
 
+< section>
+    <h2>Closing Thoughts</h2>
+
+    <h3>Memory Performance</h3>
+
+    <p>I didn't measure performance at all because my application is such low volume; a weekly email sent to ten people.  But if events start arriving faster then they can be written to disk, the mailbox of the <code>log_event</code> module will grow and grow and eventually the Erlang process will crash.</p>
+
+    <p>And since it is a gen_event, I think the events would just stop being logged.</p>
+
+    <p>When that got close, I would probably just surface a queue length metric (or, more simply, a RAM usage metric) to Prometheus and set up an alert on some threshold.</p>
+
+    <p>I would also read <a href="http://ferd.ca/queues-don-t-fix-overload.html">Queues Don't Fix Overload</a>.</p>
+
+    <p>Currently, the beam process has RSS of 14.6 MB and Prometheus uses 29.3 MB.  This is on a cheap RAM Host server with 255 MB of RAM, so I'll need to keep an eye on that.</p>
+
+    <h3>Startup Performance</h3>
+
+    <p>As the event log gets huge, startup time (which includes replaying the entire log), will get slow.  I'm not holding my breath on that one, as in my experience file-based stuff is surprisingly fast.</p>
+
+    <p>But if it does become a problem, I'll look at adding a snapshot.  See <em>What is snapshotting?</em> in the <a href="http://cqrs.nu/Faq">CQRS FAQ.</a></p>
+
+
+    <h3>Make your events rich with attributes</h3>
+
+    <p>Who knows what future read model you may want to build.  If you raise lots of events, and those events are rich in attributes, then you can add a read model at a later date and when you replay the event log, you have a new metric that spans the entire history of your system.</p>
+
+    <p>Next time I build this, I will add events for key system occurrences, even if I have no read models at the time.  The ability to add a read model at a later date and have it reflect your entire system's history is a sweet feature of event sourcing.</p>
 
 </section>
 
