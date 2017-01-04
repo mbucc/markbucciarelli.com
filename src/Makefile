@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2017-01-04_produce_json_with_erlang.html \
 		../www/2016-12-21_a_production_gen_event_application.html \
 		../www/2016-12-07_a_closure_with_erlang.html \
 		../www/2016-11-23_a_simple_erlang_application_with_prometheus.html \
@@ -39,6 +40,7 @@ www: \
 		../www/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
 
 ../www/feed.rss: work/rss.header templates/rss.footer \
+		work/2017-01-04_produce_json_with_erlang.rss \
 		work/2016-12-21_a_production_gen_event_application.rss \
 		work/2016-12-07_a_closure_with_erlang.rss \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.rss \
@@ -57,6 +59,7 @@ www: \
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2017-01-04_produce_json_with_erlang.xml \
 		work/2016-12-21_a_production_gen_event_application.xml \
 		work/2016-12-07_a_closure_with_erlang.xml \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.xml \
@@ -75,6 +78,7 @@ www: \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2017-01-04_produce_json_with_erlang.idx \
 		work/2016-12-21_a_production_gen_event_application.idx \
 		work/2016-12-07_a_closure_with_erlang.idx \
 		work/2016-11-23_a_simple_erlang_application_with_prometheus.idx \

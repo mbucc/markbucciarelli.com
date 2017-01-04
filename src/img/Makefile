@@ -25,7 +25,8 @@ unsplash_images: \
 	${D1}/full/tomato.png     ${D2}/tomato.html     ${D2}/tomato.png     \
 	${D1}/full/fire.png       ${D2}/fire.html       ${D2}/fire.png       \
 	${D1}/full/nest.png       ${D2}/nest.html       ${D2}/nest.png       \
-	${D1}/full/letters.png    ${D2}/letters.html    ${D2}/letters.png
+	${D1}/full/letters.png    ${D2}/letters.html    ${D2}/letters.png    \
+	${D1}/full/blackboard.png ${D2}/blackboard.html ${D2}/blackboard.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -111,6 +112,9 @@ work/nest.jpg:
 	mv t $@
 work/letters.jpg:
 	curl -L http://unsplash.com/photos/HYNOp2CUcbY/download?force=true -o t
+	mv t $@
+work/blackboard.jpg:
+	curl -L http://unsplash.com/photos/5mZ_M06Fc9g/download?force=true -o t
 	mv t $@
 
 #------------------------------------------------------------------------------
