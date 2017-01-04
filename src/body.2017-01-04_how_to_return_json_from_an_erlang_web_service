@@ -2,15 +2,15 @@
     <p>Tools used in this tutorial:</p>
     <ol>
         <li>Erlang/OTP 19</li>
-        <li>Elli 1.0.5</li>
-        <li>JSX 2.8.1</li>
+        <li><a href="https://github.com/knutin/elli">Elli 1.0.5</a></li>
+        <li><a href="https://github.com/talentdeficit/jsx">JSX 2.8.1</a></li>
         <li>GNU Make 3.81</li>
         <li>git 1.9.5</li>
     </ol>
 
     <h2>Step 1. Create a Makefile that retrieves the required dependencies.</h2>
 
-    <p>Erlang let's you define a library directory on your system by defining the environmental variable <code>ERL_LIBS</code>.  Typically you would set this up to be something like <code>/usr/local/lib/erl</code> but in this example we put a <code>lib</code> directory under the current working directory.</p> 
+    <p>Erlang lets you define a library directory on your system with the environmental variable <code>ERL_LIBS</code>.  Typically you would set this to something like <code>/usr/local/lib/erl</code> but in this example we put a <code>lib</code> directory under the current working directory.</p> 
 
             <pre class="code with-wrapping fullwidth">
 <line>all: ./lib/jsx-2.8.1/ebin ./lib/elli-1.0.5/ebin ./lib/elli-1.0.5/include</line>
@@ -47,9 +47,14 @@
 </section>
 
 <section>
-    <h2>Step 2. Create Elli handler</h2>
+    <h2>Step 2. Create Elli handler.</h2>
 
-	<p>This handler returns a JSON representation of event data for the resource <code>/events</code>.  The event data is passed in as a configuration argument, as described in the next section.</p>
+	<p>This handler returns a JSON representation of event data for the resource <code>/events</code>.  The event data<label for="mn-jsx" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-jsx" class="margin-toggle"/>
+<span class="marginnote">
+  JSX does not encode records, only proplists and maps.  See the JSX <a href="https://github.com/talentdeficit/jsx#quickstart">README quickstart</a> for more details.
+</span>
+is passed in as a configuration argument, as described in the next section.</p>
 
             <pre class="code with-wrapping fullwidth">
 <line>-module(json_handler).</line>
@@ -82,7 +87,7 @@
 
 <h2>Step 3. Use OTP supervisor behavior to start Elli on port 3000.</h2>
 
-<p>The <code>MiddlewareConfig</code> variable configures the <code>json_handler</code> to get the event data returned by the <code>test_events()</code> method.  In a real application you would pass in the registered name of an ets store, or a database connection, or some other lighter weight argument.</p>
+<p>The <code>MiddlewareConfig</code> variable configures the <code>json_handler</code> to get the event data returned by the <code>test_events()</code> method.  In a real application you would pass in the registered name of an ets store, or a database connection pool, or some other set of credentials to the data store.</p>
 
             <pre class="code with-wrapping fullwidth">
 <line>-module(json_sup).</line>
@@ -117,7 +122,7 @@
 <section>
 <h2>Step 4. Write the application behavior and resource file.</h2>
 
-<h3>Implement application behavior.</h3>
+<h3>Implement the application behavior.</h3>
 
             <pre class="code with-wrapping fullwidth">
 <line>-module(json).</line>
@@ -133,7 +138,7 @@
 <line>stop(_State) -> ok.</line>
 </pre>
 
-<h3>Define application resources.</h3>
+<h3>Define the application resources.</h3>
 
             <pre class="code with-wrapping fullwidth">
 <line>{application, json,</line>
@@ -148,9 +153,9 @@
 </section>
 
 <section>
-<h2>Step 5. Update Makefile and create run script.</h2>
+<h2>Step 5. Update Makefile and create a run script.</h2>
 
-<h3>Run script to start the server from the command line.</h2>
+<h3>The run script starts the server from the command line.</h3>
 
             <pre class="code with-wrapping fullwidth">
 <line>#! /bin/sh -e</line>
@@ -158,7 +163,7 @@
 <line>ERL_LIBS=./lib erl -noshell -s json</line>
 </pre>
 
-<h3>Update Makefile to compile Erlang sources.</h3>
+<h3>Update the Makefile to compile Erlang sources.</h3>
 
 
             <pre class="code with-wrapping fullwidth">
@@ -210,7 +215,7 @@
 </section>
 
 <section>
-<h2>The Result</h2>
+<h2>The Result.</h2>
 
 <h3>Start the server.</h3>
 
