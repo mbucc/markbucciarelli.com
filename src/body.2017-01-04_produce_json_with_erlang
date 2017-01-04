@@ -49,7 +49,7 @@
 <section>
     <h2>Step 2. Create Elli handler</h2>
 
-	<p>This hander returns a JSON representation of event data for the resource <code>/events</code>.  The event data is passed in as a configuration argument, as described in the next section.</p>
+	<p>This handler returns a JSON representation of event data for the resource <code>/events</code>.  The event data is passed in as a configuration argument, as described in the next section.</p>
 
             <pre class="code with-wrapping fullwidth">
 <line>-module(json_handler).</line>
