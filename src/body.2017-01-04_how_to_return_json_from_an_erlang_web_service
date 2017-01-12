@@ -1,4 +1,5 @@
 <section>
+
     <p>Tools used in this tutorial:</p>
     <ol>
         <li>Erlang/OTP 19</li>
@@ -7,6 +8,8 @@
         <li>GNU Make 3.81</li>
         <li>git 1.9.5</li>
     </ol>
+
+    <p>All of the code used in this blog can be found at <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/json">https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/json</a>.</p>
 
     <h2>Step 1. Create a Makefile that retrieves the required dependencies.</h2>
 
@@ -278,10 +281,23 @@ is passed in as a configuration argument, as described in the next section.</p>
 
 <p>Towards the end of the <code>request_complete</code> event, you can see the timings that were used to produce the Prometheus metrics in <a href="2016-11-23_a_simple_erlang_application_with_prometheus.html">A Simple Erlang Application, with Prometheus</a>.</p>
 
-
-
-<p>All of the code used in this blog can be found at <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/json">https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/json</a>.</p>
-
-
 </section>
 
+<section>
+  <h2>Performance Note</h2>
+  <p>In the blog entry <a href="https://lolware.net/2016/05/23/use-protobufs.html"><em>Use protobufs - now</em></a>, techion does a nice comparison of Jiffy versus JSX for encoding JSON.  Jiffy uses a C nif, and is more than five-times as fast as JSX.  JSX isn't that shabby, encoding 4,000 100-element lists every second.</p>
+
+  <p>You can find a conversation about this blog entry where techion shared his blog entry on <a href="https://www.reddit.com/r/erlang/comments/5m3wof/how_to_return_json_from_an_erlang_web_service/">here</a> on Reddit.</p> 
+</section>
+
+<section>
+   <h2>Change Log</h2>
+
+   <h3>Jan. 6, 2017</h3>
+     <ul>
+       <li>Move note about code being on github to top.</li>
+       <li>Add link to reddit conversation.</li>
+       <li>Add link to lolware.</li>
+    </ul>
+
+</section>
