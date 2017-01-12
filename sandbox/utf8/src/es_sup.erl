@@ -8,7 +8,7 @@
 
 start_link() ->
     io:put_chars("MKB2\n"),
-    supervisor:start_link({local, erlsrv}, erlsrv, []).
+    supervisor:start_link({local, es_sup}, es_sup, []).
 
 init([]) ->
     P = 3000,
