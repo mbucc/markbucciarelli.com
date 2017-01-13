@@ -10,9 +10,15 @@
 handle(Req, _Args) ->
     handle(Req#req.method, elli_request:path(Req), Req).
 
-handle('GET', [], _Req) -> {ok, [], <<"Hello World!">>};
+handle('GET', [], _Req) ->
+    {ok, Bin} = file:read_file("www/form.html"), {ok, [], Bin};
+handle('POST', [], Req) ->
+    Bytes = elli_request:post_arg(<<"utf8">>, Req,
+                                  <<"undefined">>),
+    {ok, [], Bytes};
 handle(_, _, _Req) -> {404, [], <<"Not Found">>}.
 
-%% @doc: Handle request events, like request completed, exception
-%% thrown, client timeout, etc. Must return 'ok'.
-handle_event(_Event, _Data, _Args) -> ok.
+handle_event(Event, Data, Args) ->
+    io:format("Event=~p~n, Data=~p~n, Args=~p~n",
+              [Event, Data, Args]),
+    ok.

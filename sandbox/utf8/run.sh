@@ -1,3 +1,3 @@
 #! /bin/sh -e
 
-ERL_LIBS=$HOME/src/elli:. erl -noshell -s erlsrv
+ERL_LIBS=./lib:. erl -noshell -s erlsrv
