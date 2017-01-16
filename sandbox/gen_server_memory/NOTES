@@ -1,0 +1,97 @@
+INTERPRETER SESSION
+
+(1) OTP "overhead" for gen_server is 100 bytes
+
+            $ erl
+            Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+
+            Eshell V8.0.1  (abort with ^G)
+            1> Fun = fun() -> receive after infinity -> ok end end.
+            #Fun<erl_eval.20.52032458>
+            2> {_,Bytes} = process_info(spawn(Fun), memory).
+            {memory,2704}
+            3> {ok, Pid} = venue:start_link().
+            {ok,<0.59.0>}
+            4> {_, Bytes} = process_info(Pid, memory).
+            {memory,2832}
+            5> q().
+            ok
+
+(2) Very simple gen_server used in test.
+
+            $ cat src/venue.erl 
+            -module(venue).
+            -behaviour(gen_server).
+
+            -export([start_link/0]).
+            -export([info/0]).
+            -export([init/1, handle_call/3]).
+
+            start_link() ->
+                gen_server:start_link({local, venue}, venue, [], []).
+
+            info() ->
+                gen_server:call(venue, info).
+
+            init(_Args) ->
+                State = 0,
+                {ok, State}.
+
+            handle_call(info, _From, State) ->
+                {reply, State, State + 1}.
+
+
+(3) So, 10,000 gen_servers would consume at least 27 MB.
+
+            $ echo "scale=2;10000*2832/(1024*1024)"|bc
+            27.00
+            $
+
+
+(4) Good documentation on process memory usage.
+
+    Summary: watch for big message queues, not process count.
+
+            http://erlang.org/doc/efficiency_guide/processes.html
+
+
+            https://s3.amazonaws.com/erlang-in-anger/text.v1.1.0.pdf
+
+                By far, the most common cause of failure I’ve
+                encountered in real-world scenarios is due to the
+                node running out of memory. Furthermore, it is
+                usually related to message queues going out of
+                bounds.
+
+                (1) Error logger
+
+                Ironically, the process in charge of error logging
+                is one of the most fragile ones. In a default Erlang
+                install, the error_logger2 process will take its
+                sweet time to log things to disk or over the network,
+                and will do so much more slowly than errors can be
+                generated.
+
+                (2) Blocking operations
+
+                Locking and blocking operations will often be
+                problematic when they’re taking unexpectedly long
+                to execute in a process that’s constantly receiving
+                new tasks. ...  When there is any point of your
+                program that ends up being a central hub for receiving
+                messages, lengthy tasks should be moved out of there
+                if possible. Handling predictable over- load4
+                situations by adding more processes — which either
+                handle the blocking operations or instead act as a
+                buffer while the "main" process blocks — is often
+                a good idea.
+
+                (3) Unexpected messages
+
+                ... OTP behaviours pretty much expect you to handle
+                anything with some clause in handle_info/2, unexpected
+                messages will not accumulate much.  However, all
+                kinds of OTP-compliant systems end up having processes
+                that may not implement a behaviour, or processes
+                that go in a non-behaviour stretch where it overtakes
+                message handling.
