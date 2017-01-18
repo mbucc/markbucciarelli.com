@@ -1,6 +1,7 @@
     <hr />
 
-    <p>If you see something that should be corrected or have a comments, <a href="http://twitter.com/home?status=@mbucc, read http://markbucciarelli.com/{{URL}}">let me know</a> via Twitter.</p>
+    <p>If you want to get in touch, you can find me on Twitter <a href="http://twitter.com/home?status=@mbucc, read http://markbucciarelli.com/{{URL}}">@mbucc</a> or email me at mkbucc1234@gmail.com (after deleting all the numbers).  </p>
+    <p>To make a comment, I suggest you check for a thread on the Erlang <a href="http://www.reddit.com/r/erlang">subreddit</a> and if there isn't one, then <a href="http://www.reddit.com/r/erlang/submit" onclick="window.location = 'http://www.reddit.com/r/erlang/submit?url=' + encodeURIComponent(window.location) + '&title=' + encodeURIComponent('{{TITLE}}'); return false">start one up</a>.</p>
 
     <p>Back to the <a href="index.html">index.</a></p>
 

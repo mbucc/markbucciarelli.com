@@ -1,0 +1,114 @@
+<section>
+
+    <p>Tools used in this tutorial:</p>
+    <ol>
+        <li>Erlang/OTP 19</li>
+        <li>dc</li>
+    </ol>
+</section>
+
+<section>
+
+    <p>All of the code used in this blog can be found at <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8">https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8</a>.</p>
+
+    <h2>Step 1. Create a file with UTF-8 encoding.</h2>
+
+    <p>The Unix utility 
+<code>dc</code><label for="mn-dc" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-dc" class="margin-toggle"/>
+<span class="marginnote">
+ ``When its home Bell Labs received a PDP-11, dc—written in B—was the first language to run on the new computer, even before an assembler.'' ---  <a href="https://en.wikipedia.org/wiki/Dc_%28computer_program%29">Wikipedia</a> 
+</span>
+
+is a reverse-polish calculator that provides a nice concise way of printing bytes to a file.  Here, we use it to output the string ``quoted'' to a stdout:</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>#! /bin/sh -e</line>
+<line></line>
+<line># "quoted" (but with curly quotes)</line>
+<line>#</line>
+<line># http://unix.stackexchange.com/a/189810</line>
+<line>#</line>
+<line>#  character          byte(s), hex</line>
+<line>#  -----------------  ------------</line>
+<line>#  left_curly_quote   e2  80  9c</line>
+<line>#  q                  71</line>
+<line>#  u                  75</line>
+<line>#  o                  6F</line>
+<line>#  t                  74</line>
+<line>#  e                  65</line>
+<line>#  d                  64</line>
+<line>#  right_curly_quote  e2  80  9d</line>
+<line></line>
+<line>dc&lt;&lt;EOF</line>
+<line>16i0</line>
+<line>$(printf %sP E2 80 9C 71 75 6F 74 65 64 E2 80 9D)</line>
+<line>EOF</line>
+<line></line>
+</pre>
+
+    <p>The <code>16i0</code> tells <code>bc</code> to intepret the input as base 16 numbers.  With this, we create our UTF-8 encoded file.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ ./makeutf8.sh</line>
+<line>“quoted”$</line>
+<line>$ ./makeutf8.sh > utf8.txt</line>
+<line>$ cat utf8.txt</line>
+<line>“quoted”$</line>
+<line>$</line>
+</pre>
+</section>
+
+<section>
+
+    <h2>Step 2. Write Erlang module to read file.</h2>
+
+	<p>The io:format trick below is from Hynek -Pichi- Vychodil at <a href="http://stackoverflow.com/a/3771421">http://stackoverflow.com/a/3771421</a>.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>-module(file_read_file).</line>
+<line></line>
+<line>-export([start/0]).</line>
+<line></line>
+<line>dump(Bin) -></line>
+<line>    io:format("~s",</line>
+<line>              [[io_lib:format("~2.16.0B~n", [X]) || &lt;&lt;X:8>> <= Bin]]).</line>
+<line></line>
+<line>start() -></line>
+<line>    {ok, Bin} = file:read_file("utf8.txt"), dump(Bin).</line>
+</pre>
+
+</section>
+
+<section>
+<h2>Step 3: Run the Erlang code to verify output bytes match input bytes.</h2>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ erlc file_read_file.erl</line>
+<line>$ erl -pa . -s file_read_file</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>E2</line>
+<line>80</line>
+<line>9C</line>
+<line>71</line>
+<line>75</line>
+<line>6F</line>
+<line>74</line>
+<line>65</line>
+<line>64</line>
+<line>E2</line>
+<line>80</line>
+<line>9D</line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> q().</line>
+<line>ok</line>
+<line>2> $</line>
+</pre>
+
+	<p>The output matches the sequence of bytes input to <code>bc</code> above, so Erlang's <code>file:read_file/1</code> reads in bytes as written to disk and thus can be used to read in UTF-8 encoded files.</p>
+
+    <p>
+
+
+</section>
