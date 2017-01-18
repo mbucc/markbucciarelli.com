@@ -146,4 +146,8 @@ Vychodil<label for="mnhynek" class="margin-toggle">&#8853;</label> for Stack Ove
 <line>1> $</line>
 </pre>
 
+<h3>I'm sticking with binaries.</h3>
+
+<p>Looks like Erlang binaries treat files as a list of bytes.  Which is just how C treats strings, and I know that works just fine with encoded strings.  I also know that appending binaries in Erlang is fast.  So until I learn more about how Erlang strings work, I'll keep my text data in binary form because I know that works.</p>
+
 </section>
