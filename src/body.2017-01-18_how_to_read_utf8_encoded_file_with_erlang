@@ -61,7 +61,7 @@ is a reverse-polish calculator that provides a nice concise way of printing byte
 
 <section>
 
-    <h2>Step 2. Write Erlang module to read file.</h2>
+    <h2>Step 2. Read the file with an Erlang program.</h2>
 
 	<p>The usage of io:format to dump the hex value of the bytes Erlang has stored in memory is courtesy Hynek -Pichi- 
 Vychodil<label for="mnhynek" class="margin-toggle">&#8853;</label> for Stack Overflow.
@@ -87,7 +87,7 @@ Vychodil<label for="mnhynek" class="margin-toggle">&#8853;</label> for Stack Ove
 </section>
 
 <section>
-<h2>Step 3: Run the Erlang code to verify output bytes match input bytes.</h2>
+<h2>Step 3: Verify the bytes Erlang stores in-memory match the file contents.</h2>
 
             <pre class="code with-wrapping fullwidth">
 <line>$ erlc file_read_file.erl</line>
@@ -121,7 +121,7 @@ Vychodil<label for="mnhynek" class="margin-toggle">&#8853;</label> for Stack Ove
 
 <h3><code>file:read_file/1</code> works for any byte sequence.</h3>
 
-<p>There is nothing special about the utf-8 encoding.  The Erlang function <code>file:read_file/1</code> reads in whatever byte sequence is in the file.  There is no translation that takes place.</p>
+<p>There is nothing special about the utf-8 encoding.  The Erlang function <code>file:read_file/1</code> reads in whatever byte sequence is in the file.</p>
 
 	<p>If we read a <a href="https://en.wikipedia.org/wiki/Mac_OS_Roman">Mac OS Roman</a> encoded file, which uses the byte <code>0xD2</code> to represent the left double quote, and <code>0xD3</code> for the right double quote, the bytes output match what is input.</p>
 
