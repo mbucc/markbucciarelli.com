@@ -47,7 +47,7 @@ is a reverse-polish calculator that provides a nice concise way of printing byte
 <line></line>
 </pre>
 
-    <p>The <code>16i0</code> tells <code>bc</code> to intepret the input as base 16 numbers.  With this, we create our UTF-8 encoded file.</p>
+    <p>The <code>16i0</code> tells <code>bc</code> to interpret the input as base 16 numbers.  With this, we create our UTF-8 encoded file.</p>
 
             <pre class="code with-wrapping fullwidth">
 <line>$ ./makeutf8.sh</line>
