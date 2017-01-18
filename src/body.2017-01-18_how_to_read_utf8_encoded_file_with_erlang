@@ -63,7 +63,13 @@ is a reverse-polish calculator that provides a nice concise way of printing byte
 
     <h2>Step 2. Write Erlang module to read file.</h2>
 
-	<p>The io:format trick below is from Hynek -Pichi- Vychodil at <a href="http://stackoverflow.com/a/3771421">http://stackoverflow.com/a/3771421</a>.</p>
+	<p>The usage of io:format to dump the hex value of the bytes Erlang has stored in memory is courtesy Hynek -Pichi- 
+Vychodil<label for="mnhynek" class="margin-toggle">&#8853;</label> for Stack Overflow.
+<input type="checkbox" id="mnhynek" class="margin-toggle"/>
+<span class="marginnote">
+  <a href="http://stackoverflow.com/a/3771421">http://stackoverflow.com/a/3771421</a>
+</span>
+
 
             <pre class="code with-wrapping fullwidth">
 <line>-module(file_read_file).</line>
@@ -108,7 +114,36 @@ is a reverse-polish calculator that provides a nice concise way of printing byte
 
 	<p>The output matches the sequence of bytes input to <code>bc</code> above, so Erlang's <code>file:read_file/1</code> reads in bytes as written to disk and thus can be used to read in UTF-8 encoded files.</p>
 
-    <p>
+</section>
 
+<section>
+<h2>Notes</h2>
+
+<h3><code>file:read_file/1</code> works for any byte sequence.</h3>
+
+<p>There is nothing special about the utf-8 encoding.  The Erlang function <code>file:read_file/1</code> reads in whatever byte sequence is in the file.  There is no translation that takes place.</p>
+
+	<p>If we read a <a href="https://en.wikipedia.org/wiki/Mac_OS_Roman">Mac OS Roman</a> encoded file, which uses the byte <code>0xD2</code> to represent the left double quote, and <code>0xD3</code> for the right double quote, the bytes output match what is input.</p>
+
+            <pre class="code with-wrapping fullwidth">
+<line>$ cp mac_os_roman.txt utf8.txt</line>
+<line>$ cat utf8.txt |od -v -An -t x1</line>
+<line>           d2  71  75  6f  74  65  64  d3  0a</line>
+<line></line>
+<line>$ erl -pa . -s file_read_file -s init stop</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>D2</line>
+<line>71</line>
+<line>75</line>
+<line>6F</line>
+<line>74</line>
+<line>65</line>
+<line>64</line>
+<line>D3</line>
+<line>0A</line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> $</line>
+</pre>
 
 </section>
