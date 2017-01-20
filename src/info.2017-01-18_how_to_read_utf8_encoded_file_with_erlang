@@ -1,7 +1,7 @@
 URL=2017-01-18_how_to_read_utf8_encoded_file_with_erlang.html
 TITLE="How to read a UTF-8 encoded file with Erlang"
 PUBDATE="January 18, 2017"
-PUBDATE_ISO="Wed, 18 Jan 2017 13:05:00 GMT"
+PUBDATE_ISO="Wed, 18 Jan 2017 12:17:00 GMT"
 LEDE="In this HOWTO, we create a file with UTF-8 encoded text, read it with an Erlang program, and verify that the bytes Erlang stores in-memory matches what is on disk."
 
 IMG=rsquo
