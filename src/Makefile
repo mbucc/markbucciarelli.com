@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2017-02-01_so_long_erlang_its_been_great.html \
 		../www/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.html \
 		../www/2017-01-04_how_to_return_json_from_an_erlang_web_service.html \
 		../www/2016-12-21_a_production_gen_event_application.html \
@@ -41,6 +42,7 @@ www: \
 		../www/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
 
 ../www/feed.rss: work/rss.header templates/rss.footer \
+		work/2017-02-01_so_long_erlang_its_been_great.rss \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.rss \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.rss \
 		work/2016-12-21_a_production_gen_event_application.rss \
@@ -61,6 +63,7 @@ www: \
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2017-02-01_so_long_erlang_its_been_great.xml \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.xml \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.xml \
 		work/2016-12-21_a_production_gen_event_application.xml \
@@ -81,6 +84,7 @@ www: \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2017-02-01_so_long_erlang_its_been_great.idx \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.idx \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.idx \
 		work/2016-12-21_a_production_gen_event_application.idx \

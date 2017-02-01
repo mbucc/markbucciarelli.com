@@ -1,0 +1,53 @@
+<section>
+   <h2>The last six months have been great.</h2>
+
+<p>Six months ago, I decided to learn Erlang and to blog about my progress.  I
+wanted to, over time, establish a reputation as someone knowledgeable about
+Erlang so that over the time, as I dial back from full-time work, I could land
+contracting gigs where I get to use Erlang instead of Java.</p>
+
+<p>I still remember the feeling of learning that the equals sign in Erlang is a
+pattern matching operator.  This may sound crazy, but my heart still beats a
+little faster at that idea---it's so elegant, simple, and such a radical change
+from the languages I learned up until now.  Part of the attraction is that I've
+always loved math, and that construct matches how the equals sign works in an
+equation where you are solving for an unknown variable.</p>
+
+<p>Over these past six months, that nugget was joined by many others:</p>
+<ul>
+<li>sunny path programming</li>
+<li>processes and concurrency</li>
+<li>error semantics</li>
+<li>baked in immutability</li>
+<li>strong community</li>
+<li>pattern matching</li>
+<li>hot code reloading</li>
+</ul>
+</section>
+
+<section>
+<h2>So why ``So Long''?</h2>
+
+<p>I tried Elm.  And I found that if my code compiled, it ran. Without error.
+Every time.</p>
+
+<p>I think I can develop quality code faster with a strong, statically-typed
+language with a great compiler (like Elm).  So I am going to try Haskell.</p>
+</section>
+
+
+<section>
+<h2>Thanks ...</h2>
+
+<h3>to the erlang-questions mailing list,</h3>
+<p>I've lurked there for six months and learned something every day.  Very high signal to noise.</p>
+<h3>to Erlang maintainers,</h3>
+<p>Responsive to pull requests on github, active (and sometimes very patient!) on the mailing list.</p>
+<h3>proctor,</h3>
+<p>For Planet Erlang, it's a great way to learn more.</p>
+<h3>and Joe Armstrong.</h3>
+<p>For his book Programming Erlang.  Great read, technically shines---short, sweet
+powerful code examples throughout.</p>
+</section>
+
+<h2>.</h2>

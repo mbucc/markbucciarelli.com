@@ -27,7 +27,8 @@ unsplash_images: \
 	${D1}/full/nest.png       ${D2}/nest.html       ${D2}/nest.png       \
 	${D1}/full/letters.png    ${D2}/letters.html    ${D2}/letters.png    \
 	${D1}/full/blackboard.png ${D2}/blackboard.html ${D2}/blackboard.png \
-	${D1}/full/rsquo.png      ${D2}/rsquo.html      ${D2}/rsquo.png
+	${D1}/full/rsquo.png      ${D2}/rsquo.html      ${D2}/rsquo.png      \
+	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -119,6 +120,9 @@ work/blackboard.jpg:
 	mv t $@
 work/rsquo.jpg:
 	curl -L http://unsplash.com/photos/kXDHR_bXIZo/download?force=true -o t
+	mv t $@
+work/thanku.jpg:
+	curl -L http://unsplash.com/photos/oxjo1IQBK7M/download?force=true -o t
 	mv t $@
 
 #------------------------------------------------------------------------------
