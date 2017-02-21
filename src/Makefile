@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2017-02-21_hello_elm_and_haskell.html \
 		../www/2017-02-01_so_long_erlang_its_been_great.html \
 		../www/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.html \
 		../www/2017-01-04_how_to_return_json_from_an_erlang_web_service.html \
@@ -41,8 +42,7 @@ www: \
 		../www/2016-07-06_what_is_cqrs.html \
 		../www/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.html
 
-../www/feed.rss: work/rss.header templates/rss.footer \
-		work/2017-02-01_so_long_erlang_its_been_great.rss \
+ERLANG=work/2017-02-01_so_long_erlang_its_been_great.rss \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.rss \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.rss \
 		work/2016-12-21_a_production_gen_event_application.rss \
@@ -57,12 +57,24 @@ www: \
 		work/2016-07-20_my_first_erlang_patch.rss \
 		work/2016-07-06_what_is_cqrs.rss \
 		work/2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.rss
+
+ELM=work/2017-02-21_hello_elm_and_haskell.rss
+
+
+../www/elm.rss: work/rss.header templates/rss.footer ${ELM}
 	cat work/rss.header > t
-	ls -r work/*.rss | xargs cat >> t
+	ls -r ${ELM} | xargs cat >> t
+	cat templates/rss.footer >> t
+	mv t $@
+
+../www/feed.rss: work/rss.header templates/rss.footer ${ERLANG} 
+	cat work/rss.header > t
+	ls -r ${ERLANG} | xargs cat >> t
 	cat templates/rss.footer >> t
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2017-02-21_hello_elm_and_haskell.xml \
 		work/2017-02-01_so_long_erlang_its_been_great.xml \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.xml \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.xml \
@@ -84,6 +96,7 @@ www: \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2017-02-21_hello_elm_and_haskell.idx \
 		work/2017-02-01_so_long_erlang_its_been_great.idx \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.idx \
 		work/2017-01-04_how_to_return_json_from_an_erlang_web_service.idx \
@@ -140,7 +153,7 @@ work/%.body: body.% quotify.sh
 #
 #-------------------------------------------------------------------------------
 
-rss: ../www/feed.rss
+rss: ../www/feed.rss ../www/elm.rss
 
 info.feedheader: info.2*
 	ls -1 info.2* | tail -1 | xargs grep PUBDATE_ISO > t

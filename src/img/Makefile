@@ -6,8 +6,8 @@ WIDTH=700
 FULLWIDTH=1200
 
 # 150K --> 32K.  png8 does the trick; see http://stackoverflow.com/a/11408390
-256_COLORS=convert -interlace NONE -resize ${WIDTH} -border 6 -bordercolor black $? png8:$@
-FULL_COLORS=convert -interlace NONE -resize ${WIDTH} -border 6 -bordercolor black $? $@
+256_DEPTH=convert -interlace NONE -resize ${WIDTH} -border 6 -bordercolor black $? png8:$@
+FULL_DEPTH=convert -interlace NONE -resize ${WIDTH} -border 6 -bordercolor black $? $@
 
 
 all: unsplash_images full_images 256_images svg_drawings
@@ -28,13 +28,14 @@ unsplash_images: \
 	${D1}/full/letters.png    ${D2}/letters.html    ${D2}/letters.png    \
 	${D1}/full/blackboard.png ${D2}/blackboard.html ${D2}/blackboard.png \
 	${D1}/full/rsquo.png      ${D2}/rsquo.html      ${D2}/rsquo.png      \
-	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png
+	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png     \
+	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
 
 ${D1}/full/headshot.png: headshot.jpg
-	${FULL_COLORS}
+	${FULL_DEPTH}
 
 # Normal images that appear lower down in blog entry. 
 256_images: \
@@ -52,15 +53,36 @@ ${D1}/full/headshot.png: headshot.jpg
 
 svg_drawings: ${D1}/line-wrap-arrow.svg
 
+
+#------------------------------------------------------------------------------
+#
+#                        C U S T O M   H A N D L I N G 
+#
+#------------------------------------------------------------------------------
+
 # Crop a piece out of a bigger image.
 ./work/mn.jpg: work/mnopq.jpg
+	@# geometry: <width>x<height>{+-}<xoffset>{+-}<yoffset>
 	convert -modulate 110 -level 10% -crop 1250x880+0+820 $? $@
 
+# Crop grey border off
+${D1}/full/elm.png: work/elm.jpg
+	${FULL_DEPTH}
+work/elm.jpg: work/elm.tiff
+	convert -modulate 110 -level 10% -crop 1500x1172+22+44 $? $@
+
+#------------------------------------------------------------------------------
+#
+#                      S T A N D A R D   H A N D L I N G 
+#
+#------------------------------------------------------------------------------
+
+
 ${D1}/%.png: %.jpg
-	${256_COLORS}
+	${256_DEPTH}
 
 ${D1}/full/%.png: work/%.jpg
-	${FULL_COLORS}
+	${FULL_DEPTH}
 
 ${D1}/%.svg: %.svg
 	cp $? $@
@@ -123,6 +145,9 @@ work/rsquo.jpg:
 	mv t $@
 work/thanku.jpg:
 	curl -L http://unsplash.com/photos/oxjo1IQBK7M/download?force=true -o t
+	mv t $@
+work/elm.tiff:
+	curl -L http://cdn.loc.gov/master/pnp/cph/3b30000/3b33000/3b33500/3b33525u.tif -o t
 	mv t $@
 
 #------------------------------------------------------------------------------
