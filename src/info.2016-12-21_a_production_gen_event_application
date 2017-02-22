@@ -4,6 +4,7 @@ PUBDATE="December 21, 2016"
 PUBDATE_ISO="Wed, 21 Dec 2016 11:25:00 GMT"
 LEDE="I've been blogging about Erlang since June, so it's about time.  My first production application records email sends and opens, exposes the metrics via Prometheus and uses event sourcing, which I discuss in detail."
 
+IMGSITE="for Unsplash"
 IMG=letters
 IMGINFO=letters
 YEAR_TAKEN=2016

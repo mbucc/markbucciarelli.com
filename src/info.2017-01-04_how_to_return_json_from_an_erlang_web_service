@@ -4,6 +4,7 @@ PUBDATE="January 4, 2017"
 PUBDATE_ISO="Wed, 4 Jan 2017 13:05:00 GMT"
 LEDE="In this HOWTO, we use Elli and JSX to return JSON from an Erlang web service."
 
+IMGSITE="for Unsplash"
 IMG=blackboard
 IMGINFO=blackboard
 YEAR_TAKEN=2016

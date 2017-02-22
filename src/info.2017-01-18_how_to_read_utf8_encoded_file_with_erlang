@@ -4,6 +4,7 @@ PUBDATE="January 18, 2017"
 PUBDATE_ISO="Wed, 18 Jan 2017 12:17:00 GMT"
 LEDE="In this HOWTO, we create a file with UTF-8 encoded text, read it with an Erlang program, and verify that the bytes Erlang stores in-memory matches what is on disk."
 
+IMGSITE="for Unsplash"
 IMG=rsquo
 IMGINFO=rsquo
 YEAR_TAKEN=2016

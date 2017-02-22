@@ -6,6 +6,7 @@ LEDE="An HTTP server structured as an Erlang application.  Built with Elli, it u
 IMG=service
 IMGINFO=service
 
+IMGSITE="for Unsplash"
 YEAR_TAKEN=2016
 PHOTOGRAPHER="Mike Wilson"
 LOCATION="Uknown location"

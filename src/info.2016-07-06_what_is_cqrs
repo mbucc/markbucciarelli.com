@@ -7,6 +7,7 @@ IMG=bridge
 IMGINFO=bridge
 IMG_ALT="Empty footbridge leading to a jungle."
 
+IMGSITE="for Unsplash"
 YEAR_TAKEN=2015
 PHOTOGRAPHER="Tim Swaan"
 LOCATION="Whangarei, New Zealand"

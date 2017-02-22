@@ -7,6 +7,7 @@ IMG=tomato
 IMGINFO=tomato
 IMG_ALT="A close up of a ripe, bright-red tomato."
 
+IMGSITE="for Unsplash"
 YEAR_TAKEN=2016
 PHOTOGRAPHER="Ivan Timov"
 LOCATION="Plovdiv, Bulgaria"

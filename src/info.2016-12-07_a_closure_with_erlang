@@ -4,6 +4,7 @@ PUBDATE="December 7, 2016"
 PUBDATE_ISO="Wed, 7 Dec 2016 11:25:00 GMT"
 LEDE="I recently hit a programming task where a closure was the perfect solution.  I describe the task, define a closure, and then present the solution."
 
+IMGSITE="for Unsplash"
 IMG=nest
 IMGINFO=nest
 YEAR_TAKEN=2016

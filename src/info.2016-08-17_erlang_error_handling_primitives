@@ -7,6 +7,7 @@ IMG=lightning
 IMGINFO=lightning
 IMG_ALT="A bright lightning strike with many forks against a navy blue sky."
 
+IMGSITE="for Unsplash"
 YEAR_TAKEN=2015
 PHOTOGRAPHER="Sean McAuliffe"
 LOCATION="Unknown location."

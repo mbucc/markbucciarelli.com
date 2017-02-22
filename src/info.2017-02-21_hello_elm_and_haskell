@@ -4,6 +4,7 @@ PUBDATE="February 21, 2017"
 PUBDATE_ISO="Wed, 21 Feb 2017 12:17:00 GMT"
 LEDE=""
 
+IMGSITE="for Library of Congress"
 IMG=elm
 IMGINFO=elm
 YEAR_TAKEN="circa 1916"
