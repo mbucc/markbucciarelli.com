@@ -3,6 +3,7 @@ TITLE="Parsing text with Erlang: pattern matching and guards"
 PUBDATE="June 22, 2016"
 PUBDATE_ISO="Wed, 22 Jun 2016 12:00:00 GMT"
 LEDE="A simple example of parsing a time string and that illustrates some Erlang pattern matching and guard basics."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 IMG=mn

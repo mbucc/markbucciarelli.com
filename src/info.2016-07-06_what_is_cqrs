@@ -6,6 +6,7 @@ LEDE="CQRS is short for the command query responsibility separation pattern. Thi
 IMG=bridge
 IMGINFO=bridge
 IMG_ALT="Empty footbridge leading to a jungle."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2015

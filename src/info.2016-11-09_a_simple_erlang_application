@@ -5,6 +5,7 @@ PUBDATE_ISO="Wed, 9 Nov 2016 20:30:00 EST"
 LEDE="An HTTP server structured as an Erlang application.  Built with Elli, it uses ERL_LIBS and make instead of rebar."
 IMG=service
 IMGINFO=service
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

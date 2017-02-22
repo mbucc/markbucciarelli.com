@@ -6,6 +6,7 @@ LEDE="Last week I was wrestling with some code when a light went off and I came 
 IMG=arches
 IMGINFO=arches
 IMG_ALT="Looking down a long pool that is inside a set of massive stone arches."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

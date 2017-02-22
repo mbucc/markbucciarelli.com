@@ -6,6 +6,7 @@ LEDE="Example of how you can contribute to Erlang by fixing a bug and having the
 IMG=redbug
 IMGINFO=redbug
 IMG_ALT="Closeup of bright red bug on deep green leaf."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

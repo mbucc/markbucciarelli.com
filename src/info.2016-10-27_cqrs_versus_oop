@@ -6,6 +6,7 @@ LEDE="Design data models for the Pomodoro Technique, one for CQRS and one for OO
 IMG=tomato
 IMGINFO=tomato
 IMG_ALT="A close up of a ripe, bright-red tomato."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

@@ -6,6 +6,7 @@ LEDE="The gen_event behavior makes it simple to add basic event sourcing to your
 IMG=carnival
 IMGINFO=carnival
 IMG_ALT="Young couple walking through a closed, colorful, carnival."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

@@ -1,10 +1,14 @@
-    <hr />
+<hr />
 
-    <p>If you want to get in touch, you can find me on Twitter <a href="http://twitter.com/home?status=@mbucc, read http://markbucciarelli.com/{{URL}}">@mbucc</a> or email me at mkbucc1234@gmail.com (after deleting all the numbers).  </p>
-    <p>To make a comment, I suggest you check for a thread on the Erlang <a href="http://www.reddit.com/r/erlang">subreddit</a> and if there isn't one, then <a href="http://www.reddit.com/r/erlang/submit" onclick="window.location = 'http://www.reddit.com/r/erlang/submit?url=' + encodeURIComponent(window.location) + '&title=' + encodeURIComponent('{{TITLE}}'); return false">start one up</a>.</p>
+<p>If you see an error or something that could be improved, please let me know.
+This is a blog about me learning, so I expect I will get some stuff wrong.  The best way to reach me is by email: mkbucc1234@gmail.com (after deleting all the numbers).</p>
 
-    <p>Back to the <a href="index.html">index.</a></p>
+<p>To make a comment, check for a thread on the {{PRINCIPLE_TOPIC}} <a href="http://www.reddit.com/r/{{PRINCIPLE_TOPIC}}">subreddit</a> and if there isn't one, then <a href="http://www.reddit.com/r/{{PRINCIPLE_TOPIC}}/submit" onclick="window.location = 'http://www.reddit.com/r/{{PRINCIPLE_TOPIC}}/submit?url=' + encodeURIComponent(window.location) + '&title=' + encodeURIComponent('{{TITLE}}'); return false">start one up</a>.</p>
 
-  </article>
+<p>Follow on Twitter: <a href="https://twitter.com/mbucc">@mbucc</a></p>
+
+<p>Back to the <a href="index.html">index.</a></p>
+
+</article>
 </body>
 </html>

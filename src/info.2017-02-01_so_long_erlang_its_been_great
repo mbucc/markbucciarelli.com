@@ -3,6 +3,7 @@ TITLE="So long Erlang, it&rsquo;s been great!"
 PUBDATE="February 1, 2017"
 PUBDATE_ISO="Wed, 1 Feb 2057 12:17:00 GMT"
 LEDE="Moving on from Erlang to Haskell, I look back at what I've learned in last six months, explain the reasons for the change, and say thank you."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 IMG=thanku

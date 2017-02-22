@@ -6,6 +6,7 @@ LEDE="What is the most important section in Joe Armstrong&lsquo;s Erlang book? <
 IMG=lightbulb
 IMGINFO=lightbulb
 IMG_ALT="Single, old-fashioned lightbulb against a dark background."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 YEAR_TAKEN=2016

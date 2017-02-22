@@ -3,6 +3,7 @@ TITLE="A Simple Erlang Application, with Prometheus"
 PUBDATE="November 23, 2016"
 PUBDATE_ISO="Wed, 23 Nov 2016 11:25:00 GMT"
 LEDE="A simple HTTP server built with Elli that exposes metrics for Prometheus."
+PRINCIPLE_TOPIC=erlang
 
 IMGSITE="for Unsplash"
 IMG=fire

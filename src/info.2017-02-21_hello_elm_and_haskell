@@ -2,7 +2,8 @@ URL=2017-02-21_hello_elm_and_haskell.html
 TITLE="Hello Elm and Haskell!"
 PUBDATE="February 21, 2017"
 PUBDATE_ISO="Wed, 21 Feb 2017 12:17:00 GMT"
-LEDE=""
+LEDE="Briefly describe my first Elm application and list the reasons why I decided to programming exclusively in Elm."
+PRINCIPLE_TOPIC=elm
 
 IMGSITE="for Library of Congress"
 IMG=elm
