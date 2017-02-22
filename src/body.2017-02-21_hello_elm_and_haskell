@@ -21,7 +21,7 @@ decided to work 100% with Elm and to learn Haskell.</p>
 <p>I started with the free, on-line class <a
 href="http://courses.knowthen.com/p/elm-for-beginners">Elm For Beginners</a>,
 <i>Start Building Web Apps using Elmlang Today</i>.  Short video lessons,
-randing in length from three to eleven minutes long, each focussing on one
+ranging in length from three to eleven minutes long, each focusing on one
 specific topic was a great introduction.</p>
 
 <p>I made it up through lesson 13 (out of 18) before I started coding.</p>
@@ -82,7 +82,7 @@ updates state, and the view step takes state and renders a view.</p>
 
 <p>In the command/query responsibility separation pattern, one object processes
 commands and a different object responds to view requests.  Very similar in how
-responsibilties are split up.</p>
+responsibilities are split up.</p>
 
 <p>I'm a fan of CQRS, so this was a plus.</p>
 
@@ -97,7 +97,7 @@ programmers.  Perhaps the visual of a herd of JavaScript programmers flooding
 to Haskell is not a pretty picture.</p> 
 
 <p>After my experience with the Elm compiler, I wanted to get the same benefits
-when writing backend code, so I picked up Haskell.  My experience with Elm (and
+when writing back end code, so I picked up Haskell.  My experience with Elm (and
 Erlang before that) made it easier to start being productive with Haskell.</p>
 
 </section>
