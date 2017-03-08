@@ -12,6 +12,7 @@ www/imginfo
 src/img/work
 
 www/feed.rss
+www/haskell.rss
 www/elm.rss
 www/sitemap.xml
 t

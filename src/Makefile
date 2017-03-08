@@ -25,6 +25,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2017-03-07_how_to_build_snap_with_stack.html \
 		../www/2017-02-21_hello_elm_and_haskell.html \
 		../www/2017-02-01_so_long_erlang_its_been_great.html \
 		../www/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.html \
@@ -60,6 +61,14 @@ ERLANG=work/2017-02-01_so_long_erlang_its_been_great.rss \
 
 ELM=work/2017-02-21_hello_elm_and_haskell.rss
 
+HASKELL=work/2017-03-07_how_to_build_snap_with_stack.rss
+
+
+../www/haskell.rss: work/rss.header templates/rss.footer ${HASKELL}
+	cat work/rss.header > t
+	ls -r ${HASKELL} | xargs cat >> t
+	cat templates/rss.footer >> t
+	mv t $@
 
 ../www/elm.rss: work/rss.header templates/rss.footer ${ELM}
 	cat work/rss.header > t
@@ -74,6 +83,7 @@ ELM=work/2017-02-21_hello_elm_and_haskell.rss
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2017-03-07_how_to_build_snap_with_stack.xml \
 		work/2017-02-21_hello_elm_and_haskell.xml \
 		work/2017-02-01_so_long_erlang_its_been_great.xml \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.xml \
@@ -96,6 +106,7 @@ ELM=work/2017-02-21_hello_elm_and_haskell.rss
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2017-03-07_how_to_build_snap_with_stack.idx \
 		work/2017-02-21_hello_elm_and_haskell.idx \
 		work/2017-02-01_so_long_erlang_its_been_great.idx \
 		work/2017-01-18_how_to_read_utf8_encoded_file_with_erlang.idx \
@@ -153,7 +164,7 @@ work/%.body: body.% quotify.sh
 #
 #-------------------------------------------------------------------------------
 
-rss: ../www/feed.rss ../www/elm.rss
+rss: ../www/feed.rss ../www/elm.rss ../www/haskell.rss
 
 info.feedheader: info.2*
 	ls -1 info.2* | tail -1 | xargs grep PUBDATE_ISO > t

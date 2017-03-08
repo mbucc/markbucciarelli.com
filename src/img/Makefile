@@ -29,7 +29,8 @@ unsplash_images: \
 	${D1}/full/blackboard.png ${D2}/blackboard.html ${D2}/blackboard.png \
 	${D1}/full/rsquo.png      ${D2}/rsquo.html      ${D2}/rsquo.png      \
 	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png     \
-	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png
+	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png        \
+	${D1}/full/snap.png       ${D2}/snap.html       ${D2}/snap.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -148,6 +149,10 @@ work/thanku.jpg:
 	mv t $@
 work/elm.tiff:
 	curl -L http://cdn.loc.gov/master/pnp/cph/3b30000/3b33000/3b33500/3b33525u.tif -o t
+	mv t $@
+
+work/snap.jpg:
+	curl -L https://upload.wikimedia.org/wikipedia/commons/6/63/Prembutono.jpg -o t
 	mv t $@
 
 #------------------------------------------------------------------------------
