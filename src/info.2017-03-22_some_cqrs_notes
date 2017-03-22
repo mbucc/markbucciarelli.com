@@ -1,7 +1,7 @@
 URL=2017-03-22_some_cqrs_notes.html
 TITLE="Some CQRS Notes"
 PUBDATE="March 22, 2017"
-PUBDATE_ISO="Wed, 22 Mar 2017 12:17:00 GMT"
+PUBDATE_ISO="Wed, 22 Mar 2017 11:35:00 GMT"
 LEDE="Notes taken while building a CQRS application."
 PRINCIPLE_TOPIC=cqrs
 
