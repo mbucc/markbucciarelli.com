@@ -12,13 +12,21 @@
         <li>two really hard problems in SQL databases (maintaining indexes and replication) are done using event logs!</li>
       </ul>
       <p>So that&rsquo;s why I&rsquo;m creating this space &hellip; to give me a place to get this stuff out of my system.</p>
-      <p>I&rsquo;m going to focus on the two topics that currently fascinate me:</p>
+      <p>I&rsquo;m going to focus on the <span style="text-decoration: line-through;">two</span> three topics that currently fascinate me:</p>
       <ol>
-      <li>the <a href="http://www.erlang.org">Erlang</a> programming language, and</li>
+      <li><span style="text-decoration: line-through;">the <a href="http://www.erlang.org">Erlang</a> programming language, and</span></li>
+      <li>Haskell<label for="mn-switch" class="margin-toggle">&#8853;</label>,
+<input type="checkbox" id="mn-switch" class="margin-toggle"/>
+<span class="marginnote">
+I switched from Erlang to Haskell and Elm in February 2017.  You can read why in <a href="2017-02-01_so_long_erlang_its_been_great.html">So long Erlang, it’s been great!</a>
+</span></li>
+      <li>Elm, and</li>
       <li>the <a href="http://codebetter.com/gregyoung/2010/02/16/cqrs-task-based-uis-event-sourcing-agh/">command and query responsibility separation</a> pattern, commonly called &ldquo;CQRS.&rdquo;</li>
       </ol>
 
-      <p>You can find my publically auditable identity at <a href="https://keybase.io/markb">keybase.io</a> and an RSS feed for this blog  at <a type="application/rss+xml" href="feed.rss">/feed.rss</a>.</p>
+
+
+      <p>You can find my publicly auditable identity at <a href="https://keybase.io/markb">keybase.io</a> and an RSS feed for this blog  at <a type="application/rss+xml" href="feed.rss">/feed.rss</a>.</p>
 
       <p>Enjoy!</p>
     </section>

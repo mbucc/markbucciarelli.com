@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8"/>
   <title>{{TITLE}}</title>
-  <link rel="alternate" type="application/rss+xml" title="Erlang and CQRS -- All Posts" href="http://markbucciarelli.com/feed.rss" >
+  <link rel="alternate" type="application/rss+xml" title="Haskell, Elm, and CQRS -- All Posts" href="http://markbucciarelli.com/feed.rss" >
   <link rel="stylesheet" type="text/css" href="tufte.css"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
