@@ -30,7 +30,8 @@ unsplash_images: \
 	${D1}/full/rsquo.png      ${D2}/rsquo.html      ${D2}/rsquo.png      \
 	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png     \
 	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png        \
-	${D1}/full/snap.png       ${D2}/snap.html       ${D2}/snap.png
+	${D1}/full/snap.png       ${D2}/snap.html       ${D2}/snap.png       \
+	${D1}/full/aggregate.png  ${D2}/aggregate.html  ${D2}/aggregate.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -66,11 +67,16 @@ svg_drawings: ${D1}/line-wrap-arrow.svg
 	@# geometry: <width>x<height>{+-}<xoffset>{+-}<yoffset>
 	convert -modulate 110 -level 10% -crop 1250x880+0+820 $? $@
 
+#${D1}/full/elm.png: work/elm.jpg
+#	${FULL_DEPTH}
+
 # Crop grey border off
-${D1}/full/elm.png: work/elm.jpg
-	${FULL_DEPTH}
 work/elm.jpg: work/elm.tiff
 	convert -modulate 110 -level 10% -crop 1500x1172+22+44 $? $@
+
+# Get a close up, and size with horizontal aspect.
+work/aggregate.jpg: work/aggregate.tiff
+	convert -modulate 110 -level 10% -crop 1250x880+2200+800 $? $@
 
 #------------------------------------------------------------------------------
 #
@@ -150,9 +156,11 @@ work/thanku.jpg:
 work/elm.tiff:
 	curl -L http://cdn.loc.gov/master/pnp/cph/3b30000/3b33000/3b33500/3b33525u.tif -o t
 	mv t $@
-
 work/snap.jpg:
 	curl -L https://upload.wikimedia.org/wikipedia/commons/6/63/Prembutono.jpg -o t
+	mv t $@
+work/aggregate.tiff:
+	curl -L http://cdn.loc.gov/master/pnp/habshaer/md/md1300/md1362/photos/043240pu.tif -o t
 	mv t $@
 
 #------------------------------------------------------------------------------
