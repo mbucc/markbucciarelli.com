@@ -4,7 +4,7 @@
 
     <ol>
         <li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> 1.3.2</li>
-        <li><a href="https://www.alpinelinux.org/downloads/">Alpine Linux</a>, 3.5.2, Standard x86_64</li>
+        <li><a href="https://www.alpinelinux.org/about/">Alpine Linux</a>, 3.5.2, Standard x86_64</li>
 	<li><a href="https://www.virtualbox.org">Virtual Box</a>, 5.1.18</li>
     </ol>
 

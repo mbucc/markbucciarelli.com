@@ -2,7 +2,7 @@ URL=2017-04-05_haskell_on_alpine_linux.html
 TITLE="Haskell on Alpine Linux"
 PUBDATE="April 5, 2017"
 PUBDATE_ISO="Wed, 5 Apr 2017 12:17:00 GMT"
-LEDE="How to run Haskell on Alpine Linux edge."
+LEDE="How to run Haskell on Alpine Linux, a Linux distribution built on musc libc and busybox, and which requires only 8 MB of storage for a container and 130 MB of storage for a minimal installation to disk."
 PRINCIPLE_TOPIC=haskell
 
 IMGSITE="for Unsplash"
