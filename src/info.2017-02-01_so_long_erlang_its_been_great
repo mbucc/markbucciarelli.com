@@ -1,7 +1,7 @@
 URL=2017-02-01_so_long_erlang_its_been_great.html
 TITLE="So long Erlang, it&rsquo;s been great!"
 PUBDATE="February 1, 2017"
-PUBDATE_ISO="Wed, 1 Feb 2057 12:17:00 GMT"
+PUBDATE_ISO="Wed, 1 Feb 2017 12:17:00 GMT"
 LEDE="Moving on from Erlang to Haskell, I look back at what I've learned in last six months, explain the reasons for the change, and say thank you."
 PRINCIPLE_TOPIC=erlang
 

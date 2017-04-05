@@ -26,6 +26,7 @@ all: www rss idx sitemap
 
 .PHONY: www
 www: \
+		../www/2017-04-05_haskell_on_alpine_linux.html \
 		../www/2017-03-22_some_cqrs_notes.html \
 		../www/2017-03-07_how_to_build_snap_with_stack.html \
 		../www/2017-02-21_hello_elm_and_haskell.html \
@@ -63,7 +64,8 @@ ERLANG=work/2017-02-01_so_long_erlang_its_been_great.rss \
 
 ELM=work/2017-02-21_hello_elm_and_haskell.rss
 
-HASKELL=work/2017-03-07_how_to_build_snap_with_stack.rss
+HASKELL=work/2017-03-07_how_to_build_snap_with_stack.rss \
+		work/2017-04-05_haskell_on_alpine_linux.rss
 
 CQRS=work/2017-03-22_some_cqrs_notes.rss \
 		work/2016-10-27_cqrs_versus_oop.rss \
@@ -95,6 +97,7 @@ CQRS=work/2017-03-22_some_cqrs_notes.rss \
 	mv t $@
 
 ../www/sitemap.xml: templates/sitemap.header templates/sitemap.footer \
+		work/2017-04-05_haskell_on_alpine_linux.xml \
 		work/2017-03-22_some_cqrs_notes.xml \
 		work/2017-03-07_how_to_build_snap_with_stack.xml \
 		work/2017-02-21_hello_elm_and_haskell.xml \
@@ -119,6 +122,7 @@ CQRS=work/2017-03-22_some_cqrs_notes.rss \
 	mv t $@
 
 ../www/index.html: templates/idx.header templates/idx.footer \
+		work/2017-04-05_haskell_on_alpine_linux.idx \
 		work/2017-03-22_some_cqrs_notes.idx \
 		work/2017-03-07_how_to_build_snap_with_stack.idx \
 		work/2017-02-21_hello_elm_and_haskell.idx \

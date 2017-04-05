@@ -31,7 +31,8 @@ unsplash_images: \
 	${D1}/full/thanku.png     ${D2}/thanku.html     ${D2}/thanku.png     \
 	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png        \
 	${D1}/full/snap.png       ${D2}/snap.html       ${D2}/snap.png       \
-	${D1}/full/aggregate.png  ${D2}/aggregate.html  ${D2}/aggregate.png
+	${D1}/full/aggregate.png  ${D2}/aggregate.html  ${D2}/aggregate.png  \
+	${D1}/full/alpine.png     ${D2}/alpine.html     ${D2}/alpine.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -161,6 +162,9 @@ work/snap.jpg:
 	mv t $@
 work/aggregate.tiff:
 	curl -L http://cdn.loc.gov/master/pnp/habshaer/md/md1300/md1362/photos/043240pu.tif -o t
+	mv t $@
+work/alpine.jpg:
+	curl -L http://unsplash.com/photos/fe8vGYpi3ag/download?force=true -o t
 	mv t $@
 
 #------------------------------------------------------------------------------

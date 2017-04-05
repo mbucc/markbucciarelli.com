@@ -1,0 +1,20 @@
+URL=2017-04-05_haskell_on_alpine_linux.html
+TITLE="Haskell on Alpine Linux"
+PUBDATE="April 5, 2017"
+PUBDATE_ISO="Wed, 5 Apr 2017 12:17:00 GMT"
+LEDE="How to run Haskell on Alpine Linux edge."
+PRINCIPLE_TOPIC=haskell
+
+IMGSITE="for Unsplash"
+IMG=alpine
+IMGINFO=alpine
+YEAR_TAKEN=2016
+PHOTOGRAPHER="Jace Grandinetti"
+LOCATION="Austria"
+ALT="Village nestled in valley between beautiful mountain peaks."
+SOURCE=https://unsplash.com/search/alpine?photo=fe8vGYpi3ag
+CAMERA="Nikon D3300"
+FOCAL_LENGTH="@ 30mm,"
+ISO="ISO 400,"
+EXPOSURE_TIME="1/4000 sec,"
+APERTURE="f/7.1"
