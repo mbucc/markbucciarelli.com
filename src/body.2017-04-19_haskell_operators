@@ -1,0 +1,97 @@
+<section>
+<h2>$</h2>
+
+<p>Replaces parentheses.</p>
+
+<p>All of the following are equivalent (per Michael Steele's <a href="http://stackoverflow.com/a/1290727">answer</a> on Stack Overflow):</p>
+
+<pre class="code with-wrapping fullwidth">
+<line>putStrLn (show (1 + 1))</line>
+<line>putStrLn (show $ 1 + 1)</line>
+<line>putStrLn $ show (1 + 1)</line>
+<line>putStrLn $ show $ 1 + 1</line>
+<line>(putStrLn . show) (1 + 1)</line>
+<line>putStrLn . show $ 1 + 1</line>
+<line>(putStrLn . show . (+ 1)) 1</line>
+<line>putStrLn . show . (+ 1) $ 1</line>
+</pre>
+
+
+<p>It's type is:</p>
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :type ($)</line>
+<line>($) :: (a -> b) -> a -> b</line>
+</pre>
+
+<ol>
+<li>a function that maps type a to type b</li>
+<li>a value of type a</li>
+<li>output is a value of type b.</li>
+</ol>
+
+</section>
+
+<section>
+<h2>.</h2>
+
+<p>A Unix pipe for functions.</p>
+
+<p>That is, feed the output of one function to the input of another.</p>
+
+<p>For example, instead of <code>let fn x = f (g x)</code> you can write
+<code>let fn = f . g</code>.</p>
+
+<p>Note the second version doesn't mention <code>x</code>.  In this style,
+you don't mention the input variable(s).</p>
+
+<p>As another example, instead of <code>f x = x + 1</code> you write <code>f = (+ 1)</code>.
+
+<p>Confusingly, this is called writing in a 
+<a href="https://wiki.haskell.org/Pointfree">pointfree</a> style<label for="sn-pointfree" class="margin-toggle sidenote-number"></label>.
+<input type="checkbox" id="sn-pointfree" class="margin-toggle"/>
+<span class="sidenote">``Pointfree'' as in no input variables (``points'' in topology).</span>
+</p>
+
+<p>It's type is:</p>
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :type (.)</line>
+<line>(.) :: (b -> c) -> (a -> b) -> a -> c</line>
+</pre>
+
+</section>
+
+<section>
+
+<h2>=></h2>
+
+<p>``is an instance of'', but you read it right to left.</p>
+
+<p>For example, <code>(==) :: (Eq a) => a -> a -> Bool</code> is read ``for every type a that is an instance of Eq''</code><label for="sn-instance" class="margin-toggle sidenote-number"></label>.
+<input type="checkbox" id="sn-instance" class="margin-toggle"/>
+<span class="sidenote"><a href="https://www.haskell.org/tutorial/classes.html">Type Classes and Overloading</a>, <em>A Gentle Introduction to Haskell, Version 98</em>.</span>
+</p>
+
+<p>Here's an example from <a href="https://hackage.haskell.org/package/scotty-0.11.0/docs/Web-Scotty.html">Scotty</a>: <code>jsonData :: FromJSON a => ActionM a</code>.</p>
+
+<p>Frankly, I'm still not 100% sure how to read this.  My best guess is:</p>
+
+<ul>
+<li>For every type <code>a</code> that is an instance of <code>FromJSON</code></li>
+<li>you have (<code>=></code>)</li>
+<li>an operation named <code>jsonData</code>, which returns an <code>ActionM a</code></li>
+</ul>
+
+
+<p>And this one is is not an operator, as it doesn't have a type:</p>
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :t (=>)</line>
+<line><interactive>:1:2: error: parse error on input ‘=>’</line>
+</pre>
+
+
+
+
+</section>

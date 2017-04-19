@@ -32,7 +32,8 @@ unsplash_images: \
 	${D1}/full/elm.png        ${D2}/elm.html        ${D2}/elm.png        \
 	${D1}/full/snap.png       ${D2}/snap.html       ${D2}/snap.png       \
 	${D1}/full/aggregate.png  ${D2}/aggregate.html  ${D2}/aggregate.png  \
-	${D1}/full/alpine.png     ${D2}/alpine.html     ${D2}/alpine.png
+	${D1}/full/alpine.png     ${D2}/alpine.html     ${D2}/alpine.png \
+	${D1}/full/operator.png     ${D2}/operator.html     ${D2}/operator.png
 
 # Full color images that don't come from unsplash.
 full_images: ${D1}/full/headshot.png
@@ -78,7 +79,11 @@ work/elm.jpg: work/elm.tiff
 # Get a close up, and size with horizontal aspect.
 work/aggregate.jpg: work/aggregate.tiff
 	convert -modulate 110 -level 10% -crop 1250x880+2200+800 $? $@
-
+	
+# Trim off border
+work/operator.jpg: work/operator.tif
+	convert -crop 1486x1035+25+25 $? $@
+	
 #------------------------------------------------------------------------------
 #
 #                      S T A N D A R D   H A N D L I N G 
@@ -166,7 +171,9 @@ work/aggregate.tiff:
 work/alpine.jpg:
 	curl -L http://unsplash.com/photos/fe8vGYpi3ag/download?force=true -o t
 	mv t $@
-
+work/operator.tif:
+	curl -L http://cdn.loc.gov/master/pnp/cph/3a40000/3a45000/3a45800/3a45877u.tif -o t
+	mv t $@
 #------------------------------------------------------------------------------
 #
 #                                  C L E A N

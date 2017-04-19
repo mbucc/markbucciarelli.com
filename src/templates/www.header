@@ -19,7 +19,7 @@
 	<figure>
         <img src="img/full/{{IMG}}.png" alt="{{ALT}} class="webfeedsFeaturedVisual"/>
 	<figcaption>
-          &copy; {{YEAR_TAKEN}} <a href="imginfo/{{IMGINFO}}.html">{{PHOTOGRAPHER}}</a>
+          {{CAPTION}} &copy; {{YEAR_TAKEN}} <a href="imginfo/{{IMGINFO}}.html">{{PHOTOGRAPHER}}</a>
 	  {{IMGSITE}}
 	</figcaption>
 	</figure>
