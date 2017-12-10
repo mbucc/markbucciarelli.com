@@ -7,11 +7,7 @@ import           Hakyll
 --------------------------------------------------------------------------------
 main :: IO ()
 main = hakyll $ do
-    match "img/*" $ do
-        route   idRoute
-        compile copyFileCompiler
-
-    match "img/full/*" $ do
+    match "img/**" $ do
         route   idRoute
         compile copyFileCompiler
 
@@ -22,6 +18,10 @@ main = hakyll $ do
     match "css/*" $ do
         route   idRoute
         compile compressCssCompiler
+
+    match "css/et-book/**" $ do
+        route   idRoute
+        compile copyFileCompiler
 
     match "contact.markdown" $ do
         route   $ setExtension "html"
