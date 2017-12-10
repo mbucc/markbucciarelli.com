@@ -1,7 +1,0 @@
-    <item>
-        <title><![CDATA[{{TITLE}}]]></title>
-        <link>http://markbucciarelli.com/{{URL}}</link>
-        <description><![CDATA[{{LEDE}}]]></description>
-        <pubDate>{{PUBDATE_ISO}}</pubDate>
-        <guid>http://markbucciarelli.com/{{URL}}</guid>
-    </item>
