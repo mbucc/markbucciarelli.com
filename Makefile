@@ -1,9 +1,10 @@
-default:
+.PHONEY: watch
+watch:
 	stack exec site build
 	stack exec site watch
 
-.PHONEY: deploy
-all:
+.PHONEY: fullwatch
+fullwatch:
 	stack build
 	stack exec site rebuild
 	./mksitemap.sh > _site/sitemap.txt
