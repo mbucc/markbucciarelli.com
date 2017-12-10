@@ -1,0 +1,419 @@
+---
+title: CQRS vs. OOP a Pomodoro throw down
+date: October 27, 2016
+---
+
+<section>
+
+    <p>Design data models for the Pomodoro Technique, one for CQRS and one for OOP and show how the CQRS model is simpler and more flexible.
+
+	<figure>
+    <img src="/img/full/tomato.png" alt="A close up of a ripe, fresh tomato. class="webfeedsFeaturedVisual"/>
+	<figcaption>
+       &copy; 2016 <a href="/imginfo/tomato.html">Ivan Timov</a>
+	  for Unsplash
+	</figcaption>
+	</figure>
+
+</section>
+<section>
+<div class="epigraph">
+    <blockquote>
+<p>Software products, services or line-of-business systems which need to store data can be built using an event log as the source of truth instead of relying on “traditional” databases.
+    <footer>Adaptech Solutions. <cite><a href="http://adaptechsolutions.net/rise-of-the-robots-event-logs-vs-traditional-databases/"><u>Rise Of The Robots: Event Logs vs. “traditional” Databases</u></a></cite> Sep. 20, 2016</footer>
+    </blockquote>
+</div>
+</section>
+
+<section>
+<h2>Introduction to the Pomodoro Technique</h2>
+
+<p>The <a href="http://pomodorotechnique.com/">Pomodoro Technique</a> improves your productivity by having you
+<ol>
+    <li>work on one thing for 25 minutes straight,</li>
+    <li>become better at estimating time for a task, and</li>
+    <li>taking a five-minute breaks every half hour to let your mind rest</li>
+</ol>
+<p>I have been using this for the past two weeks, and have found that if I am able to maintain discipline, it is remarkably effective and that I am getting more done, feeling more satisfied at work, and becoming a better estimator.
+</section>
+
+<section>
+<h2>User Stories</h2>
+<p>All of these stories are for a single user, the worker.
+<ol>
+    <li>At the start of my work day <b>I create a TO DO list</b> for the day so that I work on the most important tasks first.</li>
+    <li>During a pomodoro, I must <b>work on one thing</b> and one thing only so that I become more productive.</li>
+    <li>When a pomodoro is done, I need to <b>take a five minute break</b> and cross off one of my estimated pomodoros for that task.</li>
+    <li>When I complete four pomodoros, I need to <b>take a 15-minute break</b> so that I can start the next task with vigor.</li>
+    <li>I need to <b>estimate the number of &ldquo;pomodoros&rdquo;</b> (25-minute chunks) each task will take so that I can record how accurate my estimates are.</li>
+    <li>During a pomodoro, I need to <b>record interruptions</b> so that I can learn how much they affect my work day.</li>
+    <li>If I cross off all of my estimated blocks of time, and there is still work to do, I need to <b>re-estimate the time left</b> on that task.</li>
+    <li>I need to <b>maintain a master TO DO list (an inventory)</b> so when I think of something else to do, I can record it there.</li>
+    <li>At the end of the day, I need to <b>summarize my day and add to a daily record</b> by recording the number of:
+        <ol type="a">
+            <li>pomodoros completed</li>
+            <li>interruptions, by type (internal and external)</li>
+            <li>tasks, by type (planned and unplanned)</li>
+            <li>hours worked</li>
+            <li>tasks that were underestimated</li>
+            <li>total pomodoros (for completed tasks) that were not required (total over estimated)</li>
+        </ol>
+        so that over time I can gain a clear picture of how well I estimate.</li>
+</ol>
+</section>
+
+<section>
+<h2>OOP Data Model</h2>
+
+<p>An object-oriented design focuses on the nouns in the system, since those are thought to be the more stable entities in the system.  The idea is that by modeling the stable entities, the software will require less change as the system evolves.
+<p>Pulling the major nouns out of the use cases above, we get
+<ul>
+    <li>task</li>
+    <li>pomodoro</li>
+    <li>interruption</li>
+    <li>estimate</li>
+    <li>break</li>
+    <li>daily TODO list</li>
+    <li>master TODO inventory</li>
+    <li>daily record</li>
+</ul>
+
+<p>The nouns pomodoro, estimate, break are value
+objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-vo" class="margin-toggle"/>
+<span class="marginnote">
+  A value object has no identity or life cycle.
+</span> and are modeled as attributes and not entities.  The inventory and record nouns are views over the task and workday entity sets Task and WorkDay and relationship set WorksOn.
+
+
+<h3>OOP Entity-Relationship Diagram</h3>
+
+<p><figure><img src="/img/oop.png" /></figure>
+
+<h3>OOP SQL</h3> 
+
+<p>Here is the
+SQL<label for="mn-sql" class="margin-toggle">&#8853;</label>
+<input type="checkbox" id="mn-sql" class="margin-toggle"/>
+<span class="marginnote">
+  All SQL in this blog entry was tested with SQLite.
+</span>
+that implements this model.
+
+        <pre class="code with-wrapping fullwidth">
+<line>PRAGMA foreign_keys = ON</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS workson</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS workday</line>
+<line>;</line>
+<line>CREATE TABLE task(</line>
+<line>  name       TEXT PRIMARY KEY,</line>
+<line>  canceled  TEXT NOT NULL CHECK (canceled IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE workday(</line>
+<line>  date       TEXT PRIMARY KEY</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE workson(</line>
+<line>  task_name       TEXT    NOT NULL REFERENCES task    (name)       ON UPDATE CASCADE,</line>
+<line>  date            TEXT    NOT NULL REFERENCES workday (date)       ON UPDATE CASCADE,</line>
+<line>  first_estimate  INTEGER NOT NULL CHECK (first_estimate > 0), </line>
+<line>  planned         TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;,</line>
+<line>  interruptions   INTEGER NOT NULL CHECK (interruptions >= 0)      DEFAULT  0, </line>
+<line>  completed       TEXT    NOT NULL CHECK (completed IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;,</line>
+<line>  second_estimate INTEGER          CHECK (second_estimate > 0), </line>
+<line>  third_estimate  INTEGER          CHECK (third_estimate IS NULL </line>
+<line>                                          OR (second_estimate IS NOT NULL </line>
+<line>                                              AND third_estimate > 0)),</line>
+<line>  actual          INTEGER          CHECK (actual > 0), </line>
+<line>  PRIMARY KEY(task_name, date)</line>
+<line>)</line>
+<line>;</line>
+<line>DROP VIEW IF EXISTS record</line>
+<line>;</line>
+<line>CREATE VIEW record AS</line>
+<line>WITH actuals </line>
+<line>        AS (</line>
+<line>        SELECT   date</line>
+<line>               , sum(actual) n</line>
+<line>               , sum(interruptions) int</line>
+<line>          FROM workson</line>
+<line>         GROUP BY date),</line>
+<line>     planned </line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE planned = &rsquo;Y&rsquo;</line>
+<line>         GROUP BY date),</line>
+<line>     unplanned </line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE planned = &rsquo;N&rsquo;</line>
+<line>         GROUP BY date),</line>
+<line>     completed</line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE completed = &rsquo;Y&rsquo;</line>
+<line>         GROUP BY date),</line>
+<line>     under</line>
+<line>        AS (</line>
+<line>        SELECT date, count(*) n</line>
+<line>          FROM workson</line>
+<line>         WHERE second_estimate IS NOT NULL</line>
+<line>         GROUP BY date),</line>
+<line>     over</line>
+<line>        AS (</line>
+<line>        SELECT   date</line>
+<line>               , SUM(first_estimate) - sum(actual) n</line>
+<line>          FROM workson</line>
+<line>         WHERE completed = &rsquo;Y&rsquo;</line>
+<line>           AND first_estimate > actual</line>
+<line>         GROUP BY date)</line>
+<line>SELECT   workday.date</line>
+<line>       , IFNULL(actuals.n,   0) AS pomodoros</line>
+<line>       , IFNULL(actuals.int, 0) AS interruptions</line>
+<line>       , IFNULL(planned.n,   0) AS planned_tasks</line>
+<line>       , IFNULL(unplanned.n, 0) AS unplanned_tasks</line>
+<line>       , IFNULL(under.n,     0) AS under_estimated_tasks</line>
+<line>       , IFNULL(over.n,      0) AS total_over_estimate</line>
+<line>  FROM workday</line>
+<line>  LEFT OUTER JOIN actuals   ON actuals.date   = workday.date</line>
+<line>  LEFT OUTER JOIN planned   ON planned.date   = workday.date</line>
+<line>  LEFT OUTER JOIN unplanned ON unplanned.date = workday.date</line>
+<line>  LEFT OUTER JOIN under     ON under.date     = workday.date</line>
+<line>  LEFT OUTER JOIN over      ON over.date      = workday.date</line>
+<line>;</line>
+<line>DROP VIEW IF EXISTS inventory</line>
+<line>;</line>
+<line>CREATE VIEW inventory AS</line>
+<line>SELECT name</line>
+<line>  FROM task</line>
+<line> WHERE name NOT IN (SELECT DISTINCT task_name</line>
+<line>                      FROM workson</line>
+<line>                     WHERE completed = &rsquo;Y&rsquo;)</line>
+<line>   AND canceled = &rsquo;N&rsquo;</line>
+<line>;</line>
+<line></line>
+</pre>
+</section>
+
+<section>
+<h2>CQRS Data Model</h2>
+
+<p>In CQRS, we model by looking for:
+
+<blockquote>
+    <p><em>things that happen</em> that lead to some kind of <em>new information</em> in the domain. We map these happenings to a set of events. Since events are about things that have taken place, they are named <em>in the past tense</em>.
+    <footer>Edument, <cite><a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a></cite> (retrieved October 22, 2016)</footer>
+</blockquote>
+
+<p>Re-reading through the use cases above, you can pull out the following actions:
+
+<h3>The Actions</h3>
+
+<ul>
+    <li>TaskAdded</li>
+    <li>TaskEstimated</li>
+    <li>TaskInterrupted</li>
+    <li>TaskDone</li>
+    <li>PomodoroStarted</li>
+    <li>PomodoroDone</li>
+    <li>WorkDayDone</li>
+</ul>
+
+<h3>CQRS Entity-Relationship Diagram</h3>
+
+<p><figure><img src="/img/cqrs.png" /></figure>
+
+<h3>CQRS SQL</h3>
+
+        <pre class="code with-wrapping fullwidth">
+<line>PRAGMA foreign_keys = ON</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_added</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_estimated</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS task_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS pomodoro_started</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS pomodoro_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS work_day_done</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS event</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS inventory</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS record</line>
+<line>;</line>
+<line>DROP TABLE IF EXISTS error</line>
+<line>;</line>
+<line>CREATE TABLE event(</line>
+<line>  id         INTEGER PRIMARY KEY,</line>
+<line>  date       TEXT     NOT NULL,</line>
+<line>  -- current_timestamp is in UTC timezone</line>
+<line>  timestamp  DATETIME NOT NULL DEFAULT current_timestamp,</line>
+<line>  type       TEXT     NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_added(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL,</line>
+<line>  planned      TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_estimated(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL,</line>
+<line>  estimate     INTEGER NOT NULL CHECK (estimate > 0)</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE task_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE pomodoro_started(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE pomodoro_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE work_day_done(</line>
+<line>  event_id     INTEGER NOT NULL REFERENCES event (id)</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE record(</line>
+<line>  date                  TEXT     NOT NULL,</line>
+<line>  pomodoros             INTEGER,</line>
+<line>  interruptions         INTEGER,</line>
+<line>  planned_tasks         INTEGER  NOT NULL CHECK (planned_tasks > 0),</line>
+<line>  unplanned_tasks       INTEGER,</line>
+<line>  under_estimated_tasks INTEGER,</line>
+<line>  total_over_estimate   INTEGER</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE inventory(</line>
+<line>  task_name    TEXT    NOT NULL</line>
+<line>)</line>
+<line>;</line>
+<line>CREATE TABLE error(</line>
+<line>  command_id  INTEGER NOT NULL,</line>
+<line>  text        TEXT NOT NULL</line>
+<line>)</line>
+<line>;</line>
+</pre>
+
+
+
+</section>
+
+<section>
+  <h2>The OOP and CQRS models are equivalent sources of truth.</h2>
+
+  <p>While extremely different in structure, the two data models support the user stories.
+
+  <p>Some observations of the differences between the two models:
+
+  <p>CQRS
+
+  <ul>
+<li>puts all business logic in commands and read models,
+<li>has one table for each event type, and</li>
+<li>keeps a strong decoupling between each database table</li>
+  </ul>
+
+  <p>OOP
+  <ul>
+<li>has fewer tables,</li>
+<li>encodes business logic in the form of foreign keys and check constraints, and</li>
+<li>has complex views that generate the reports.</li>
+  </ul>
+
+  <p>Overall, I find the CQRS model simpler because, although there are more tables, the tables are decoupled and there is no complex views.
+</section>
+
+<section>
+
+  <h2>How do the models handle change?</h2>
+
+  <p>Consider a few ways the system might change over time&mdash;how does each data model cope with the change?
+
+  <h3>Change pomodoro size from 25 minutes to 50 minutes.</h3>
+
+<p>OOP: No change required.
+<p>CQRS: No change required.  Since we store start and end event of each pomodoro, the pomodoro duration data is stored in the event history and could be used in a read-model, if required.
+<p>Winner: CQRS.
+
+  <h3>Differentiate between external and internal interruptions.</h3>
+
+<p>OOP: Add two new fields internal_interruptions and external_interruptions.  Make existing field represent the total of those two.  Unclear how to migrate old records.
+<p>CQRS: Add a new event type TaskInterrupted_v2 that has a second attribute &rsquo;Internal?&rsquo;.  Add same two new fields to record table.  Also unclear how to report on old and new records.
+<p>Winner: Tie.
+
+  <h3>Add the ability to group small tasks into one pomodoro.</h3>
+
+<p>Some tasks do not take 25 minutes.  In the Pomodoro method, you would group a few of these smaller tasks together and then make an estimate for the group.
+<p>Also, these groupings can vary from day-to-day.  For example, if you group four of them on day one, but only complete three of them, the one unfinished one could be grouped with a different set of small tasks on day two.
+<p>OOP:
+
+<p>The best way forward here was not clear to me.  Here is one approach that should work.
+
+<ul>
+    <li>new table Group
+        <ol type=a>
+            <li>with fields id and task_name</li>
+            <li>unique key on (id, task_name)</li>
+            <li>task_name is foreign key to task.name.</li>
+        </ol>
+    </li>
+    <li>WorksOn
+        <ol type=a start=4>
+            <li>new field group_id that is nullable and is a foreign key to Group.id</li>
+            <li>Make task_name nullable</li>
+            <li>add constraint that either task_name or group_id must be non-null</li>
+            <li>add constraint that only one of task_name or group_id can be non-null</li>
+            <li>delete primary key</li>
+            <li>make unique key on (date, task_name, group_id)</li>
+        </ol>
+    </li>
+</ul>
+
+<p>CQRS: Add a new event TaskAddedToGroup with two attributes: group_name and task_name.  When adding a group, use the existing AddTask command with the group name. 
+
+<p>Winner: CQRS.
+
+</section>
+
+<section>
+<h2>Summary</h2>
+
+<p>With CQRS you get a simpler data model that is more flexible to change.
+<p>But &hellip; this is just the data model side.  To be a true comparison, we need to compare the code as well.
+</section>
+
+
+<section>
+<h2>Resources</h2>
+<ul>
+
+<li><a href="http://www.db-book.com/">Database System Concepts</a>, <i>Sixth Edition</i>, 2010, by Avi Silberschatz, Henry F. Korth, S. Sudarshan.</li>
+<li><a href="http://codex.cs.yale.edu/avi/db-book/db6/slide-dir/PPT-dir/ch7.ppt">Power Point</a> slides for <i>Database Design: The Entity-Relationship Approach</i> section from Part 2 of the above book.</li>
+<li><a href="https://bitbucket.org/pavel_calado/tikz-er2/wiki/Home">The Tikz-er2 Package</a>, P&aacute;vel Calado</li>
+<li>Edument CQRS Tutorial, <a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a>.
+</ul>
+</section>
+
+

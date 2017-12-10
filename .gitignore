@@ -30,3 +30,6 @@ sandbox/prometheus/prome.1.script
 *.bak
 sandbox/utf8web/utf8.txt
 sandbox/json/lib/
+.stack-work
+_cache
+_site

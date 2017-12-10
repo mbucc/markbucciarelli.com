@@ -1,0 +1,115 @@
+---
+title: Haskell operators I have trouble with
+date: April 19, 2017
+---
+
+<section>
+
+    <p>The Haskell $, . , and => operators.
+
+	<figure>
+    <img src="/img/full/operator.png" alt="A census bureau operator and his machine. class="webfeedsFeaturedVisual"/>
+	<figcaption>
+      A Census Bureau operator &copy; 1908 <a href="/imginfo/operator.html">Waldon Fawcett</a>
+	  for Library of Congress
+	</figcaption>
+	</figure>
+
+</section>
+<section>
+<h2>$</h2>
+
+<p>Replaces parentheses.
+
+<p>All of the following are equivalent (per Michael Steele&rsquo;s <a href="http://stackoverflow.com/a/1290727">answer</a> on Stack Overflow):
+
+<pre class="code with-wrapping fullwidth">
+<line>putStrLn (show (1 + 1))</line>
+<line>putStrLn (show $ 1 + 1)</line>
+<line>putStrLn $ show (1 + 1)</line>
+<line>putStrLn $ show $ 1 + 1</line>
+<line>(putStrLn . show) (1 + 1)</line>
+<line>putStrLn . show $ 1 + 1</line>
+<line>(putStrLn . show . (+ 1)) 1</line>
+<line>putStrLn . show . (+ 1) $ 1</line>
+</pre>
+
+
+<p>It&rsquo;s type is:
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :type ($)</line>
+<line>($) :: (a -> b) -> a -> b</line>
+</pre>
+
+<ol>
+<li>a function that maps type a to type b</li>
+<li>a value of type a</li>
+<li>output is a value of type b.</li>
+</ol>
+
+</section>
+
+<section>
+<h2>.</h2>
+
+<p>A Unix pipe for functions.
+
+<p>That is, feed the output of one function to the input of another.
+
+<p>For example, instead of <code>let fn x = f (g x)</code> you can write
+<code>let fn = f . g</code>.
+
+<p>Note the second version doesn&rsquo;t mention <code>x</code>.  In this style,
+you don&rsquo;t mention the input variable(s).
+
+<p>As another example, instead of <code>f x = x + 1</code> you write <code>f = (+ 1)</code>.
+
+<p>Confusingly, this is called writing in a 
+<a href="https://wiki.haskell.org/Pointfree">pointfree</a> style<label for="sn-pointfree" class="margin-toggle sidenote-number"></label>.
+<input type="checkbox" id="sn-pointfree" class="margin-toggle"/>
+<span class="sidenote">&ldquo;Pointfree&rdquo; as in no input variables (&ldquo;points&rdquo; in topology).</span>
+
+
+<p>It&rsquo;s type is:
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :type (.)</line>
+<line>(.) :: (b -> c) -> (a -> b) -> a -> c</line>
+</pre>
+
+</section>
+
+<section>
+
+<h2>=></h2>
+
+<p>&ldquo;is an instance of&rdquo;, but you read it right to left.
+
+<p>For example, <code>(==) :: (Eq a) => a -> a -> Bool</code> is read &ldquo;for every type a that is an instance of Eq&rdquo;</code><label for="sn-instance" class="margin-toggle sidenote-number"></label>.
+<input type="checkbox" id="sn-instance" class="margin-toggle"/>
+<span class="sidenote"><a href="https://www.haskell.org/tutorial/classes.html">Type Classes and Overloading</a>, <em>A Gentle Introduction to Haskell, Version 98</em>.</span>
+
+
+<p>Here&rsquo;s an example from <a href="https://hackage.haskell.org/package/scotty-0.11.0/docs/Web-Scotty.html">Scotty</a>: <code>jsonData :: FromJSON a => ActionM a</code>.
+
+<p>Frankly, I&rsquo;m still not 100% sure how to read this.  My best guess is:
+
+<ul>
+<li>For every type <code>a</code> that is an instance of <code>FromJSON</code></li>
+<li>you have (<code>=></code>)</li>
+<li>an operation named <code>jsonData</code>, which returns an <code>ActionM a</code></li>
+</ul>
+
+
+<p>And this one is is not an operator, as it doesn&rsquo;t have a type:
+
+<pre class="code with-wrapping fullwidth">
+<line>Prelude> :t (=>)</line>
+<line><interactive>:1:2: error: parse error on input ‘=>’</line>
+</pre>
+
+
+
+
+</section>

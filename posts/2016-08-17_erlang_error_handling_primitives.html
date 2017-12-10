@@ -1,0 +1,280 @@
+---
+title: Erlang error handling primitives
+date: August 17, 2016
+---
+
+<section>
+
+    <p>Defines Erlang&rsquo;s error handling terms and rules and then demonstrates how the primitives work with simple examples in the Erlang shell.
+
+	<figure>
+    <img src="/img/full/lightning.png" alt="A bright lightning strike with many forks against a navy blue sky. class="webfeedsFeaturedVisual"/>
+	<figcaption>
+       &copy; 2015 <a href="/imginfo/lightning.html">Sean McAuliffe</a>
+	  for Unsplash
+	</figcaption>
+	</figure>
+
+</section>
+<section>
+    <div class="epigraph">
+    <blockquote>
+        <p> Erlang &hellip; takes the approach that failures will happen no matter what, whether they’re developer-, operator-, or hardware-related. It is rarely practical or even possible to get rid of all errors in a program or a system.  If you can deal with some errors rather than preventing them at all cost, then most undefined behaviours of a program can go in that &ldquo;deal with it&rdquo; approach.
+
+	     <p> This is where the &ldquo;Let it Crash&rdquo; idea comes from: Because you can now deal with failure, and because the cost of weeding out all of the complex bugs from a system before it hits production is often prohibitive, programmers should only deal with the errors they know how to handle, and leave the rest for another process (a supervisor) or the virtual machine to deal with.
+
+	     <p> Given that most bugs are transient, simply restarting processes back to a state known to be stable when encountering an error can be a surprisingly good strategy.
+        <footer>Fred H&eacute;bert and Heroku, <cite><a href="http://www.erlang-in-anger.com/"><u>Stuff Goes Bad: Erlang In Anger</u></a></cite> (2014, p. 1)</footer>
+    </blockquote>
+    </div>
+</section>
+
+<section>
+
+   <h2>There are four basic terms to understand.</h2>
+
+     <p>In Erlang, you build a system by linking processes together.  Instead of thinking in terms of classes, think in terms of processes.  Processes only communicate via messages and signals and do not share memory.
+	 
+	 <p>Erlang error 
+	 handling<label for="sn-course" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-course" class="margin-toggle"/><span class="sidenote">Most of the Erlang information in this post comes from the excellent <a href="http://erlang.org/course/error_handling.html"><em>An Erlang Course</em></u></a></cite>, (1999) by Joe Armstrong and Ericsson.   It&rsquo;s not long, I recommend you check it out.</span> 
+	 
+	 mainly deals with how processes communicate errors to each other.  Here are the basic terms:
+	 
+	 
+	<ol>
+     <li><em>link</em>: A bi-directional propagation path for exit signals between processes.</li>
+     <li><em>link set</em>: The set of all links to a process.</li>
+     <li><em>exit signal</em>: Process termination information.</li>
+     <li><em>error trapping</em>: The ability of a process to process exit signals as if they were messages.</li>
+	</ol>
+
+ <h3>Wait, what is the difference between a message and an exit signal?</h3>
+
+	<p>Messages go to a processes mailbox.  Every process has a mailbox and the address for that mailbox is the process id.
+
+    <p>For example, here we spawn a process that waits for a message.  The process id is <0.60.0>.  We send the process a message with the bang (!) symbol, and the process prints the message.  The process then stops of it&rsquo;s own accord (because there is no loop statement at the end of the receive clause).
+
+
+        <pre class="code with-wrapping fullwidth">
+<line>~$ erl</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> PrintMessageThenExit = fun() -> receive M -> io:format("Got message ~p~n", [M]) end end.   </line>
+<line>#Fun&lt;erl_eval.20.52032458></line>
+<line>2> spawn(PrintMessageThenExit).</line>
+<line><0.60.0></line>
+<line>3> Pid = lists:last(processes()).</line>
+<line><0.60.0></line>
+<line>4> Pid ! hello.</line>
+<line>Got message hello</line>
+<line>hello</line>
+<line>5> </line>
+</pre>
+
+	<p>Exit signals only travel on links and will use the mailbox only if the process at the other end of the link has turned on error trapping.
+
+    <p>More examples follow below.
+	
+</section>
+
+<section>
+
+    <h2>The exit signal propagation rules.</h2>
+
+        <blockquote>
+
+            <ol>
+                <li>When a process terminates it sends an exit signal, either normal or non-normal, to the processes in its link set.</li>
+                <li>A process which is not trapping exit signals (a normal process) dies if it receives a non-normal exit signal. When it dies it sends a non-normal exit signal to the processes in its link set.</li>
+                <li>A process which is trapping exit signals converts all incoming exit signals to conventional messages which it can receive in a receive statement.</li>
+                <li>Errors in BIFs or pattern matching errors send automatic exit signals to the link set of the process where the error occurred.</li>
+            </ol>
+
+		<footer>Joe Armstrong and Ericsson, <cite><a href="http://erlang.org/course/error_handling.html"><em>An Erlang Course</em></u></a></cite> (1999).</footer>
+        </blockquote>
+
+        <p><img src="/img/erlang-aagh.png" alt="One process transmitting exit signals along it&rsquo;s links."/></a>
+
+
+    <h3>The erlang shell is a process.</h3>
+
+        <pre class="code with-wrapping fullwidth">
+<line></line>
+<line>1> erlang:processes().</line>
+<line>[<0.0.0>,<0.3.0>,<0.6.0>,<0.7.0>,<0.9.0>,<0.10.0>,<0.11.0>,</line>
+<line> <0.12.0>,<0.14.0>,<0.15.0>,<0.16.0>,<0.17.0>,<0.18.0>,</line>
+<line> <0.19.0>,<0.20.0>,<0.21.0>,<0.22.0>,<0.23.0>,<0.24.0>,</line>
+<line> <0.25.0>,<0.26.0>,<0.27.0>,<0.28.0>,<0.29.0>,<0.33.0>]</line>
+<line>2> self().</line>
+<line><0.33.0></line>
+<line>3> q().</line>
+<line>ok</line>
+<line>4> ~/src/erlang-sandbox$</line>
+</pre>
+
+    <h3>The shell process dies and restarts when it receives an exit
+signal.</h3>
+
+        <p>This is a special property of the shell process.  You can tell the shell restarted because it&rsquo;s process ID changed.
+
+        <pre class="code with-wrapping fullwidth">
+<line>1> self().</line>
+<line><0.33.0>                   % The process id of the shell starts as 0.33.0.</line>
+<line>2> 1/0.</line>
+<line>** exception error: an error occurred when evaluating an arithmetic expression</line>
+<line>     in operator  &rsquo;/&rsquo;/2</line>
+<line>        called as 1 / 0</line>
+<line>3> self().</line>
+<line><0.36.0>                   % The process id of the shell has changed.</line>
+<line>4></line>
+</pre>
+
+    <h3>If the shell spawns but does not link to a process that dies, the shell does not die.</h3>
+
+<p>The shell is not linked to the process it spawned, so it does not get
+the exit signal from it&rsquo;s
+child<label for="mn-vers" class="margin-toggle">&#8853;</label>.
+<input type="checkbox" id="mn-vers" class="margin-toggle"/>
+<span class="marginnote">
+  The reason the shell sometimes starts as process id 0.33.0 and other times as 0.57.0 is due to running this code under different versions of Erlang.  The 0.33.0 corresponds to Eshell V7.2.1 and the 0.57.0 to Eshell V8.0.1.
+</span>
+
+        <pre class="code with-wrapping fullwidth">
+<line>~/src/erlang-sandbox$ cat crasher.erl</line>
+<line>-module(crasher).</line>
+<line>-compile([export_all]).</line>
+<line></line>
+<line>countdown(N) when N == 0 -></line>
+<line>   exit(boom);</line>
+<line></line>
+<line>countdown(N) when N > 0 -></line>
+<line>    io:format("child~p~n", [N]),</line>
+<line>    timer:sleep(1000),</line>
+<line>    countdown(N - 1).</line>
+<line></line>
+<line>1> c(crasher).</line>
+<line>{ok,crasher}</line>
+<line>2> self().</line>
+<line><0.33.0></line>
+<line>3> spawn(crasher, countdown, [2]).</line>
+<line>child2                     % countdown/1 output.</line>
+<line><0.41.0>                   % spawn/3 return value is child pid.</line>
+<line>child1                     % countdown/1 output.</line>
+<line>4> self().</line>
+<line><0.33.0></line>
+<line>5> spawn(crasher, countdown, [-2]).</line>
+<line><0.44.0></line>
+<line>6></line>
+<line>=ERROR REPORT==== 19-Feb-2016::07:14:57 ===</line>
+<line>Error in process <0.44.0> with exit value:</line>
+<line>{function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}</line>
+<line>self().                    % The sixth command is pushed down by exit output.</line>
+<line><0.33.0></line>                     
+<line>7></line>
+</pre>
+
+    <h3>If we link the shell to it&rsquo;s child, then the shell dies.</h3>
+
+        <p>The exit signal travels across the link to the shell process.
+
+        <pre class="code with-wrapping fullwidth">
+<line>1> self().</line>
+<line><0.33.0></line>
+<line>2> link(spawn(crasher, countdown, [2])).</line>
+<line>true</line>
+<line>child2</line>
+<line>child1</line>
+<line>** exception error: boom</line>
+<line>3> self().</line>
+<line><0.38.0>                   % The shell has new PID, so it crashed and restarted.</line>
+<line>4> link(spawn(crasher, countdown, [-2])).</line>
+<line>** exception exit: function_clause</line>
+<line>     in function  crasher:countdown/1</line>
+<line>        called as crasher:countdown(-2)</line>
+<line></line>
+<line>=ERROR REPORT==== 19-Feb-2016::07:19:01 ===</line>
+<line>Error in process <0.40.0> with exit value:</line>
+<line>{function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}</line>
+<line>5> self().</line>
+<line><0.41.0></line>
+<line>6></line>
+</pre>
+
+    <h3>Unless the error signal is a normal one!</h3>
+
+        <pre class="code with-wrapping fullwidth">
+<line>$ cat normal_crasher.erl </line>
+<line>-module(normal_crasher).</line>
+<line>-compile([export_all]).</line>
+<line></line>
+<line>countdown(N) when N == 0 -></line>
+<line>   exit(normal);           % The exit message is the atom "normal".</line>
+<line></line>
+<line>countdown(N) when N > 0 -></line>
+<line>    io:format("child~p~n", [N]),</line>
+<line>    timer:sleep(1000),</line>
+<line>    countdown(N - 1).</line>
+<line>$ erl</line>
+<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+<line></line>
+<line>Eshell V8.0.1  (abort with ^G)</line>
+<line>1> c(normal_crasher).</line>
+<line>{ok,normal_crasher}</line>
+<line>2> self().</line>
+<line><0.57.0>                   % Shell starts as process id 0.57.0.</line>
+<line>3> link(spawn(normal_crasher, countdown, [2])).</line>
+<line>child2</line>
+<line>true</line>
+<line>child1</line>
+<line>4> self().</line>
+<line><0.57.0>                   % Same process id for shell, so no crash.</line>
+<line>5> </line>
+<line></line>
+</pre>
+
+
+
+    <h3>If we trap the exit signal, the shell receives the signal as a message and does not die.</h3>
+
+<p>Continuing shell session from above &hellip;
+
+        <pre class="code with-wrapping fullwidth">
+<line>6> process_flag(trap_exit, true).</line>
+<line>false                      % process_flag/2 return value</line>
+<line>7> link(spawn(crasher, countdown, [10])).</line>
+<line>child10                    % countdown/1 output</line>
+<line>true                       % link/1 return value</line>
+<line>child9</line>
+<line>8> receive X -> X end.     % shell blocks waiting for a msg</line>
+<line>child8</line>
+<line>child7</line>
+<line>child6</line>
+<line>child5</line>
+<line>child4</line>
+<line>child3</line>
+<line>child2</line>
+<line>child1</line>
+<line>{&rsquo;EXIT&rsquo;,<0.45.0>,boom}     % shell got an EXIT message</line>
+<line>9> self().</line>
+<line><0.41.0></line>
+<line>10></line>
+</pre>
+
+</section>
+
+<section>
+<h2>Further Reading</h2>
+
+<p>As mentioned above, the <a href="http://erlang.org/course/error_handling.html"><em>An Erlang Course</em></u></a></cite>, (1999) by Joe Armstrong and Ericsson is a concise introduction to these same topics and gives more detail.
+
+<p>If you want to go even deeper, read
+<a href="http://ferd.ca/the-zen-of-erlang.html"><em>The Zen of Erlang</em></a>, by Fred H&eacute;bert.  It covers monitors and details how to use the OTP supervisor behavior to build reliable systems.
+
+</section>
+
+<section>
+   <h2>Change Log</h2>
+       <h3>Sep. 17, 2016</h3>
+           <ul><li>Display id that comes after #Fun in interpreter output.</li> </ul>
+</section>
