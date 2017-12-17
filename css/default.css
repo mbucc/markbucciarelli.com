@@ -232,7 +232,7 @@ pre.code.with-wrapping line::before { content: "";
                                       bottom: 0.2rem;
                                       left: 0;
                                       width: 0.9rem;
-                                      background: transparent url(img/line-wrap-arrow.svg) repeat-y 0 0.9rem;
+                                      background: transparent url(/img/line-wrap-arrow.svg) repeat-y 0 0.9rem;
                                       background-size: 0.9rem 0.9rem; }
 
 .fullwidth { max-width: 90%;
