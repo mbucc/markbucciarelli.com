@@ -57,6 +57,7 @@ h3 { font-style: italic;
      font-weight: 400;
      font-size: 1.7rem;
      margin-top: 2rem;
+     clear: both;          /* MKB: short figure, long margin note and narrow browser */
      margin-bottom: 0;
      line-height: 1; }
 
@@ -187,7 +188,7 @@ img { max-width: 100%; }
 
 blockquote .sidenote, blockquote .marginnote { margin-right: -82%;
                                                min-width: 59%;
-                                               text-align: left; }    
+                                               text-align: left; }
 
 p, footer, table { width: 55%; }
 
@@ -217,7 +218,8 @@ pre.code { font-size: 0.9rem;
 pre.code.fullwidth { width: 90%; }
 
 pre.code.with-wrapping { white-space: pre-wrap;
-                         word-wrap: normal; }
+                         word-wrap: normal;
+                         display: inline-block; }
 
 pre.code.with-wrapping line { position: relative;
                               display: inline-block;
