@@ -1,0 +1,235 @@
+---
+title: How to push to github from Travis CI
+date: January 26, 2019
+---
+
+<section>
+
+  <p>
+    Use a github <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">Deploy key</a>,
+    which is scoped to a single repo,
+    instead of a <a href="https://github.com/settings/tokens">Personal Access token</a>,
+    which has push rights to all your public repos.
+  </p>
+  <p>
+    This approach is only as secure as the private key that Travis creates for 
+    your github repo.
+  </p>
+  <p>
+    Approach from <a href="https://stackoverflow.com/a/22977235">https://stackoverflow.com/a/22977235</a>.
+  </p>
+
+</section>
+
+
+<section>
+
+
+<p>Software used for this HOWTO:
+
+<ol>
+  <li> OSX Mojave
+  <li> OpenSSH_7.9p1, LibreSSL 2.7.3
+  <li> travis gem 1.8.9
+  <li> openssl (LibreSSL 2.6.5)
+</ol>
+
+  <h2>Steps</h2>
+
+<h3>1. Install Travis CI command-line client</h3>
+
+  <figure>
+    <label for="mn1" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn1" class="margin-toggle"/>
+    <span class="marginnote">
+      Use this to encrypt a password and write it to .travis.yml.
+    </span>
+  
+    <pre class="code with-wrapping fullwidth">
+<line>$ gem install travis</line>
+<line>...</line>
+<line>$</line>
+    </pre>
+  </figure>
+
+
+<h3>2. Create a GitHub deploy key</h3>
+
+  <figure>
+    <label for="mn2" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn2" class="margin-toggle"/>
+    <span class="marginnote">
+      A github deploy key is just the public half of an SSH key pair.
+    </span>
+  
+    <pre class="code with-wrapping fullwidth">
+<line>$ cd ~/src/mycode/shmig</line>
+<line>$ ssh-keygen -t rsa -b 4096 -C "mkbucc@gmail.com"</line>
+<line>Generating public/private rsa key pair.</line>
+<line>Enter file in which to save the key (/Users/mark/.ssh/id_rsa): ./travis_key</line>
+<line>Enter passphrase (empty for no passphrase): </line>
+<line>Enter same passphrase again: </line>
+<line>Your identification has been saved in ./travis_key.</line>
+<line>Your public key has been saved in ./travis_key.pub.</line>
+<line>...</line>
+<line>$ cat travis_key.pub</line>
+<line>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCDzTsOqLcIm88P...</line>
+<line>$ </line>
+    </pre>
+  </figure>
+
+
+<h3>3. Add deploy key to your repo</h3>
+
+<p>GitHub -> your repository -> settings -> Deploy Keys -> "Add deploy key"</p>
+<ul>
+<li>Title = travis-ci
+<li>Key = [paste public key generated in previous step]
+<li>Allow write access = checked
+</ul>
+
+
+<h3>4. Encode private key with big random password</h3>
+
+  <figure>
+    <label for="mn4" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn4" class="margin-toggle"/>
+    <span class="marginnote">
+      Output 32 pseudo-random bytes in hexadecimal encoding.
+      Then use this as a password to encrypt the private key.
+      When I pasted a password generated this way in DashLanes
+      <a href="https://howsecureismypassword.net">How secure is
+      my password</a>, then answer was three sesvigintillion years.
+    </span>
+  
+    <pre class="code with-wrapping fullwidth">
+<line>$ password=$(openssl rand -hex 32)</line>
+<line>$ cat travis_key | openssl aes-256-cbc -k "$password" -md sha256 -a  > travis_key.enc</line>
+    </pre>
+  </figure>
+
+
+<h3>5. Give Travis access to the password</h3>
+
+  <figure>
+    <label for="mn5" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn5" class="margin-toggle"/>
+    <span class="marginnote">
+      The Travis CI
+      <a href="https://docs.travis-ci.com/user/encryption-keys/#encryption-scheme">encryption 
+      scheme</a> is to create an RSA key pair for each registered repository,
+      &ldquo;to keep the private key private, 
+      but makes the repository’s public key available to everyone.&rdquo;
+    </span>
+  
+    <pre class="code with-wrapping fullwidth">
+<line>$ echo "" > .travis.yml</line>
+<line>$ travis encrypt travis_key_password=$password --add env.matrix</line>
+<line>Detected repository as mbucc/shmig, is this correct? |yes| </line>
+<line>$ grep -A 2 ^env .travis.yml</line>
+<line>env:</line>
+<line>  matrix:</line>
+<line>    secure: VBF7EjJ/e2ibYLpaURDrWnrMsTn0mBPPeJiNSaoqrB/Z6Kg54PF+nZiMzo0kL9y3yi8PKlmTvfG3uPx3N7tCuQDVehH47yeSozT2QX/Vbod3RObpUsETT8LbSgyDmgi2+F4aZzsY+MtkLnv28wvcMN2kM4HjGL/0ROKIDL15ChFsmvn+BA7yUnVm43vQJcYRRlxDDRSdofJBHxtguPWjOvK8ARF5hSML/kl3mZZTmPXOR2W/WxnQXNSHkgaAoir/3ElSGVVV1ipN1ifWNdzlJI8Tcod9cDNE0DscOqMWC/7V9mEZUosHBN4ZIrn84ijBuiKYoWMoN1M5TRXwIYxsKiLf9+IwqRHaV0Q36Ktkoj5j4CG4xOPeS+oVHkJ6vFptr3hzgWPcKzi5zGzS8dQfnbk3PmxXDJyt9S3eVpc7HVjWVU5rqgBI912Z/vhgK6pJ/txPVJDw67sgA8h8G4UtoqMJpBwST4BIyjO33BCvFUpMT8WloGRiPCMBSub8WAJTjZ7Cy3E6l/iSpBVTRvr6Gqb9f4of61MUOjKiUyrdG05g21sm/RlNNrm2lg5vgZjq8AsEnxlKn5ONHWJjspivBDgMUH7PN5F3e1ZRfd2AievtjQC5FS7wU2ogN74O3Bor5y0UgJPRRl0/YL5Z7xFOz7Eo3qvp9JRTTqobgIz33+A=</line>
+<line>$</line>
+<line>$</line>
+<line>$ git add travis_key.enc</line>
+<line>$ git commit -m 'Encrypted private key half of github deploy key.'</line>
+<line>$ git add .travis.yml</line>
+<line>$ git commit -a -m 'Add encrypted password that can decrypt private github deploy key.'</line>
+    </pre>
+  </figure>
+
+
+<h3>6. Setup private key for push to git</h3>
+
+  <p>
+    I added the following lines to my <a 
+    href="https://github.com/mbucc/shmig_test/blob/439b426f495bf8ffda4b8aeb2ca95a4fdaf05ef0/test_runner.sh#L346-L351">test 
+    runner script</a>:
+  </p>
+
+  <figure>
+    <label for="mn6" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn6" class="margin-toggle"/>
+    <span class="marginnote">
+      In the script that runs on Travis, 
+      decrypt the private key, and configure SSH client to 
+      use that key for the
+      github.com host.  
+      <em>Make sure to use the SSH URL
+      for github remote, not the https one!</em>
+      Finally, 
+      add the github public SSH key to the known hosts file.
+    </span>
+  
+    <pre class="code with-wrapping fullwidth">
+<line>openssl aes-256-cbc -k "$travis_key_password" -d -md sha256 -a -in travis_key.enc -out travis_key</line>
+<line>echo "Host github.com" > ~/.ssh/config</line>
+<line>echo "  IdentityFile  $(pwd)/travis_key" >> ~/.ssh/config</line>
+<line>chmod 400 travis_key</line>
+<line>git remote set-url origin git@github.com:mbucc/shmig_test.git</line>
+<line>echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > ~/.ssh/known_hosts </line>
+<line>if ! git push -v ; then</line>
+<line>  _err "git push error"</line>
+<line>fi</line>
+</pre>
+
+</section>
+
+<section>
+
+<h2>Stumbles along the way</h2>
+
+<h3>1. digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:evp_enc.c:539:</h3>
+
+<pre>
+alpine:3.8|apk update|apk add|bash,sqlite|/bin/bash|sqlite3 [PASS]
+shmig-net
+bad decrypt
+139902961870496:error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt:evp_enc.c:539:
+remote: Invalid username or password.
+fatal: Authentication failed for 'https://github.com/mbucc/shmig_test.git/'
+[Sat Jan 26 16:37:24 UTC 2019] git push error
+</pre>
+
+<p>
+  I had forgotten to commit the .travis.yml, so the <code>travis_key_password</code> 
+  variable was not in the Travis build environment.  Doh!
+</p>
+
+<p>
+  Before I 
+    <label for="mn7" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn7" class="margin-toggle"/>
+    <span class="marginnote">
+  The default digest was changed from MD5 to SHA256 in Openssl 1.1,
+  per <a href="https://stackoverflow.com/a/39641378">https://stackoverflow.com/a/39641378</a>.
+    </span>
+  realized this, I spent a good amount of time making sure the digest
+  used by my laptop openssl matched
+  the one used by the Travis build box openssl.
+  Hence the <code>-md sha256</code> argument to openssl 
+  in both environments. 
+</p>
+
+<h3>2. remote: Invalid username or password</h3>
+
+<p>
+  <code>git remote set-url origin git@github.com:mbucc/shmig_test.git</code>
+</p>
+
+<p>
+  This one took a long while to figure out.
+  You must use the git URL for the remote 
+  in order for the SSH private key to work.
+</p>
+
+<h3>3. Permissions 0664 for '/home/travis/build/mbucc/shmig_test/travis_key' are too open.</h3>
+
+<p>
+  <code>chmod 400 ./travis_key</code>
+</p>
+
+
+
+</section>
