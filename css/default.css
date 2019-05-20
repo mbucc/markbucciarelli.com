@@ -108,11 +108,12 @@ blockquote footer { width: 55%;
                     font-size: 1.1rem;
                     text-align: right; }
 
-section>ol, section>ul { width: 45%;
+section>ol, section>ul, section>dl { width: 45%;
                          -webkit-padding-start: 5%;
                          -webkit-padding-end: 5%; }
 
-li { padding: 0.5rem 0; }
+                         
+li, dt { padding: 0.5rem 0; }
 
 figure { padding: 0;
          border: 0;
