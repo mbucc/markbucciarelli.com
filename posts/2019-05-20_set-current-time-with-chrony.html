@@ -1,6 +1,6 @@
 ---
-title: "alpine: set current time with chrony"
-date: May 20, 2019
+title: "tarsnap: how to list an archive"
+date: May 23, 2019
 ---
 
 <section style="clear: both;">
@@ -9,49 +9,15 @@ date: May 20, 2019
 
   <ol>
     <li>Alpine Linux 3.8.4, armhf</li>
-    <li>chrony-3.3-r0</li>
+    <li>tarsnap 1.0.39</li>
   </ol>
 
-  <p>To reset the time on the box to the current time:</p>
   <pre class="code with-wrapping fullwidth">
-<line># chronyc makestep</line>
+<line>tarsnap --keyfile tarsnap.key  --list-archives | tail -1</line>
+<line># wait for it ...</line>
+
+<line># ... then list the contents of the last file</line>
+<line>tarsnap --keyfile tarsnap.key  -tvf tallis-2019-01-09_05-02-00</line>
 </pre>
-
-  <p>Before running this, chrony had the right time ("Ref time:"):</p>
-  <pre class="code with-wrapping fullwidth">
-<line># chronyc tracking</line>
-<line>Reference ID    : D0719D9D (meanwhile.dreamhost.com)</line>
-<line>Stratum         : 3</line>
-<line>Ref time (UTC)  : Mon May 20 11:08:40 2019</line>
-<line>System time     : 1557773184.000000000 seconds slow of NTP time</line>
-<line>Last offset     : -0.000073435 seconds</line>
-<line>RMS offset      : 0.000131348 seconds</line>
-<line>Frequency       : 1.268 ppm fast</line>
-<line>Residual freq   : +0.000 ppm</line>
-<line>Skew            : 0.020 ppm</line>
-<line>Root delay      : 0.033056431 seconds</line>
-<line>Root dispersion : 0.019526452 seconds</line>
-<line>Update interval : 964.1 seconds</line>
-<line>Leap status     : Normal</line>
-<line>#</line>
-  </pre>
-
-  <p>but the system time was way off:</p>
-  <pre class="code with-wrapping fullwidth">
-<line># date</line>
-<line>Wed Jan  7 11:25:52 EST 1970</line>
-  </pre>
-
-  <p>For reference, my chrony.conf is the Alpine default:</p>
-
-  <pre class="code with-wrapping fullwidth">
-<line># cat /etc/chrony/chrony.conf </line>
-<line># default config</line>
-<line></line>
-<line>pool pool.ntp.org iburst</line>
-<line>initstepslew 10 pool.ntp.org</line>
-<line>driftfile /var/lib/chrony/chrony.drift</line>
-<line>rtcsync</line>
-    </pre>
 
 </section>
