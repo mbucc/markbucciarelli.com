@@ -13,11 +13,17 @@ date: November 9, 2019
 <line>  init {</line>
 <line>      require(n in 0..23) { "invalid hour $n" }</line>
 <line>  }</line>
+<line></line>
+<line>  companion object {</line>
+<line>      @JvmStatic</line>
+<line>      fun parse(x : String) = Hour(x.toInt())</line>
+<line>  }</line>
+<line></line>
 <line>}</line>
   </pre>
 
   <p>
-    Inspired by Alexis King's blog post
+    Hat tip to Alexis King's blog post
     <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">Parse,
       don’t validate</a>.
   </p>
@@ -28,4 +34,43 @@ date: November 9, 2019
     <code>Int?</code> would tell the compiler a null is OK.)
   </p>
 
+  <h2>Other useful Java value objects having to do with time:</h2>
+
+  <ul>
+    <li>
+      <a
+        href="https://docs.oracle.com/javase/8/docs/api/java/time/MonthDay.html">java.time.MonthDay</a>
+      Immutable. Validates the day/month combination. Sample usage:
+      <code>MonthDay.of(11, 7)</code>
+    </li>
+    <li>
+      <a
+        href="https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html">java.time.Instant</a>
+      Immutable. Good fit with epoch seconds.
+      <ol>
+        <li><code>Instant.ofEpochSecond(1573391885)</code> Convert epoch seconds to an
+          Instant.</li>
+        <li><code>Instant.now()</code> Current time.</li>
+        <li><code>asOf.atZone(tz.toZoneId()).toLocalDate()</code> Get a local date from
+          the Instant <code>asOf</code>.</li>
+      </ol>
+    </li>
+    <li>
+      <a
+        href="https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html">java.time.ZonedDateTime</a>
+      Immutable. Go from month, day, etc to an Instant, for example:
+      <pre class="code with-wrapping fullwidth">
+<line>ZonedDateTime.of(</line>
+<line>    2019,</line>
+<line>    11,</line>
+<line>    7,</line>
+<line>    8,</line>
+<line>    21,</line>
+<line>    0,</line>
+<line>    0,</line>
+<line>    TimeZone.getTimeZone(" US/Eastern") </line>
+<line>).toInstant()</line>
+</pre>
+    </li>
+  </ul>
 </section>
