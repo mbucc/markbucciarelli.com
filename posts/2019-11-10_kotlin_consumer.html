@@ -1,0 +1,47 @@
+---
+title: "kotlin: How to write a Consumer"
+date: November 10, 2019
+---
+
+<section style="clear: both;">
+
+  <p>The software used for this howto is Kotlin 1.3.50.</p>
+
+  <pre class="code with-wrapping fullwidth">
+<line>fun normalize(fields: Map<String, String>): Gig {</line>
+<line></line>
+<line>  val err = { x : String -> throw IllegalStateException("no '$x' in $fields") }</line>
+<line>  val parsed = ParsedFields(</line>
+<line>          fields["date"] ?: err("date"),</line>
+<line>          fields["time"] ?: err("time"),</line>
+<line>          fields["detailURL"] ?: ""</line>
+<line>  )</line>
+<line>}</line>
+  </pre>
+
+  <p>Here <code>err</code> has the type
+    <code>(String) -> Nothing</code>
+    and is equivalent to a Java 8 <a
+      href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Consumer.html">java.util.function.Consumer</a>.
+  </p>
+
+  <p>Kotlin does away with the ceremony of Function, BiFunction, Consumer,
+    Supplier, etc., etc. and calls them all functions.
+  </p>
+
+  <p>
+    For completeness of this example, <code>ParsedFields</code> is a data class with three
+    non-null fields, as below. The <code>normalize</code> method throws an exception if
+    either of the
+    first two are missing and defaults the third to the empty string if it is missing.
+  </p>
+
+  <pre class="code with-wrapping fullwidth">
+<line>data class ParsedFields(</line>
+<line>  val date : String,</line>
+<line>  val time : String,</line>
+<line>  val detailURL : String</line>
+<line>)</line>
+  </pre>
+
+</section>
