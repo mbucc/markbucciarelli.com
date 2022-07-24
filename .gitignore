@@ -33,3 +33,4 @@ sandbox/json/lib/
 .stack-work
 _cache
 _site
+.idea
