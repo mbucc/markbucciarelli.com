@@ -1,6 +1,7 @@
 ---
 title: Passive House Energy Consumption vs. My House
 date: December 10, 2017
+tags: eco
 ---
 
 How does my house's energy usage compare to the
