@@ -35,7 +35,7 @@ on the right.
 
 
 
-Rule #3: Asset and expense balances decrease when they are credited.
+Rule #3: A credit does not always increase an account&rsquo;s balance.
 ----------------------------------------------
 
 Whether the balance goes up or down depends on the type of account.
@@ -58,8 +58,6 @@ Let&rsquo;s walk through an example&mdash;on December 1, 2022 your
 parents loan you $3,000 for first and last month&rsquo;s rent (which
 you pay on the 20th) and on December 25, 2022 you get your first weekly paycheck
 with the following amounts on your paystub:
-
-
 
        1,000      Gross wages
          120      Federal income tax
