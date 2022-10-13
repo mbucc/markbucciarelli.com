@@ -65,7 +65,7 @@ The flexbox container is the section element with the flex class.
 
 * This flexbox container only has one item, a div.
 * py-24: 24 px of vertical padding above  (This can be deleted, as it has no effect on the layout.)
-* items-center: This is the tailwind shorthand for "align-items: center", which vertically centers
+* items-center: This tailwind shorthand for "align-items: center" vertically centers
 the flexbox items along the main axis.
 
 ```
@@ -80,7 +80,7 @@ the flexbox items along the main axis.
        +--+
 ```
 * min-h-screen: fill screen from top to bottom with section.
-* justify-center: This is the tailwind shorthand for "justify-content: center", which horizontally centers
+* justify-center: This tailwind shorthand for "justify-content: center" horizontally centers
 the flexbox items along the main axis.
 ```
 +------------------------------+
@@ -113,9 +113,8 @@ Text is centered as long as it fits on one line.
 -----------------------------------------------
 
 If the text becomes longer than the device width,
-it renders with the default HTML left-justification.
-The flexbox item (the paragraph) is still centered,
-but the text in the paragraph is not.
+the flexbox item (the paragraph) is still centered,
+but the paragraph text is not.
 
 ```
 <section class="flex items-center min-h-screen justify-center border-8 border-black">
@@ -165,9 +164,9 @@ Adding maxwith to the flexbox container adds all the padding on the right.
 Cut to the final version
 ------------------------------------------------------------
 
-We need a single inner div so the text is centered and has some padding
-from the left and right side of the screen when the text is long and the
-screen is narrow.
+To even the padding on the left and right sides of the text,
+add a div that is narrower than the device,
+and put all the text inside that div.
 
 Here is a complete example, with three paragraphs and two buttons.
 The buttons are in a nested flexbox container that sets the button sizes
