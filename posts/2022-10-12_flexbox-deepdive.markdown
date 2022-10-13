@@ -112,10 +112,10 @@ Here is how it looks on an iPhone SE:
 Text is centered as long as it fits on one line.
 -----------------------------------------------
 
-If I change Hello World to a longer string,
-it no longer looks centered on smaller screens.
+If the text becomes longer than the device width,
+it renders with the default HTML left-justification.
 The flexbox item (the paragraph) is still centered,
-but the text wraps with the default left-justification.
+but the text in the paragraph is not.
 
 ```
 <section class="flex items-center min-h-screen justify-center border-8 border-black">
@@ -126,13 +126,12 @@ but the text wraps with the default left-justification.
 </section>
 ```
 
-A iPhone8 in landscape mode will render this longer text as
-left justified:
-
 ![](/img/flexbox2.png)
 
 We can center text in the flexbox container.
 ---------------------------------------------------------
+
+Adding a `text-center` class to the flexbox container centers the text.
 
 ```
 <section class="flex items-center min-h-screen justify-center text-center border-8 border-black">
@@ -143,13 +142,12 @@ We can center text in the flexbox container.
 </section>
 ```
 
-Adding a `text-center` class to the flexbox container makes
-the text better, but we need a little padding to make 
-sure there is space between the text and the device:
+The last improvement to make is to add padding between the device edges and the text.
 
 ![](/img/flexbox3.png)
 
-Adding maxwith to the flexbox container does not center the box.
+
+Adding maxwith to the flexbox container adds all the padding on the right.
 ----------------------------------------------------------
 
 ```
@@ -206,4 +204,3 @@ How many users can use Flex?
 
 99.09% of all users can use flex, per https://caniuse.com/?search=flex.
 
-To get from browsers to all users, caniuse uses https://gs.statcounter.com for browser usage.
