@@ -1,0 +1,13 @@
+<ul>
+#!
+for f in $(ls 20*.html|sort -rn); do
+#!
+  <li>
+#!
+echo $f | sed 's/^20[^_]*_//'
+#!
+  </li>
+#!
+done
+#!
+</ul>

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang=${LANG%%_*}>
+
+<title>My website</title>
+
+<meta charset=${LANG##*.}>
+<meta name=viewport content='width=device-width, initial-scale=1'>
+
+<style>
+#!
+pp "${SHARE:?no theme directory set}"/s.uppcss
+#!
+</style>
+
+#!
+pp "$1"
+#!
