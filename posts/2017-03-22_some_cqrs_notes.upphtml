@@ -9,9 +9,9 @@ tags: cqrs
     <p>Notes taken while building a CQRS application.
 
 	<figure>
-    <img src="/img/full/aggregate.png" alt="Detail of aggregate from Polychrome House Number One, built by John Joseph Earley in 1935. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/aggregate.png' alt='Detail of aggregate from Polychrome House Number One, built by John Joseph Earley in 1935. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 1992 <a href="/imginfo/aggregate.html">David C. Berg</a>
+       &copy; 1992 <a href='/imginfo/aggregate.html'>David C. Berg</a>
 	  for Library of Congress
 	</figcaption>
 	</figure>
@@ -19,7 +19,7 @@ tags: cqrs
 </section>
 <section>
 
-<p>In this post, by CQRS I mean the <a href="http://cqrs.nu/">Edument</a> style,
+<p>In this post, by CQRS I mean the <a href='http://cqrs.nu/'>Edument</a> style,
 which includes aggregates, commands and events.
 
 <h2>Use database transactions to serialize writes.</h2>
@@ -32,9 +32,9 @@ aggregate so that only one command is processed at a time.
 
 <ol>
 
-<li>load<label for="sn-hydrate" class="margin-toggle sidenote-number"></label>
-<input type="checkbox" id="sn-hydrate" class="margin-toggle"/>
-<span class="sidenote">
+<li>load<label for='sn-hydrate' class='margin-toggle sidenote-number'></label>
+<input type='checkbox' id='sn-hydrate' class='margin-toggle'/>
+<span class='sidenote'>
 Sometimes also called &ldquo;hydrating&rdquo; the aggregate.
 </span>
 
@@ -45,9 +45,9 @@ the aggregate from it&rsquo;s event history,</li>
 <li>verify no new events written for aggregate since step 1</li>
 
 <li>if new events have been written, go 
-to<label for="sn-retry" class="margin-toggle sidenote-number"></label>
-<input type="checkbox" id="sn-retry" class="margin-toggle"/>
-<span class="sidenote">Optionally, stop after a limited number of retries.</span>
+to<label for='sn-retry' class='margin-toggle sidenote-number'></label>
+<input type='checkbox' id='sn-retry' class='margin-toggle'/>
+<span class='sidenote'>Optionally, stop after a limited number of retries.</span>
  step 1</li>
 
 <li>persist any new events produced by command.</li>
@@ -58,9 +58,9 @@ to<label for="sn-retry" class="margin-toggle sidenote-number"></label>
 
 <ol>
 
-<li>begin immediate transaction<label for="sn-trx" class="margin-toggle sidenote-number"></label>
-<input type="checkbox" id="sn-trx" class="margin-toggle"/>
-<span class="sidenote">In SQLite3, the immediate qualifier blocks writers immediately (instead of waiting for the first update, insert or delete statement).</span></li>
+<li>begin immediate transaction<label for='sn-trx' class='margin-toggle sidenote-number'></label>
+<input type='checkbox' id='sn-trx' class='margin-toggle'/>
+<span class='sidenote'>In SQLite3, the immediate qualifier blocks writers immediately (instead of waiting for the first update, insert or delete statement).</span></li>
 
 <li>select event history from the DB and load the aggregate,</li>
 

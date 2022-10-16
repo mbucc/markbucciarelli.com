@@ -9,9 +9,9 @@ tags: erlang, prometheus
     <p>A simple HTTP server built with Elli that exposes metrics for Prometheus.
 
 	<figure>
-    <img src="/img/full/fire.png" alt="Face with a fiery torch in the background. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/fire.png' alt='Face with a fiery torch in the background.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/fire.html">Vinicius Amano</a>
+       &copy; 2016 <a href='/imginfo/fire.html'>Vinicius Amano</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -31,7 +31,7 @@ tags: erlang, prometheus
 <p>You can find the code for this blog entry <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/prometheus">here</a>.
 
 <h3>New dependency on Erlang client for Prometheus.io</h3>
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>PROMETHEUS_GIT=https://github.com/deadtrickster/prometheus.erl.git</line>
 <line>PROMETHEUS_TAG=v3.1.0</line>
 <line>PROMETHEUS=${SRC}/prometheus.erl</line>
@@ -50,7 +50,7 @@ tags: erlang, prometheus
 <h3>New handler to log metrics and expose an endpoint for Prometheus</h3>
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>%% @doc Exposes HTTP responses and timings as Prometheus metrics.</line>
 <line>%%</line>
 <line>%% Defines two metrics:</line>
@@ -160,7 +160,7 @@ tags: erlang, prometheus
 
 <h3>New child spec to call elli_middleware</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>-module(es_sup).</line>
 <line></line>
 <line>-behaviour(supervisor).</line>
@@ -186,7 +186,7 @@ tags: erlang, prometheus
 
 <h3>prometheus.yml</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>global:</line>
 <line>  scrape_interval:     1s</line>
 <line></line>
@@ -276,7 +276,7 @@ tags: erlang, prometheus
 
 <p>Starting up the application
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ ./run.sh</line>
 <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
 <line></line>
@@ -288,7 +288,7 @@ tags: erlang, prometheus
 
 <p>and hitting it with some traffic
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>#! /bin/sh -e</line>
 <line># Lay siege to Elli.</line>
 <line></line>

@@ -1,17 +1,17 @@
 ---
-title: "ddd: event storming notes"
+title: 'ddd: event storming notes'
 date: November 15, 2019
 tags: cqrs
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>
     Rough notes from watching the video
-    <a href="https://www.youtube.com/watch?v=1i6QYvYhlYQ">Alberto Brandolini -
+    <a href='https://www.youtube.com/watch?v=1i6QYvYhlYQ'>Alberto Brandolini -
       50,000 Orange Stickies Later</a>. In 2013, he wrote the seminal
     article <a
-      href="http://ziobrando.blogspot.com/2013/11/introducing-event-storming.html">Introducing
+      href='http://ziobrando.blogspot.com/2013/11/introducing-event-storming.html'>Introducing
       Event Storming</a>
   </p>
 
@@ -20,9 +20,9 @@ tags: cqrs
     <li>@4: Model the whole business.</li>
     <li>@5: use a big paper roll, represents time line, put on the wall.</li>
     <li>@5:40: Orange stickie for a domain event. Use a past tense verb and
-      language that is relevant to the domain experts; for example, "Item added to cart"
+      language that is relevant to the domain experts; for example, 'Item added to cart'
     </li>
-    <li>@8: Impossibility of complete requirements. "Gossip does not compile." Many
+    <li>@8: Impossibility of complete requirements. 'Gossip does not compile.' Many
       units in an organization suffer from self-preservation mode where the goal
       is to be the second worst group in the organization. That way, you never get
       into any trouble.
@@ -58,7 +58,7 @@ tags: cqrs
     </li>
     <li>@24:49: Discovering policies is the key. Policies define the company. A policy
       says:
-      "Whenever <i>this event</i> then <i>that command</i>". There can be implicit
+      'Whenever <i>this event</i> then <i>that command</i>'. There can be implicit
       policies,
       which
       means there are no written rules but people have developed these habits as the best
@@ -71,11 +71,11 @@ tags: cqrs
       one marker.)
     </li>
     <li>@31:31: Investigating Aggregates. Look for state machine logic and focus on
-      behavior, not data. For example, "what are the key bits of information that are
-      triggering the behavior." Don't get hung up on naming the aggregates, postpone this.
-      Sometimes, event storming will make aggregate obvious---"there must be something
+      behavior, not data. For example, 'what are the key bits of information that are
+      triggering the behavior.' Don't get hung up on naming the aggregates, postpone this.
+      Sometimes, event storming will make aggregate obvious---'there must be something
       here
-      between this blue and the orange stickie." (That is the definition of an aggregate.)
+      between this blue and the orange stickie.' (That is the definition of an aggregate.)
       What are the little, local decision making steps; for example, decide whether to
       accept
       or reject a command based on my internal information.

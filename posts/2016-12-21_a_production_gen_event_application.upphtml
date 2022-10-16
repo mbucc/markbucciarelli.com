@@ -9,9 +9,9 @@ tags: erlang
     <p>I've been blogging about Erlang since June, so it's about time.  My first production application records email sends and opens, exposes the metrics via Prometheus and uses event sourcing, which I discuss in detail.
 
 	<figure>
-    <img src="/img/full/letters.png" alt="A letter slot on an old, banged up door. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/letters.png' alt='A letter slot on an old, banged up door.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/letters.html">Clem Onojeghuo</a>
+       &copy; 2016 <a href='/imginfo/letters.html'>Clem Onojeghuo</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -83,7 +83,7 @@ tags: erlang
 
 <p>and here is the code to read events from the log file:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>% Read event from event log.</line>
 <line>read_event(F) -></line>
 <line>    case io:read(F, &rdquo;) of</line>
@@ -99,7 +99,7 @@ tags: erlang
 
 <p>In Erlang, events are arbitrary terms so the above code will read and write any event.  Also, since event handlers use their mailbox to process events one-by-one, we can maintain an event id in the handler state and write that to disk with each event:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>handle_event([replay | _], State) -> {ok, State};</line>
 <line>% Write event to disk with next id.</line>
 <line>handle_event(Event, State) -></line>
@@ -124,7 +124,7 @@ tags: erlang
 
 <p>We use the replay prefix to allow the event handlers to distinguish between the original event and the replayed event, as the <code>log_event.erl</code> handler does above.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>% Replay all events in log.  Returns id of the last event logged.</line>
 <line>replay_events(File, LastId) -></line>
 <line>    case read_event(File) of</line>
@@ -182,7 +182,7 @@ tags: erlang
 <section>
 <h2><code>log_event.erl</code></h2>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>% Maintain event ID sequence and serialize events to disk.</line>
 <line>% Replay events on a restart.</line>
 <line>-module(log_event).</line>

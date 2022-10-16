@@ -1,19 +1,19 @@
 ---
-title: "kotlin: Value object with input validation"
+title: 'kotlin: Value object with input validation'
 date: November 9, 2019
 tags: kotlin
 ---
 
 <p><em>Note: Subsequent to writing this post, I found
-    <a href="/posts/2020-01-04_kotlin_functional_gold_mine.html#value_object">a better
+    <a href='/posts/2020-01-04_kotlin_functional_gold_mine.html#value_object'>a better
       approach.</a></em></p>
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>The software used for this howto is Kotlin 1.3.50.</p>
 
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line>data class Hour(val n: Int) {</line>
 <line>  init {</line>
 <line>      require(n in 0..23) { "invalid hour $n" }</line>
@@ -29,7 +29,7 @@ tags: kotlin
 
   <p>
     Hat tip to Alexis King's blog post
-    <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">Parse,
+    <a href='https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/'>Parse,
       don’t validate</a>.
   </p>
 
@@ -44,13 +44,13 @@ tags: kotlin
   <ul>
     <li>
       <a
-        href="https://docs.oracle.com/javase/8/docs/api/java/time/MonthDay.html">java.time.MonthDay</a>
+        href='https://docs.oracle.com/javase/8/docs/api/java/time/MonthDay.html'>java.time.MonthDay</a>
       Immutable. Validates the day/month combination. Sample usage:
       <code>MonthDay.of(11, 7)</code>
     </li>
     <li>
       <a
-        href="https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html">java.time.Instant</a>
+        href='https://docs.oracle.com/javase/8/docs/api/java/time/Instant.html'>java.time.Instant</a>
       Immutable. Good fit with epoch seconds.
       <ol>
         <li><code>Instant.ofEpochSecond(1573391885)</code> Convert epoch seconds to an
@@ -62,9 +62,9 @@ tags: kotlin
     </li>
     <li>
       <a
-        href="https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html">java.time.ZonedDateTime</a>
+        href='https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html'>java.time.ZonedDateTime</a>
       Immutable. Go from month, day, etc to an Instant, for example:
-      <pre class="code with-wrapping fullwidth">
+      <pre class='code with-wrapping fullwidth'>
 <line>ZonedDateTime.of(</line>
 <line>    2019,</line>
 <line>    11,</line>

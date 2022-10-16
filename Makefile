@@ -1,19 +1,16 @@
-.PHONEY: watch
-watch:
-	stack exec site build
-	stack exec site watch
+SITE=http://markbucciarelli.com
 
-.PHONEY: fullwatch
-fullwatch:
-	stack build
-	stack exec site rebuild
-	./mksitemap.sh > _site/sitemap.txt
-	stack exec site watch
+.PHONY: site
+site: posts
 
-.PHONEY: deploy
-deploy:
-	stack build
-	stack exec site rebuild
+.PHONY: posts
+posts:
+	mkdir -p www/posts
+	(cd ./posts && ../bin/mkws ${SITE})
+	mv ./posts/*.html ./www/posts
+
+.PHONY: deploy
+deploy: site
 	./mksitemap.sh > _site/sitemap.txt
 	eval `ssh-agent`
 	ssh-add $$HOME/.ssh/id_tinyvz_production

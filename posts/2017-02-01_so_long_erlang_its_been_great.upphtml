@@ -9,9 +9,9 @@ tags: erlang, elm
     <p>Moving on from Erlang to Haskell, I look back at what I've learned in last six months, explain the reasons for the change, and say thank you.
 
 	<figure>
-    <img src="/img/full/thanku.png" alt="Green garage door, two-thirds up, with the stenciled words thank you visible. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/thanku.png' alt='Green garage door, two-thirds up, with the stenciled words thank you visible. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2015 <a href="/imginfo/thanku.html">Matt Jones</a>
+       &copy; 2015 <a href='/imginfo/thanku.html'>Matt Jones</a>
 	  for Unsplash
 	</figcaption>
 	</figure>

@@ -1,10 +1,10 @@
 ---
-title: "tarsnap: how to list an archive"
+title: 'tarsnap: how to list an archive'
 date: May 23, 2019
 tags: alpine
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>The software in this HOWTO:</p>
 
@@ -13,7 +13,7 @@ tags: alpine
     <li>tarsnap 1.0.39</li>
   </ol>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line>tarsnap --keyfile tarsnap.key  --list-archives | sort | tail -1</line>
 <line># wait for it ...</line>
 

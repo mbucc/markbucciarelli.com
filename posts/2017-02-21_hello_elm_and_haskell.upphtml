@@ -9,9 +9,9 @@ tags: elm, haskell
     <p>Briefly describe my first Elm application and list the reasons why I decided to programming exclusively in Elm.
 
 	<figure>
-    <img src="/img/full/elm.png" alt="Two men standing and four men seated around table under large elm tree. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/elm.png' alt='Two men standing and four men seated around table under large elm tree. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; circa 1916 <a href="/imginfo/elm.html">Anonymous</a>
+       &copy; circa 1916 <a href='/imginfo/elm.html'>Anonymous</a>
 	  for Library of Congress
 	</figcaption>
 	</figure>
@@ -38,7 +38,7 @@ decided to work 100% with Elm and to learn Haskell.
 <h3>There are great learning materials.</h3>
 
 <p>I started with the free, on-line class <a
-href="http://courses.knowthen.com/p/elm-for-beginners">Elm For Beginners</a>,
+href='http://courses.knowthen.com/p/elm-for-beginners'>Elm For Beginners</a>,
 <i>Start Building Web Apps using Elmlang Today</i>.  Short video lessons,
 ranging in length from three to eleven minutes long, each focusing on one
 specific topic was a great introduction.
@@ -71,9 +71,9 @@ browser.
 <ul>
 
 <li>every if requires an 
-else<label for="mn-else" class="margin-toggle">&#8853;</label>,
-<input type="checkbox" id="mn-else" class="margin-toggle"/>
-<span class="marginnote">
+else<label for='mn-else' class='margin-toggle'>&#8853;</label>,
+<input type='checkbox' id='mn-else' class='margin-toggle'/>
+<span class='marginnote'>
 Of course you can do this with Java, and it&rsquo;s good practice, but
 it is required by the compiler with Elm.
 </span> otherwise the compiler fails.

@@ -1,25 +1,25 @@
 ---
-title: "kotlin: A functional gold mine"
+title: 'kotlin: A functional gold mine'
 date: January 4, 2020
 tags: functional, kotlin
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>
     I found <a
-      href="https://github.com/michaelbull/kotlin-result/tree/master/example/src/main/kotlin/com/github/michaelbull/result/example">a
+      href='https://github.com/michaelbull/kotlin-result/tree/master/example/src/main/kotlin/com/github/michaelbull/result/example'>a
       great repository</a> of functional Kotlin code examples.
     As part of writing and testing his Result monad, the author (Michael Bull) has
     translated the F# example presented in Scott Wlaschin's
-    <a href="https://fsharpforfunandprofit.com/rop/">Railway Oriented Programming</a>
+    <a href='https://fsharpforfunandprofit.com/rop/'>Railway Oriented Programming</a>
     blog post.
   </p>
 
   <p>
-    I recently finished reading Scott's book "Domain Modeling Made Functional"
+    I recently finished reading Scott's book 'Domain Modeling Made Functional'
     (F# code from the book is
-    <a href="https://github.com/swlaschin/DomainModelingMadeFunctional">here</a>) and I
+    <a href='https://github.com/swlaschin/DomainModelingMadeFunctional'>here</a>) and I
     highly recommend it for any one with a Java background that is interested
     in functional programming. The ideas are powerful
   </p>
@@ -40,15 +40,15 @@ tags: functional, kotlin
   <h2>Data Pipeline</h2>
 
   <figure>
-    <label for="mn1" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn1" class="margin-toggle" />
-    <span class="marginnote">
-      The <code style="font-size:10pt">andThen</code> sugar comes with the Result monad
+    <label for='mn1' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn1' class='margin-toggle' />
+    <span class='marginnote'>
+      The <code style='font-size:10pt'>andThen</code> sugar comes with the Result monad
       written by Michael
       Bull.</code>
     </span>
 
-    <pre class="code with-wrapping fullwidth">
+    <pre class='code with-wrapping fullwidth'>
 <line>    routing {</line>
 <line>      get("/customers/{id}") {</line>
 <line>          call.parameters.readId()</line>
@@ -68,9 +68,9 @@ tags: functional, kotlin
   </figure>
 
   <p>
-    <a name="value_object"></a>
+    <a name='value_object'></a>
     Reference: <a
-      href="https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/Application.kt#L55-L69">
+      href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/Application.kt#L55-L69'>
       example/Application.kt#L55-L69</a>
   </p>
 
@@ -78,16 +78,16 @@ tags: functional, kotlin
 
 
   <figure>
-    <label for="mn1" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn1" class="margin-toggle" />
-    <span class="marginnote">
+    <label for='mn1' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn1' class='margin-toggle' />
+    <span class='marginnote'>
       Using a companion create and the Result return type makes object creation
       plug in to a data flow; for example, the
-      <code style="font-size:10pt">.andThen(CustomerId.Companion::create)</code>
+      <code style='font-size:10pt'>.andThen(CustomerId.Companion::create)</code>
       in the above data pipeline example.
     </span>
 
-    <pre class="code with-wrapping fullwidth">
+    <pre class='code with-wrapping fullwidth'>
 <line>    package com.github.michaelbull.result.example.model.domain</line>
 <line></line>
 <line>    import com.github.michaelbull.result.Err</line>
@@ -117,24 +117,24 @@ tags: functional, kotlin
 
   <p>
     Reference: <a
-      href="https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/PersonalName.kt">example/model/domain/PersonalName.kt</a>
+      href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/PersonalName.kt'>example/model/domain/PersonalName.kt</a>
   </p>
 
   <h2>Type Lifting</h2>
 
 
   <figure>
-    <label for="mn1" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn1" class="margin-toggle" />
-    <span class="marginnote">
-      Any errors creating a <code style="font-size:10pt">PersonalName</code> (the above
-      snippet), for example, <code style="font-size:10pt">LastNameTooLong</code>, can be
+    <label for='mn1' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn1' class='margin-toggle' />
+    <span class='marginnote'>
+      Any errors creating a <code style='font-size:10pt'>PersonalName</code> (the above
+      snippet), for example, <code style='font-size:10pt'>LastNameTooLong</code>, can be
       lifted into a
-      <code style="font-size:10pt">DomainMessage</code>
+      <code style='font-size:10pt'>DomainMessage</code>
       type.
     </span>
 
-    <pre class="code with-wrapping fullwidth">
+    <pre class='code with-wrapping fullwidth'>
 <line>/**</line>
 <line> * All possible things that can happen in the use-cases</line>
 <line> */</line>
@@ -153,7 +153,7 @@ tags: functional, kotlin
 
   <p>
     Reference: <a
-      href="https://github.com/michaelbull/kotlin-result/blob/b9bf8f1eaf730de898057a5b0b38b1bed1c572d5/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/DomainMessage.kt#L3-L14">
+      href='https://github.com/michaelbull/kotlin-result/blob/b9bf8f1eaf730de898057a5b0b38b1bed1c572d5/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/DomainMessage.kt#L3-L14'>
       example/model/domain/DomainMessage.kt#L3-L14</a>
   </p>
 

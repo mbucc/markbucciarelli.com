@@ -1,10 +1,10 @@
 ---
-title: "alpine: set current time with chrony"
+title: 'alpine: set current time with chrony'
 date: May 20, 2019
 tags: tarsnap
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>The software in this HOWTO:</p>
 
@@ -14,12 +14,12 @@ tags: tarsnap
   </ol>
 
   <p>To reset the time on the box to the current time:</p>
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line># chronyc makestep</line>
 </pre>
 
-  <p>Before running this, chrony had the right time ("Ref time:"):</p>
-  <pre class="code with-wrapping fullwidth">
+  <p>Before running this, chrony had the right time ('Ref time:'):</p>
+  <pre class='code with-wrapping fullwidth'>
 <line># chronyc tracking</line>
 <line>Reference ID    : D0719D9D (meanwhile.dreamhost.com)</line>
 <line>Stratum         : 3</line>
@@ -38,14 +38,14 @@ tags: tarsnap
   </pre>
 
   <p>but the system time was way off:</p>
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line># date</line>
 <line>Wed Jan  7 11:25:52 EST 1970</line>
   </pre>
 
   <p>For reference, my chrony.conf is the Alpine default:</p>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line># cat /etc/chrony/chrony.conf </line>
 <line># default config</line>
 <line></line>

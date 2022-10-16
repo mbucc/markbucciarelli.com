@@ -9,9 +9,9 @@ tags: cqrs, oop
     <p>Design data models for the Pomodoro Technique, one for CQRS and one for OOP and show how the CQRS model is simpler and more flexible.
 
 	<figure>
-    <img src="/img/full/tomato.png" alt="A close up of a ripe, fresh tomato. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/tomato.png' alt='A close up of a ripe, fresh tomato.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/tomato.html">Ivan Timov</a>
+       &copy; 2016 <a href='/imginfo/tomato.html'>Ivan Timov</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -21,7 +21,7 @@ tags: cqrs, oop
 <div class="epigraph">
     <blockquote>
 <p>Software products, services or line-of-business systems which need to store data can be built using an event log as the source of truth instead of relying on “traditional” databases.
-    <footer>Adaptech Solutions. <cite><a href="http://adaptechsolutions.net/rise-of-the-robots-event-logs-vs-traditional-databases/"><u>Rise Of The Robots: Event Logs vs. “traditional” Databases</u></a></cite> Sep. 20, 2016</footer>
+    <footer>Adaptech Solutions. <cite><a href='http://adaptechsolutions.net/rise-of-the-robots-event-logs-vs-traditional-databases/'><u>Rise Of The Robots: Event Logs vs. “traditional” Databases</u></a></cite> Sep. 20, 2016</footer>
     </blockquote>
 </div>
 </section>
@@ -51,7 +51,7 @@ tags: cqrs, oop
     <li>If I cross off all of my estimated blocks of time, and there is still work to do, I need to <b>re-estimate the time left</b> on that task.</li>
     <li>I need to <b>maintain a master TO DO list (an inventory)</b> so when I think of something else to do, I can record it there.</li>
     <li>At the end of the day, I need to <b>summarize my day and add to a daily record</b> by recording the number of:
-        <ol type="a">
+        <ol type='a'>
             <li>pomodoros completed</li>
             <li>interruptions, by type (internal and external)</li>
             <li>tasks, by type (planned and unplanned)</li>
@@ -80,7 +80,7 @@ tags: cqrs, oop
 </ul>
 
 <p>The nouns pomodoro, estimate, break are value
-objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
+objects<label for='mn-vo' class='margin-toggle'>&#8853;</label>
 <input type="checkbox" id="mn-vo" class="margin-toggle"/>
 <span class="marginnote">
   A value object has no identity or life cycle.
@@ -94,14 +94,14 @@ objects<label for="mn-vo" class="margin-toggle">&#8853;</label>
 <h3>OOP SQL</h3> 
 
 <p>Here is the
-SQL<label for="mn-sql" class="margin-toggle">&#8853;</label>
+SQL<label for='mn-sql' class='margin-toggle'>&#8853;</label>
 <input type="checkbox" id="mn-sql" class="margin-toggle"/>
 <span class="marginnote">
   All SQL in this blog entry was tested with SQLite.
 </span>
 that implements this model.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>PRAGMA foreign_keys = ON</line>
 <line>;</line>
 <line>DROP TABLE IF EXISTS workson</line>
@@ -211,7 +211,7 @@ that implements this model.
 
 <blockquote>
     <p><em>things that happen</em> that lead to some kind of <em>new information</em> in the domain. We map these happenings to a set of events. Since events are about things that have taken place, they are named <em>in the past tense</em>.
-    <footer>Edument, <cite><a href="http://www.cqrs.nu/tutorial/cs/01-design">Part 1: Design</a></cite> (retrieved October 22, 2016)</footer>
+    <footer>Edument, <cite><a href='http://www.cqrs.nu/tutorial/cs/01-design'>Part 1: Design</a></cite> (retrieved October 22, 2016)</footer>
 </blockquote>
 
 <p>Re-reading through the use cases above, you can pull out the following actions:
@@ -234,7 +234,7 @@ that implements this model.
 
 <h3>CQRS SQL</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>PRAGMA foreign_keys = ON</line>
 <line>;</line>
 <line>DROP TABLE IF EXISTS task_added</line>

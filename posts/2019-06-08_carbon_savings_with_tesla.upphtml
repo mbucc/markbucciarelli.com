@@ -1,48 +1,48 @@
 ---
-title: "eco: CO<sub>2</sub> savings with a Tesla"
+title: 'eco: CO<sub>2</sub> savings with a Tesla'
 date: June 8, 2019
 tags: eco
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <h2>tldr;</h2>
   <p></p>
   <table>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> emitted from Model 3 last month
+      <th style='text-align: left;'>CO<sub>2</sub> emitted from Model 3 last month
       </th>
       <td>287 lbs</td>
     </tr>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> emitted from a 40 MPG car driving the
+      <th style='text-align: left;'>CO<sub>2</sub> emitted from a 40 MPG car driving the
         same distance
       </th>
       <td>860 lbs</td>
     </tr>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> saved</th>
+      <th style='text-align: left;'>CO<sub>2</sub> saved</th>
       <td>573 lbs</td>
     </tr>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> savings rate compared to a 40 MPG car
+      <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car
       </th>
       <td>334 lbs/1,000 miles</td>
     </tr>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> cost of manufacturing the battery,
+      <th style='text-align: left;'>CO<sub>2</sub> cost of manufacturing the battery,
         assuming a 200,000 mile battery life
       </th>
       <td>78 lbs/1,000 miles</td>
     </tr>
     <tr>
-      <th style="text-align: left;">CO<sub>2</sub> savings rate compared to a 40 MPG car,
+      <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car,
         counting battery manufacturing.
       </th>
       <td>256 lbs/1,000 miles</td>
     </tr>
     <tr>
-      <th style="text-align: left;">Lifetime CO<sub>2</sub> savings compared to a 40 MPG
+      <th style='text-align: left;'>Lifetime CO<sub>2</sub> savings compared to a 40 MPG
         car</th>
       <td>25.6 tons</td>
     </tr>
@@ -61,15 +61,15 @@ tags: eco
 
   <p>
     The <a
-      href="https://www.iso-ne.com/static-assets/documents/2019/04/2017_emissions_report.pdf">2017
+      href='https://www.iso-ne.com/static-assets/documents/2019/04/2017_emissions_report.pdf'>2017
       ISO New EnglandElectric Generator Air Emissions Report</a> contains the following
     data:
   </p>
 
   <table>
     <tr>
-      <th style="text-align: left;">Pollutant</th>
-      <th style="text-align: left;">2017 lb/MWh</th>
+      <th style='text-align: left;'>Pollutant</th>
+      <th style='text-align: left;'>2017 lb/MWh</th>
     </tr>
     <tr>
       <td>NO<sub>x</sub></td>
@@ -94,7 +94,7 @@ tags: eco
   </p>
   <ol>
     <li>These emissions only count native generation, and thus do not factor in the
-      <a href="https://www.iso-ne.com/about/key-stats/resource-mix/">14% of our total
+      <a href='https://www.iso-ne.com/about/key-stats/resource-mix/'>14% of our total
         load</a> that is met by Hydro imported from Quebec and New Brunswick.
     </li>
     <li>Emissions / MWh is going down; for example, from 2016 to 2017 there was a 3.9%
@@ -117,7 +117,7 @@ tags: eco
   <p>
     A 2018 Honda Civic is 32 city / 42 highway. Taking a swag of 40 mpg on average,
     1,717 miles represents 43 gallons of gasoline. Burning a gallon of gasoline
-    emits <a href="https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.htm">20
+    emits <a href='https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.htm'>20
       pounds</a>
     of CO<sub>2</sub>, so this distance is 860 pounds of CO<sub>2</sub>.
   </p>
@@ -132,7 +132,7 @@ tags: eco
 
   <p>
     The best report I have found on this topic is <a
-      href="https://www.ucsusa.org/sites/default/files/attach/2015/11/Cleaner-Cars-from-Cradle-to-Grave-full-report.pdf"><em>Cleaner
+      href='https://www.ucsusa.org/sites/default/files/attach/2015/11/Cleaner-Cars-from-Cradle-to-Grave-full-report.pdf'><em>Cleaner
         Cars from Cradle to Grave</em></a>, published
     by the Union of Concerned Scientists in 2015.
 
@@ -160,7 +160,7 @@ tags: eco
 
   <p>
     Musk <a
-      href="https://electrek.co/2019/04/13/tesla-model-3-longevity-claims-elon-musk/">has
+      href='https://electrek.co/2019/04/13/tesla-model-3-longevity-claims-elon-musk/'>has
       claimed</a> the Model 3 battery should last between 300,000 and 500,000 miles, which
     would be great,
     but for this writeup, I'll assume the battery pack will last for 200,000 miles.
@@ -185,7 +185,7 @@ tags: eco
 
   <p>
     I drive around 20,000 miles a year. Today's price of a Tonne of CO<sub>2</sub>e on the
-    <a href="http://calcarbondash.org">California Carbon Dashboard</a> was $15.10 per
+    <a href='http://calcarbondash.org'>California Carbon Dashboard</a> was $15.10 per
     tonne.
     A tonne is a metric ton, and is 2,204.6 pounds, instead of the U.S. ton, which is
     2,000 pounds.

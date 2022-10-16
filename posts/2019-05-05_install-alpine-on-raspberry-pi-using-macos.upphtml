@@ -4,14 +4,14 @@ date: May 5, 2019
 tags: alpine, rpi
 ---
 
-<section style="clear: both;">
+<section style='clear: both;'>
 
   <p>The software and hardware used for this HOWTO are:</p>
 
   <ol>
     <li>Alpine Linux 3.8.4, armhf</li>
     <li>Raspberry Pi 3 Model B, and:
-      <ol type="a">
+      <ol type='a'>
         <li>USB keyboard</li>
         <li>TV with HDMI input and an HDMI cable</li>
         <li>MicroUSB 5V adapter as close to 2.5A as you can find (I used a 2A phone
@@ -25,10 +25,10 @@ tags: alpine, rpi
 
   <h2>Step 1. Partition the microSD with your Mac and unzip install.</h2>
 
-  <p>Use<label for="mn1" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn1" class="margin-toggle" />
-    <span class="marginnote">Note to self: 3.9.3 is packaged with the golang
-      <a href="https://github.com/golang/go/issues/28114" target="_blank">programs
+  <p>Use<label for='mn1' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn1' class='margin-toggle' />
+    <span class='marginnote'>Note to self: 3.9.3 is packaged with the golang
+      <a href='https://github.com/golang/go/issues/28114' target='_blank'>programs
         compiled by 1.11 allocate an unreasonable
         amount of virtual memory</a> issue.</span> armhf 3.8.4 or arm7
     3.9.3 (armhf
@@ -39,7 +39,7 @@ tags: alpine, rpi
     follow
     these steps&mdash;<em>you could lose all the data on your Mac.</em></p>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line>diskutil list</line>
 <line>diskutil partitionDisk disk2 MBR FAT32 VOL1 256MB "Free Space" VOL2 R</line>
 
@@ -74,12 +74,12 @@ tags: alpine, rpi
 
   <h2>Step 2. Create a Linux and a Linux swap partition on the Raspberry Pi.</h2>
 
-  <p>The macOS <label for="mn2" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn2" class="margin-toggle" />
-    <span class="marginnote">diskutil listFilesystems</span>
+  <p>The macOS <label for='mn2' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn2' class='margin-toggle' />
+    <span class='marginnote'>diskutil listFilesystems</span>
     diskutil does not provide the Linux format partition type.</p>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line># Put the microSD in the Raspberry Pi, then plug in keyboard, TV and the power supply.</line>
 <line># username = root (you won't need a password)</line>
 <line>fdisk /dev/mmcblk0</line>
@@ -106,16 +106,16 @@ tags: alpine, rpi
 <line>reboot</line>
 </pre>
 
-  <p>Configure <label for="mn4" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn4" class="margin-toggle" />
-    <span class="marginnote">The key step here is to edit the apk repositories
+  <p>Configure <label for='mn4' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn4' class='margin-toggle' />
+    <span class='marginnote'>The key step here is to edit the apk repositories
       manually and
       to type in the repository path correctly.</span>the Pi as suits your
     environment&mdash;the config
     I used is listed below.
   </p>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line># login as root again</line>
 
 <line>setup-alpine</line>
@@ -152,9 +152,9 @@ tags: alpine, rpi
 
   <h2>Step 3: Install Alpine on the Linux partition and bind mount /boot directory.</h2>
 
-  <p>Edit the cmdline.txt <label for="mn3" class="margin-toggle">&#8853;</label>
-    <input type="checkbox" id="mn3" class="margin-toggle" />
-    <span class="marginnote">After the Linux partition is setup, the Pi still boots
+  <p>Edit the cmdline.txt <label for='mn3' class='margin-toggle'>&#8853;</label>
+    <input type='checkbox' id='mn3' class='margin-toggle' />
+    <span class='marginnote'>After the Linux partition is setup, the Pi still boots
       from the DOS partition, which means it loads the kernel, initramfs, and modloop
       images from the DOS /boot
       directory.
@@ -170,7 +170,7 @@ tags: alpine, rpi
     kernel to use the Linux partition (<code>mmcblk0p2</code>) as the root file system.
   </p>
 
-  <pre class="code with-wrapping fullwidth">
+  <pre class='code with-wrapping fullwidth'>
 <line>mkdir /stage</line>
 <line>mount /dev/mmcblk0p2 /stage</line>
 <line>setup-disk -m sys /stage</line>
@@ -198,42 +198,42 @@ tags: alpine, rpi
   <dl>
 
     <dt>
-      <a href="https://wiki.alpinelinux.org/wiki/Raspberry_Pi"
+      <a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi'
         target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi</a>
     </dt>
     <dd>Concise explanation of installing Alpine Linux on the Pi, including the
       usercfg.txt as well as the bind mount.</dd>
 
-    <dt><a href="https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/"
+    <dt><a href='https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/'
         target=_blank>https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/</a>
     </dt>
     <dd>bind mount, among other things. Great resource.
     </dd>
 
-    <dt><a href="https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation"
+    <dt><a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation'
         target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation</a>
     </dt>
     <dd>usercfg.txt for headless mode</dd>
     <dt>
-      <a href="https://www.raspberrypi.org/documentation/configuration/device-tree.md"
+      <a href='https://www.raspberrypi.org/documentation/configuration/device-tree.md'
         target=_blank>https://www.raspberrypi.org/documentation/configuration/device-tree.md</a>
     </dt>
     <dd>dtparam</dd>
 
     <dt>
-      <a href="https://www.raspberrypi.org/documentation/configuration/uart.md"
+      <a href='https://www.raspberrypi.org/documentation/configuration/uart.md'
         target=_blank>https://www.raspberrypi.org/documentation/configuration/uart.md</a>
     </dt>
     <dd>enable_uart=1</dd>
 
-    <dt><a href="https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts"
+    <dt><a href='https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts'
         target=_blank>https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts</a>
     </dt>
     <dd>answerfile</dd>
 
 
     <dt><a
-        href="https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html"
+        href='https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html'
         target=_blank>https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html</a>
     </dt>
     <dd>apkovl

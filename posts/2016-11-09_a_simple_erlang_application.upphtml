@@ -9,9 +9,9 @@ tags: erlang
     <p>An HTTP server structured as an Erlang application.  Built with Elli, it uses ERL_LIBS and make instead of rebar.
 
 	<figure>
-    <img src="/img/full/service.png" alt="Luminous box with the word service on it in block capitals. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/service.png' alt='Luminous box with the word service on it in block capitals.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/service.html">Mike Wilson</a>
+       &copy; 2016 <a href='/imginfo/service.html'>Mike Wilson</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -23,7 +23,7 @@ tags: erlang
 
 <h3>Directory Structure</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>.</line>
 <line>├── Makefile</line>
 <line>├── ebin</line>
@@ -38,7 +38,7 @@ tags: erlang
 
 <h3>Makefile</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam</line>
 <line></line>
 <line>ELLI=${HOME}/src/elli</line>
@@ -67,12 +67,12 @@ tags: erlang
 
 <p>Environment variable ERL_LIBS (if defined) is to contain a colon-separated (for Unix-like systems) or semicolon-separated (for Windows) list of additional libraries.
 
-            <footer>Ericsson AB. <cite><a href="http://erlang.org/doc/man/code.html">erlang.org code</a></cite> (retrieved November 6, 2016)</footer>
+            <footer>Ericsson AB. <cite><a href='http://erlang.org/doc/man/code.html'>erlang.org code</a></cite> (retrieved November 6, 2016)</footer>
         </blockquote>
 
 <h3>src/erlsrv.app.src</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>{application, erlsrv, [{mod, {erlsrv,[]}}]}.</line>
 </pre>
 
@@ -80,7 +80,7 @@ tags: erlang
 
 <h3>src/erlsrv.erl</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>-module(erlsrv).</line>
 <line>-behavior(application).</line>
 <line></line>
@@ -96,7 +96,7 @@ tags: erlang
 
 <h3>src/es_callback.erl</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>-module(es_callback).</line>
 <line>-export([handle/2, handle_event/3]).</line>
 <line></line>
@@ -125,7 +125,7 @@ tags: erlang
 
 <h3>src/es_sup.erl</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>-module(es_sup).</line>
 <line>-behaviour(supervisor).</line>
 <line>-export([start_link/0]).</line>
@@ -152,7 +152,7 @@ tags: erlang
 <h2>Running the application</h2>
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ ERL_LIBS=$HOME/src/elli erl -pa ebin</line>
 <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
 <line></line>
@@ -164,7 +164,7 @@ tags: erlang
 
 <p>Note the use of ERL_LIBS when starting interpreter.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ curl -v http://127.0.0.1:3000/hello/world</line>
 <line>*   Trying 127.0.0.1&hellip;</line>
 <line>* Connected to 127.0.0.1 (127.0.0.1) port 3000 (#0)</line>
@@ -193,7 +193,7 @@ tags: erlang
 
 <h3>Why no rebar?</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ cd $HOME/src/rebar3/</line>
 <line>$ du -sh src</line>
 <line>692K	src</line>
@@ -208,13 +208,13 @@ tags: erlang
 
 <p>For example, if I change the config file to:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>{application, erlsrv, []}.</line>
 </pre>
 
 <p>I can start the application without error
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ ERL_LIBS=$HOME/src/elll erl -pa ebin</line>
 <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
 <line></line>
@@ -226,7 +226,7 @@ tags: erlang
 
 <p>and the application is loaded
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>2> application:which_applications().</line>
 <line>[{erlsrv,[],[]},</line>
 <line> {stdlib,"ERTS  CXC 138 10","3.0"},</line>
@@ -237,7 +237,7 @@ tags: erlang
 <p>and shows as running
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>3> application:info().</line>
 <line>[{loaded,[{kernel,"ERTS  CXC 138 10","5.0"},</line>
 <line>          {stdlib,"ERTS  CXC 138 10","3.0"},</line>
@@ -259,7 +259,7 @@ tags: erlang
 
 <p>Hitting the server with curl produces Connection refused:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ curl -v http://127.0.0.1:3000/hello/world</line>
 <line>*   Trying 127.0.0.1&hellip;</line>
 <line>* connect to 127.0.0.1 port 3000 failed: Connection refused</line>
@@ -278,7 +278,7 @@ tags: erlang
 <p>By the time I found Elli, I was more familiar with Erlang.  Also, the github readme had exactly the code I needed.</li>
 <p>Also, it&rsquo;s lightweight:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ cd $HOME/src/elli</line>
 <line>$ du -sh src</line>
 <line> 92K	src</line>

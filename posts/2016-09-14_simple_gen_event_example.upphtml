@@ -9,9 +9,9 @@ tags: erlang
     <p>The gen_event behavior makes it simple to add basic event sourcing to your Erlang application.
 
 	<figure>
-    <img src="/img/full/carnival.png" alt="Young couple walking through a closed, colorful, carnival. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/carnival.png' alt='Young couple walking through a closed, colorful, carnival. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/carnival.html">Tim Gouw</a>
+       &copy; 2016 <a href='/imginfo/carnival.html'>Tim Gouw</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -23,7 +23,7 @@ tags: erlang
     <blockquote>
         <p>In OTP, an event manager is a named object to which events can be sent. An event can be, for example, an error, an alarm, or some information that is to be logged.
 	    <p>In the event manager, zero, one, or many event handlers are installed. When the event manager is notified about an event, the event is processed by all the installed event handlers.
-        <footer>Ericsson AB. <cite>OTP design principles, <a href="http://erlang.org/doc/design_principles/events.html"><u>Section 5 gen_event Behaviour</u></a></cite> (retrieved Sep. 14, 2016)</footer>
+        <footer>Ericsson AB. <cite>OTP design principles, <a href='http://erlang.org/doc/design_principles/events.html'><u>Section 5 gen_event Behaviour</u></a></cite> (retrieved Sep. 14, 2016)</footer>
     </blockquote>
 </div>
 
@@ -40,7 +40,7 @@ tags: erlang
 
 <p>This is counter module is an event handler that counts events and prints status updates to stdout.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>-module(counter).</line>
 <line></line>
 <line>-behaviour(gen_event).</line>
@@ -74,7 +74,7 @@ tags: erlang
 
 <p>We name the event manager &ldquo;event_dispatcher&rdquo;.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>    {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),</line>
 </pre>
 
@@ -84,7 +84,7 @@ tags: erlang
 <p>After this, events are sent to the counter&rsquo;s handle_event/2 method.
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>    gen_event:add_handler(event_dispatcher, counter, []),</line>
 </pre>
 
@@ -93,7 +93,7 @@ tags: erlang
 
 <p>An Event can be any Erlang term.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>    Event = {an, event, {can, [be, any, erlang]}, term},</line>
 <line>    ok = gen_event:notify(event_dispatcher, Event),</line>
 </pre>
@@ -105,11 +105,11 @@ tags: erlang
 <h2>Getting at the state in the handler</h2>
 
 <p>With one additional step, the gen_event behavior makes it trivial to create a 
-CQRS read model<label for="sn-cqrs" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-cqrs" class="margin-toggle"/><span class="sidenote"><a href="2016-07-06_what_is_cqrs.html"><em>What is CQRS?</em></a></span> in your application.
+CQRS read model<label for='sn-cqrs' class='margin-toggle sidenote-number'></label><input type='checkbox' id='sn-cqrs' class='margin-toggle'/><span class='sidenote'><a href='2016-07-06_what_is_cqrs.html'><em>What is CQRS?</em></a></span> in your application.
 
 <p>You need to get the data out of the event handler!
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>    Request = {so, can, the, call, request},</line>
 <line>    Count = gen_event:call(event_dispatcher, counter, Request),</line>
 </pre>
@@ -125,7 +125,7 @@ CQRS read model<label for="sn-cqrs" class="margin-toggle sidenote-number"></labe
 
 <p>Using the counter model exactly as shown above, we can write an escript to show all of these steps.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ cat run.escript </line>
 <line>#! /usr/bin/env escript</line>
 <line></line>
@@ -163,7 +163,7 @@ CQRS read model<label for="sn-cqrs" class="margin-toggle sidenote-number"></labe
 <h2>A major caveat &hellip;</h2>
 
 <p>Unlike the 
-gen_server<label for="sn-gen_server" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-gen_server" class="margin-toggle"/>,<span class="sidenote">&ldquo;Gen_server is usually spawned as a separate process, and all user callbacks (such as Mod:handle_call/3, Mod:handle_cast/2, etc) are executed in the context of that process.&rdquo; <a href="https://erlangcentral.org/wiki/index.php/Gen_event_behavior_demystified"><em>Gen Event Behavior Demystified</em></a>, by Serge Aleynikov (retrieved Sep. 14, 2016)</span> the event manager executes all it&rsquo;s handlers in the process context of the event manager.  The event manager protects itself against handler code that crashes by silently removing the handler.
+gen_server<label for='sn-gen_server' class='margin-toggle sidenote-number'></label><input type='checkbox' id='sn-gen_server' class='margin-toggle'/>,<span class='sidenote'>&ldquo;Gen_server is usually spawned as a separate process, and all user callbacks (such as Mod:handle_call/3, Mod:handle_cast/2, etc) are executed in the context of that process.&rdquo; <a href='https://erlangcentral.org/wiki/index.php/Gen_event_behavior_demystified'><em>Gen Event Behavior Demystified</em></a>, by Serge Aleynikov (retrieved Sep. 14, 2016)</span> the event manager executes all it&rsquo;s handlers in the process context of the event manager.  The event manager protects itself against handler code that crashes by silently removing the handler.
 
 <p>If you are using a handler as a read model as I suggest above, silent removal will break your application.  So, either you need to write a bullet-proof handler or you need to come up with an approach that if a read model crashes, it does not miss any events.  But that&rsquo;s a topic for another blog.
 

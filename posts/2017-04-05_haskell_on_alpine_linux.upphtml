@@ -9,9 +9,9 @@ tags: haskell, alpine
     <p>How to run Haskell on Alpine Linux, a Linux distribution built on musc libc and busybox, and which requires only 8 MB of storage for a container and 130 MB of storage for a minimal installation to disk.
 
 	<figure>
-    <img src="/img/full/alpine.png" alt="Village nestled in valley between beautiful mountain peaks. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/alpine.png' alt='Village nestled in valley between beautiful mountain peaks. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/alpine.html">Jace Grandinetti</a>
+       &copy; 2016 <a href='/imginfo/alpine.html'>Jace Grandinetti</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -22,9 +22,9 @@ tags: haskell, alpine
 <p>Tools used in this tutorial:
 
 <ol>
-    <li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> 1.3.2</li>
-    <li><a href="https://www.alpinelinux.org/about/">Alpine Linux</a>, 3.5.2, Standard x86_64</li>
-	<li><a href="https://www.virtualbox.org">Virtual Box</a>, 5.1.18</li>
+    <li><a href='https://docs.haskellstack.org/en/stable/README/'>Stack</a> 1.3.2</li>
+    <li><a href='https://www.alpinelinux.org/about/'>Alpine Linux</a>, 3.5.2, Standard x86_64</li>
+	<li><a href='https://www.virtualbox.org'>Virtual Box</a>, 5.1.18</li>
 </ol>
 
 <h2>Create a Virtual Server</h2>

@@ -9,9 +9,9 @@ tags: erlang, functional
     <p>I recently hit a programming task where a closure was the perfect solution.  I describe the task, define a closure, and then present the solution.
 
 	<figure>
-    <img src="/img/full/nest.png" alt="A closeup of a robins nest with four blue eggs. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/nest.png' alt='A closeup of a robins nest with four blue eggs. class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/nest.html">Ian Baldwin</a>
+       &copy; 2016 <a href='/imginfo/nest.html'>Ian Baldwin</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -20,9 +20,9 @@ tags: erlang, functional
 <section>
   <h2>What&rsquo;s the problem?</h2>
 
-  <p>The <a href="https://github.com/martinrehfeld/elli_basicauth">basic authentication middleware for Elli</a> is configured with an authorization function that takes three parameters: the request, the username and the password.  You configure the middleware with an <code>auth_fun</code> parameter,  is returned by the <code>auth_fun(Config)</code> in the code below:
+  <p>The <a href='https://github.com/martinrehfeld/elli_basicauth'>basic authentication middleware for Elli</a> is configured with an authorization function that takes three parameters: the request, the username and the password.  You configure the middleware with an <code>auth_fun</code> parameter,  is returned by the <code>auth_fun(Config)</code> in the code below:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>handle(Req, Config) -></line>
 <line>    {User, Password} = credentials(Req),</line>
 <line></line>
@@ -45,7 +45,7 @@ tags: erlang, functional
 
   <p>For example, a simple auth function that secures every resource is:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <l>auth_fun(_Req, User, Password) -></line>
 <l>  case {User, Password} of</line>
 <l>    case {User, Password} of</line>
@@ -70,7 +70,7 @@ tags: erlang, functional
 
   <h3>Here&rsquo;s an example in JavaScript.</h3>
 
-   <pre class="code with-wrapping fullwidth">
+   <pre class='code with-wrapping fullwidth'>
 <line>var name = "mark";</line>
 <line>var f = function() { alert("Hello " + name);};</line>
 <line>f();</line>
@@ -86,7 +86,7 @@ tags: erlang, functional
 
   <h3>And the equivalent code in Erlang.</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>~$ erl</line>
 <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
 <line></line>
@@ -111,7 +111,7 @@ tags: erlang, functional
 <p>The <code>build_auth</code> function takes a list of <code>{user, password}</code> tuples.  For example, 
 <code>[ {<<"admin">>, <<"secret">>} ]</code>.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>build_auth(Passwords) -></line>
 <line>    fun (_Req, undefined, undefined) -> unauthorized;</line>
 <line>        (_Req, User, Password) -></line>
@@ -134,7 +134,7 @@ tags: erlang, functional
 
 <p>Here&rsquo;s the final configuration of the middleware in the supervisor:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>init(_Args) -></line>
 <line>    Passwords = load_passwords(),</line>
 <line>    BasicauthConfig = [{auth_fun, build_auth(Passwords)},</line>

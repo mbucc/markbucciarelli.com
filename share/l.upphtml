@@ -13,5 +13,5 @@ pp "${SHARE:?no theme directory set}"/s.uppcss
 </style>
 
 #!
-pp "$1"
+cmark -t html --smart --unsafe "$1"
 #!

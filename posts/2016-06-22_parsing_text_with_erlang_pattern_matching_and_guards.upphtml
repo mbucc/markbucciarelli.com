@@ -9,9 +9,9 @@ tags: erlang
     <p>A simple example of parsing a time string and that illustrates some Erlang pattern matching and guard basics.
 
 	<figure>
-    <img src="/img/full/mn.png" alt="Spray painted letters MNOPQ on a city wall. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/mn.png' alt='Spray painted letters MNOPQ on a city wall.'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/mnopq.html">Jon Tyson</a>
+       &copy; 2016 <a href='/imginfo/mnopq.html'>Jon Tyson</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
@@ -96,7 +96,7 @@ tags: erlang
 </pre>
 
 <p>The guard is <span class="code with-wrapping">when is_list(S)</span>.
-This is a <a href="http://www.cis.upenn.edu/~matuszek/Concise%20Guides/Concise%20Erlang.html#type_t_and_c">type test</a> that declares that the argument must be a list.
+This is a <a href='http://www.cis.upenn.edu/~matuszek/Concise%20Guides/Concise%20Erlang.html#type_t_and_c'>type test</a> that declares that the argument must be a list.
 (In Erlang, strings are lists of integers.)  The guard is both a declaration and an assertion:
 
 <pre class="code with-wrapping fullwidth">

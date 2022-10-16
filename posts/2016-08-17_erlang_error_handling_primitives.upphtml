@@ -9,23 +9,23 @@ tags: erlang
     <p>Defines Erlang&rsquo;s error handling terms and rules and then demonstrates how the primitives work with simple examples in the Erlang shell.
 
 	<figure>
-    <img src="/img/full/lightning.png" alt="A bright lightning strike with many forks against a navy blue sky. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/lightning.png' alt='A bright lightning strike with many forks against a navy blue sky.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2015 <a href="/imginfo/lightning.html">Sean McAuliffe</a>
+       &copy; 2015 <a href='/imginfo/lightning.html'>Sean McAuliffe</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
 
 </section>
 <section>
-    <div class="epigraph">
+    <div class='epigraph'>
     <blockquote>
         <p> Erlang &hellip; takes the approach that failures will happen no matter what, whether they’re developer-, operator-, or hardware-related. It is rarely practical or even possible to get rid of all errors in a program or a system.  If you can deal with some errors rather than preventing them at all cost, then most undefined behaviours of a program can go in that &ldquo;deal with it&rdquo; approach.
 
 	     <p> This is where the &ldquo;Let it Crash&rdquo; idea comes from: Because you can now deal with failure, and because the cost of weeding out all of the complex bugs from a system before it hits production is often prohibitive, programmers should only deal with the errors they know how to handle, and leave the rest for another process (a supervisor) or the virtual machine to deal with.
 
 	     <p> Given that most bugs are transient, simply restarting processes back to a state known to be stable when encountering an error can be a surprisingly good strategy.
-        <footer>Fred H&eacute;bert and Heroku, <cite><a href="http://www.erlang-in-anger.com/"><u>Stuff Goes Bad: Erlang In Anger</u></a></cite> (2014, p. 1)</footer>
+        <footer>Fred H&eacute;bert and Heroku, <cite><a href='http://www.erlang-in-anger.com/'><u>Stuff Goes Bad: Erlang In Anger</u></a></cite> (2014, p. 1)</footer>
     </blockquote>
     </div>
 </section>
@@ -37,7 +37,7 @@ tags: erlang
      <p>In Erlang, you build a system by linking processes together.  Instead of thinking in terms of classes, think in terms of processes.  Processes only communicate via messages and signals and do not share memory.
 	 
 	 <p>Erlang error 
-	 handling<label for="sn-course" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-course" class="margin-toggle"/><span class="sidenote">Most of the Erlang information in this post comes from the excellent <a href="http://erlang.org/course/error_handling.html"><em>An Erlang Course</em></u></a></cite>, (1999) by Joe Armstrong and Ericsson.   It&rsquo;s not long, I recommend you check it out.</span> 
+	 handling<label for='sn-course' class='margin-toggle sidenote-number'></label><input type='checkbox' id='sn-course' class='margin-toggle'/><span class='sidenote'>Most of the Erlang information in this post comes from the excellent <a href='http://erlang.org/course/error_handling.html'><em>An Erlang Course</em></u></a></cite>, (1999) by Joe Armstrong and Ericsson.   It&rsquo;s not long, I recommend you check it out.</span> 
 	 
 	 mainly deals with how processes communicate errors to each other.  Here are the basic terms:
 	 
@@ -56,7 +56,7 @@ tags: erlang
     <p>For example, here we spawn a process that waits for a message.  The process id is <0.60.0>.  We send the process a message with the bang (!) symbol, and the process prints the message.  The process then stops of it&rsquo;s own accord (because there is no loop statement at the end of the receive clause).
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>~$ erl</line>
 <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
 <line></line>
@@ -92,15 +92,15 @@ tags: erlang
                 <li>Errors in BIFs or pattern matching errors send automatic exit signals to the link set of the process where the error occurred.</li>
             </ol>
 
-		<footer>Joe Armstrong and Ericsson, <cite><a href="http://erlang.org/course/error_handling.html"><em>An Erlang Course</em></u></a></cite> (1999).</footer>
+		<footer>Joe Armstrong and Ericsson, <cite><a href='http://erlang.org/course/error_handling.html'><em>An Erlang Course</em></u></a></cite> (1999).</footer>
         </blockquote>
 
-        <p><img src="/img/erlang-aagh.png" alt="One process transmitting exit signals along it&rsquo;s links."/></a>
+        <p><img src='/img/erlang-aagh.png' alt='One process transmitting exit signals along it&rsquo;s links.'/></a>
 
 
     <h3>The erlang shell is a process.</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line></line>
 <line>1> erlang:processes().</line>
 <line>[<0.0.0>,<0.3.0>,<0.6.0>,<0.7.0>,<0.9.0>,<0.10.0>,<0.11.0>,</line>
@@ -119,7 +119,7 @@ signal.</h3>
 
         <p>This is a special property of the shell process.  You can tell the shell restarted because it&rsquo;s process ID changed.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> self().</line>
 <line><0.33.0>                   % The process id of the shell starts as 0.33.0.</line>
 <line>2> 1/0.</line>
@@ -135,13 +135,13 @@ signal.</h3>
 
 <p>The shell is not linked to the process it spawned, so it does not get
 the exit signal from it&rsquo;s
-child<label for="mn-vers" class="margin-toggle">&#8853;</label>.
+child<label for='mn-vers' class='margin-toggle'>&#8853;</label>.
 <input type="checkbox" id="mn-vers" class="margin-toggle"/>
 <span class="marginnote">
   The reason the shell sometimes starts as process id 0.33.0 and other times as 0.57.0 is due to running this code under different versions of Erlang.  The 0.33.0 corresponds to Eshell V7.2.1 and the 0.57.0 to Eshell V8.0.1.
 </span>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>~/src/erlang-sandbox$ cat crasher.erl</line>
 <line>-module(crasher).</line>
 <line>-compile([export_all]).</line>
@@ -179,7 +179,7 @@ child<label for="mn-vers" class="margin-toggle">&#8853;</label>.
 
         <p>The exit signal travels across the link to the shell process.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> self().</line>
 <line><0.33.0></line>
 <line>2> link(spawn(crasher, countdown, [2])).</line>
@@ -204,7 +204,7 @@ child<label for="mn-vers" class="margin-toggle">&#8853;</label>.
 
     <h3>Unless the error signal is a normal one!</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ cat normal_crasher.erl </line>
 <line>-module(normal_crasher).</line>
 <line>-compile([export_all]).</line>
@@ -240,7 +240,7 @@ child<label for="mn-vers" class="margin-toggle">&#8853;</label>.
 
 <p>Continuing shell session from above &hellip;
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>6> process_flag(trap_exit, true).</line>
 <line>false                      % process_flag/2 return value</line>
 <line>7> link(spawn(crasher, countdown, [10])).</line>

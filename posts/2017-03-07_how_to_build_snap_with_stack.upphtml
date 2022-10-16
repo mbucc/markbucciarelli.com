@@ -9,9 +9,9 @@ tags: haskell, stack
     <p>I prefer Stack&rsquo;s focus on repeatable builds, but Snap (a Haskell web framework) doesn't give any instructions for how to build with Stack.  Here's how.
 
 	<figure>
-    <img src="/img/full/snap.png" alt="A close up picture of a snap. class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/snap.png' alt='A close up picture of a snap.' class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2007 <a href="/imginfo/snap.html">Beatrice Allée</a>
+       &copy; 2007 <a href='/imginfo/snap.html'>Beatrice Allée</a>
 	  for Wikimedia Commons
 	</figcaption>
 	</figure>
@@ -22,8 +22,8 @@ tags: haskell, stack
 <p>Tools used in this tutorial:
 
 <ol>
-    <li><a href="https://docs.haskellstack.org/en/stable/README/">Stack</a> 1.3.2, Git revision 3f675146590d</li>
-    <li><a href="http://snapframework.com/download">Snap</a>, retrieved Jan 25, 2017</li>
+    <li><a href='https://docs.haskellstack.org/en/stable/README/'>Stack</a> 1.3.2, Git revision 3f675146590d</li>
+    <li><a href='http://snapframework.com/download'>Snap</a>, retrieved Jan 25, 2017</li>
 </ol>
 
 <p>All code for this blog entry can be found on <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/snap-stack">github</a>.
@@ -31,7 +31,7 @@ tags: haskell, stack
 <h2>Create initial Snap project with snap init.</h2>
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ cd sandbox/snap-stack</line>
 <line>$ snap init barebones</line>
 <line>$ tree</line>
@@ -56,7 +56,7 @@ tags: haskell, stack
 <h2>Use Snap&rsquo;s cabal configuration to initialize Stack.</h2>
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack init</line>
 <line>Looking for .cabal or package.yaml files to use to init the project.</line>
 <line>Using cabal packages:</line>
@@ -86,13 +86,13 @@ tags: haskell, stack
 </pre>
 
 <p>Stack looks at the dependencies <code>.cabal</code> (created by Snap) and 
-tries<label for="mn-demo" class="margin-toggle">&#8853;</label>
+tries<label for='mn-demo' class='margin-toggle'>&#8853;</label>
 <input type="checkbox" id="mn-demo" class="margin-toggle"/>
 <span class="marginnote">
 If it can&rsquo;t find an LTS snapshot, it will try a nightly snapshot.
 </span>
 to find a long-term support stackage snapshot that satisfies these dependencies. 
-In this case, it picked <a href="https://www.stackage.org/lts-8.4">LTS 8.4,</a> a
+In this case, it picked <a href='https://www.stackage.org/lts-8.4'>LTS 8.4,</a> a
 set of 2,220 packages that was published yesterday.
 
 </section>
@@ -104,7 +104,7 @@ set of 2,220 packages that was published yesterday.
 package set.  If you try to build, and don&rsquo;t have the correct compiler already installed by Stack, you get this output:
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack build</line>
 <line>No compiler found, expected minor version match with ghc-8.0.2 (x86_64) (based on resolver setting in /Users/mark/src/markbucciarelli.com/sandbox/snap-stack/stack.yaml).</line>
 <line>To install the correct GHC into /Users/mark/.stack/programs/x86_64-osx/, try running "stack setup" or use the "--install-ghc" flag.</line>
@@ -112,7 +112,7 @@ package set.  If you try to build, and don&rsquo;t have the correct compiler alr
 </pre>
 
 <p>
-LTS 8.4<label for="mn-ghc" class="margin-toggle">&#8853;</label>
+LTS 8.4<label for='mn-ghc' class='margin-toggle'>&#8853;</label>
 <input type="checkbox" id="mn-ghc" class="margin-toggle"/>
 <span class="marginnote">
 I think stackage was having server load issues; the first seven times I tried running stack setup it hung on the download. I finally got it after waiting until the next morning.
@@ -121,7 +121,7 @@ goes with compiler ghc-8.0.2 and I don&rsquo;t have it installed, so use <code>s
 install.
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack setup</line>
 <line>Preparing to install GHC to an isolated location.</line>
 <line>This will not interfere with any system-level installation.</line>
@@ -143,7 +143,7 @@ install.
 
 <h2>Confirm the project builds with Stack.</h2>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack build</line>
 <line>[1 of 2] Compiling Main             ( /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.o )</line>
 <line>[2 of 2] Compiling StackSetupShim   ( /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.o )</line>
@@ -181,7 +181,7 @@ install.
 
 <h3>Create an empty Stack project in the sub directory <code>tmp</code>.</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack new tmp</line>
 <line>Downloading template "new-template" to create project "tmp" in tmp/ &hellip;</line>
 <line></line>
@@ -215,7 +215,7 @@ install.
 
 <p>The standard Stack directories:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ tree tmp</line>
 <line>tmp</line>
 <line>├── LICENSE</line>
@@ -235,14 +235,14 @@ install.
 
 <p>No change in <code>stack.yaml</code>:
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ diff stack.yaml tmp/stack.yaml</line>
 <line>$</line>
 </pre>
 
 <h3>Move directories around.</h3>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ mv src app</line>
 <line>$ mv tmp/src .</line>
 <line>$ mv tmp/test .</line>
@@ -252,7 +252,7 @@ install.
 
 <p>The Stack one is bigger, so start with that.
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ ls -l snap-stack.cabal</line>
 <line>-rw-r--r--  1 mark  staff  960 Mar  7 21:44 snap-stack.cabal</line>
 <line>$ ls -l tmp/tmp.cabal</line>
@@ -278,7 +278,7 @@ install.
 <p>We end up with the following diff:
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ diff -uw tmp/tmp.cabal.orig snap-stack.cabal</line>
 <line>&mdash; tmp/tmp.cabal.orig    2017-03-08 06:41:24.000000000 -0500</line>
 <line>+++ snap-stack.cabal    2017-03-08 06:59:30.000000000 -0500</line>
@@ -344,7 +344,7 @@ install.
 
 <p>Start web server on localhost &hellip;
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ stack exec snap-stack</line>
 <line>no port specified, defaulting to port 8000</line>
 <line>Listening on http://0.0.0.0:8000</line>
@@ -353,7 +353,7 @@ install.
 <p>&hellip; and test.
 
 <!-- vi: .,/<\/pre/-1 s;.*;<line>&</line>;   -->
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>$ curl localhost:8000</line>
 <line>hello world~$</line>
 </pre>

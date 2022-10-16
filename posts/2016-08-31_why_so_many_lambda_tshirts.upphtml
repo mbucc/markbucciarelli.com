@@ -9,20 +9,20 @@ tags: functional
     <p>Last week I was wrestling with some code when a light went off and I came up with a short and sweet solution that uses foldl.
 
 	<figure>
-    <img src="/img/full/arches.png" alt="Looking down a long pool that is inside a set of massive stone arches class="webfeedsFeaturedVisual"/>
+    <img src='/img/full/arches.png' alt='Looking down a long pool that is inside a set of massive stone arches class='webfeedsFeaturedVisual'/>
 	<figcaption>
-       &copy; 2016 <a href="/imginfo/arches.html">Tyler Hendy</a>
+       &copy; 2016 <a href='/imginfo/arches.html'>Tyler Hendy</a>
 	  for Unsplash
 	</figcaption>
 	</figure>
 
 </section>
 <section>
-    <div class="epigraph">
+    <div class='epigraph'>
     <blockquote>
 <p>I found this functional programming approach to be much simpler than object oriented.  It allowed us to approach problems from a new direction in the sense that you only have to worry about transforming data through functions, you don&rsquo;t have to worry about inheritance and these kinds of things.  This makes it a lot easier to reason about.
 
-        <footer>Ben Marx, Bleacher Report <cite><a href="https://www.youtube.com/watch?v=AdY5AfXs7aw"><u>18 Months of Elixir in Production at Bleacher Report</u></a></cite> (Jul. 2016 @ 13:32)</footer>
+        <footer>Ben Marx, Bleacher Report <cite><a href='https://www.youtube.com/watch?v=AdY5AfXs7aw'><u>18 Months of Elixir in Production at Bleacher Report</u></a></cite> (Jul. 2016 @ 13:32)</footer>
     </blockquote>
     </div>
 </section>
@@ -61,12 +61,12 @@ tags: functional
 
         <blockquote>
             <p>A higher-order function is a function that takes other functions as arguments or returns a function as result.
-            <footer>wiki.haskell.org, <cite><a href="https://wiki.haskell.org/Higher_order_function">Higher order function</a></cite> (retrieved August 31, 2016)</footer>
+            <footer>wiki.haskell.org, <cite><a href='https://wiki.haskell.org/Higher_order_function'>Higher order function</a></cite> (retrieved August 31, 2016)</footer>
         </blockquote>
 
 	    <p>The function foldl takes a function as an argument.  Most of the examples that are on the web are pretty simple; for example, sum the elements in a list.  Here&rsquo;s an example that does just that:<p>
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> L=[1,2,3,5].</line>
 <line>[1,2,3,5]</line>
 <line>2> F = fun(X, Sum) -> X + Sum end.</line>
@@ -79,7 +79,7 @@ tags: functional
      <p>You apply F to the first element in the list and get the result, and then call F with the second element and that result, and so on. For example, 
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> F = fun(X, Sum) -> X + Sum end.</line>
 <line>#Fun&lt;erl_eval.12.52032458></line>
 <line>2> F(1,0).</line>
@@ -96,10 +96,10 @@ tags: functional
 	<h3>You can group with foldl.</h3>
 
 	<p>foldl is a new function to me, I haven&rsquo;t used it much in 
-Java<label for="mn-java" class="margin-toggle">&#8853;</label>.
+Java<label for='mn-java' class='margin-toggle'>&#8853;</label>.
 <input type="checkbox" id="mn-java" class="margin-toggle"/>
 <span class="marginnote">
-  Looks like Java 8 supports this with <a href="https://docs.oracle.com/javase/tutorial/collections/streams/reduction.html">Stream.reduce().</a>
+  Looks like Java 8 supports this with <a href='https://docs.oracle.com/javase/tutorial/collections/streams/reduction.html'>Stream.reduce().</a>
 </span>  :)
 
 	<p>So, I started building up from simple experiments in the Erlang interpreter.  For my task, the result of the function passed to foldl should be a list.  After some playing around with ideas in the interpreter, I came up with a function that groups:
@@ -107,7 +107,7 @@ Java<label for="mn-java" class="margin-toggle">&#8853;</label>.
 
 <!-- vi: .,/<\/pre/-1 s;.*;<line>&</line>;   -->
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>group({Artist, Val}, [{Artist, Vals}|Rest] ) -></line>
 <line>	H1 = {Artist, [Val|Vals]},</line>
 <line>	[H1|Rest];</line>
@@ -127,7 +127,7 @@ Java<label for="mn-java" class="margin-toggle">&#8853;</label>.
 
 <p>Testing this,
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> c(t)</line>
 <line>2> t:group({a,2}, [{a,[1]}]).</line>
 <line>[{a,[2,1]}]</line>
@@ -142,7 +142,7 @@ Java<label for="mn-java" class="margin-toggle">&#8853;</label>.
 <h3>This foldl approach works with Erlang records too.</h3>
 
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>group5(#event{act = Act} = E, [{Act, FirstVal, Dates}|Rest] ) -></line>
 <line>        H1 = {Act, FirstVal, [E#event.date|Dates]},</line>
 <line>        [H1|Rest];</line>
@@ -154,7 +154,7 @@ Java<label for="mn-java" class="margin-toggle">&#8853;</label>.
 
 <p>The interpreter test (my test code and #event record was in the module t.erl):
 
-        <pre class="code with-wrapping fullwidth">
+        <pre class='code with-wrapping fullwidth'>
 <line>1> c(t).</line>
 <line>{ok,t}</line>
 <line>2> rr(t).</line>
