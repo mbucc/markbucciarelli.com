@@ -1,12 +1,10 @@
 <ul>
 #!
 for f in $(ls 20*.html|sort -rn); do
+  title=$(grep -i '^title:' $f |cut -d':' -f 2|sed 's/^ *//')
+  dt=$(grep -i '^date:' $f |cut -d':' -f 2|sed 's/^ *//')
 #!
-  <li>
-#!
-echo $f | sed 's/^20[^_]*_//'
-#!
-  </li>
+  <li><a href=${f}>${title}</a> - ${dt}</li>
 #!
 done
 #!

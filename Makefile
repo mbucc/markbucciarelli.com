@@ -6,8 +6,7 @@ site: posts
 .PHONY: posts
 posts:
 	mkdir -p www/posts
-	(cd ./posts && ../bin/mkws ${SITE})
-	mv ./posts/*.html ./www/posts
+	(cd www/posts && MKWSTHEMEDIR=../../share ../../bin/mkws ${SITE} ../../posts)
 
 .PHONY: deploy
 deploy: site
