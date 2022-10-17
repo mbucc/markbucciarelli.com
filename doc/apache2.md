@@ -13,7 +13,7 @@ More info at https://trac.macports.org/wiki/howto/Apache2
 Directories
 
 * conf: /opt/local/etc/apache2/
-* webroot: opt/local/www/apache2/html/
+* webroot: /opt/local/www/apache2/html/
 * logs:  /opt/local/var/log/apache2/
 
 
