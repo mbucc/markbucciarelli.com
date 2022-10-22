@@ -1,5 +1,5 @@
 #!/bin/sh -e
-PATH=./bin:$PATH
+export PATH=$(dirname $0):$PATH
 
 usage() {
 	>&2 printf "usage: %s url [path]\\n" "$(basename "$0")"
