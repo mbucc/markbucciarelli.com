@@ -1,14 +1,19 @@
 X - create posts/share/l.upphtml for the post-specific template
 X - cd www/posts ; ../../bin/mkws ../../posts   <-- make sure this works.
 X- install apache2
-- add css (copy under www as part of make, reference absolute path)
+X- add css (copy under www as part of make, reference absolute path)
+X- copy images to www/img
+NO - change from /User/*/Sites to vhost to render generated site
+- move blog title into an H1 tag as Hakyll no longer does this for me.
 - grep title, date and tags from HTML and get rid of meta data
-- copy images to www/img
- - create ./index.upphtml that:
+- Pass in page title to l.upphtml template
+- convert markdown posts to uppmarkdown and update mkws to use cmark
+- Add redirects to Apache vhost configuration
+- create ./index.upphtml that:
      - lists ten most recent blog posts
      - put those on the index page 
- - add a menu (create in one share directory, then ln -s)
- - same for CSS
- - create www/img and copy images there
+- add a menu (create in one share directory, then ln -s)
+- same for CSS
+- create www/img and copy images there
 - grep tags from posts and generate tags page (use one page + anchors)
 - add links to tag anchor in upphtml?  or do as part of rendering?
