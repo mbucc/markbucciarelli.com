@@ -11,6 +11,7 @@
 pp "${SHARE:?no theme directory set}"/s.uppcss
 #!
 </style>
+<link rel="stylesheet" href="/css/default.css">
 
 #!
 pp "$1"
