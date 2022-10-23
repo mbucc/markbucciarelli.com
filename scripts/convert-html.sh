@@ -10,11 +10,17 @@ for f in $(ls *.upphtml); do
   tags=$(grep -i '^tags:' $f|sed -e 's/^[^:]*://' -e 's/^[ 	]*//' -e 's/[ 	]*$//' -e "s/^'//" -e "s/'$//")
 
   # 
-  #          Write <article> tag, blog title, and blog tags.
+  #          Write <article> tag and blog title.
   #
   rm -f "$tmpf"
   printf "<article>\n" >> "$tmpf"
   printf "    <h1>%s</h1>\n" "$title" >> "$tmpf"
+
+  # 
+  #          Write blog date.
+  #          Write tags as a Tufte margin note.
+  #
+  printf "    <p class=subtitle>%s\n" "$date" >> "$tmpf"
   printf "    <label for=blog-title class=margin-toggle>&#8853;</label>\n" >> "$tmpf"
   printf "    <input type=checkbox id=blog-title class=margin-toggle/>\n" >> "$tmpf"
   printf "    <span class=marginnote id=blogtags>" >> "$tmpf"
@@ -25,12 +31,7 @@ for f in $(ls *.upphtml); do
     ti=$(( ti + 1 ))
   done
   printf "\n    </span>\n\n" >> "$tmpf"
-
-  # 
-  #          Write blog date.
-  #
-  printf "    <p class=subtitle>%s</p>\n" "$date" >> "$tmpf"
-  printf "\n" >> "$tmpf"
+  printf "</p>\n" >> "$tmpf"
 
   # 
   #          Write post body, indenting each line so it prints as
