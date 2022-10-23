@@ -1,160 +1,166 @@
----
-title: 'kotlin: A functional gold mine'
-date: January 4, 2020
-tags: functional, kotlin
----
-
-<section style='clear: both;'>
-
-  <p>
-    I found <a
-      href='https://github.com/michaelbull/kotlin-result/tree/master/example/src/main/kotlin/com/github/michaelbull/result/example'>a
-      great repository</a> of functional Kotlin code examples.
-    As part of writing and testing his Result monad, the author (Michael Bull) has
-    translated the F# example presented in Scott Wlaschin's
-    <a href='https://fsharpforfunandprofit.com/rop/'>Railway Oriented Programming</a>
-    blog post.
-  </p>
-
-  <p>
-    I recently finished reading Scott's book 'Domain Modeling Made Functional'
-    (F# code from the book is
-    <a href='https://github.com/swlaschin/DomainModelingMadeFunctional'>here</a>) and I
-    highly recommend it for any one with a Java background that is interested
-    in functional programming. The ideas are powerful
-  </p>
-  <ul>
-    <li>total functions,</li>
-    <li> writing code that will not represent an invalid state instead instead of writing
-      tests,</li>
-    <li> I/O sandwiches,</li>
-    <li>baking dependencies in with partial application,</li>
-    <li>type lifting,</li>
-    <li>and data
-      flow programming</li>
-  </ul>
-  <p>and all can all be implemented in Kotlin (and by extension,
-    Java).</p>
-
-
-  <h2>Data Pipeline</h2>
-
-  <figure>
-    <label for='mn1' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn1' class='margin-toggle' />
-    <span class='marginnote'>
-      The <code style='font-size:10pt'>andThen</code> sugar comes with the Result monad
-      written by Michael
-      Bull.</code>
+<article>
+    <h1>kotlin: A functional gold mine</h1>
+    <p class=subtitle>January 4, 2020
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#functional>functional</a>, 
+        <a href=/tags.html#kotlin>kotlin</a>
     </span>
 
-    <pre class='code with-wrapping fullwidth'>
-<line>    routing {</line>
-<line>      get("/customers/{id}") {</line>
-<line>          call.parameters.readId()</line>
-<line>              .andThen(CustomerId.Companion::create)</line>
-<line>              .andThen(CustomerService::getById)</line>
-<line>              .mapError(::messageToResponse)</line>
-<line>              .mapBoth(</line>
-<line>                  success = { customer -></line>
-<line>                      call.respond(HttpStatusCode.OK, CustomerDto.from(customer))</line>
-<line>                  },</line>
-<line>                  failure = { (status, message) -></line>
-<line>                      call.respond(status, message)</line>
-<line>                  }</line>
-<line>              )</line>
-<line>      }</line>
-  </pre>
-  </figure>
-
-  <p>
-    <a name='value_object'></a>
-    Reference: <a
-      href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/Application.kt#L55-L69'>
-      example/Application.kt#L55-L69</a>
-  </p>
-
-  <h2>Value Object</h2>
-
-
-  <figure>
-    <label for='mn1' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn1' class='margin-toggle' />
-    <span class='marginnote'>
-      Using a companion create and the Result return type makes object creation
-      plug in to a data flow; for example, the
-      <code style='font-size:10pt'>.andThen(CustomerId.Companion::create)</code>
-      in the above data pipeline example.
-    </span>
-
-    <pre class='code with-wrapping fullwidth'>
-<line>    package com.github.michaelbull.result.example.model.domain</line>
-<line></line>
-<line>    import com.github.michaelbull.result.Err</line>
-<line>    import com.github.michaelbull.result.Ok</line>
-<line>    import com.github.michaelbull.result.Result</line>
-<line>    </line>
-<line>    data class PersonalName(</line>
-<line>        val first: String,</line>
-<line>        val last: String</line>
-<line>    ) {</line>
-<line>        companion object {</line>
-<line>            private const val MAX_LENGTH = 10</line>
-<line>    </line>
-<line>            fun create(first: String?, last: String?): Result<PersonalName, DomainMessage> {</line>
-<line>                return when {</line>
-<line>                    first.isNullOrBlank() -> Err(FirstNameRequired)</line>
-<line>                    last.isNullOrBlank() -> Err(LastNameRequired)</line>
-<line>                    first.length > MAX_LENGTH -> Err(FirstNameTooLong)</line>
-<line>                    last.length > MAX_LENGTH -> Err(LastNameTooLong)</line>
-<line>                    else -> Ok(PersonalName(first, last))</line>
-<line>                }</line>
-<line>            }</line>
-<line>        }</line>
-<line>    }</line>
-  </pre>
-  </figure>
-
-  <p>
-    Reference: <a
-      href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/PersonalName.kt'>example/model/domain/PersonalName.kt</a>
-  </p>
-
-  <h2>Type Lifting</h2>
-
-
-  <figure>
-    <label for='mn1' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn1' class='margin-toggle' />
-    <span class='marginnote'>
-      Any errors creating a <code style='font-size:10pt'>PersonalName</code> (the above
-      snippet), for example, <code style='font-size:10pt'>LastNameTooLong</code>, can be
-      lifted into a
-      <code style='font-size:10pt'>DomainMessage</code>
-      type.
-    </span>
-
-    <pre class='code with-wrapping fullwidth'>
-<line>/**</line>
-<line> * All possible things that can happen in the use-cases</line>
-<line> */</line>
-<line>sealed class DomainMessage</line>
-<line></line>
-<line>/* validation errors */</line>
-<line></line>
-<line>object CustomerRequired : DomainMessage()</line>
-<line>object CustomerIdMustBePositive : DomainMessage()</line>
-<line></line>
-<line>object FirstNameRequired : DomainMessage()</line>
-<line>object FirstNameTooLong : DomainMessage()</line>
-</pre>
-
-  </figure>
-
-  <p>
-    Reference: <a
-      href='https://github.com/michaelbull/kotlin-result/blob/b9bf8f1eaf730de898057a5b0b38b1bed1c572d5/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/DomainMessage.kt#L3-L14'>
-      example/model/domain/DomainMessage.kt#L3-L14</a>
-  </p>
-
-</section>
+</p>
+    <section style='clear: both;'>
+    
+      <p>
+        I found <a
+          href='https://github.com/michaelbull/kotlin-result/tree/master/example/src/main/kotlin/com/github/michaelbull/result/example'>a
+          great repository</a> of functional Kotlin code examples.
+        As part of writing and testing his Result monad, the author (Michael Bull) has
+        translated the F# example presented in Scott Wlaschin's
+        <a href='https://fsharpforfunandprofit.com/rop/'>Railway Oriented Programming</a>
+        blog post.
+      </p>
+    
+      <p>
+        I recently finished reading Scott's book 'Domain Modeling Made Functional'
+        (F# code from the book is
+        <a href='https://github.com/swlaschin/DomainModelingMadeFunctional'>here</a>) and I
+        highly recommend it for any one with a Java background that is interested
+        in functional programming. The ideas are powerful
+      </p>
+      <ul>
+        <li>total functions,</li>
+        <li> writing code that will not represent an invalid state instead instead of writing
+          tests,</li>
+        <li> I/O sandwiches,</li>
+        <li>baking dependencies in with partial application,</li>
+        <li>type lifting,</li>
+        <li>and data
+          flow programming</li>
+      </ul>
+      <p>and all can all be implemented in Kotlin (and by extension,
+        Java).</p>
+    
+    
+      <h2>Data Pipeline</h2>
+    
+      <figure>
+        <label for='mn1' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn1' class='margin-toggle' />
+        <span class='marginnote'>
+          The <code style='font-size:10pt'>andThen</code> sugar comes with the Result monad
+          written by Michael
+          Bull.</code>
+        </span>
+    
+        <pre class='code with-wrapping fullwidth'>
+    <line>    routing {</line>
+    <line>      get("/customers/{id}") {</line>
+    <line>          call.parameters.readId()</line>
+    <line>              .andThen(CustomerId.Companion::create)</line>
+    <line>              .andThen(CustomerService::getById)</line>
+    <line>              .mapError(::messageToResponse)</line>
+    <line>              .mapBoth(</line>
+    <line>                  success = { customer -></line>
+    <line>                      call.respond(HttpStatusCode.OK, CustomerDto.from(customer))</line>
+    <line>                  },</line>
+    <line>                  failure = { (status, message) -></line>
+    <line>                      call.respond(status, message)</line>
+    <line>                  }</line>
+    <line>              )</line>
+    <line>      }</line>
+      </pre>
+      </figure>
+    
+      <p>
+        <a name='value_object'></a>
+        Reference: <a
+          href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/Application.kt#L55-L69'>
+          example/Application.kt#L55-L69</a>
+      </p>
+    
+      <h2>Value Object</h2>
+    
+    
+      <figure>
+        <label for='mn1' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn1' class='margin-toggle' />
+        <span class='marginnote'>
+          Using a companion create and the Result return type makes object creation
+          plug in to a data flow; for example, the
+          <code style='font-size:10pt'>.andThen(CustomerId.Companion::create)</code>
+          in the above data pipeline example.
+        </span>
+    
+        <pre class='code with-wrapping fullwidth'>
+    <line>    package com.github.michaelbull.result.example.model.domain</line>
+    <line></line>
+    <line>    import com.github.michaelbull.result.Err</line>
+    <line>    import com.github.michaelbull.result.Ok</line>
+    <line>    import com.github.michaelbull.result.Result</line>
+    <line>    </line>
+    <line>    data class PersonalName(</line>
+    <line>        val first: String,</line>
+    <line>        val last: String</line>
+    <line>    ) {</line>
+    <line>        companion object {</line>
+    <line>            private const val MAX_LENGTH = 10</line>
+    <line>    </line>
+    <line>            fun create(first: String?, last: String?): Result<PersonalName, DomainMessage> {</line>
+    <line>                return when {</line>
+    <line>                    first.isNullOrBlank() -> Err(FirstNameRequired)</line>
+    <line>                    last.isNullOrBlank() -> Err(LastNameRequired)</line>
+    <line>                    first.length > MAX_LENGTH -> Err(FirstNameTooLong)</line>
+    <line>                    last.length > MAX_LENGTH -> Err(LastNameTooLong)</line>
+    <line>                    else -> Ok(PersonalName(first, last))</line>
+    <line>                }</line>
+    <line>            }</line>
+    <line>        }</line>
+    <line>    }</line>
+      </pre>
+      </figure>
+    
+      <p>
+        Reference: <a
+          href='https://github.com/michaelbull/kotlin-result/blob/183ea9a234daaff251096d1d42906131693a3ce9/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/PersonalName.kt'>example/model/domain/PersonalName.kt</a>
+      </p>
+    
+      <h2>Type Lifting</h2>
+    
+    
+      <figure>
+        <label for='mn1' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn1' class='margin-toggle' />
+        <span class='marginnote'>
+          Any errors creating a <code style='font-size:10pt'>PersonalName</code> (the above
+          snippet), for example, <code style='font-size:10pt'>LastNameTooLong</code>, can be
+          lifted into a
+          <code style='font-size:10pt'>DomainMessage</code>
+          type.
+        </span>
+    
+        <pre class='code with-wrapping fullwidth'>
+    <line>/**</line>
+    <line> * All possible things that can happen in the use-cases</line>
+    <line> */</line>
+    <line>sealed class DomainMessage</line>
+    <line></line>
+    <line>/* validation errors */</line>
+    <line></line>
+    <line>object CustomerRequired : DomainMessage()</line>
+    <line>object CustomerIdMustBePositive : DomainMessage()</line>
+    <line></line>
+    <line>object FirstNameRequired : DomainMessage()</line>
+    <line>object FirstNameTooLong : DomainMessage()</line>
+    </pre>
+    
+      </figure>
+    
+      <p>
+        Reference: <a
+          href='https://github.com/michaelbull/kotlin-result/blob/b9bf8f1eaf730de898057a5b0b38b1bed1c572d5/example/src/main/kotlin/com/github/michaelbull/result/example/model/domain/DomainMessage.kt#L3-L14'>
+          example/model/domain/DomainMessage.kt#L3-L14</a>
+      </p>
+    
+    </section>
+</article>

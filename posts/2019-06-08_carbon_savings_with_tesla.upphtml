@@ -1,204 +1,209 @@
----
-title: 'eco: CO<sub>2</sub> savings with a Tesla'
-date: June 8, 2019
-tags: eco
----
+<article>
+    <h1>eco: CO<sub>2</sub> savings with a Tesla</h1>
+    <p class=subtitle>June 8, 2019
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#eco>eco</a>
+    </span>
 
-<section style='clear: both;'>
-
-  <h2>tldr;</h2>
-  <p></p>
-  <table>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> emitted from Model 3 last month
-      </th>
-      <td>287 lbs</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> emitted from a 40 MPG car driving the
-        same distance
-      </th>
-      <td>860 lbs</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> saved</th>
-      <td>573 lbs</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car
-      </th>
-      <td>334 lbs/1,000 miles</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> cost of manufacturing the battery,
-        assuming a 200,000 mile battery life
-      </th>
-      <td>78 lbs/1,000 miles</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car,
-        counting battery manufacturing.
-      </th>
-      <td>256 lbs/1,000 miles</td>
-    </tr>
-    <tr>
-      <th style='text-align: left;'>Lifetime CO<sub>2</sub> savings compared to a 40 MPG
-        car</th>
-      <td>25.6 tons</td>
-    </tr>
-  </table>
-
-
-  <h2>Our electric bill went up by 400 kWh because Tesla.</h2>
-
-  <p>Last month, our electric bill rank
-    dropped from an excellent
-    300 kWh used to a way-above-average 700 kWh used. This is because
-    we bought a Tesla, and I was curious how many pounds of CO<sub>2</sub> we saved.
-  </p>
-
-  <h2>CO<sub>2</sub> emitted from producing 400 kWh</h2>
-
-  <p>
-    The <a
-      href='https://www.iso-ne.com/static-assets/documents/2019/04/2017_emissions_report.pdf'>2017
-      ISO New EnglandElectric Generator Air Emissions Report</a> contains the following
-    data:
-  </p>
-
-  <table>
-    <tr>
-      <th style='text-align: left;'>Pollutant</th>
-      <th style='text-align: left;'>2017 lb/MWh</th>
-    </tr>
-    <tr>
-      <td>NO<sub>x</sub></td>
-      <td>0.30</td>
-    </tr>
-    <tr>
-      <td>SO<sub>2</sub></td>
-      <td>0.08</td>
-    </tr>
-    <tr>
-      <td>CO<sub>2</sub></td>
-      <td>682</td>
-    </tr>
-  </table>
-
-  <p>
-    So, in 2017, generating 400kWh of electricity emitted 273 pounds of CO<sub>2</sub>.
-  </p>
-
-  <p>
-    This seems like an upper bound because
-  </p>
-  <ol>
-    <li>These emissions only count native generation, and thus do not factor in the
-      <a href='https://www.iso-ne.com/about/key-stats/resource-mix/'>14% of our total
-        load</a> that is met by Hydro imported from Quebec and New Brunswick.
-    </li>
-    <li>Emissions / MWh is going down; for example, from 2016 to 2017 there was a 3.9%
-      decrease
-      in carbon emissions per MWh.</li>
-  </ol>
-
-  <h2>CO<sub>2</sub> emitted by an ICE travelling the same distance.</h2>
-
-  <p>The Tesla Model 3 is rated at 250 Wh / mile. I'm doing a bit better, averaging
-    233 Wh/mile since I bought the car. So 400 kWh represents 1,717 miles.
-  </p>
-
-  <p>
-    In 2018, Toyota Camry was the best selling sedan in the US (178,795 cars sold),
-    followed closely by the Honda Civic (176,242 cars sold). Let's compare with
-    the Civic to give the ICE side the best chance.
-  </p>
-
-  <p>
-    A 2018 Honda Civic is 32 city / 42 highway. Taking a swag of 40 mpg on average,
-    1,717 miles represents 43 gallons of gasoline. Burning a gallon of gasoline
-    emits <a href='https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.htm'>20
-      pounds</a>
-    of CO<sub>2</sub>, so this distance is 860 pounds of CO<sub>2</sub>.
-  </p>
-
-  <h2>Wait, what about electricity transmission losses?</h2>
-
-  <p>The U.S. Energy department's estimate is that we lose 5% in transmission
-    and generation. Adding 5% to the EV total, we get 287 pounds of CO<sub>2</sub>.
-  </p>
-
-  <h2>What about manufacturing CO<sub>2</sub>?</h2>
-
-  <p>
-    The best report I have found on this topic is <a
-      href='https://www.ucsusa.org/sites/default/files/attach/2015/11/Cleaner-Cars-from-Cradle-to-Grave-full-report.pdf'><em>Cleaner
-        Cars from Cradle to Grave</em></a>, published
-    by the Union of Concerned Scientists in 2015.
-
-    Looking at Figure ES-2 closely, we can see that the main difference between the
-    CO<sub>2</sub>
-    manufacturing emissions is battery, and they estimate that manufacturing a 265 mile
-    battery is equivalent to emitting 32 grams of CO<sub>2</sub> per mile over a 179,000
-    mile
-    lifetime.
-  </p>
-
-  <p>
-    This translates to 12,644 pounds of CO<sub>2</sub> for the battery. I have a
-    long range battery (325 miles), so scaling this up linearly gets me to 15,507
-    pounds.
-  </p>
-
-  <p>
-    My battery warrantee guarantees the battery will retain at least 70% of its capacity
-    at 120,000 miles. I'm expecting better than that; what people have found
-    with the S and the X is that capacity drops 5% over the first 10,000 or 20,000 miles
-    and then levels off to drop another 2% or so up to 100,000 miles. The model 3 has
-    a more modern battery pack, so I would expect only a 7% degradation at 100,000 miles.
-  </p>
-
-  <p>
-    Musk <a
-      href='https://electrek.co/2019/04/13/tesla-model-3-longevity-claims-elon-musk/'>has
-      claimed</a> the Model 3 battery should last between 300,000 and 500,000 miles, which
-    would be great,
-    but for this writeup, I'll assume the battery pack will last for 200,000 miles.
-  </p>
-
-  <p>
-    At a 200,000 mile battery life, the manufacturing CO<sub>2</sub> works out
-    to 78 additional pounds of CO<sub>2</sub> per 1,000 miles travelled.
-  </p>
-
-  <h2>Summary</h2>
-
-  <p>
-    If my math is right, over a 200,000 mile lifetime, I'll save 25.6 tons of
-    CO<sub>2</sub>
-    emissions compared to a car that gets 40 MPG. And I'll have <em>a lot</em> more
-    fun driving those miles. :)
-  </p>
-
-
-  <h2>Solar Panels?</h2>
-
-  <p>
-    I drive around 20,000 miles a year. Today's price of a Tonne of CO<sub>2</sub>e on the
-    <a href='http://calcarbondash.org'>California Carbon Dashboard</a> was $15.10 per
-    tonne.
-    A tonne is a metric ton, and is 2,204.6 pounds, instead of the U.S. ton, which is
-    2,000 pounds.
-  </p>
-
-  <p>
-    In five years of driving, the current market value of getting
-    electricity from solar panels instead of the grid is 5 * 20 * 287 = 28,700 pounds
-    CO<sub>2</sub>
-    = 13 tonnes CO<sub>2</sub> = $196 dollars. This market is not pricing this externality
-    anywhere close to the costs associated with global warming. Probably due to the
-    political compromises that had to be made during the market
-    design but that's a total guess. But that's another issue for another blog post.
-  </p>
-
-</section>
+</p>
+    <section style='clear: both;'>
+    
+      <h2>tldr;</h2>
+      <p></p>
+      <table>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> emitted from Model 3 last month
+          </th>
+          <td>287 lbs</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> emitted from a 40 MPG car driving the
+            same distance
+          </th>
+          <td>860 lbs</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> saved</th>
+          <td>573 lbs</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car
+          </th>
+          <td>334 lbs/1,000 miles</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> cost of manufacturing the battery,
+            assuming a 200,000 mile battery life
+          </th>
+          <td>78 lbs/1,000 miles</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>CO<sub>2</sub> savings rate compared to a 40 MPG car,
+            counting battery manufacturing.
+          </th>
+          <td>256 lbs/1,000 miles</td>
+        </tr>
+        <tr>
+          <th style='text-align: left;'>Lifetime CO<sub>2</sub> savings compared to a 40 MPG
+            car</th>
+          <td>25.6 tons</td>
+        </tr>
+      </table>
+    
+    
+      <h2>Our electric bill went up by 400 kWh because Tesla.</h2>
+    
+      <p>Last month, our electric bill rank
+        dropped from an excellent
+        300 kWh used to a way-above-average 700 kWh used. This is because
+        we bought a Tesla, and I was curious how many pounds of CO<sub>2</sub> we saved.
+      </p>
+    
+      <h2>CO<sub>2</sub> emitted from producing 400 kWh</h2>
+    
+      <p>
+        The <a
+          href='https://www.iso-ne.com/static-assets/documents/2019/04/2017_emissions_report.pdf'>2017
+          ISO New EnglandElectric Generator Air Emissions Report</a> contains the following
+        data:
+      </p>
+    
+      <table>
+        <tr>
+          <th style='text-align: left;'>Pollutant</th>
+          <th style='text-align: left;'>2017 lb/MWh</th>
+        </tr>
+        <tr>
+          <td>NO<sub>x</sub></td>
+          <td>0.30</td>
+        </tr>
+        <tr>
+          <td>SO<sub>2</sub></td>
+          <td>0.08</td>
+        </tr>
+        <tr>
+          <td>CO<sub>2</sub></td>
+          <td>682</td>
+        </tr>
+      </table>
+    
+      <p>
+        So, in 2017, generating 400kWh of electricity emitted 273 pounds of CO<sub>2</sub>.
+      </p>
+    
+      <p>
+        This seems like an upper bound because
+      </p>
+      <ol>
+        <li>These emissions only count native generation, and thus do not factor in the
+          <a href='https://www.iso-ne.com/about/key-stats/resource-mix/'>14% of our total
+            load</a> that is met by Hydro imported from Quebec and New Brunswick.
+        </li>
+        <li>Emissions / MWh is going down; for example, from 2016 to 2017 there was a 3.9%
+          decrease
+          in carbon emissions per MWh.</li>
+      </ol>
+    
+      <h2>CO<sub>2</sub> emitted by an ICE travelling the same distance.</h2>
+    
+      <p>The Tesla Model 3 is rated at 250 Wh / mile. I'm doing a bit better, averaging
+        233 Wh/mile since I bought the car. So 400 kWh represents 1,717 miles.
+      </p>
+    
+      <p>
+        In 2018, Toyota Camry was the best selling sedan in the US (178,795 cars sold),
+        followed closely by the Honda Civic (176,242 cars sold). Let's compare with
+        the Civic to give the ICE side the best chance.
+      </p>
+    
+      <p>
+        A 2018 Honda Civic is 32 city / 42 highway. Taking a swag of 40 mpg on average,
+        1,717 miles represents 43 gallons of gasoline. Burning a gallon of gasoline
+        emits <a href='https://www.fueleconomy.gov/feg/contentIncludes/co2_inc.htm'>20
+          pounds</a>
+        of CO<sub>2</sub>, so this distance is 860 pounds of CO<sub>2</sub>.
+      </p>
+    
+      <h2>Wait, what about electricity transmission losses?</h2>
+    
+      <p>The U.S. Energy department's estimate is that we lose 5% in transmission
+        and generation. Adding 5% to the EV total, we get 287 pounds of CO<sub>2</sub>.
+      </p>
+    
+      <h2>What about manufacturing CO<sub>2</sub>?</h2>
+    
+      <p>
+        The best report I have found on this topic is <a
+          href='https://www.ucsusa.org/sites/default/files/attach/2015/11/Cleaner-Cars-from-Cradle-to-Grave-full-report.pdf'><em>Cleaner
+            Cars from Cradle to Grave</em></a>, published
+        by the Union of Concerned Scientists in 2015.
+    
+        Looking at Figure ES-2 closely, we can see that the main difference between the
+        CO<sub>2</sub>
+        manufacturing emissions is battery, and they estimate that manufacturing a 265 mile
+        battery is equivalent to emitting 32 grams of CO<sub>2</sub> per mile over a 179,000
+        mile
+        lifetime.
+      </p>
+    
+      <p>
+        This translates to 12,644 pounds of CO<sub>2</sub> for the battery. I have a
+        long range battery (325 miles), so scaling this up linearly gets me to 15,507
+        pounds.
+      </p>
+    
+      <p>
+        My battery warrantee guarantees the battery will retain at least 70% of its capacity
+        at 120,000 miles. I'm expecting better than that; what people have found
+        with the S and the X is that capacity drops 5% over the first 10,000 or 20,000 miles
+        and then levels off to drop another 2% or so up to 100,000 miles. The model 3 has
+        a more modern battery pack, so I would expect only a 7% degradation at 100,000 miles.
+      </p>
+    
+      <p>
+        Musk <a
+          href='https://electrek.co/2019/04/13/tesla-model-3-longevity-claims-elon-musk/'>has
+          claimed</a> the Model 3 battery should last between 300,000 and 500,000 miles, which
+        would be great,
+        but for this writeup, I'll assume the battery pack will last for 200,000 miles.
+      </p>
+    
+      <p>
+        At a 200,000 mile battery life, the manufacturing CO<sub>2</sub> works out
+        to 78 additional pounds of CO<sub>2</sub> per 1,000 miles travelled.
+      </p>
+    
+      <h2>Summary</h2>
+    
+      <p>
+        If my math is right, over a 200,000 mile lifetime, I'll save 25.6 tons of
+        CO<sub>2</sub>
+        emissions compared to a car that gets 40 MPG. And I'll have <em>a lot</em> more
+        fun driving those miles. :)
+      </p>
+    
+    
+      <h2>Solar Panels?</h2>
+    
+      <p>
+        I drive around 20,000 miles a year. Today's price of a Tonne of CO<sub>2</sub>e on the
+        <a href='http://calcarbondash.org'>California Carbon Dashboard</a> was $15.10 per
+        tonne.
+        A tonne is a metric ton, and is 2,204.6 pounds, instead of the U.S. ton, which is
+        2,000 pounds.
+      </p>
+    
+      <p>
+        In five years of driving, the current market value of getting
+        electricity from solar panels instead of the grid is 5 * 20 * 287 = 28,700 pounds
+        CO<sub>2</sub>
+        = 13 tonnes CO<sub>2</sub> = $196 dollars. This market is not pricing this externality
+        anywhere close to the costs associated with global warming. Probably due to the
+        political compromises that had to be made during the market
+        design but that's a total guess. But that's another issue for another blog post.
+      </p>
+    
+    </section>
+</article>

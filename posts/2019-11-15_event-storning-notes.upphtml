@@ -1,107 +1,112 @@
----
-title: 'ddd: event storming notes'
-date: November 15, 2019
-tags: cqrs
----
+<article>
+    <h1>ddd: event storming notes</h1>
+    <p class=subtitle>November 15, 2019
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#cqrs>cqrs</a>
+    </span>
 
-<section style='clear: both;'>
-
-  <p>
-    Rough notes from watching the video
-    <a href='https://www.youtube.com/watch?v=1i6QYvYhlYQ'>Alberto Brandolini -
-      50,000 Orange Stickies Later</a>. In 2013, he wrote the seminal
-    article <a
-      href='http://ziobrando.blogspot.com/2013/11/introducing-event-storming.html'>Introducing
-      Event Storming</a>
-  </p>
-
-
-  <ul>
-    <li>@4: Model the whole business.</li>
-    <li>@5: use a big paper roll, represents time line, put on the wall.</li>
-    <li>@5:40: Orange stickie for a domain event. Use a past tense verb and
-      language that is relevant to the domain experts; for example, 'Item added to cart'
-    </li>
-    <li>@8: Impossibility of complete requirements. 'Gossip does not compile.' Many
-      units in an organization suffer from self-preservation mode where the goal
-      is to be the second worst group in the organization. That way, you never get
-      into any trouble.
-    </li>
-    <li>@9: Put everyone together in the same room and use the timeline to try and build
-      a common story. Use purple (or red, if you can find it) stickies for
-      errors/problems.
-      These will fall out from using a common timeline that everyone can see.
-    </li>
-    <li>@11: The business outcome is visible to all---this is what our
-      company is doing.
-    </li>
-    <li>@12: Once the model is up on paper, you will start to see stories
-      as flows/lines through time.
-    </li>
-    <li>@14: Use arrow voting to decide what areas are next to fix. #noestimates.</li>
-    <li>@18:55: Some special tricks: incremental notation (?), fuzzy by design (leave
-      things
-      vague on purpose, do no get caught up in technical jargon that means nothing to the
-      business.
-    </li>
-    <li>@21:08: Goal: make sure we are fixing the right thing.</li>
-    <li>@23:37: stickie colors:
+</p>
+    <section style='clear: both;'>
+    
+      <p>
+        Rough notes from watching the video
+        <a href='https://www.youtube.com/watch?v=1i6QYvYhlYQ'>Alberto Brandolini -
+          50,000 Orange Stickies Later</a>. In 2013, he wrote the seminal
+        article <a
+          href='http://ziobrando.blogspot.com/2013/11/introducing-event-storming.html'>Introducing
+          Event Storming</a>
+      </p>
+    
+    
       <ul>
-        <li>orange: domain event</li>
-        <li>blue: command</li>
-        <li>green: read model</li>
-        <li>lilac: policy (double-wide)</li>
-        <li>yellow: user (1/2 wide) or aggregate (double-wide)</li>
-        <li>pink: external system (double-wide)</li>
-        <li>red: problem area, common source of errors</li>
+        <li>@4: Model the whole business.</li>
+        <li>@5: use a big paper roll, represents time line, put on the wall.</li>
+        <li>@5:40: Orange stickie for a domain event. Use a past tense verb and
+          language that is relevant to the domain experts; for example, 'Item added to cart'
+        </li>
+        <li>@8: Impossibility of complete requirements. 'Gossip does not compile.' Many
+          units in an organization suffer from self-preservation mode where the goal
+          is to be the second worst group in the organization. That way, you never get
+          into any trouble.
+        </li>
+        <li>@9: Put everyone together in the same room and use the timeline to try and build
+          a common story. Use purple (or red, if you can find it) stickies for
+          errors/problems.
+          These will fall out from using a common timeline that everyone can see.
+        </li>
+        <li>@11: The business outcome is visible to all---this is what our
+          company is doing.
+        </li>
+        <li>@12: Once the model is up on paper, you will start to see stories
+          as flows/lines through time.
+        </li>
+        <li>@14: Use arrow voting to decide what areas are next to fix. #noestimates.</li>
+        <li>@18:55: Some special tricks: incremental notation (?), fuzzy by design (leave
+          things
+          vague on purpose, do no get caught up in technical jargon that means nothing to the
+          business.
+        </li>
+        <li>@21:08: Goal: make sure we are fixing the right thing.</li>
+        <li>@23:37: stickie colors:
+          <ul>
+            <li>orange: domain event</li>
+            <li>blue: command</li>
+            <li>green: read model</li>
+            <li>lilac: policy (double-wide)</li>
+            <li>yellow: user (1/2 wide) or aggregate (double-wide)</li>
+            <li>pink: external system (double-wide)</li>
+            <li>red: problem area, common source of errors</li>
+          </ul>
+        </li>
+        <li>@24:49: Discovering policies is the key. Policies define the company. A policy
+          says:
+          'Whenever <i>this event</i> then <i>that command</i>'. There can be implicit
+          policies,
+          which
+          means there are no written rules but people have developed these habits as the best
+          way
+          to get their job done.
+        </li>
+        <li>@29:30: big picture: discovery---and disagreements are OK. Consensus is very hard,
+          we are not trained to model in a collaborative way. (Desktop Visio or a whiteboard
+          with
+          one marker.)
+        </li>
+        <li>@31:31: Investigating Aggregates. Look for state machine logic and focus on
+          behavior, not data. For example, 'what are the key bits of information that are
+          triggering the behavior.' Don't get hung up on naming the aggregates, postpone this.
+          Sometimes, event storming will make aggregate obvious---'there must be something
+          here
+          between this blue and the orange stickie.' (That is the definition of an aggregate.)
+          What are the little, local decision making steps; for example, decide whether to
+          accept
+          or reject a command based on my internal information.
+        </li>
+        <li>@33:15: Ubiquitous Language: at a large scale, we wont have one. So slowly
+          introduce this,
+          as people tend to get stuck on their vocab. Domain events can probably be consistent
+          names
+          across departments, but don't bog down business with internal IT naming
+          problems---keep it
+          at the domain event level.
+        </li>
+        <li>36:35: This naming process can seem pedantic and a waste of time but be
+          on the lookout for a lack of symmetry [mb: I think this means where the domain
+          export of
+          the producing domain uses different language that the domain export in the receiving
+          domain.]
+        </li>
+        <li>@44:58 Domain events are a really good choice for describing the business.</li>
+        <li>@46:43: Presents a really good table that describes how the same set of Domain
+          Event
+          data can be used to talk at a very high level (execs) to a low-level.
+        </li>
+        <li>@46:54: Event Storming is a great platform for self-organizing teams. People won't
+          self-organize around a system the don't understand.
+        </li>
       </ul>
-    </li>
-    <li>@24:49: Discovering policies is the key. Policies define the company. A policy
-      says:
-      'Whenever <i>this event</i> then <i>that command</i>'. There can be implicit
-      policies,
-      which
-      means there are no written rules but people have developed these habits as the best
-      way
-      to get their job done.
-    </li>
-    <li>@29:30: big picture: discovery---and disagreements are OK. Consensus is very hard,
-      we are not trained to model in a collaborative way. (Desktop Visio or a whiteboard
-      with
-      one marker.)
-    </li>
-    <li>@31:31: Investigating Aggregates. Look for state machine logic and focus on
-      behavior, not data. For example, 'what are the key bits of information that are
-      triggering the behavior.' Don't get hung up on naming the aggregates, postpone this.
-      Sometimes, event storming will make aggregate obvious---'there must be something
-      here
-      between this blue and the orange stickie.' (That is the definition of an aggregate.)
-      What are the little, local decision making steps; for example, decide whether to
-      accept
-      or reject a command based on my internal information.
-    </li>
-    <li>@33:15: Ubiquitous Language: at a large scale, we wont have one. So slowly
-      introduce this,
-      as people tend to get stuck on their vocab. Domain events can probably be consistent
-      names
-      across departments, but don't bog down business with internal IT naming
-      problems---keep it
-      at the domain event level.
-    </li>
-    <li>36:35: This naming process can seem pedantic and a waste of time but be
-      on the lookout for a lack of symmetry [mb: I think this means where the domain
-      export of
-      the producing domain uses different language that the domain export in the receiving
-      domain.]
-    </li>
-    <li>@44:58 Domain events are a really good choice for describing the business.</li>
-    <li>@46:43: Presents a really good table that describes how the same set of Domain
-      Event
-      data can be used to talk at a very high level (execs) to a low-level.
-    </li>
-    <li>@46:54: Event Storming is a great platform for self-organizing teams. People won't
-      self-organize around a system the don't understand.
-    </li>
-  </ul>
-
-</section>
+    
+    </section>
+</article>

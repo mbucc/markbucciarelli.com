@@ -1,8 +1,8 @@
 <ul>
 #!
 for f in $(ls 20*.html|sort -rn); do
-  title=$(grep -i '^title:' $f |cut -d':' -f 2|sed 's/^ *//')
-  dt=$(grep -i '^date:' $f |cut -d':' -f 2|sed 's/^ *//')
+  title=$(grep -i '<h1>' $f |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
+  dt=$(grep -i "subtitle" $f |sed 's/^.*<p[^>]*>//')
 #!
   <li><a href=${f}>${title}</a> - ${dt}</li>
 #!

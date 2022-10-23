@@ -1,250 +1,256 @@
----
-title: Install Alpine Linux on a Raspberry PI using macOS
-date: May 5, 2019
-tags: alpine, rpi
----
+<article>
+    <h1>Install Alpine Linux on a Raspberry PI using macOS</h1>
+    <p class=subtitle>May 5, 2019
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#alpine>alpine</a>, 
+        <a href=/tags.html#rpi>rpi</a>
+    </span>
 
-<section style='clear: both;'>
-
-  <p>The software and hardware used for this HOWTO are:</p>
-
-  <ol>
-    <li>Alpine Linux 3.8.4, armhf</li>
-    <li>Raspberry Pi 3 Model B, and:
-      <ol type='a'>
-        <li>USB keyboard</li>
-        <li>TV with HDMI input and an HDMI cable</li>
-        <li>MicroUSB 5V adapter as close to 2.5A as you can find (I used a 2A phone
-          charger.)</li>
+</p>
+    <section style='clear: both;'>
+    
+      <p>The software and hardware used for this HOWTO are:</p>
+    
+      <ol>
+        <li>Alpine Linux 3.8.4, armhf</li>
+        <li>Raspberry Pi 3 Model B, and:
+          <ol type='a'>
+            <li>USB keyboard</li>
+            <li>TV with HDMI input and an HDMI cable</li>
+            <li>MicroUSB 5V adapter as close to 2.5A as you can find (I used a 2A phone
+              charger.)</li>
+          </ol>
+        </li>
+        <li>macOS Mojave 10.14.4 (diskutil)</li>
+        <li>Samsung 32GB microSD</li>
+        <li>Vivitar microSD card reader</li>
       </ol>
-    </li>
-    <li>macOS Mojave 10.14.4 (diskutil)</li>
-    <li>Samsung 32GB microSD</li>
-    <li>Vivitar microSD card reader</li>
-  </ol>
-
-  <h2>Step 1. Partition the microSD with your Mac and unzip install.</h2>
-
-  <p>Use<label for='mn1' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn1' class='margin-toggle' />
-    <span class='marginnote'>Note to self: 3.9.3 is packaged with the golang
-      <a href='https://github.com/golang/go/issues/28114' target='_blank'>programs
-        compiled by 1.11 allocate an unreasonable
-        amount of virtual memory</a> issue.</span> armhf 3.8.4 or arm7
-    3.9.3 (armhf
-    3.9.3 won't boot on a Pi).
-  </p>
-
-  <p>Make sure you know for sure which disk is the microSD. If you're not sure, don't
-    follow
-    these steps&mdash;<em>you could lose all the data on your Mac.</em></p>
-
-  <pre class='code with-wrapping fullwidth'>
-<line>diskutil list</line>
-<line>diskutil partitionDisk disk2 MBR FAT32 VOL1 256MB "Free Space" VOL2 R</line>
-
-<line>export U=http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/armhf</line>
-<line>export F=alpine-rpi-3.8.4-armhf.tar.gz</line>
-<line>curl $U/$F -o ~/Downloads/$F</line>
-<line>curl $U/$F.sha256 -o ~/Downloads/$F.sha256</line>
-<line>cd ~/Downloads/</line>
-<line>shasum -c alpine-rpi-3.8.4-armhf.tar.gz.sha256</line>
-
-<line>cd /Volumes/VOL1</line>
-<line>tar xzvf ~/Downloads/alpine-rpi-3.8.4-armhf.tar.gz</line>
-
-<line>cat>usercfg.txt&lt;&lt;EOF</line>
-<line># On the Pi, the GPU and the CPU share RAM.  This is a headless install, so </line>
-<line># give the GPU the least amount of RAM it can get by with (16MB).</line>
-<line># This also triggers the Pi to use a cutdown version of the firmware (start_cd.elf).</line>
-<line>gpu_mem=16</line>
-<line></line>
-<line># Turn off audio and bluetooth.  (Note "dt" stands for device tree.)</line>
-<line>dtparam=audio=off,pi3-disable-bt</line>
-<line></line>
-<line># Enable mini UART as serial port (/dev/ttyS0).  </line>
-<line># Also, fixes VideoCore IV (aka the GPU or the VPU) frequency to 250MHz.</line>
-<line>enable_uart=1</line>
-<line>EOF</line>
-
-<line>cd ~</line>
-<line># unmount microSD and remove microSD card reader from the Mac</line>
-</pre>
-
-
-  <h2>Step 2. Create a Linux and a Linux swap partition on the Raspberry Pi.</h2>
-
-  <p>The macOS <label for='mn2' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn2' class='margin-toggle' />
-    <span class='marginnote'>diskutil listFilesystems</span>
-    diskutil does not provide the Linux format partition type.</p>
-
-  <pre class='code with-wrapping fullwidth'>
-<line># Put the microSD in the Raspberry Pi, then plug in keyboard, TV and the power supply.</line>
-<line># username = root (you won't need a password)</line>
-<line>fdisk /dev/mmcblk0</line>
-<line># Use the following inputs:</line>
-<line># echo a     # Mark the DOS partition as bootable.</line>
-<line># echo 1 </line>
-<line># echo n     # new partition ... </line>
-<line># echo p     # ... is a primary partition</line>
-<line># echo 2     # ... is the 2nd partition</line>
-<line># echo       # ... with a default first sector</line>
-<line># echo +30G  # ... and is 30GB big. (This leaves 1.1GB for the swap partition.)</line>
-<line># echo n     # new partition ...</line>
-<line># echo p     # ... is a primary partition</line>
-<line># echo 3     # ... is the 3rd partition</line>
-<line># echo       # ... with a default first sector</line>
-<line># echo       # ... and a default last sector</line>
-<line># echo t     # the partition type ... </line>
-<line># echo 3     # ... of the third partition</line>
-<line># echo 82    # ... is Linux swap</line>
-<line># echo p     # print the partition table ...</line>
-<line># echo w     # ... and if it looks good, write it to disk</line>
-<line># ignore "Resource busy" warning</line>
-
-<line>reboot</line>
-</pre>
-
-  <p>Configure <label for='mn4' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn4' class='margin-toggle' />
-    <span class='marginnote'>The key step here is to edit the apk repositories
-      manually and
-      to type in the repository path correctly.</span>the Pi as suits your
-    environment&mdash;the config
-    I used is listed below.
-  </p>
-
-  <pre class='code with-wrapping fullwidth'>
-<line># login as root again</line>
-
-<line>setup-alpine</line>
-<line># us                # keyboard</line>
-<line># us</line>
-<line># tallis            # hostname</line>
-<line># eth0</line>
-<line># 192.168.30.11     # static IP</line>
-<line># 255.255.255.0     # netmask</line>
-<line># 192.168.30.1      # gateway</line>
-<line># done</line>
-<line># no                # no manual network config</line>
-<line># eventarelli.com   # domain</line>
-<line># 192.168.30.1      # DNS server</line>
-<line># s3cr3t            # new root password</line>
-<line># s3cr3t</line>
-<line># US/Eastern        # timezone</line>
-<line># none              # no proxy</line>
-<line># e                 # edit apk repositories file manually</line>
-<line>#                   # delete existing line "/media/..." and replace with:</line>
-<line>#                   # http://dl-cdn.alpinelinux.org/alpine/v3.8/main </line>
-<line>#                   # :wq</line>
-<line># openssh</line>
-<line># chrony</line>
-<line># none              # don't store configs</line>
-<line># none              # don't create an apk cache</line>
-
-<line>mkswap /dev/mmcblk0p3</line>
-
-<line>apk add e2fsprogs</line>
-<line># you should see five packages installed: libuuid, libblkid, libcom_err, e2fsprogs-libs, and e2fsprogs.</line>
-<line>mkfs.ext4 /dev/mmcblk0p2</line>
-</pre>
-
-  <h2>Step 3: Install Alpine on the Linux partition and bind mount /boot directory.</h2>
-
-  <p>Edit the cmdline.txt <label for='mn3' class='margin-toggle'>&#8853;</label>
-    <input type='checkbox' id='mn3' class='margin-toggle' />
-    <span class='marginnote'>After the Linux partition is setup, the Pi still boots
-      from the DOS partition, which means it loads the kernel, initramfs, and modloop
-      images from the DOS /boot
-      directory.
-      When the kernel boots, it reads command line options from cmdline.txt (which you can
-      check with dmesg | grep
-      command), and sets the
-      root
-      filesystem to be the Linux partition.
-      We bind mount the Linux /boot to the DOS /boot so any Alpine upgrade that
-      affects the contents of the /boot directory (for example, a new kernel)
-      will be written to the DOS partition.
-    </span>on the DOS partition (<code>mmcblk0p1</code>) to configure the
-    kernel to use the Linux partition (<code>mmcblk0p2</code>) as the root file system.
-  </p>
-
-  <pre class='code with-wrapping fullwidth'>
-<line>mkdir /stage</line>
-<line>mount /dev/mmcblk0p2 /stage</line>
-<line>setup-disk -m sys /stage</line>
-<line># ignore all extlinux errors, the Pi doesn't need that program</line>
-<line># ignore note that you might need to "fix the MBR".</line>
-
-<line>echo /dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0 >> /stage/etc/fstab</line>
-
-<line># point root to 2nd partition</line>
-<line>mount -o remount,rw /media/mmcblk0p1</line>
-<line>sed -i '$ s/$/ root=\/dev\/mmcblk0p2/' /media/mmcblk0p1/cmdline.txt</line>
-<line>cat /media/mmcblk0p1/cmdline.txt</line>
-<line>modules=loop,squashfs,sd-mod,usb-storage quiet dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2</line>
-
-
-<line>echo /media/mmcblk0p1/boot /boot none defaults,bind 0 0 >> /stage/etc/fstab</line>
-
-<line>reboot</line>
-
-</pre>
-
-  <h2>Resources</h2>
-  <h3>Links</h3>
-
-  <dl>
-
-    <dt>
-      <a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi'
-        target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi</a>
-    </dt>
-    <dd>Concise explanation of installing Alpine Linux on the Pi, including the
-      usercfg.txt as well as the bind mount.</dd>
-
-    <dt><a href='https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/'
-        target=_blank>https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/</a>
-    </dt>
-    <dd>bind mount, among other things. Great resource.
-    </dd>
-
-    <dt><a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation'
-        target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation</a>
-    </dt>
-    <dd>usercfg.txt for headless mode</dd>
-    <dt>
-      <a href='https://www.raspberrypi.org/documentation/configuration/device-tree.md'
-        target=_blank>https://www.raspberrypi.org/documentation/configuration/device-tree.md</a>
-    </dt>
-    <dd>dtparam</dd>
-
-    <dt>
-      <a href='https://www.raspberrypi.org/documentation/configuration/uart.md'
-        target=_blank>https://www.raspberrypi.org/documentation/configuration/uart.md</a>
-    </dt>
-    <dd>enable_uart=1</dd>
-
-    <dt><a href='https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts'
-        target=_blank>https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts</a>
-    </dt>
-    <dd>answerfile</dd>
-
-
-    <dt><a
-        href='https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html'
-        target=_blank>https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html</a>
-    </dt>
-    <dd>apkovl
-    </dd>
-
-
-  </dl>
-
-</section>
-
-<!-- when the Pi boots: it will use the kernel, initramfs, and modloop images from the DOS partition -->
-<!-- So we mount DOS boot on second partition. -->
-<!-- All of these are in the /boot directory: vmlinuz-rpi, initramfs-rpi, modloop-rpi -->
-<!-- Note: The contents of cmdline.txt are passed as arguments to the kernel.  -->
+    
+      <h2>Step 1. Partition the microSD with your Mac and unzip install.</h2>
+    
+      <p>Use<label for='mn1' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn1' class='margin-toggle' />
+        <span class='marginnote'>Note to self: 3.9.3 is packaged with the golang
+          <a href='https://github.com/golang/go/issues/28114' target='_blank'>programs
+            compiled by 1.11 allocate an unreasonable
+            amount of virtual memory</a> issue.</span> armhf 3.8.4 or arm7
+        3.9.3 (armhf
+        3.9.3 won't boot on a Pi).
+      </p>
+    
+      <p>Make sure you know for sure which disk is the microSD. If you're not sure, don't
+        follow
+        these steps&mdash;<em>you could lose all the data on your Mac.</em></p>
+    
+      <pre class='code with-wrapping fullwidth'>
+    <line>diskutil list</line>
+    <line>diskutil partitionDisk disk2 MBR FAT32 VOL1 256MB "Free Space" VOL2 R</line>
+    
+    <line>export U=http://dl-cdn.alpinelinux.org/alpine/v3.8/releases/armhf</line>
+    <line>export F=alpine-rpi-3.8.4-armhf.tar.gz</line>
+    <line>curl $U/$F -o ~/Downloads/$F</line>
+    <line>curl $U/$F.sha256 -o ~/Downloads/$F.sha256</line>
+    <line>cd ~/Downloads/</line>
+    <line>shasum -c alpine-rpi-3.8.4-armhf.tar.gz.sha256</line>
+    
+    <line>cd /Volumes/VOL1</line>
+    <line>tar xzvf ~/Downloads/alpine-rpi-3.8.4-armhf.tar.gz</line>
+    
+    <line>cat>usercfg.txt&lt;&lt;EOF</line>
+    <line># On the Pi, the GPU and the CPU share RAM.  This is a headless install, so </line>
+    <line># give the GPU the least amount of RAM it can get by with (16MB).</line>
+    <line># This also triggers the Pi to use a cutdown version of the firmware (start_cd.elf).</line>
+    <line>gpu_mem=16</line>
+    <line></line>
+    <line># Turn off audio and bluetooth.  (Note "dt" stands for device tree.)</line>
+    <line>dtparam=audio=off,pi3-disable-bt</line>
+    <line></line>
+    <line># Enable mini UART as serial port (/dev/ttyS0).  </line>
+    <line># Also, fixes VideoCore IV (aka the GPU or the VPU) frequency to 250MHz.</line>
+    <line>enable_uart=1</line>
+    <line>EOF</line>
+    
+    <line>cd ~</line>
+    <line># unmount microSD and remove microSD card reader from the Mac</line>
+    </pre>
+    
+    
+      <h2>Step 2. Create a Linux and a Linux swap partition on the Raspberry Pi.</h2>
+    
+      <p>The macOS <label for='mn2' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn2' class='margin-toggle' />
+        <span class='marginnote'>diskutil listFilesystems</span>
+        diskutil does not provide the Linux format partition type.</p>
+    
+      <pre class='code with-wrapping fullwidth'>
+    <line># Put the microSD in the Raspberry Pi, then plug in keyboard, TV and the power supply.</line>
+    <line># username = root (you won't need a password)</line>
+    <line>fdisk /dev/mmcblk0</line>
+    <line># Use the following inputs:</line>
+    <line># echo a     # Mark the DOS partition as bootable.</line>
+    <line># echo 1 </line>
+    <line># echo n     # new partition ... </line>
+    <line># echo p     # ... is a primary partition</line>
+    <line># echo 2     # ... is the 2nd partition</line>
+    <line># echo       # ... with a default first sector</line>
+    <line># echo +30G  # ... and is 30GB big. (This leaves 1.1GB for the swap partition.)</line>
+    <line># echo n     # new partition ...</line>
+    <line># echo p     # ... is a primary partition</line>
+    <line># echo 3     # ... is the 3rd partition</line>
+    <line># echo       # ... with a default first sector</line>
+    <line># echo       # ... and a default last sector</line>
+    <line># echo t     # the partition type ... </line>
+    <line># echo 3     # ... of the third partition</line>
+    <line># echo 82    # ... is Linux swap</line>
+    <line># echo p     # print the partition table ...</line>
+    <line># echo w     # ... and if it looks good, write it to disk</line>
+    <line># ignore "Resource busy" warning</line>
+    
+    <line>reboot</line>
+    </pre>
+    
+      <p>Configure <label for='mn4' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn4' class='margin-toggle' />
+        <span class='marginnote'>The key step here is to edit the apk repositories
+          manually and
+          to type in the repository path correctly.</span>the Pi as suits your
+        environment&mdash;the config
+        I used is listed below.
+      </p>
+    
+      <pre class='code with-wrapping fullwidth'>
+    <line># login as root again</line>
+    
+    <line>setup-alpine</line>
+    <line># us                # keyboard</line>
+    <line># us</line>
+    <line># tallis            # hostname</line>
+    <line># eth0</line>
+    <line># 192.168.30.11     # static IP</line>
+    <line># 255.255.255.0     # netmask</line>
+    <line># 192.168.30.1      # gateway</line>
+    <line># done</line>
+    <line># no                # no manual network config</line>
+    <line># eventarelli.com   # domain</line>
+    <line># 192.168.30.1      # DNS server</line>
+    <line># s3cr3t            # new root password</line>
+    <line># s3cr3t</line>
+    <line># US/Eastern        # timezone</line>
+    <line># none              # no proxy</line>
+    <line># e                 # edit apk repositories file manually</line>
+    <line>#                   # delete existing line "/media/..." and replace with:</line>
+    <line>#                   # http://dl-cdn.alpinelinux.org/alpine/v3.8/main </line>
+    <line>#                   # :wq</line>
+    <line># openssh</line>
+    <line># chrony</line>
+    <line># none              # don't store configs</line>
+    <line># none              # don't create an apk cache</line>
+    
+    <line>mkswap /dev/mmcblk0p3</line>
+    
+    <line>apk add e2fsprogs</line>
+    <line># you should see five packages installed: libuuid, libblkid, libcom_err, e2fsprogs-libs, and e2fsprogs.</line>
+    <line>mkfs.ext4 /dev/mmcblk0p2</line>
+    </pre>
+    
+      <h2>Step 3: Install Alpine on the Linux partition and bind mount /boot directory.</h2>
+    
+      <p>Edit the cmdline.txt <label for='mn3' class='margin-toggle'>&#8853;</label>
+        <input type='checkbox' id='mn3' class='margin-toggle' />
+        <span class='marginnote'>After the Linux partition is setup, the Pi still boots
+          from the DOS partition, which means it loads the kernel, initramfs, and modloop
+          images from the DOS /boot
+          directory.
+          When the kernel boots, it reads command line options from cmdline.txt (which you can
+          check with dmesg | grep
+          command), and sets the
+          root
+          filesystem to be the Linux partition.
+          We bind mount the Linux /boot to the DOS /boot so any Alpine upgrade that
+          affects the contents of the /boot directory (for example, a new kernel)
+          will be written to the DOS partition.
+        </span>on the DOS partition (<code>mmcblk0p1</code>) to configure the
+        kernel to use the Linux partition (<code>mmcblk0p2</code>) as the root file system.
+      </p>
+    
+      <pre class='code with-wrapping fullwidth'>
+    <line>mkdir /stage</line>
+    <line>mount /dev/mmcblk0p2 /stage</line>
+    <line>setup-disk -m sys /stage</line>
+    <line># ignore all extlinux errors, the Pi doesn't need that program</line>
+    <line># ignore note that you might need to "fix the MBR".</line>
+    
+    <line>echo /dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0 >> /stage/etc/fstab</line>
+    
+    <line># point root to 2nd partition</line>
+    <line>mount -o remount,rw /media/mmcblk0p1</line>
+    <line>sed -i '$ s/$/ root=\/dev\/mmcblk0p2/' /media/mmcblk0p1/cmdline.txt</line>
+    <line>cat /media/mmcblk0p1/cmdline.txt</line>
+    <line>modules=loop,squashfs,sd-mod,usb-storage quiet dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2</line>
+    
+    
+    <line>echo /media/mmcblk0p1/boot /boot none defaults,bind 0 0 >> /stage/etc/fstab</line>
+    
+    <line>reboot</line>
+    
+    </pre>
+    
+      <h2>Resources</h2>
+      <h3>Links</h3>
+    
+      <dl>
+    
+        <dt>
+          <a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi'
+            target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi</a>
+        </dt>
+        <dd>Concise explanation of installing Alpine Linux on the Pi, including the
+          usercfg.txt as well as the bind mount.</dd>
+    
+        <dt><a href='https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/'
+            target=_blank>https://pi3g.com/2019/01/10/alpine-boot-process-on-the-raspberry-pi/</a>
+        </dt>
+        <dd>bind mount, among other things. Great resource.
+        </dd>
+    
+        <dt><a href='https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation'
+            target=_blank>https://wiki.alpinelinux.org/wiki/Raspberry_Pi_Zero_W_-_Installation</a>
+        </dt>
+        <dd>usercfg.txt for headless mode</dd>
+        <dt>
+          <a href='https://www.raspberrypi.org/documentation/configuration/device-tree.md'
+            target=_blank>https://www.raspberrypi.org/documentation/configuration/device-tree.md</a>
+        </dt>
+        <dd>dtparam</dd>
+    
+        <dt>
+          <a href='https://www.raspberrypi.org/documentation/configuration/uart.md'
+            target=_blank>https://www.raspberrypi.org/documentation/configuration/uart.md</a>
+        </dt>
+        <dd>enable_uart=1</dd>
+    
+        <dt><a href='https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts'
+            target=_blank>https://wiki.alpinelinux.org/wiki/Alpine_setup_scripts</a>
+        </dt>
+        <dd>answerfile</dd>
+    
+    
+        <dt><a
+            href='https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html'
+            target=_blank>https://blog.w1r3.net/2018/04/16/automated-provisioning-using-apkovl.html</a>
+        </dt>
+        <dd>apkovl
+        </dd>
+    
+    
+      </dl>
+    
+    </section>
+    
+    <!-- when the Pi boots: it will use the kernel, initramfs, and modloop images from the DOS partition -->
+    <!-- So we mount DOS boot on second partition. -->
+    <!-- All of these are in the /boot directory: vmlinuz-rpi, initramfs-rpi, modloop-rpi -->
+    <!-- Note: The contents of cmdline.txt are passed as arguments to the kernel.  -->
+</article>

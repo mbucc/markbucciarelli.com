@@ -1,196 +1,201 @@
----
-title: Why do so many T-shirts have &lambda;&rsquo;s on them
-date: August 31, 2016
-tags: functional
----
+<article>
+    <h1>Why do so many T-shirts have &lambda;&rsquo;s on them</h1>
+    <p class=subtitle>August 31, 2016
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#functional>functional</a>
+    </span>
 
-<section>
-
-    <p>Last week I was wrestling with some code when a light went off and I came up with a short and sweet solution that uses foldl.
-
-	<figure>
-    <img src='/img/full/arches.png' alt='Looking down a long pool that is inside a set of massive stone arches class='webfeedsFeaturedVisual'/>
-	<figcaption>
-       &copy; 2016 <a href='/imginfo/arches.html'>Tyler Hendy</a>
-	  for Unsplash
-	</figcaption>
-	</figure>
-
-</section>
-<section>
-    <div class='epigraph'>
-    <blockquote>
-<p>I found this functional programming approach to be much simpler than object oriented.  It allowed us to approach problems from a new direction in the sense that you only have to worry about transforming data through functions, you don&rsquo;t have to worry about inheritance and these kinds of things.  This makes it a lot easier to reason about.
-
-        <footer>Ben Marx, Bleacher Report <cite><a href='https://www.youtube.com/watch?v=AdY5AfXs7aw'><u>18 Months of Elixir in Production at Bleacher Report</u></a></cite> (Jul. 2016 @ 13:32)</footer>
-    </blockquote>
-    </div>
-</section>
-
-<section>
-
-   <h2>I want to group events by artist.</h2>
-
-       <p>I&rsquo;m working on a side project that let&rsquo;s people know about local music events in our area.   It&rsquo;s working, but has a couple rough edges that I want to polish before releasing it to a wider audience.
-	   
-	   <p>One of those rough edges is that if one artist has multiple shows in a week, the shows are listed individually, instead of being grouped by the artist.
-	   
-	   <p>So, given a list of events, the task is to:
-	   <ul>
-	   <li>return a list that contains one element for each unique artist name, where</li>
-	   <li>each element has a list of one or more dates as well as the rest of the information about that event, and</li>
-	   <li>the list is ordered by first show date.</li>
-	   </ul>
-	 
-   <h3>First attempt: sort, group, then return a list ordered by first show date.</h3>
-
-       <p>I&rsquo;m not using SQL, so while it would be pretty easy to do this with a SQL query, that option is not available.
-
-	   <p>And it didn&rsquo;t seem that hard.  Just
-
-	   <ol>
-	   <li>sort the event list by artist and then date</li>
-	   <li>scan the list, grouping (with a map) by artist name</li>
-	   <li>convert that map back to a list that looks like this: {artist, first_date, [all_dates], ticket_url, desc, &hellip;}</li>
-	   <li>sort that list by the first_date field and then artist.</li>
-	   </ol>
-
-	   <p>And while that certainly would have worked, when I started implementing this approach it was taking much longer than I expected and the code was not coming easily.  So I stopped to think if there was a better way. 
-
-	   <h2>Enter foldl, a higher order function.</h2>
-
+</p>
+    <section>
+    
+        <p>Last week I was wrestling with some code when a light went off and I came up with a short and sweet solution that uses foldl.
+    
+    	<figure>
+        <img src='/img/full/arches.png' alt='Looking down a long pool that is inside a set of massive stone arches class='webfeedsFeaturedVisual'/>
+    	<figcaption>
+           &copy; 2016 <a href='/imginfo/arches.html'>Tyler Hendy</a>
+    	  for Unsplash
+    	</figcaption>
+    	</figure>
+    
+    </section>
+    <section>
+        <div class='epigraph'>
         <blockquote>
-            <p>A higher-order function is a function that takes other functions as arguments or returns a function as result.
-            <footer>wiki.haskell.org, <cite><a href='https://wiki.haskell.org/Higher_order_function'>Higher order function</a></cite> (retrieved August 31, 2016)</footer>
+    <p>I found this functional programming approach to be much simpler than object oriented.  It allowed us to approach problems from a new direction in the sense that you only have to worry about transforming data through functions, you don&rsquo;t have to worry about inheritance and these kinds of things.  This makes it a lot easier to reason about.
+    
+            <footer>Ben Marx, Bleacher Report <cite><a href='https://www.youtube.com/watch?v=AdY5AfXs7aw'><u>18 Months of Elixir in Production at Bleacher Report</u></a></cite> (Jul. 2016 @ 13:32)</footer>
         </blockquote>
-
-	    <p>The function foldl takes a function as an argument.  Most of the examples that are on the web are pretty simple; for example, sum the elements in a list.  Here&rsquo;s an example that does just that:<p>
-
-        <pre class='code with-wrapping fullwidth'>
-<line>1> L=[1,2,3,5].</line>
-<line>[1,2,3,5]</line>
-<line>2> F = fun(X, Sum) -> X + Sum end.</line>
-<line>#Fun&lt;erl_eval.12.52032458></line>
-<line>3> lists:foldl(F, 0, L).</line>
-<line>11</line>
-<line>4></line>
-</pre>
-
-     <p>You apply F to the first element in the list and get the result, and then call F with the second element and that result, and so on. For example, 
-
-
-        <pre class='code with-wrapping fullwidth'>
-<line>1> F = fun(X, Sum) -> X + Sum end.</line>
-<line>#Fun&lt;erl_eval.12.52032458></line>
-<line>2> F(1,0).</line>
-<line>1</line>
-<line>3> F(2, F(1, 0)).</line>
-<line>3</line>
-<line>> F(3, F(2, F(1, 0))).</line>
-<line>6</line>
-<line>></line>
-</pre>
-
-	<p>But you can do way more interesting things with foldl.
-
-	<h3>You can group with foldl.</h3>
-
-	<p>foldl is a new function to me, I haven&rsquo;t used it much in 
-Java<label for='mn-java' class='margin-toggle'>&#8853;</label>.
-<input type="checkbox" id="mn-java" class="margin-toggle"/>
-<span class="marginnote">
-  Looks like Java 8 supports this with <a href='https://docs.oracle.com/javase/tutorial/collections/streams/reduction.html'>Stream.reduce().</a>
-</span>  :)
-
-	<p>So, I started building up from simple experiments in the Erlang interpreter.  For my task, the result of the function passed to foldl should be a list.  After some playing around with ideas in the interpreter, I came up with a function that groups:
-
-
-<!-- vi: .,/<\/pre/-1 s;.*;<line>&</line>;   -->
-
-        <pre class='code with-wrapping fullwidth'>
-<line>group({Artist, Val}, [{Artist, Vals}|Rest] ) -></line>
-<line>	H1 = {Artist, [Val|Vals]},</line>
-<line>	[H1|Rest];</line>
-<line>group({Artist, Val}, Acc) -></line>
-<line>	H = {Artist, [Val]},</line>
-<line>	[H|Acc].</line>
-</pre>
-
-<p>Here,
-<ul>
-<li>the event data is the artist and another field I want to group</li>
-<li>the function assumes data comes in sorted by artist and then date</li>
-<li>pattern matching distinguishes when we hit a new artist in the list</li>
-<li>if same artist (first function clause), we replace the current list head with an updated value</li>
-<li>if new artist (second function clause), we add a new entry to the return list
-</ul>
-
-<p>Testing this,
-
-        <pre class='code with-wrapping fullwidth'>
-<line>1> c(t)</line>
-<line>2> t:group({a,2}, [{a,[1]}]).</line>
-<line>[{a,[2,1]}]</line>
-<line>3> L = [{a,1}, {a,2}, {b,1}].</line>
-<line>[{a,1},{a,2},{b,1}]</line>
-<line>4> lists:foldl(fun t:group/2, [], L).</line>
-<line>[{b,[1]},{a,[2,1]}]</line>
-</pre>
-
-
-
-<h3>This foldl approach works with Erlang records too.</h3>
-
-
-        <pre class='code with-wrapping fullwidth'>
-<line>group5(#event{act = Act} = E, [{Act, FirstVal, Dates}|Rest] ) -></line>
-<line>        H1 = {Act, FirstVal, [E#event.date|Dates]},</line>
-<line>        [H1|Rest];</line>
-<line>group5(E, Acc) when is_record(E, event) -></line>
-<line>        H = {E#event.act, E, [E#event.date]},</line>
-<line>        [H|Acc].</line>
-</pre>
-
-
-<p>The interpreter test (my test code and #event record was in the module t.erl):
-
-        <pre class='code with-wrapping fullwidth'>
-<line>1> c(t).</line>
-<line>{ok,t}</line>
-<line>2> rr(t).</line>
-<line>[event]</line>
-<line>3> Events = [#event{act="Big Apple", date={2018, 8, 20}, price=50.00},</line>
-<line>3> #event{act="Big Apple", date={2018, 8, 21}, price=50.00},</line>
-<line>3> #event{act="Red Sox", date={2018, 8, 20}, price=80.00}].</line>
-<line>[#event{act = "Big Apple",date = {2018,8,20},price = 50.0},</line>
-<line> #event{act = "Big Apple",date = {2018,8,21},price = 50.0},</line>
-<line> #event{act = "Red Sox",date = {2018,8,20},price = 80.0}]</line>
-<line>4> lists:foldl(fun t:group5/2, [], Events).</line>
-<line>[{"Red Sox",</line>
-<line>  #event{act = "Red Sox",date = {2018,8,20},price = 80.0},</line>
-<line>  [{2018,8,20}]},</line>
-<line> {"Big Apple",</line>
-<line>  #event{act = "Big Apple",date = {2018,8,20},price = 50.0},</line>
-<line>  [{2018,8,21},{2018,8,20}]}]</line>
-<line>5></line>
-</pre>
-
-
-
-<h2>Getting back to the original blog question &hellip;</h2>
-
-
-<p>I think this kind of experience is what prompts people to buy t-shirts with &lambda;&rsquo;s on them.  The difference between my traditional approach and the functional approach was like day and night.  The functional approach required far less code and was conceptually simpler (once I got my head around how foldl works).
-
-
-<p>I may have to get myself one.
-
-</section>
-
-<section>
-   <h2>Change Log</h2>
-       <h3>Sep. 17, 2016</h3>
-           <ul><li>Display id that comes after #Fun in interpreter output.</li> </ul>
-       <h3>Sep. 1, 2016</h3>
-           <ul><li>Fixed bug in record example and updated output.</li></ul>
-</section>
+        </div>
+    </section>
+    
+    <section>
+    
+       <h2>I want to group events by artist.</h2>
+    
+           <p>I&rsquo;m working on a side project that let&rsquo;s people know about local music events in our area.   It&rsquo;s working, but has a couple rough edges that I want to polish before releasing it to a wider audience.
+    	   
+    	   <p>One of those rough edges is that if one artist has multiple shows in a week, the shows are listed individually, instead of being grouped by the artist.
+    	   
+    	   <p>So, given a list of events, the task is to:
+    	   <ul>
+    	   <li>return a list that contains one element for each unique artist name, where</li>
+    	   <li>each element has a list of one or more dates as well as the rest of the information about that event, and</li>
+    	   <li>the list is ordered by first show date.</li>
+    	   </ul>
+    	 
+       <h3>First attempt: sort, group, then return a list ordered by first show date.</h3>
+    
+           <p>I&rsquo;m not using SQL, so while it would be pretty easy to do this with a SQL query, that option is not available.
+    
+    	   <p>And it didn&rsquo;t seem that hard.  Just
+    
+    	   <ol>
+    	   <li>sort the event list by artist and then date</li>
+    	   <li>scan the list, grouping (with a map) by artist name</li>
+    	   <li>convert that map back to a list that looks like this: {artist, first_date, [all_dates], ticket_url, desc, &hellip;}</li>
+    	   <li>sort that list by the first_date field and then artist.</li>
+    	   </ol>
+    
+    	   <p>And while that certainly would have worked, when I started implementing this approach it was taking much longer than I expected and the code was not coming easily.  So I stopped to think if there was a better way. 
+    
+    	   <h2>Enter foldl, a higher order function.</h2>
+    
+            <blockquote>
+                <p>A higher-order function is a function that takes other functions as arguments or returns a function as result.
+                <footer>wiki.haskell.org, <cite><a href='https://wiki.haskell.org/Higher_order_function'>Higher order function</a></cite> (retrieved August 31, 2016)</footer>
+            </blockquote>
+    
+    	    <p>The function foldl takes a function as an argument.  Most of the examples that are on the web are pretty simple; for example, sum the elements in a list.  Here&rsquo;s an example that does just that:<p>
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>1> L=[1,2,3,5].</line>
+    <line>[1,2,3,5]</line>
+    <line>2> F = fun(X, Sum) -> X + Sum end.</line>
+    <line>#Fun&lt;erl_eval.12.52032458></line>
+    <line>3> lists:foldl(F, 0, L).</line>
+    <line>11</line>
+    <line>4></line>
+    </pre>
+    
+         <p>You apply F to the first element in the list and get the result, and then call F with the second element and that result, and so on. For example, 
+    
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>1> F = fun(X, Sum) -> X + Sum end.</line>
+    <line>#Fun&lt;erl_eval.12.52032458></line>
+    <line>2> F(1,0).</line>
+    <line>1</line>
+    <line>3> F(2, F(1, 0)).</line>
+    <line>3</line>
+    <line>> F(3, F(2, F(1, 0))).</line>
+    <line>6</line>
+    <line>></line>
+    </pre>
+    
+    	<p>But you can do way more interesting things with foldl.
+    
+    	<h3>You can group with foldl.</h3>
+    
+    	<p>foldl is a new function to me, I haven&rsquo;t used it much in 
+    Java<label for='mn-java' class='margin-toggle'>&#8853;</label>.
+    <input type="checkbox" id="mn-java" class="margin-toggle"/>
+    <span class="marginnote">
+      Looks like Java 8 supports this with <a href='https://docs.oracle.com/javase/tutorial/collections/streams/reduction.html'>Stream.reduce().</a>
+    </span>  :)
+    
+    	<p>So, I started building up from simple experiments in the Erlang interpreter.  For my task, the result of the function passed to foldl should be a list.  After some playing around with ideas in the interpreter, I came up with a function that groups:
+    
+    
+    <!-- vi: .,/<\/pre/-1 s;.*;<line>&</line>;   -->
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>group({Artist, Val}, [{Artist, Vals}|Rest] ) -></line>
+    <line>	H1 = {Artist, [Val|Vals]},</line>
+    <line>	[H1|Rest];</line>
+    <line>group({Artist, Val}, Acc) -></line>
+    <line>	H = {Artist, [Val]},</line>
+    <line>	[H|Acc].</line>
+    </pre>
+    
+    <p>Here,
+    <ul>
+    <li>the event data is the artist and another field I want to group</li>
+    <li>the function assumes data comes in sorted by artist and then date</li>
+    <li>pattern matching distinguishes when we hit a new artist in the list</li>
+    <li>if same artist (first function clause), we replace the current list head with an updated value</li>
+    <li>if new artist (second function clause), we add a new entry to the return list
+    </ul>
+    
+    <p>Testing this,
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>1> c(t)</line>
+    <line>2> t:group({a,2}, [{a,[1]}]).</line>
+    <line>[{a,[2,1]}]</line>
+    <line>3> L = [{a,1}, {a,2}, {b,1}].</line>
+    <line>[{a,1},{a,2},{b,1}]</line>
+    <line>4> lists:foldl(fun t:group/2, [], L).</line>
+    <line>[{b,[1]},{a,[2,1]}]</line>
+    </pre>
+    
+    
+    
+    <h3>This foldl approach works with Erlang records too.</h3>
+    
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>group5(#event{act = Act} = E, [{Act, FirstVal, Dates}|Rest] ) -></line>
+    <line>        H1 = {Act, FirstVal, [E#event.date|Dates]},</line>
+    <line>        [H1|Rest];</line>
+    <line>group5(E, Acc) when is_record(E, event) -></line>
+    <line>        H = {E#event.act, E, [E#event.date]},</line>
+    <line>        [H|Acc].</line>
+    </pre>
+    
+    
+    <p>The interpreter test (my test code and #event record was in the module t.erl):
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>1> c(t).</line>
+    <line>{ok,t}</line>
+    <line>2> rr(t).</line>
+    <line>[event]</line>
+    <line>3> Events = [#event{act="Big Apple", date={2018, 8, 20}, price=50.00},</line>
+    <line>3> #event{act="Big Apple", date={2018, 8, 21}, price=50.00},</line>
+    <line>3> #event{act="Red Sox", date={2018, 8, 20}, price=80.00}].</line>
+    <line>[#event{act = "Big Apple",date = {2018,8,20},price = 50.0},</line>
+    <line> #event{act = "Big Apple",date = {2018,8,21},price = 50.0},</line>
+    <line> #event{act = "Red Sox",date = {2018,8,20},price = 80.0}]</line>
+    <line>4> lists:foldl(fun t:group5/2, [], Events).</line>
+    <line>[{"Red Sox",</line>
+    <line>  #event{act = "Red Sox",date = {2018,8,20},price = 80.0},</line>
+    <line>  [{2018,8,20}]},</line>
+    <line> {"Big Apple",</line>
+    <line>  #event{act = "Big Apple",date = {2018,8,20},price = 50.0},</line>
+    <line>  [{2018,8,21},{2018,8,20}]}]</line>
+    <line>5></line>
+    </pre>
+    
+    
+    
+    <h2>Getting back to the original blog question &hellip;</h2>
+    
+    
+    <p>I think this kind of experience is what prompts people to buy t-shirts with &lambda;&rsquo;s on them.  The difference between my traditional approach and the functional approach was like day and night.  The functional approach required far less code and was conceptually simpler (once I got my head around how foldl works).
+    
+    
+    <p>I may have to get myself one.
+    
+    </section>
+    
+    <section>
+       <h2>Change Log</h2>
+           <h3>Sep. 17, 2016</h3>
+               <ul><li>Display id that comes after #Fun in interpreter output.</li> </ul>
+           <h3>Sep. 1, 2016</h3>
+               <ul><li>Fixed bug in record example and updated output.</li></ul>
+    </section>
+</article>

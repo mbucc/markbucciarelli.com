@@ -1,283 +1,288 @@
----
-title: A production gen_event application
-date: December 21, 2016
-tags: erlang
----
+<article>
+    <h1>A production gen_event application</h1>
+    <p class=subtitle>December 21, 2016
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#erlang>erlang</a>
+    </span>
 
-<section>
-
-    <p>I've been blogging about Erlang since June, so it's about time.  My first production application records email sends and opens, exposes the metrics via Prometheus and uses event sourcing, which I discuss in detail.
-
-	<figure>
-    <img src='/img/full/letters.png' alt='A letter slot on an old, banged up door.' class='webfeedsFeaturedVisual'/>
-	<figcaption>
-       &copy; 2016 <a href='/imginfo/letters.html'>Clem Onojeghuo</a>
-	  for Unsplash
-	</figcaption>
-	</figure>
-
-</section>
-<section>
-<h2>My first production Erlang application.</h2>
-
-<p>This month, I went live with a small application to record emails sent and opened, and has basic auth, is proxied behind nginx and exposes metrics to Prometheus.  Not surprisingly, it combines a bunch of the techniques I blogged about here.
-
-<p>The application has the following modules:
-
-<ol>
-<li><code>metrics.erl</code>: the application behavior
-  <ul>
-    <li>starts a gen_event server and registers listeners</li>
-    <li>starts prometheus</li>
-    <li>starts a supervisor</li>
-    </ul>
-</li>
-<li><code>metrics_sup.erl</code>: the supervisor behavior 
-  <ul>
-    <li>loads credentials from disk</li>
-    <li>starts the Elli web server</li>
-  </ul>
-</li>
-<li><code>rest_handler.erl</code>: the elli_handler behavior
-  <ul>
-    <li>exposes a RESTful api</li>
-    <li>notifies gen_event server of events</li>
-  </ul>
-</li>
-<li><code>email_event.erl</code>: a gen_event behavior
-  <ul>
-    <li>accumulates statistics</li>
-    <li>exposes stats to Prometheus</li>
-  </ul>
-</li>
-<li><code>log_event.erl</code>: a gen_event behavior
-  <ul>
-    <li>logs each event to disk</li>
-    <li>on init, &ldquo;replays&rdquo; each event to gen_event server</li>
-  </ul>
-</li>
-</ol>
-
-<h2>Event sourcing in 65 lines.</h2>
-
-<p>The most interesting part of this application is the event sourcing piece.  It was quite simple to write in Erlang.  I&rsquo;ll step through the code below and then give some specific examples of how event sourcing was helpful.
-
-<p>The RESTful API fires events for each valid PUT and the <code>log_event.erl</code> gen_event behavior writes every event to disk.  When the server restarts, <code>log_event.erl</code> reads the event log from disk and replays them through the gen_event server.  This is an example of event sourcing.
-
-<h3>Reading and writing events.</h3>
-
-<p>Erlang makes reading and writing events particularly easy, as the <code>io:read/2</code> function supports reading an Erlang term directly from a file handle.  Writing an event is also simple<label for="mn-period" class="margin-toggle">&#8853;</label>:
-<input type="checkbox" id="mn-period" class="margin-toggle"/>
-<span class="marginnote">
-  Note the period printed at the end of the term (after the ~p)!
-</span>
-
-
-<pre class="code with-wrapping fullwidth">
-<line>% Write event to event log.</line>
-<line>write_event(F, Event, Id) -></line>
-<line>    Msg = [{id, Id}, {event, Event}],</line>
-<line>    ok = io:format(F, "~p.~n", [Msg]),</line>
-<line>    ok.</line>
-</pre>
-
-<p>and here is the code to read events from the log file:
-
-        <pre class='code with-wrapping fullwidth'>
-<line>% Read event from event log.</line>
-<line>read_event(F) -></line>
-<line>    case io:read(F, &rdquo;) of</line>
-<line>      {ok, Term} -></line>
-<line>          Id = proplists:get_value(id, Term),</line>
-<line>          Event = proplists:get_value(event, Term),</line>
-<line>          {ok, Id, Event};</line>
-<line>      eof -> eof</line>
-<line>    end.</line>
-</pre>
-
-<h3>Handling any event</h3>
-
-<p>In Erlang, events are arbitrary terms so the above code will read and write any event.  Also, since event handlers use their mailbox to process events one-by-one, we can maintain an event id in the handler state and write that to disk with each event:
-
-        <pre class='code with-wrapping fullwidth'>
-<line>handle_event([replay | _], State) -> {ok, State};</line>
-<line>% Write event to disk with next id.</line>
-<line>handle_event(Event, State) -></line>
-<line>    Id = proplists:get_value(id, State) + 1,</line>
-<line>    F = proplists:get_value(file, State),</line>
-<line>    write_event(F, Event, Id),</line>
-<line>    {ok, [{file, F}, {id, Id}]}.</line>
-</pre>
-
-
-<h3>Replaying Events</h3>
-
-<p>If your eye was sharp, you might have wondered about this line <code>handle_event([replay | _], State) -> {ok, State};</code> in the code above.  This event listener has the added responsibility of replaying the events on disk when the listener is initialized, and we don&rsquo;t want to log the replayed events to disk again!
-
-<p>The replay logic is:
-
-<ol>
-    <li>open the event log file</li>
-    <li>for each event in the file,</li>
-    <li>notify the gen_event server of the event with a &ldquo;replay&rdquo; prefix</li>
-</ol>
-
-<p>We use the replay prefix to allow the event handlers to distinguish between the original event and the replayed event, as the <code>log_event.erl</code> handler does above.
-
-        <pre class='code with-wrapping fullwidth'>
-<line>% Replay all events in log.  Returns id of the last event logged.</line>
-<line>replay_events(File, LastId) -></line>
-<line>    case read_event(File) of</line>
-<line>      {ok, Id, Event} -></line>
-<line>          ok = gen_event:notify(event_dispatcher,</line>
-<line>                                [replay | Event]),</line>
-<line>          replay_events(File, Id);</line>
-<line>      eof -> LastId</line>
-<line>    end.</line>
-<line></line>
-<line>init(Args) -></line>
-<line>    [LogFile | _] = Args,</line>
-<line>    case file:open(LogFile, [read, binary]) of</line>
-<line>      {ok, F} -></line>
-<line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
-<line>      {error, enoent} -> LastId = 0</line>
-<line>    end,</line>
-<line>    io:format("using event log ~p~n", [LogFile]),</line>
-<line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
-<line>    {ok, [{file, F1}, {id, LastId}]}.</line>
-</pre>
-
-<p>The rest of the code is scaffolding, things like exports and empty behavior method implementations to silence the compiler.  The full module source is included at the end of this blog post.
-
-</section>
-
-<section>
-
-<h2>How was event sourcing helpful?</h2>
-
-<h3>The biggest win: changing metric units with no data loss.</h3>
-
-<p>Just awesome: change the duration unit from <code>_minutes</code> to <code>_hours</code> &hellip; restart the app &hellip; and bingo, all the metrics have changed!
-
-<p>Replaying the events feeds all of them back through the (new) metric logic and so it recalculates the metrics using the new units.  That would work for any new metric you want to add as well.
-
-<p>A caveat with using Prometheus is that since it only collects the current state, when you rebuild a metric you do need to delete the prometheus data, which means you lose the time series data in prometheus.
-
-<h3>Using a text event log was handy.</h3>
-
-<p>Initially, I had a bug in the event term I was creating.  After fixing that, I was ale to edit the event log and correct the bad entries.  So no data loss.
-
-<h3>Debugging (and testing) was made simpler.</h3>
-
-<p>To debug, copy the production event log locally, and start the app.  You have exactly the same data that is in production, which makes things easier to debug.
-
-<p>Testing was likewise simplified to creating a log file that setup the test condition the way you wanted, then just start up the app pointing to that log file.
-
-<h3>Nice development environment.</h3>
-
-<p>It was very nice to be able to edit the log file, restart the server and have the read models rebuilt so you could check their results.  It made it simple to test new code against real data.
-
-</section>
-
-<section>
-<h2><code>log_event.erl</code></h2>
-
-        <pre class='code with-wrapping fullwidth'>
-<line>% Maintain event ID sequence and serialize events to disk.</line>
-<line>% Replay events on a restart.</line>
-<line>-module(log_event).</line>
-<line></line>
-<line>-behaviour(gen_event).</line>
-<line></line>
-<line>-export([code_change/3, handle_call/2, handle_event/2,</line>
-<line>         handle_info/2, init/1, terminate/2]).</line>
-<line></line>
-<line>-export([read_event/1, write_event/3]).</line>
-<line></line>
-<line>% Write event to event log.</line>
-<line>write_event(F, Event, Id) -></line>
-<line>    Msg = [{id, Id}, {event, Event}],</line>
-<line>    ok = io:format(F, "~p.~n", [Msg]),</line>
-<line>    ok.</line>
-<line></line>
-<line>% Read event from event log.</line>
-<line>read_event(F) -></line>
-<line>    case io:read(F, &rdquo;) of</line>
-<line>      {ok, Term} -></line>
-<line>          Id = proplists:get_value(id, Term),</line>
-<line>          Event = proplists:get_value(event, Term),</line>
-<line>          {ok, Id, Event};</line>
-<line>      eof -> eof</line>
-<line>    end.</line>
-<line></line>
-<line>% Replay all events in log.  Returns id of the last event logged.</line>
-<line>replay_events(File, LastId) -></line>
-<line>    case read_event(File) of</line>
-<line>      {ok, Id, Event} -></line>
-<line>          ok = gen_event:notify(event_dispatcher,</line>
-<line>                                [replay | Event]),</line>
-<line>          %{ok, EmailMetricState} = email_matrics:handle_event([replay|Event], []),</line>
-<line>          replay_events(File, Id);</line>
-<line>      eof -> LastId</line>
-<line>    end.</line>
-<line></line>
-<line>init(Args) -></line>
-<line>    [LogFile | _] = Args,</line>
-<line>    case file:open(LogFile, [read, binary]) of</line>
-<line>      {ok, F} -></line>
-<line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
-<line>      {error, enoent} -> LastId = 0</line>
-<line>    end,</line>
-<line>    io:format("using event log ~p~n", [LogFile]),</line>
-<line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
-<line>    {ok, [{file, F1}, {id, LastId}]}.</line>
-<line></line>
-<line>handle_event([replay | _], State) -> {ok, State};</line>
-<line>% Write event to disk with next id.</line>
-<line>handle_event(Event, State) -></line>
-<line>    Id = proplists:get_value(id, State) + 1,</line>
-<line>    F = proplists:get_value(file, State),</line>
-<line>    write_event(F, Event, Id),</line>
-<line>    {ok, [{file, F}, {id, Id}]}.</line>
-<line></line>
-<line>handle_call(_Request, State) -> {ok, noreply, State}.</line>
-<line></line>
-<line>code_change(_OldVsn, State, _Extra) -> {ok, State}.</line>
-<line></line>
-<line>handle_info(_Info, State) -> {noreply, State}.</line>
-<line></line>
-<line>terminate(_Args, State) -></line>
-<line>    F = proplists:get_value(file, State), file:close(F), ok.</line>
-</pre>
-</section>
-
-< section>
-<h2>Closing Thoughts</h2>
-
-<h3>Memory Performance</h3>
-
-<p>I didn&rsquo;t measure performance at all because my application is such low volume; a weekly email sent to ten people.  But if events start arriving faster then they can be written to disk, the mailbox of the <code>log_event</code> module will grow and grow and eventually the Erlang process will crash.
-
-<p>And since it is a gen_event, I think the events would just stop being logged.
-
-<p>When that got close, I would probably just surface a queue length metric (or, more simply, a RAM usage metric) to Prometheus and set up an alert on some threshold.
-
-<p>I would also read <a href="http://ferd.ca/queues-don-t-fix-overload.html">Queues Don&rsquo;t Fix Overload</a>.
-
-<p>Currently, the beam process has RSS of 14.6 MB and Prometheus uses 29.3 MB.  This is on a cheap RAM Host server with 255 MB of RAM, so I&rsquo;ll need to keep an eye on that.
-
-<h3>Startup Performance</h3>
-
-<p>As the event log gets huge, startup time (which includes replaying the entire log), will get slow.  I&rsquo;m not holding my breath on that one, as in my experience file-based stuff is surprisingly fast.
-
-<p>But if it does become a problem, I&rsquo;ll look at adding a snapshot.  See <em>What is snapshotting?</em> in the <a href="http://cqrs.nu/Faq">CQRS FAQ.</a>
-
-
-<h3>Make your events rich with attributes</h3>
-
-<p>Who knows what future read model you may want to build.  If you raise lots of events, and those events are rich in attributes, then you can add a read model at a later date and when you replay the event log, you have a new metric that spans the entire history of your system.
-
-<p>Next time I build this, I will add events for key system occurrences, even if I have no read models at the time.  The ability to add a read model at a later date and have it reflect your entire system&rsquo;s history is a sweet feature of event sourcing.
-
-</section>
-
+</p>
+    <section>
+    
+        <p>I've been blogging about Erlang since June, so it's about time.  My first production application records email sends and opens, exposes the metrics via Prometheus and uses event sourcing, which I discuss in detail.
+    
+    	<figure>
+        <img src='/img/full/letters.png' alt='A letter slot on an old, banged up door.' class='webfeedsFeaturedVisual'/>
+    	<figcaption>
+           &copy; 2016 <a href='/imginfo/letters.html'>Clem Onojeghuo</a>
+    	  for Unsplash
+    	</figcaption>
+    	</figure>
+    
+    </section>
+    <section>
+    <h2>My first production Erlang application.</h2>
+    
+    <p>This month, I went live with a small application to record emails sent and opened, and has basic auth, is proxied behind nginx and exposes metrics to Prometheus.  Not surprisingly, it combines a bunch of the techniques I blogged about here.
+    
+    <p>The application has the following modules:
+    
+    <ol>
+    <li><code>metrics.erl</code>: the application behavior
+      <ul>
+        <li>starts a gen_event server and registers listeners</li>
+        <li>starts prometheus</li>
+        <li>starts a supervisor</li>
+        </ul>
+    </li>
+    <li><code>metrics_sup.erl</code>: the supervisor behavior 
+      <ul>
+        <li>loads credentials from disk</li>
+        <li>starts the Elli web server</li>
+      </ul>
+    </li>
+    <li><code>rest_handler.erl</code>: the elli_handler behavior
+      <ul>
+        <li>exposes a RESTful api</li>
+        <li>notifies gen_event server of events</li>
+      </ul>
+    </li>
+    <li><code>email_event.erl</code>: a gen_event behavior
+      <ul>
+        <li>accumulates statistics</li>
+        <li>exposes stats to Prometheus</li>
+      </ul>
+    </li>
+    <li><code>log_event.erl</code>: a gen_event behavior
+      <ul>
+        <li>logs each event to disk</li>
+        <li>on init, &ldquo;replays&rdquo; each event to gen_event server</li>
+      </ul>
+    </li>
+    </ol>
+    
+    <h2>Event sourcing in 65 lines.</h2>
+    
+    <p>The most interesting part of this application is the event sourcing piece.  It was quite simple to write in Erlang.  I&rsquo;ll step through the code below and then give some specific examples of how event sourcing was helpful.
+    
+    <p>The RESTful API fires events for each valid PUT and the <code>log_event.erl</code> gen_event behavior writes every event to disk.  When the server restarts, <code>log_event.erl</code> reads the event log from disk and replays them through the gen_event server.  This is an example of event sourcing.
+    
+    <h3>Reading and writing events.</h3>
+    
+    <p>Erlang makes reading and writing events particularly easy, as the <code>io:read/2</code> function supports reading an Erlang term directly from a file handle.  Writing an event is also simple<label for="mn-period" class="margin-toggle">&#8853;</label>:
+    <input type="checkbox" id="mn-period" class="margin-toggle"/>
+    <span class="marginnote">
+      Note the period printed at the end of the term (after the ~p)!
+    </span>
+    
+    
+    <pre class="code with-wrapping fullwidth">
+    <line>% Write event to event log.</line>
+    <line>write_event(F, Event, Id) -></line>
+    <line>    Msg = [{id, Id}, {event, Event}],</line>
+    <line>    ok = io:format(F, "~p.~n", [Msg]),</line>
+    <line>    ok.</line>
+    </pre>
+    
+    <p>and here is the code to read events from the log file:
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>% Read event from event log.</line>
+    <line>read_event(F) -></line>
+    <line>    case io:read(F, &rdquo;) of</line>
+    <line>      {ok, Term} -></line>
+    <line>          Id = proplists:get_value(id, Term),</line>
+    <line>          Event = proplists:get_value(event, Term),</line>
+    <line>          {ok, Id, Event};</line>
+    <line>      eof -> eof</line>
+    <line>    end.</line>
+    </pre>
+    
+    <h3>Handling any event</h3>
+    
+    <p>In Erlang, events are arbitrary terms so the above code will read and write any event.  Also, since event handlers use their mailbox to process events one-by-one, we can maintain an event id in the handler state and write that to disk with each event:
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>handle_event([replay | _], State) -> {ok, State};</line>
+    <line>% Write event to disk with next id.</line>
+    <line>handle_event(Event, State) -></line>
+    <line>    Id = proplists:get_value(id, State) + 1,</line>
+    <line>    F = proplists:get_value(file, State),</line>
+    <line>    write_event(F, Event, Id),</line>
+    <line>    {ok, [{file, F}, {id, Id}]}.</line>
+    </pre>
+    
+    
+    <h3>Replaying Events</h3>
+    
+    <p>If your eye was sharp, you might have wondered about this line <code>handle_event([replay | _], State) -> {ok, State};</code> in the code above.  This event listener has the added responsibility of replaying the events on disk when the listener is initialized, and we don&rsquo;t want to log the replayed events to disk again!
+    
+    <p>The replay logic is:
+    
+    <ol>
+        <li>open the event log file</li>
+        <li>for each event in the file,</li>
+        <li>notify the gen_event server of the event with a &ldquo;replay&rdquo; prefix</li>
+    </ol>
+    
+    <p>We use the replay prefix to allow the event handlers to distinguish between the original event and the replayed event, as the <code>log_event.erl</code> handler does above.
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>% Replay all events in log.  Returns id of the last event logged.</line>
+    <line>replay_events(File, LastId) -></line>
+    <line>    case read_event(File) of</line>
+    <line>      {ok, Id, Event} -></line>
+    <line>          ok = gen_event:notify(event_dispatcher,</line>
+    <line>                                [replay | Event]),</line>
+    <line>          replay_events(File, Id);</line>
+    <line>      eof -> LastId</line>
+    <line>    end.</line>
+    <line></line>
+    <line>init(Args) -></line>
+    <line>    [LogFile | _] = Args,</line>
+    <line>    case file:open(LogFile, [read, binary]) of</line>
+    <line>      {ok, F} -></line>
+    <line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
+    <line>      {error, enoent} -> LastId = 0</line>
+    <line>    end,</line>
+    <line>    io:format("using event log ~p~n", [LogFile]),</line>
+    <line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
+    <line>    {ok, [{file, F1}, {id, LastId}]}.</line>
+    </pre>
+    
+    <p>The rest of the code is scaffolding, things like exports and empty behavior method implementations to silence the compiler.  The full module source is included at the end of this blog post.
+    
+    </section>
+    
+    <section>
+    
+    <h2>How was event sourcing helpful?</h2>
+    
+    <h3>The biggest win: changing metric units with no data loss.</h3>
+    
+    <p>Just awesome: change the duration unit from <code>_minutes</code> to <code>_hours</code> &hellip; restart the app &hellip; and bingo, all the metrics have changed!
+    
+    <p>Replaying the events feeds all of them back through the (new) metric logic and so it recalculates the metrics using the new units.  That would work for any new metric you want to add as well.
+    
+    <p>A caveat with using Prometheus is that since it only collects the current state, when you rebuild a metric you do need to delete the prometheus data, which means you lose the time series data in prometheus.
+    
+    <h3>Using a text event log was handy.</h3>
+    
+    <p>Initially, I had a bug in the event term I was creating.  After fixing that, I was ale to edit the event log and correct the bad entries.  So no data loss.
+    
+    <h3>Debugging (and testing) was made simpler.</h3>
+    
+    <p>To debug, copy the production event log locally, and start the app.  You have exactly the same data that is in production, which makes things easier to debug.
+    
+    <p>Testing was likewise simplified to creating a log file that setup the test condition the way you wanted, then just start up the app pointing to that log file.
+    
+    <h3>Nice development environment.</h3>
+    
+    <p>It was very nice to be able to edit the log file, restart the server and have the read models rebuilt so you could check their results.  It made it simple to test new code against real data.
+    
+    </section>
+    
+    <section>
+    <h2><code>log_event.erl</code></h2>
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>% Maintain event ID sequence and serialize events to disk.</line>
+    <line>% Replay events on a restart.</line>
+    <line>-module(log_event).</line>
+    <line></line>
+    <line>-behaviour(gen_event).</line>
+    <line></line>
+    <line>-export([code_change/3, handle_call/2, handle_event/2,</line>
+    <line>         handle_info/2, init/1, terminate/2]).</line>
+    <line></line>
+    <line>-export([read_event/1, write_event/3]).</line>
+    <line></line>
+    <line>% Write event to event log.</line>
+    <line>write_event(F, Event, Id) -></line>
+    <line>    Msg = [{id, Id}, {event, Event}],</line>
+    <line>    ok = io:format(F, "~p.~n", [Msg]),</line>
+    <line>    ok.</line>
+    <line></line>
+    <line>% Read event from event log.</line>
+    <line>read_event(F) -></line>
+    <line>    case io:read(F, &rdquo;) of</line>
+    <line>      {ok, Term} -></line>
+    <line>          Id = proplists:get_value(id, Term),</line>
+    <line>          Event = proplists:get_value(event, Term),</line>
+    <line>          {ok, Id, Event};</line>
+    <line>      eof -> eof</line>
+    <line>    end.</line>
+    <line></line>
+    <line>% Replay all events in log.  Returns id of the last event logged.</line>
+    <line>replay_events(File, LastId) -></line>
+    <line>    case read_event(File) of</line>
+    <line>      {ok, Id, Event} -></line>
+    <line>          ok = gen_event:notify(event_dispatcher,</line>
+    <line>                                [replay | Event]),</line>
+    <line>          %{ok, EmailMetricState} = email_matrics:handle_event([replay|Event], []),</line>
+    <line>          replay_events(File, Id);</line>
+    <line>      eof -> LastId</line>
+    <line>    end.</line>
+    <line></line>
+    <line>init(Args) -></line>
+    <line>    [LogFile | _] = Args,</line>
+    <line>    case file:open(LogFile, [read, binary]) of</line>
+    <line>      {ok, F} -></line>
+    <line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
+    <line>      {error, enoent} -> LastId = 0</line>
+    <line>    end,</line>
+    <line>    io:format("using event log ~p~n", [LogFile]),</line>
+    <line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
+    <line>    {ok, [{file, F1}, {id, LastId}]}.</line>
+    <line></line>
+    <line>handle_event([replay | _], State) -> {ok, State};</line>
+    <line>% Write event to disk with next id.</line>
+    <line>handle_event(Event, State) -></line>
+    <line>    Id = proplists:get_value(id, State) + 1,</line>
+    <line>    F = proplists:get_value(file, State),</line>
+    <line>    write_event(F, Event, Id),</line>
+    <line>    {ok, [{file, F}, {id, Id}]}.</line>
+    <line></line>
+    <line>handle_call(_Request, State) -> {ok, noreply, State}.</line>
+    <line></line>
+    <line>code_change(_OldVsn, State, _Extra) -> {ok, State}.</line>
+    <line></line>
+    <line>handle_info(_Info, State) -> {noreply, State}.</line>
+    <line></line>
+    <line>terminate(_Args, State) -></line>
+    <line>    F = proplists:get_value(file, State), file:close(F), ok.</line>
+    </pre>
+    </section>
+    
+    < section>
+    <h2>Closing Thoughts</h2>
+    
+    <h3>Memory Performance</h3>
+    
+    <p>I didn&rsquo;t measure performance at all because my application is such low volume; a weekly email sent to ten people.  But if events start arriving faster then they can be written to disk, the mailbox of the <code>log_event</code> module will grow and grow and eventually the Erlang process will crash.
+    
+    <p>And since it is a gen_event, I think the events would just stop being logged.
+    
+    <p>When that got close, I would probably just surface a queue length metric (or, more simply, a RAM usage metric) to Prometheus and set up an alert on some threshold.
+    
+    <p>I would also read <a href="http://ferd.ca/queues-don-t-fix-overload.html">Queues Don&rsquo;t Fix Overload</a>.
+    
+    <p>Currently, the beam process has RSS of 14.6 MB and Prometheus uses 29.3 MB.  This is on a cheap RAM Host server with 255 MB of RAM, so I&rsquo;ll need to keep an eye on that.
+    
+    <h3>Startup Performance</h3>
+    
+    <p>As the event log gets huge, startup time (which includes replaying the entire log), will get slow.  I&rsquo;m not holding my breath on that one, as in my experience file-based stuff is surprisingly fast.
+    
+    <p>But if it does become a problem, I&rsquo;ll look at adding a snapshot.  See <em>What is snapshotting?</em> in the <a href="http://cqrs.nu/Faq">CQRS FAQ.</a>
+    
+    
+    <h3>Make your events rich with attributes</h3>
+    
+    <p>Who knows what future read model you may want to build.  If you raise lots of events, and those events are rich in attributes, then you can add a read model at a later date and when you replay the event log, you have a new metric that spans the entire history of your system.
+    
+    <p>Next time I build this, I will add events for key system occurrences, even if I have no read models at the time.  The ability to add a read model at a later date and have it reflect your entire system&rsquo;s history is a sweet feature of event sourcing.
+    
+    </section>
+    
+</article>

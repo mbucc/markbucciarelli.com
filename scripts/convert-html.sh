@@ -22,8 +22,9 @@ for f in $(ls *.upphtml); do
   #
   printf "    <p class=subtitle>%s\n" "$date" >> "$tmpf"
   printf "    <label for=blog-title class=margin-toggle>&#8853;</label>\n" >> "$tmpf"
-  printf "    <input type=checkbox id=blog-title class=margin-toggle/>\n" >> "$tmpf"
+  printf "    <input type=checkbox id=blog-title class=margin-toggle />\n" >> "$tmpf"
   printf "    <span class=marginnote id=blogtags>" >> "$tmpf"
+  printf "Tags:" >> "$tmpf"
   ti=0
   for tag in $(echo "$tags" | tr , ' '); do
     [ $ti -gt 0 ] && printf ", " >> "$tmpf"

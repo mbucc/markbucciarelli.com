@@ -1,172 +1,177 @@
----
-title: How to read a UTF-8 encoded file with Erlang
-date: January 18, 2017
-tags: erlang
----
+<article>
+    <h1>How to read a UTF-8 encoded file with Erlang</h1>
+    <p class=subtitle>January 18, 2017
+    <label for=blog-title class=margin-toggle>&#8853;</label>
+    <input type=checkbox id=blog-title class=margin-toggle />
+    <span class=marginnote id=blogtags>Tags:
+        <a href=/tags.html#erlang>erlang</a>
+    </span>
 
-<section>
-
-    <p>In this HOWTO, we create a file with UTF-8 encoded text, read it with an Erlang program, and verify that the bytes Erlang stores in-memory matches what is on disk.
-
-	<figure>
-    <img src='/img/full/rsquo.png' alt='A capital R with a right single quote painted on a brick wall. class='webfeedsFeaturedVisual'/>
-	<figcaption>
-       &copy; 2016 <a href='/imginfo/rsquo.html'>Daria Nepriakhina</a>
-	  for Unsplash
-	</figcaption>
-	</figure>
-
-</section>
-<section>
-
-<p>Tools used in this tutorial:
-<ol>
-    <li>Erlang/OTP 19</li>
-    <li>dc</li>
-</ol>
-</section>
-
-<section>
-
-<p>All of the code used in this blog can be found at <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8">https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8</a>.
-
-<h2>Step 1. Create a file with UTF-8 encoding.</h2>
-
-<p>The Unix utility 
-<code>dc</code><label for="mn-dc" class="margin-toggle">&#8853;</label>
-<input type="checkbox" id="mn-dc" class="margin-toggle"/>
-<span class="marginnote">
- &ldquo;When its home Bell Labs received a PDP-11, dc—written in B—was the first language to run on the new computer, even before an assembler.&rdquo; &mdash;  <a href='https://en.wikipedia.org/wiki/Dc_%28computer_program%29'>Wikipedia</a> 
-</span>
-
-is a reverse-polish calculator that provides a nice concise way of printing bytes to a file.  Here, we use it to output the string &ldquo;quoted&rdquo; to a stdout:
-
-        <pre class='code with-wrapping fullwidth'>
-<line>#! /bin/sh -e</line>
-<line></line>
-<line># "quoted" (but with curly quotes)</line>
-<line>#</line>
-<line># http://unix.stackexchange.com/a/189810</line>
-<line>#</line>
-<line>#  character          byte(s), hex</line>
-<line>#  &mdash;&mdash;&mdash;&mdash;&mdash;--  &mdash;&mdash;&mdash;&mdash;</line>
-<line>#  left_curly_quote   e2  80  9c</line>
-<line>#  q                  71</line>
-<line>#  u                  75</line>
-<line>#  o                  6F</line>
-<line>#  t                  74</line>
-<line>#  e                  65</line>
-<line>#  d                  64</line>
-<line>#  right_curly_quote  e2  80  9d</line>
-<line></line>
-<line>dc&lt;&lt;EOF</line>
-<line>16i0</line>
-<line>$(printf %sP E2 80 9C 71 75 6F 74 65 64 E2 80 9D)</line>
-<line>EOF</line>
-<line></line>
-</pre>
-
-<p>The <code>16i0</code> tells <code>bc</code> to interpret the input as base 16 numbers.  With this, we create our UTF-8 encoded file.
-
-        <pre class='code with-wrapping fullwidth'>
-<line>$ ./makeutf8.sh</line>
-<line>“quoted”$</line>
-<line>$ ./makeutf8.sh > utf8.txt</line>
-<line>$ cat utf8.txt</line>
-<line>“quoted”$</line>
-<line>$</line>
-</pre>
-</section>
-
-<section>
-
-<h2>Step 2. Read the file with an Erlang program.</h2>
-
-	<p>The usage of io:format to dump the hex value of the bytes Erlang has stored in memory is courtesy Hynek -Pichi- 
-Vychodil<label for='mnhynek' class='margin-toggle'>&#8853;</label> for Stack Overflow.
-<input type="checkbox" id="mnhynek" class="margin-toggle"/>
-<span class="marginnote">
-  <a href='http://stackoverflow.com/a/3771421'>http://stackoverflow.com/a/3771421</a>
-</span>
-
-
-        <pre class='code with-wrapping fullwidth'>
-<line>-module(file_read_file).</line>
-<line></line>
-<line>-export([start/0]).</line>
-<line></line>
-<line>dump(Bin) -></line>
-<line>    io:format("~s",</line>
-<line>              [[io_lib:format("~2.16.0B~n", [X]) || &lt;&lt;X:8>> <= Bin]]).</line>
-<line></line>
-<line>start() -></line>
-<line>    {ok, Bin} = file:read_file("utf8.txt"), dump(Bin).</line>
-</pre>
-
-</section>
-
-<section>
-<h2>Step 3: Verify the bytes Erlang stores in-memory match the file contents.</h2>
-
-        <pre class='code with-wrapping fullwidth'>
-<line>$ erlc file_read_file.erl</line>
-<line>$ erl -pa . -s file_read_file</line>
-<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-<line></line>
-<line>E2</line>
-<line>80</line>
-<line>9C</line>
-<line>71</line>
-<line>75</line>
-<line>6F</line>
-<line>74</line>
-<line>65</line>
-<line>64</line>
-<line>E2</line>
-<line>80</line>
-<line>9D</line>
-<line>Eshell V8.0.1  (abort with ^G)</line>
-<line>1> q().</line>
-<line>ok</line>
-<line>2> $</line>
-</pre>
-
-	<p>The output matches the sequence of bytes input to <code>bc</code> above, so Erlang&rsquo;s <code>file:read_file/1</code> reads in bytes as written to disk and thus can be used to read in UTF-8 encoded files.
-
-</section>
-
-<section>
-<h2>Notes</h2>
-
-<h3><code>file:read_file/1</code> works for any byte sequence.</h3>
-
-<p>There is nothing special about the utf-8 encoding.  The Erlang function <code>file:read_file/1</code> reads in whatever byte sequence is in the file.
-
-	<p>If we read a <a href='https://en.wikipedia.org/wiki/Mac_OS_Roman'>Mac OS Roman</a> encoded file, which uses the byte <code>0xD2</code> to represent the left double quote, and <code>0xD3</code> for the right double quote, the bytes output match what is input.
-
-        <pre class='code with-wrapping fullwidth'>
-<line>$ cp mac_os_roman.txt utf8.txt</line>
-<line>$ cat utf8.txt |od -v -An -t x1</line>
-<line>           d2  71  75  6f  74  65  64  d3  0a</line>
-<line></line>
-<line>$ erl -pa . -s file_read_file -s init stop</line>
-<line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-<line></line>
-<line>D2</line>
-<line>71</line>
-<line>75</line>
-<line>6F</line>
-<line>74</line>
-<line>65</line>
-<line>64</line>
-<line>D3</line>
-<line>0A</line>
-<line>Eshell V8.0.1  (abort with ^G)</line>
-<line>1> $</line>
-</pre>
-
-<h3>I&rsquo;m sticking with binaries.</h3>
-
-<p>Looks like Erlang binaries treat files as a list of bytes.  Which is just how C treats strings, and I know that works just fine with encoded strings.  I also know that appending binaries in Erlang is fast.  So until I learn more about how Erlang strings work, I&rsquo;ll keep my text data in binary form because I know that works.
-
-</section>
+</p>
+    <section>
+    
+        <p>In this HOWTO, we create a file with UTF-8 encoded text, read it with an Erlang program, and verify that the bytes Erlang stores in-memory matches what is on disk.
+    
+    	<figure>
+        <img src='/img/full/rsquo.png' alt='A capital R with a right single quote painted on a brick wall. class='webfeedsFeaturedVisual'/>
+    	<figcaption>
+           &copy; 2016 <a href='/imginfo/rsquo.html'>Daria Nepriakhina</a>
+    	  for Unsplash
+    	</figcaption>
+    	</figure>
+    
+    </section>
+    <section>
+    
+    <p>Tools used in this tutorial:
+    <ol>
+        <li>Erlang/OTP 19</li>
+        <li>dc</li>
+    </ol>
+    </section>
+    
+    <section>
+    
+    <p>All of the code used in this blog can be found at <a href="https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8">https://github.com/mbucc/markbucciarelli.com/tree/master/sandbox/utf8</a>.
+    
+    <h2>Step 1. Create a file with UTF-8 encoding.</h2>
+    
+    <p>The Unix utility 
+    <code>dc</code><label for="mn-dc" class="margin-toggle">&#8853;</label>
+    <input type="checkbox" id="mn-dc" class="margin-toggle"/>
+    <span class="marginnote">
+     &ldquo;When its home Bell Labs received a PDP-11, dc—written in B—was the first language to run on the new computer, even before an assembler.&rdquo; &mdash;  <a href='https://en.wikipedia.org/wiki/Dc_%28computer_program%29'>Wikipedia</a> 
+    </span>
+    
+    is a reverse-polish calculator that provides a nice concise way of printing bytes to a file.  Here, we use it to output the string &ldquo;quoted&rdquo; to a stdout:
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>#! /bin/sh -e</line>
+    <line></line>
+    <line># "quoted" (but with curly quotes)</line>
+    <line>#</line>
+    <line># http://unix.stackexchange.com/a/189810</line>
+    <line>#</line>
+    <line>#  character          byte(s), hex</line>
+    <line>#  &mdash;&mdash;&mdash;&mdash;&mdash;--  &mdash;&mdash;&mdash;&mdash;</line>
+    <line>#  left_curly_quote   e2  80  9c</line>
+    <line>#  q                  71</line>
+    <line>#  u                  75</line>
+    <line>#  o                  6F</line>
+    <line>#  t                  74</line>
+    <line>#  e                  65</line>
+    <line>#  d                  64</line>
+    <line>#  right_curly_quote  e2  80  9d</line>
+    <line></line>
+    <line>dc&lt;&lt;EOF</line>
+    <line>16i0</line>
+    <line>$(printf %sP E2 80 9C 71 75 6F 74 65 64 E2 80 9D)</line>
+    <line>EOF</line>
+    <line></line>
+    </pre>
+    
+    <p>The <code>16i0</code> tells <code>bc</code> to interpret the input as base 16 numbers.  With this, we create our UTF-8 encoded file.
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>$ ./makeutf8.sh</line>
+    <line>“quoted”$</line>
+    <line>$ ./makeutf8.sh > utf8.txt</line>
+    <line>$ cat utf8.txt</line>
+    <line>“quoted”$</line>
+    <line>$</line>
+    </pre>
+    </section>
+    
+    <section>
+    
+    <h2>Step 2. Read the file with an Erlang program.</h2>
+    
+    	<p>The usage of io:format to dump the hex value of the bytes Erlang has stored in memory is courtesy Hynek -Pichi- 
+    Vychodil<label for='mnhynek' class='margin-toggle'>&#8853;</label> for Stack Overflow.
+    <input type="checkbox" id="mnhynek" class="margin-toggle"/>
+    <span class="marginnote">
+      <a href='http://stackoverflow.com/a/3771421'>http://stackoverflow.com/a/3771421</a>
+    </span>
+    
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>-module(file_read_file).</line>
+    <line></line>
+    <line>-export([start/0]).</line>
+    <line></line>
+    <line>dump(Bin) -></line>
+    <line>    io:format("~s",</line>
+    <line>              [[io_lib:format("~2.16.0B~n", [X]) || &lt;&lt;X:8>> <= Bin]]).</line>
+    <line></line>
+    <line>start() -></line>
+    <line>    {ok, Bin} = file:read_file("utf8.txt"), dump(Bin).</line>
+    </pre>
+    
+    </section>
+    
+    <section>
+    <h2>Step 3: Verify the bytes Erlang stores in-memory match the file contents.</h2>
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>$ erlc file_read_file.erl</line>
+    <line>$ erl -pa . -s file_read_file</line>
+    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+    <line></line>
+    <line>E2</line>
+    <line>80</line>
+    <line>9C</line>
+    <line>71</line>
+    <line>75</line>
+    <line>6F</line>
+    <line>74</line>
+    <line>65</line>
+    <line>64</line>
+    <line>E2</line>
+    <line>80</line>
+    <line>9D</line>
+    <line>Eshell V8.0.1  (abort with ^G)</line>
+    <line>1> q().</line>
+    <line>ok</line>
+    <line>2> $</line>
+    </pre>
+    
+    	<p>The output matches the sequence of bytes input to <code>bc</code> above, so Erlang&rsquo;s <code>file:read_file/1</code> reads in bytes as written to disk and thus can be used to read in UTF-8 encoded files.
+    
+    </section>
+    
+    <section>
+    <h2>Notes</h2>
+    
+    <h3><code>file:read_file/1</code> works for any byte sequence.</h3>
+    
+    <p>There is nothing special about the utf-8 encoding.  The Erlang function <code>file:read_file/1</code> reads in whatever byte sequence is in the file.
+    
+    	<p>If we read a <a href='https://en.wikipedia.org/wiki/Mac_OS_Roman'>Mac OS Roman</a> encoded file, which uses the byte <code>0xD2</code> to represent the left double quote, and <code>0xD3</code> for the right double quote, the bytes output match what is input.
+    
+            <pre class='code with-wrapping fullwidth'>
+    <line>$ cp mac_os_roman.txt utf8.txt</line>
+    <line>$ cat utf8.txt |od -v -An -t x1</line>
+    <line>           d2  71  75  6f  74  65  64  d3  0a</line>
+    <line></line>
+    <line>$ erl -pa . -s file_read_file -s init stop</line>
+    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
+    <line></line>
+    <line>D2</line>
+    <line>71</line>
+    <line>75</line>
+    <line>6F</line>
+    <line>74</line>
+    <line>65</line>
+    <line>64</line>
+    <line>D3</line>
+    <line>0A</line>
+    <line>Eshell V8.0.1  (abort with ^G)</line>
+    <line>1> $</line>
+    </pre>
+    
+    <h3>I&rsquo;m sticking with binaries.</h3>
+    
+    <p>Looks like Erlang binaries treat files as a list of bytes.  Which is just how C treats strings, and I know that works just fine with encoded strings.  I also know that appending binaries in Erlang is fast.  So until I learn more about how Erlang strings work, I&rsquo;ll keep my text data in binary form because I know that works.
+    
+    </section>
+</article>
