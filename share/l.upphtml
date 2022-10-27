@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang=${LANG%%_*}>
 
-<title>My website</title>
+<title>"$3"</title>
 
 <meta charset=${LANG##*.}>
 <meta name=viewport content='width=device-width, initial-scale=1'>

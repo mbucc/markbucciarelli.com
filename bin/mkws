@@ -21,7 +21,8 @@ fi
 for t in "${SRC}"/*.upphtml
 do
 	echo "Making $(basename "${t%.upphtml}".html)"
-	pp "${SHARE}"/l.upphtml "${t}" "$1" > \
+	title=$(grep -i '<h1>' $t |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
+	pp "${SHARE}"/l.upphtml "${t}" "$1" "$title" > \
 		"$(basename "${t%.upphtml}".html)"
 done
 
