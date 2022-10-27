@@ -6,7 +6,7 @@ X- copy images to www/img
 NO - change from /User/*/Sites to vhost to render generated site
 X- move blog title into an H1 tag as Hakyll no longer does this for me.
 X- grep title, date and tags from HTML and get rid of meta data
-- Pass in page title to l.upphtml template
+X- Pass in page title to l.upphtml template
 - convert markdown posts to uppmarkdown and update mkws to use cmark
 - Add redirects to Apache vhost configuration
     archive.html -> posts
