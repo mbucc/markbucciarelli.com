@@ -4,11 +4,13 @@ X- install apache2
 X- add css (copy under www as part of make, reference absolute path)
 X- copy images to www/img
 NO - change from /User/*/Sites to vhost to render generated site
-- move blog title into an H1 tag as Hakyll no longer does this for me.
-- grep title, date and tags from HTML and get rid of meta data
+X- move blog title into an H1 tag as Hakyll no longer does this for me.
+X- grep title, date and tags from HTML and get rid of meta data
 - Pass in page title to l.upphtml template
 - convert markdown posts to uppmarkdown and update mkws to use cmark
 - Add redirects to Apache vhost configuration
+    archive.html -> posts
+    *.html -> * ??
 - create ./index.upphtml that:
      - lists ten most recent blog posts
      - put those on the index page 
