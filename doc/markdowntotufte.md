@@ -53,3 +53,24 @@ the source markdown before sending it through `cmark`.
     new thoughts     HTML in markdown.
                      <span class=newthought>In the beginning,</span>
 
+
+Steps
+-------------------------------------
+
+For each `*.markdown` file, mkws:
+
+1. extracts title, date and tags
+
+2. passes the filename, title, date, and tags to `pp share/tufte.upphtml` template
+
+The tufte.upphtml template
+
+1. renders html head section, including twitter card info.
+
+2. renders article, h1, date (p class=subtitle)
+
+3. outputs: `awk -f margin_notes.awk -f sections.awk -f figures.awk $t|cmark --unsafe --smart`
+
+4. renders section with tags
+
+5. close article

@@ -1,15 +1,12 @@
----
-title: Flexbox and Tailwind CSS Deep Dive
-date: October 12, 2022
-tags: ui css tailwind
----
+October 12, 2022
 
+tags: ui css tailwind
+
+Flexbox and Tailwind CSS Deep Dive
+=================================================
 
 The  [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 was the best reference I found for explaining how flexbox works.
-
-Starting Point
-==================================
 
 Below is code for [a hero page](https://tailwindcomponents.com/component/modern-saas-hero-component/landing)
 that uses Tailwind CSS to
@@ -106,7 +103,9 @@ is rendered with the "Hello World!" taking up the entire screen
 and centered both horizontally and vertically on all devices.
 Here is how it looks on an iPhone SE:
 
+<figure>
 ![](/img/flexbox1.png)
+</figure>
 
 
 Text is centered as long as it fits on one line.
@@ -199,7 +198,7 @@ with `flex-wrap`.
 ![](/img/flexbox-final.gif)
 
 How many users can use Flex?
-========================
+------------------------
 
 99.09% of all users can use flex, per https://caniuse.com/?search=flex.
 

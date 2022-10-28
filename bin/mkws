@@ -18,6 +18,19 @@ then
 	exit 1
 fi
 
+#for t in "${SRC}"/*.markdown
+#do
+set +x
+t="${SRC}"/2022-10-12_flexbox-deepdive.markdown
+	outf="$(basename "${t%.markdown}".html)"
+	echo "Making $outf"
+        title=$(grep -B 1 '^===========' "$t"|head -1)
+        date=$(head -1 "$t"|sed 's/  *$//')
+	tags=$(grep -i '^tags' "$t"|sed 's/^[tT]ags[^a-z]*//')
+	bindir=$(dirname $0)
+	pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" > "$outf"
+#done
+
 for t in "${SRC}"/*.upphtml
 do
 	echo "Making $(basename "${t%.upphtml}".html)"

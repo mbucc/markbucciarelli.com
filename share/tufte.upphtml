@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang=${LANG%%_*}>
+
+<head>
+    <title>"$3"</title>
+    
+    <meta charset=${LANG##*.}>
+    <meta name=viewport content='width=device-width, initial-scale=1'>
+    <meta name='twitter:card' content='summary' />
+    <meta name='twitter:site' content='@mbucc' />
+    <meta name='twitter:title' content='"$3"' />
+    
+    <style>
+    #!
+    pp "${SHARE:?no theme directory set}"/s.uppcss
+    #!
+    </style>
+    <link rel="stylesheet" href="/css/default.css">
+</head>
+
+<body>
+
+<article>
+    <h1>"$3"</h1>
+    <p class=subtitle>"$4"</p>
+
+#!
+sed -n '8,$p' "$1" \
+    | grep -vi '^tags' \
+    | awk -f "$6/margin_notes.awk" -f "$6/sections.awk" -f "$6/figures.awk" \
+    | cmark --unsafe --smart
+#!
+
+    <section>
+        <p>Tags:
+#!
+echo "$5"
+#!
+        </p>
+    </section>
+</article>
+</body>
+</html>
