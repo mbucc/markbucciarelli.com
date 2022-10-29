@@ -33,10 +33,11 @@ t="${SRC}"/2022-10-12_flexbox-deepdive.markdown
 
 for t in "${SRC}"/*.upphtml
 do
-	echo "Making $(basename "${t%.upphtml}".html)"
+	outf="$(basename "${t%.upphtml}".html)"
+	echo "Making $outf"
 	title=$(grep -i '<h1>' $t |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
-	pp "${SHARE}"/l.upphtml "${t}" "$1" "$title" > \
-		"$(basename "${t%.upphtml}".html)"
+	[ "$outf" = "index.html" ] && title="Archive"
+	pp "${SHARE}"/l.upphtml "${t}" "$1" "$title" > "$outf"
 done
 
 echo "Making sitemap.xml"
