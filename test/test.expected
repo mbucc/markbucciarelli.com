@@ -1,0 +1,33 @@
+October 28, 2022
+
+tags: baz, biz
+
+Foo Bar Baz Title
+===================
+
+This paragraph has a margin
+<label for=note1 class=margin-toggle>&#8853;</label>
+<input type=checkbox id=note1  class=margin-toggle />
+<span class=marginnote>
+Old MacDonald had a note, eieio.
+</span>
+note.
+
+
+<section>
+Second-level headers like this should be wrapped in a section tag.
+--------------------------------------------------------
+
+And images should be wrapped in a figure tag
+
+<figure>
+![](/img/t.png)
+</figure>
+
+But images that have a wrapper should not have a second one added.
+
+<figure class=fullwidth>
+![](/img/u.png)
+</figure>
+
+</section>

@@ -1,12 +1,12 @@
 BEGIN    { first=1; }
          { p=q; q=$0 }
 /^----*/ { if (!first) print "</section>"
-           print "\n<section>"
+           print "<section>"
            print p;
            first = 0
            next
          }
-         { print p }
+NR > 1   { print p }
 END      { print q
            print "</section>"
          }

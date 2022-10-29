@@ -35,3 +35,4 @@ _cache
 _site
 .idea
 www/
+test/test.actual
