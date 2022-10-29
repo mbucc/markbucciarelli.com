@@ -7,7 +7,13 @@ NO - change from /User/*/Sites to vhost to render generated site
 X- move blog title into an H1 tag as Hakyll no longer does this for me.
 X- grep title, date and tags from HTML and get rid of meta data
 X- Pass in page title to l.upphtml template
-- convert markdown posts to uppmarkdown and update mkws to use cmark
+X- create www/img and copy images there
+X- convert markdown posts to uppmarkdown and update mkws to use cmark
+X- FAIL -- Try using variable names set in mkws directly in template (ala SHARE)
+X- Fix title on posts/index.html
+- Write awk scripts.
+- Delete all leftover Haskell stuff
+- Only copy stuff I want to deploy to the www dir.
 - Add redirects to Apache vhost configuration
     archive.html -> posts
     *.html -> * ??
@@ -16,6 +22,5 @@ X- Pass in page title to l.upphtml template
      - put those on the index page 
 - add a menu (create in one share directory, then ln -s)
 - same for CSS
-- create www/img and copy images there
 - grep tags from posts and generate tags page (use one page + anchors)
 - add links to tag anchor in upphtml?  or do as part of rendering?
