@@ -1,4 +1,4 @@
-BEGIN    { first=1; }
+BEGIN    { first=1; hadsection=0; }
          { p=q; q=$0 }
 /^----*/ { if (!first) print "</section>"
            print "<section>"
@@ -8,5 +8,5 @@ BEGIN    { first=1; }
          }
 NR > 1   { print p }
 END      { print q
-           print "</section>"
+           if (!first) print "</section>"
          }
