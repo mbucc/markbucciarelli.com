@@ -36,7 +36,11 @@ sed -n '8,$p' "$1" \
     <section>
         <p>Tags:
 #!
-echo "$5"
+for tag in $5; do
+#!
+          <a href=/tags.html#"$tag">"$tag"</a>
+#!
+done
 #!
         </p>
     </section>
