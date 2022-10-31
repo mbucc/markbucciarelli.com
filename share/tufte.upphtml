@@ -27,7 +27,9 @@
 #!
 sed -n '8,$p' "$1" \
     | grep -vi '^tags' \
-    | awk -f "$6/margin_notes.awk" -f "$6/sections.awk" -f "$6/figures.awk" \
+    | awk -f "$6/margin_notes.awk" \
+    | awk -f "$6/sections.awk" \
+    | awk -f "$6/figures.awk" \
     | cmark --unsafe --smart
 #!
 

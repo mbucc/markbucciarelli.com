@@ -11,10 +11,13 @@ X- create www/img and copy images there
 X- convert markdown posts to uppmarkdown and update mkws to use cmark
 X- FAIL -- Try using variable names set in mkws directly in template (ala SHARE)
 X- Fix title on posts/index.html
-- Write awk scripts.
+NO- Add redirects to Apache vhost configuration
+X- Write awk scripts---process HTML after cmark---markdown inside manual tags is ignored by cmark
+- Add tag rendering to share/tufte.upphtml
 - Delete all leftover Haskell stuff
 - Only copy stuff I want to deploy to the www dir.
-- Add redirects to Apache vhost configuration
+- Add proxy to Apache config to forward to thttpd (simpler to test locally)
+- Add redirects
     archive.html -> posts
     *.html -> * ??
 - create ./index.upphtml that:

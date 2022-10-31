@@ -41,10 +41,11 @@ the source markdown before sending it through `cmark`.
                          >
                          > <footer>citation goes here</footer>
 
-    figures          HTML + awk.
+    figures          awk.
                      Use awk to wrap img in <figure> tag.
-                     If specified already in markdown, leave it be.
-                     Use class=fullwidth for wide images.
+                     For a `class=fullwidth` Tufte CSS image, use
+                     the processing instruction `<?fullwidth?>` in
+		     the markdown before the image.
 
     code             no change needed.
                      cmark wraps code in <pre><code>,
@@ -61,16 +62,21 @@ For each `*.markdown` file, mkws:
 
 1. extracts title, date and tags
 
-2. passes the filename, title, date, and tags to `pp share/tufte.upphtml` template
+2. passes the filename, title, date, and tags to `pp share/tufte.upphtml`
+template
 
-The tufte.upphtml template
 
-1. renders html head section, including twitter card info.
+The tufte.upphtml template:
 
-2. renders article, h1, date (p class=subtitle)
+1. templates html head section, including twitter card info.
 
-3. outputs: `awk -f margin_notes.awk -f sections.awk -f figures.awk $t|cmark --unsafe --smart`
+2. templates article, h1, date (p class=subtitle)
 
-4. renders section with tags
+3. processes markdown with `cmark` and `awk` scripts.  (Note that
+`cmark` will not transform markdown formatting that is inside an
+html tag; for example, `<figure>![](t.png)</figure>` will not be
+changed into an image tag.)
+
+4. templates section with tags
 
 5. close article

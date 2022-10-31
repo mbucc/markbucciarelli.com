@@ -6,9 +6,9 @@ Foo Bar Baz Title
 ===================
 
 This paragraph has a margin
--- mn: note1
+<?mn: note1?>
 Old MacDonald had a note, eieio.
--- mn
+<?mn?>
 note.
 
 
@@ -21,7 +21,6 @@ And images should be wrapped in a figure tag
 
 But images that have a wrapper should not have a second one added.
 
-<figure class=fullwidth>
+<?fullwidth?>
 ![](/img/u.png)
-</figure>
 
