@@ -1,20 +1,19 @@
----
-title: Double Entry Accounting
-date: July 31, 2022
+July 31, 2022
+
 tags: finance
----
+
+Double Entry Accounting
+====================================
 
 The rules are deceptively simple.
-==============================================
-
-Rule #1: Assets = Liabilities + Equity
 ----------------------------------------------
+
+### Rule #1: Assets = Liabilities + Equity
 
 This equality must hold after you close the period.
 
 
-Rule #2: Debits = Credits for every transaction.
-----------------------------------------------
+### Rule #2: Debits = Credits for every transaction.
 
 This is why this is called "double-entry" accounting.  Every time
 money moves, there is one entry for the account that is debited
@@ -35,24 +34,23 @@ on the right.
 
 
 
-Rule #3: A credit does not always increase an account&rsquo;s balance.
-----------------------------------------------
+### Rule #3: A credit does not always increase an account&rsquo;s balance.
 
 Whether the balance goes up or down depends on the type of account.
 
 
-| Account     | Increased By | Decreased By | Examples                                     |
-|-------------|--------------|--------------|----------------------------------------------|
-| Assets      | Debit        | Credit       | cash, checking account, real estate          |
-| Expenses    | Debit        | Credit       | food, entertainment, interest payments, etc. |
-| Liabilities | Credit       | Debit        | mortgage principle, credit card balance      |
-| Equity      | Credit       | Debit        | your net worth                               |
-| Revenue     | Credit       | Debit        | paycheck, interest earned, bond dividends    |
+    | Account     | Increased By | Decreased By | Examples                                     |
+    |-------------|--------------|--------------|----------------------------------------------|
+    | Assets      | Debit        | Credit       | cash, checking account, real estate          |
+    | Expenses    | Debit        | Credit       | food, entertainment, interest payments, etc. |
+    | Liabilities | Credit       | Debit        | mortgage principle, credit card balance      |
+    | Equity      | Credit       | Debit        | your net worth                               |
+    | Revenue     | Credit       | Debit        | paycheck, interest earned, bond dividends    |
 
 
 
 Book of Accounts (more commonly called &ldquo;the books&rdquo;)
-==============================================
+----------------------------------------------
 
 Let&rsquo;s walk through an example&mdash;on December 1, 2022 your
 parents loan you $3,000 for first and last month&rsquo;s rent (which
@@ -73,8 +71,7 @@ with the following amounts on your paystub:
 All this stuff is automated with accounting software, but I find it
 instructive to work through these old-school books.
 
-The General Journal (the &ldquo;book of original entry&rdquo;)
-----------------------------------------------
+### The General Journal (the &ldquo;book of original entry&rdquo;)
 
     Date         Accounts & Description                 Debit      Credit
 
@@ -110,8 +107,7 @@ The other journals that a business would keep are
   * sales journal (for any sales made on credit)
   * purchase journal (for any purchases bought on credit)
 
-The General Ledger (the &ldquo;book of final entry&rdquo;)
-----------------------------------------------
+### The General Ledger (the &ldquo;book of final entry&rdquo;)
 
     Account: Checking Account
     Date          Description          Debit     Credit    Balance
@@ -148,8 +144,7 @@ from which the financial statements are created.
 Speaking of financial statements ...
 
 
-The Balance Sheet
-----------------------------------------------
+### The Balance Sheet
 
     Balance Sheet
     As of December 31, 2022
@@ -171,8 +166,7 @@ The Balance Sheet
 
 The balance sheet is a snapshot at a given point in time.
 
-The Income Statement
-----------------------------------------------
+### The Income Statement
 
     Income Statement
     For the period from 12/1 through 12/31/2022
@@ -187,8 +181,7 @@ The Income Statement
 The income statement covers a period, in this example,
 one month.
 
-A basic financial control
-----------------------------------------------
+### A basic financial control
 
 
 Given:
@@ -210,8 +203,7 @@ In our example,
 
 Which matches our equity on 12/31.
 
-Closing the year
-----------------------------------------------
+### Closing the year
 
 Income and revenue accounts are reset to zero at the beginning of
 each year.  To reset them, you &ldquo;close&rdquo; the year.
@@ -248,7 +240,7 @@ and add an Equity account page to the ledger.
 
 
 History
-============================
+----------------------------
 
 The earliest written account of double-entry accounting that I could
 find a reference to was Luca Pacioli's *Summa de arithmetica,

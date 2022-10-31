@@ -1,8 +1,9 @@
----
-title: Passive House Energy Consumption vs. My House
-date: December 10, 2017
+December 10, 2017
+
 tags: eco
----
+
+Passive House Energy Consumption vs. My House
+=================================================
 
 How does my house's energy usage compare to the
 [passive house](https://en.wikipedia.org/wiki/Passive_house) energy
