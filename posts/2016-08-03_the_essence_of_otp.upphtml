@@ -100,53 +100,53 @@ erlang
     
             <p>ns.erl (the specific code)
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(ns).</line>
-    <line></line>
-    <line>-export([add/2, find/1, handle/2, init/0]).</line>
-    <line></line>
-    <line>-import(server1, [rpc/2]).</line>
-    <line></line>
-    <line>%% client routines</line>
-    <line></line>
-    <line>add(Name, Place) -></line>
-    <line>    rpc(ns, {add, Name, Place}).</line>
-    <line></line>
-    <line>find(Name) -> rpc(ns, {find, Name}).</line>
-    <line></line>
-    <line>%% callback routines</line>
-    <line></line>
-    <line>init() -> dict:new().</line>
-    <line></line>
-    <line>handle({add, Name, Place}, Dict) -></line>
-    <line>    {ok, dict:store(Name, Place, Dict)};</line>
-    <line>handle({find, Name}, Dict) -></line>
-    <line>    {dict:find(Name, Dict), Dict}.</line>
-    </pre>
+            <pre><code>
+    -module(ns).
+    
+    -export([add/2, find/1, handle/2, init/0]).
+    
+    -import(server1, [rpc/2]).
+    
+    %% client routines
+    
+    add(Name, Place) ->
+        rpc(ns, {add, Name, Place}).
+    
+    find(Name) -> rpc(ns, {find, Name}).
+    
+    %% callback routines
+    
+    init() -> dict:new().
+    
+    handle({add, Name, Place}, Dict) ->
+        {ok, dict:store(Name, Place, Dict)};
+    handle({find, Name}, Dict) ->
+        {dict:find(Name, Dict), Dict}.
+    </code></pre>
     
             <p>server1.erl (the generic code)
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(server1).</line>
-    <line></line>
-    <line>-export([rpc/2, start/2]).</line>
-    <line></line>
-    <line>start(Name, Mod) -></line>
-    <line>    Pid = spawn(fun () -> loop(Name, Mod, Mod:init()) end),</line>
-    <line>    io:format('~p~n', [Pid]),</line>
-    <line>    register(Name, Pid).</line>
-    <line></line>
-    <line>rpc(Name, Request) -></line>
-    <line>    Name ! {self(), Request},</line>
-    <line>    receive {Name, Response} -> Response end.</line>
-    <line></line>
-    <line>loop(Name, Mod, State) -></line>
-    <line>    receive</line>
-    <line>      {From, Request} -></line>
-    <line>          {Response, State1} = Mod:handle(Request, State),</line>
-    <line>          From ! {Name, Response},</line>
-    <line>          loop(Name, Mod, State1)</line>
-    <line>    end.</line>
-    </pre>
+            <pre><code>
+    -module(server1).
+    
+    -export([rpc/2, start/2]).
+    
+    start(Name, Mod) ->
+        Pid = spawn(fun () -> loop(Name, Mod, Mod:init()) end),
+        io:format('~p~n', [Pid]),
+        register(Name, Pid).
+    
+    rpc(Name, Request) ->
+        Name ! {self(), Request},
+        receive {Name, Response} -> Response end.
+    
+    loop(Name, Mod, State) ->
+        receive
+          {From, Request} ->
+              {Response, State1} = Mod:handle(Request, State),
+              From ! {Name, Response},
+              loop(Name, Mod, State1)
+        end.
+    </code></pre>
     
     </section>
     
@@ -163,21 +163,21 @@ erlang
     
     <h3>The specific code defines the public api.</h3>
     
-        <p><pre class='code with-wrapping fullwidth'>
-    <line>-export([add/2, find/1, &hellip;]).</line>
-    </pre>
+        <p><pre><code>
+    -export([add/2, find/1, &hellip;]).
+    </code></pre>
     
     
     <h3>The public api forwards the message to the generic server.</h3>
     
         <p>This example: 
-    	<pre class='code with-wrapping fullwidth'>
-    <line>add(Name, Place) -></line>
-    <line>    rpc(ns, {add, Name, Place}).</line>
-    <line></line>
-    <line>find(Name) -> rpc(ns, {find, Name}).</line>
-    <line></line>
-    </pre>
+    	<pre><code>
+    add(Name, Place) ->
+        rpc(ns, {add, Name, Place}).
+    
+    find(Name) -> rpc(ns, {find, Name}).
+    
+    </code></pre>
     
     
     	<p>With a gen_server<label for='mn-no_prefix' class='margin-toggle'>&#8853;</label>:
@@ -189,49 +189,49 @@ erlang
       When you specify a function in an import statement,
       you can refer to it as it is were a local function.
     </span>
-    <pre class='code with-wrapping fullwidth'>
-    <line>add(Name, Place) -></line>
-    <line>    gen_server:call(ns, {add, Name, Place}).</line>
-    <line></line>
-    <line>find(Name) -> gen_server:call(ns, {find, Name}).</line>
-    <line></line>
-    </pre>
+    <pre><code>
+    add(Name, Place) ->
+        gen_server:call(ns, {add, Name, Place}).
+    
+    find(Name) -> gen_server:call(ns, {find, Name}).
+    
+    </code></pre>
     
     
     	<h3>The specific code exports callbacks used by generic server.</h3>
     
     	<p>This example:
-        <pre class='code with-wrapping fullwidth'>
-    <line>-export([&hellip;, handle/2, init/0]).</line>
-    </pre>
+        <pre><code>
+    -export([&hellip;, handle/2, init/0]).
+    </code></pre>
     
     	<p>With gen_server:
-        <pre class='code with-wrapping fullwidth'>
-    <line>-export([&hellip;, handle_call/3, init/1]).</line>
-    </pre>
+        <pre><code>
+    -export([&hellip;, handle_call/3, init/1]).
+    </code></pre>
     
     
     	<h3>The specific code implements the callbacks.</h3>
     
     	<p>This example:
-        <pre class='code with-wrapping fullwidth'>
-    <line>init() -> dict:new().</line>
-    <line></line>
-    <line>handle({add, Name, Place}, Dict) -></line>
-    <line>    {ok, dict:store(Name, Place, Dict)};</line>
-    <line>handle({find, Name}, Dict) -></line>
-    <line>    {dict:find(Name, Dict), Dict}.</line>
-    </pre>
+        <pre><code>
+    init() -> dict:new().
+    
+    handle({add, Name, Place}, Dict) ->
+        {ok, dict:store(Name, Place, Dict)};
+    handle({find, Name}, Dict) ->
+        {dict:find(Name, Dict), Dict}.
+    </code></pre>
     
     	<p>With gen_server:
-        <pre class='code with-wrapping fullwidth'>
-    <line>init(_Args) -> {ok, dict:new()}.</line>
-    <line></line>
-    <line>handle_call({add, Name, Place}, _From, Dict) -></line>
-    <line>    {reply, ok, dict:store(Name, Place, Dict)};</line>
-    <line>handle_call({find, Name}, _From, Dict) -></line>
-    <line>    {reply, dict:find(Name, Dict), Dict}.</line>
-    </pre>
+        <pre><code>
+    init(_Args) -> {ok, dict:new()}.
+    
+    handle_call({add, Name, Place}, _From, Dict) ->
+        {reply, ok, dict:store(Name, Place, Dict)};
+    handle_call({find, Name}, _From, Dict) ->
+        {reply, dict:find(Name, Dict), Dict}.
+    </code></pre>
     
     
     

@@ -45,11 +45,11 @@ ci
           Use this to encrypt a password and write it to .travis.yml.
         </span>
       
-        <pre class="code with-wrapping fullwidth">
-    <line>$ gem install travis</line>
-    <line>...</line>
-    <line>$</line>
-        </pre>
+        <pre><code>
+    $ gem install travis
+    ...
+    $
+        </code></pre>
       </figure>
     
     
@@ -62,20 +62,20 @@ ci
           A github deploy key is just the public half of an SSH key pair.
         </span>
       
-        <pre class="code with-wrapping fullwidth">
-    <line>$ cd ~/src/mycode/shmig</line>
-    <line>$ ssh-keygen -t rsa -b 4096 -C "mkbucc@gmail.com"</line>
-    <line>Generating public/private rsa key pair.</line>
-    <line>Enter file in which to save the key (/Users/mark/.ssh/id_rsa): ./travis_key</line>
-    <line>Enter passphrase (empty for no passphrase): </line>
-    <line>Enter same passphrase again: </line>
-    <line>Your identification has been saved in ./travis_key.</line>
-    <line>Your public key has been saved in ./travis_key.pub.</line>
-    <line>...</line>
-    <line>$ cat travis_key.pub</line>
-    <line>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCDzTsOqLcIm88P...</line>
-    <line>$ </line>
-        </pre>
+        <pre><code>
+    $ cd ~/src/mycode/shmig
+    $ ssh-keygen -t rsa -b 4096 -C "mkbucc@gmail.com"
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/Users/mark/.ssh/id_rsa): ./travis_key
+    Enter passphrase (empty for no passphrase): 
+    Enter same passphrase again: 
+    Your identification has been saved in ./travis_key.
+    Your public key has been saved in ./travis_key.pub.
+    ...
+    $ cat travis_key.pub
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCDzTsOqLcIm88P...
+    $ 
+        </code></pre>
       </figure>
     
     
@@ -102,10 +102,10 @@ ci
           my password</a>, then answer was three sesvigintillion years.
         </span>
       
-        <pre class="code with-wrapping fullwidth">
-    <line>$ password=$(openssl rand -hex 32)</line>
-    <line>$ cat travis_key | openssl aes-256-cbc -k "$password" -md sha256 -a  > travis_key.enc</line>
-        </pre>
+        <pre><code>
+    $ password=$(openssl rand -hex 32)
+    $ cat travis_key | openssl aes-256-cbc -k "$password" -md sha256 -a  > travis_key.enc
+        </code></pre>
       </figure>
     
     
@@ -122,21 +122,21 @@ ci
           but makes the repository’s public key available to everyone.&rdquo;
         </span>
       
-        <pre class="code with-wrapping fullwidth">
-    <line>$ echo "" > .travis.yml</line>
-    <line>$ travis encrypt travis_key_password=$password --add env.matrix</line>
-    <line>Detected repository as mbucc/shmig, is this correct? |yes| </line>
-    <line>$ grep -A 2 ^env .travis.yml</line>
-    <line>env:</line>
-    <line>  matrix:</line>
-    <line>    secure: VBF7EjJ/e2ibYLpaURDrWnrMsTn0mBPPeJiNSaoqrB/Z6Kg54PF+nZiMzo0kL9y3yi8PKlmTvfG3uPx3N7tCuQDVehH47yeSozT2QX/Vbod3RObpUsETT8LbSgyDmgi2+F4aZzsY+MtkLnv28wvcMN2kM4HjGL/0ROKIDL15ChFsmvn+BA7yUnVm43vQJcYRRlxDDRSdofJBHxtguPWjOvK8ARF5hSML/kl3mZZTmPXOR2W/WxnQXNSHkgaAoir/3ElSGVVV1ipN1ifWNdzlJI8Tcod9cDNE0DscOqMWC/7V9mEZUosHBN4ZIrn84ijBuiKYoWMoN1M5TRXwIYxsKiLf9+IwqRHaV0Q36Ktkoj5j4CG4xOPeS+oVHkJ6vFptr3hzgWPcKzi5zGzS8dQfnbk3PmxXDJyt9S3eVpc7HVjWVU5rqgBI912Z/vhgK6pJ/txPVJDw67sgA8h8G4UtoqMJpBwST4BIyjO33BCvFUpMT8WloGRiPCMBSub8WAJTjZ7Cy3E6l/iSpBVTRvr6Gqb9f4of61MUOjKiUyrdG05g21sm/RlNNrm2lg5vgZjq8AsEnxlKn5ONHWJjspivBDgMUH7PN5F3e1ZRfd2AievtjQC5FS7wU2ogN74O3Bor5y0UgJPRRl0/YL5Z7xFOz7Eo3qvp9JRTTqobgIz33+A=</line>
-    <line>$</line>
-    <line>$</line>
-    <line>$ git add travis_key.enc</line>
-    <line>$ git commit -m 'Encrypted private key half of github deploy key.'</line>
-    <line>$ git add .travis.yml</line>
-    <line>$ git commit -a -m 'Add encrypted password that can decrypt private github deploy key.'</line>
-        </pre>
+        <pre><code>
+    $ echo "" > .travis.yml
+    $ travis encrypt travis_key_password=$password --add env.matrix
+    Detected repository as mbucc/shmig, is this correct? |yes| 
+    $ grep -A 2 ^env .travis.yml
+    env:
+      matrix:
+        secure: VBF7EjJ/e2ibYLpaURDrWnrMsTn0mBPPeJiNSaoqrB/Z6Kg54PF+nZiMzo0kL9y3yi8PKlmTvfG3uPx3N7tCuQDVehH47yeSozT2QX/Vbod3RObpUsETT8LbSgyDmgi2+F4aZzsY+MtkLnv28wvcMN2kM4HjGL/0ROKIDL15ChFsmvn+BA7yUnVm43vQJcYRRlxDDRSdofJBHxtguPWjOvK8ARF5hSML/kl3mZZTmPXOR2W/WxnQXNSHkgaAoir/3ElSGVVV1ipN1ifWNdzlJI8Tcod9cDNE0DscOqMWC/7V9mEZUosHBN4ZIrn84ijBuiKYoWMoN1M5TRXwIYxsKiLf9+IwqRHaV0Q36Ktkoj5j4CG4xOPeS+oVHkJ6vFptr3hzgWPcKzi5zGzS8dQfnbk3PmxXDJyt9S3eVpc7HVjWVU5rqgBI912Z/vhgK6pJ/txPVJDw67sgA8h8G4UtoqMJpBwST4BIyjO33BCvFUpMT8WloGRiPCMBSub8WAJTjZ7Cy3E6l/iSpBVTRvr6Gqb9f4of61MUOjKiUyrdG05g21sm/RlNNrm2lg5vgZjq8AsEnxlKn5ONHWJjspivBDgMUH7PN5F3e1ZRfd2AievtjQC5FS7wU2ogN74O3Bor5y0UgJPRRl0/YL5Z7xFOz7Eo3qvp9JRTTqobgIz33+A=
+    $
+    $
+    $ git add travis_key.enc
+    $ git commit -m 'Encrypted private key half of github deploy key.'
+    $ git add .travis.yml
+    $ git commit -a -m 'Add encrypted password that can decrypt private github deploy key.'
+        </code></pre>
       </figure>
     
     
@@ -162,17 +162,17 @@ ci
           add the github public SSH key to the known hosts file.
         </span>
       
-        <pre class="code with-wrapping fullwidth">
-    <line>openssl aes-256-cbc -k "$travis_key_password" -d -md sha256 -a -in travis_key.enc -out travis_key</line>
-    <line>echo "Host github.com" > ~/.ssh/config</line>
-    <line>echo "  IdentityFile  $(pwd)/travis_key" >> ~/.ssh/config</line>
-    <line>chmod 400 travis_key</line>
-    <line>git remote set-url origin git@github.com:mbucc/shmig_test.git</line>
-    <line>echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > ~/.ssh/known_hosts </line>
-    <line>if ! git push -v ; then</line>
-    <line>  _err "git push error"</line>
-    <line>fi</line>
-    </pre>
+        <pre><code>
+    openssl aes-256-cbc -k "$travis_key_password" -d -md sha256 -a -in travis_key.enc -out travis_key
+    echo "Host github.com" > ~/.ssh/config
+    echo "  IdentityFile  $(pwd)/travis_key" >> ~/.ssh/config
+    chmod 400 travis_key
+    git remote set-url origin git@github.com:mbucc/shmig_test.git
+    echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" > ~/.ssh/known_hosts 
+    if ! git push -v ; then
+      _err "git push error"
+    fi
+    </code></pre>
     
     </section>
     
@@ -190,7 +190,7 @@ ci
     remote: Invalid username or password.
     fatal: Authentication failed for 'https://github.com/mbucc/shmig_test.git/'
     [Sat Jan 26 16:37:24 UTC 2019] git push error
-    </pre>
+    </code></pre>
     
     <p>
       I had forgotten to commit the .travis.yml, so the <code>travis_key_password</code> 

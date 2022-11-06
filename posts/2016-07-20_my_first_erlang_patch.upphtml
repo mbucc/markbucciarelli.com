@@ -25,15 +25,15 @@ erlang
     
             <p>I cut the input down until I found a small input that would trigger the crash:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cat t.erl</line>
-    <line>-module(t).</line>
-    <line></line>
-    <line>-export([start/0]).</line>
-    <line></line>
-    <line>start() -> io:put_chars(\"~\").</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ cat t.erl
+    -module(t).
+    
+    -export([start/0]).
+    
+    start() -> io:put_chars(\"~\").
+    $
+    </code></pre>
     
     </section>
     
@@ -43,53 +43,53 @@ erlang
     
             <h3>The error was badarg on line 299.</h3>
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>** exception exit: badarg</line>
-    <line>     in function  erl_tidy:file/2 (erl_tidy.erl, line 299)</line>
-    </pre>
+                <pre><code>
+    ** exception exit: badarg
+         in function  erl_tidy:file/2 (erl_tidy.erl, line 299)
+    </code></pre>
     
             <h3>What is on line 299?</h3>
     
                 <p>Line 299 in erl_tidy.erl exits and outputs the error reason returned by the child process.
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ (cd $HOME/src ; git clone https://github.com/erlang/otp.git)</line>
-    <line>$ vi \$(find $HOME/src/otp -name erl_tidy.erl)</line>
-    <line>&hellip;</line>
-    <line> 292 file(Name, Opts) -></line>
-    <line> 293     Parent = self(),</line>
-    <line> 294     Child = spawn_link(fun () -> file_1(Parent, Name, Opts) end),</line>
-    <line> 295     receive</line>
-    <line> 296         {Child, ok} -></line>
-    <line> 297             ok;</line>
-    <line> 298         {Child, {error, Reason}} -></line>
-    <line> 299             exit(Reason)</line>
-    <line> 300     end.</line>
-    </pre>
+                <pre><code>
+    $ (cd $HOME/src ; git clone https://github.com/erlang/otp.git)
+    $ vi \$(find $HOME/src/otp -name erl_tidy.erl)
+    &hellip;
+     292 file(Name, Opts) ->
+     293     Parent = self(),
+     294     Child = spawn_link(fun () -> file_1(Parent, Name, Opts) end),
+     295     receive
+     296         {Child, ok} ->
+     297             ok;
+     298         {Child, {error, Reason}} ->
+     299             exit(Reason)
+     300     end.
+    </code></pre>
     
             <h3>Copy erl_tidy module locally and verify same error.</h3>
     
                 <p>I copied it locally so I could edit the file &hellip;
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ cp \$(find $HOME/src/otp -name erl_tidy.erl) .</line>
-    <line>$ cp erl_tidy.erl erl_tidy.orig</line>
-    </pre>
+                <pre><code>
+    $ cp \$(find $HOME/src/otp -name erl_tidy.erl) .
+    $ cp erl_tidy.erl erl_tidy.orig
+    </code></pre>
     
                 <p>&hellip; and started by verifying that my local copy gave the same error.
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ erl</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> c(erl_tidy).</line>
-    <line>{ok,erl_tidy}</line>
-    <line>2> erl_tidy:file(\"t.erl\", [{stdout,true}]).</line>
-    <line>** exception exit: badarg</line>
-    <line>     in function  erl_tidy:file/2 (erl_tidy.erl, line 299)</line>
-    <line>3></line>
-    </pre>
+                <pre><code>
+    $ erl
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> c(erl_tidy).
+    {ok,erl_tidy}
+    2> erl_tidy:file(\"t.erl\", [{stdout,true}]).
+    ** exception exit: badarg
+         in function  erl_tidy:file/2 (erl_tidy.erl, line 299)
+    3>
+    </code></pre>
     
     
             <h3>Figure out which line of client code is generating the error.</h3>
@@ -98,99 +98,99 @@ erlang
     
                 <p>I knew it was related to the {stdout,true} argument since I could tidy the file without error if I did not use that option.  That helped me narrow down where to put the debug statements.
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ vi erl_tidy.erl</line>
-    <line>&hellip;</line>
-    <line>$ diff -uw erl_tidy.orig erl_tidy.erl | grep -n ^</line>
-    <line>1:&mdash; erl_tidy.orig    2016-07-16 09:11:41.000000000 -0400</line>
-    <line>2:+++ erl_tidy.erl    2016-07-16 11:14:58.000000000 -0400</line>
-    <line>3:@@ -300,6 +300,7 @@</line>
-    <line>4:     end.</line>
-    <line>5: </line>
-    <line>6: file_1(Parent, Name, Opts) -></line>
-    <line>7:+    io:put_chars(\"MKB: enter file_1\n\"),</line>
-    <line>8:     try file_2(Name, Opts) of</line>
-    <line>9:     _ -></line>
-    <line>10:         Parent ! {self(), ok}</line>
-    <line>11:@@ -311,6 +312,7 @@</line>
-    <line>12:     end.</line>
-    <line>13: </line>
-    <line>14: file_2(Name, Opts) -></line>
-    <line>15:+    io:put_chars(\"MKB: enter file_2\n\"),</line>
-    <line>16:     Opts1 = Opts ++ file__defaults(),</line>
-    <line>17:     Forms = read_module(Name, Opts1),</line>
-    <line>18:     Comments = erl_comment_scan:file(Name),</line>
-    <line>19:@@ -417,7 +419,9 @@</line>
-    <line>20:     end.</line>
-    <line>21: </line>
-    <line>22: print_module(Tree, Opts) -></line>
-    <line>23:+     io:put_chars(\"MKB: print_module - 1\n\"),</line>
-    <line>24:     Printer = proplists:get_value(printer, Opts),</line>
-    <line>25:+     io:put_chars(\"MKB: print_module - 2\n\"),</line>
-    <line>26:     io:format(Printer(Tree, Opts)).</line>
-    <line>27: </line>
-    <line>28: output(FD, Printer, Tree, Opts) -></line>
-    </pre>
+                <pre><code>
+    $ vi erl_tidy.erl
+    &hellip;
+    $ diff -uw erl_tidy.orig erl_tidy.erl | grep -n ^
+    1:&mdash; erl_tidy.orig    2016-07-16 09:11:41.000000000 -0400
+    2:+++ erl_tidy.erl    2016-07-16 11:14:58.000000000 -0400
+    3:@@ -300,6 +300,7 @@
+    4:     end.
+    5: 
+    6: file_1(Parent, Name, Opts) ->
+    7:+    io:put_chars(\"MKB: enter file_1\n\"),
+    8:     try file_2(Name, Opts) of
+    9:     _ ->
+    10:         Parent ! {self(), ok}
+    11:@@ -311,6 +312,7 @@
+    12:     end.
+    13: 
+    14: file_2(Name, Opts) ->
+    15:+    io:put_chars(\"MKB: enter file_2\n\"),
+    16:     Opts1 = Opts ++ file__defaults(),
+    17:     Forms = read_module(Name, Opts1),
+    18:     Comments = erl_comment_scan:file(Name),
+    19:@@ -417,7 +419,9 @@
+    20:     end.
+    21: 
+    22: print_module(Tree, Opts) ->
+    23:+     io:put_chars(\"MKB: print_module - 1\n\"),
+    24:     Printer = proplists:get_value(printer, Opts),
+    25:+     io:put_chars(\"MKB: print_module - 2\n\"),
+    26:     io:format(Printer(Tree, Opts)).
+    27: 
+    28: output(FD, Printer, Tree, Opts) ->
+    </code></pre>
     
             <h3>Run the instrumented code to see how far it gets.</h3>
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ erl</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> c(erl_tidy).</line>
-    <line>{ok,erl_tidy}</line>
-    <line>2> erl_tidy:file(\"t.erl\", [{stdout,true}]).</line>
-    <line>MKB: enter file_1</line>
-    <line>MKB: enter file_2</line>
-    <line>MKB: print_module - 1</line>
-    <line>MKB: print_module - 2</line>
-    <line>** exception exit: badarg</line>
-    <line>     in function  erl_tidy:file/2 (erl_tidy.erl, line 299)</line>
-    <line>3></line>
-    </pre>
+                <pre><code>
+    $ erl
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> c(erl_tidy).
+    {ok,erl_tidy}
+    2> erl_tidy:file(\"t.erl\", [{stdout,true}]).
+    MKB: enter file_1
+    MKB: enter file_2
+    MKB: print_module - 1
+    MKB: print_module - 2
+    ** exception exit: badarg
+         in function  erl_tidy:file/2 (erl_tidy.erl, line 299)
+    3>
+    </code></pre>
     
     
                 <p>The program outputs 'MKB: print_module - 2' and then raises the error, so the next line is the culprit:
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>26:     io:format(Printer(Tree, Opts)).</line>
-    </pre>
+                <pre><code>
+    26:     io:format(Printer(Tree, Opts)).
+    </code></pre>
     
             <h3>Is it io:format() or Printer()?</h3>
     
                 <p>There are two calls on that line, so unwind them and insert another io:put_chars:<label for='sn3' class='margin-toggle sidenote-number'></label> <input type='checkbox' id='sn3' class='margin-toggle'/> <span class='sidenote'>Line numbers here are of erl_tidy.</span>
     
-                <pre class='code with-wrapping fullwidth'>
-    <line> 421 print_module(Tree, Opts) -></line>
-    <line> 422     io:put_chars(\"MKB: print_module - 1\n\"),</line>
-    <line> 423     Printer = proplists:get_value(printer, Opts),</line>
-    <line> 424     io:put_chars(\"MKB: print_module - 2\n\"),</line>
-    <line> 425     Text = Printer(Tree, Opts), </line>
-    <line> 426     io:format(\"MKB: print_module - 3: Text = ~p\n\", [Text]),</line>
-    <line> 427     io:format(Text).</line>
-    </pre>
+                <pre><code>
+     421 print_module(Tree, Opts) ->
+     422     io:put_chars(\"MKB: print_module - 1\n\"),
+     423     Printer = proplists:get_value(printer, Opts),
+     424     io:put_chars(\"MKB: print_module - 2\n\"),
+     425     Text = Printer(Tree, Opts), 
+     426     io:format(\"MKB: print_module - 3: Text = ~p\n\", [Text]),
+     427     io:format(Text).
+    </code></pre>
     
                 <p>When I run this, the output changes: lines 425 and 426 execute successfully, so the problem must be on line 427 in the io:format() call.
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ erl</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> c(erl_tidy).</line>
-    <line>{ok,erl_tidy}</line>
-    <line>2> erl_tidy:file(\"t.erl\", [{stdout,true}]).</line>
-    <line>MKB: enter file_1</line>
-    <line>MKB: enter file_2</line>
-    <line>MKB: print_module - 1</line>
-    <line>MKB: print_module - 2</line>
-    <line>MKB: print_module - 3: Text = \"-module(t).\n\n-export([start/0]).\n\nstart() -> io:put_chars(\\"~\\").\"</line>
-    <line>** exception exit: badarg</line>
-    <line>     in function  erl_tidy:file/2 (erl_tidy.erl, line 299)</line>
-    <line>3></line>
-    </pre>
+                <pre><code>
+    $ erl
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> c(erl_tidy).
+    {ok,erl_tidy}
+    2> erl_tidy:file(\"t.erl\", [{stdout,true}]).
+    MKB: enter file_1
+    MKB: enter file_2
+    MKB: print_module - 1
+    MKB: print_module - 2
+    MKB: print_module - 3: Text = \"-module(t).\n\n-export([start/0]).\n\nstart() -> io:put_chars(\\"~\\").\"
+    ** exception exit: badarg
+         in function  erl_tidy:file/2 (erl_tidy.erl, line 299)
+    3>
+    </code></pre>
     
     
             <h3>The fix.</h3>
@@ -199,13 +199,13 @@ erlang
     
                 <p>The problem can be duplicated most concisely in the console like this:
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>4> io:format(\"~\").                                                                    </line>
-    <line>** exception error: bad argument</line>
-    <line>     in function  io:format/3</line>
-    <line>        called as io:format(<0.50.0>,\"~\",[])</line>
-    <line>5> </line>
-    </pre>
+                <pre><code>
+    4> io:format(\"~\").                                                                    
+    ** exception error: bad argument
+         in function  io:format/3
+            called as io:format(<0.50.0>,\"~\",[])
+    5> 
+    </code></pre>
     
                 <p>Since the intent is to print a string, changing io:format() to io:put_chars() fixes the bug.
     
@@ -231,40 +231,40 @@ erlang
     
                 <p>Again, great docs: <a href='https://github.com/erlang/otp/blob/maint/HOWTO/INSTALL.md'>INSTALL.md</a> and <a href='https://github.com/erlang/otp/blob/maint/HOWTO/TESTING.md'>TESTING.md</a>.
     
-                <pre class='code with-wrapping fullwidth'>
-    <line>$ git clone git@github.com:mbucc/otp.git</line>
-    <line>$ cd otp</line>
-    <line>$ export ERL_TOP=&lsquo;pwd&lsquo;</line>
-    <line>$ ./otp_build autoconf  # (6s)</line>
-    <line>$ ./otp_build setup -a  # (11m)</line>
-    <line>$ export PATH=&lsquo;pwd&lsquo;/bin:$PATH</line>
-    <line>$ ./otp_build tests     # (1m)</line>
-    <line>$ cd lib/syntax_tools/</line>
-    <line>$ ct_run -pa ../../release/tests/test_server/ -suite ./test/syntax_tools_SUITE</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Converting \"../../release/tests/test_server\" to \"/Users/mark/src/otp/release/tests/test_server\" and re-inserting with add_patha/1</line>
-    <line></line>
-    <line></line>
-    <line>Common Test starting (cwd is /Users/mark/src/otp/lib/syntax_tools)</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>(ct@marks-mbp-3)1> </line>
-    <line>Common Test: Running make in test directories&hellip;</line>
-    <line>Recompile: syntax_tools_SUITE</line>
-    <line></line>
-    <line>CWD set to: \"/Users/mark/src/otp/lib/syntax_tools/ct_run.ct@marks-mbp-3.2016-07-19_07.24.34\"</line>
-    <line></line>
-    <line>TEST INFO: 1 test(s), 11 case(s) in 1 suite(s)</line>
-    <line></line>
-    <line>Testing lib.syntax_tools.syntax_tools_SUITE: Starting test, 11 test cases</line>
-    <line>Testing lib.syntax_tools.syntax_tools_SUITE: TEST COMPLETE, 11 ok, 0 failed of 11 test cases</line>
-    <line></line>
-    <line>Updating /Users/mark/src/otp/lib/syntax_tools/index.html &hellip; done</line>
-    <line>Updating /Users/mark/src/otp/lib/syntax_tools/all_runs.html &hellip; done</line>
-    <line></line>
-    <line>$</line>
-    </pre>
+                <pre><code>
+    $ git clone git@github.com:mbucc/otp.git
+    $ cd otp
+    $ export ERL_TOP=&lsquo;pwd&lsquo;
+    $ ./otp_build autoconf  # (6s)
+    $ ./otp_build setup -a  # (11m)
+    $ export PATH=&lsquo;pwd&lsquo;/bin:$PATH
+    $ ./otp_build tests     # (1m)
+    $ cd lib/syntax_tools/
+    $ ct_run -pa ../../release/tests/test_server/ -suite ./test/syntax_tools_SUITE
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Converting \"../../release/tests/test_server\" to \"/Users/mark/src/otp/release/tests/test_server\" and re-inserting with add_patha/1
+    
+    
+    Common Test starting (cwd is /Users/mark/src/otp/lib/syntax_tools)
+    
+    Eshell V8.0.1  (abort with ^G)
+    (ct@marks-mbp-3)1> 
+    Common Test: Running make in test directories&hellip;
+    Recompile: syntax_tools_SUITE
+    
+    CWD set to: \"/Users/mark/src/otp/lib/syntax_tools/ct_run.ct@marks-mbp-3.2016-07-19_07.24.34\"
+    
+    TEST INFO: 1 test(s), 11 case(s) in 1 suite(s)
+    
+    Testing lib.syntax_tools.syntax_tools_SUITE: Starting test, 11 test cases
+    Testing lib.syntax_tools.syntax_tools_SUITE: TEST COMPLETE, 11 ok, 0 failed of 11 test cases
+    
+    Updating /Users/mark/src/otp/lib/syntax_tools/index.html &hellip; done
+    Updating /Users/mark/src/otp/lib/syntax_tools/all_runs.html &hellip; done
+    
+    $
+    </code></pre>
         
             <h3>However, this is not the way they tell you to do it!</h3>
     
@@ -272,15 +272,15 @@ erlang
     
                 <p>If you do use the ts() module, and you are on OSX, use the 'batch' option so XQuartz doesn&rsquo;t open; for example,
     
-                <pre class='code with-wrapping fullwidth'>
+                <pre><code>
     1> ts:run(syntax_tools, syntax_tools_SUITE, [batch]).
-    </pre>
+    </code></pre>
     
                 <p>or
     
-                <pre class='code with-wrapping fullwidth'>
+                <pre><code>
     1> ts:run(syntax_tools, syntax_tools_SUITE, t_erl_tidy, [verbose, batch]).
-    </pre>
+    </code></pre>
     
     
     </section>

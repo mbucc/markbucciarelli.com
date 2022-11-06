@@ -33,37 +33,37 @@ erlang
     
     <p>Erlang lets you define a library directory on your system with the environmental variable <code>ERL_LIBS</code>.  Typically you would set this to something like <code>/usr/local/lib/erl</code> but in this example we put a <code>lib</code> directory under the current working directory. 
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>all: ./lib/jsx-2.8.1/ebin ./lib/elli-1.0.5/ebin ./lib/elli-1.0.5/include</line>
-    <line></line>
-    <line>#==============================================================================</line>
-    <line>#</line>
-    <line>#                           D E P E N D E N C I E S</line>
-    <line>#</line>
-    <line>#  Check out Elli and JSX from github to $HOME/src, compile each and copy the</line>
-    <line>#  ebin directories and the elli include directory under ./lib.</line>
-    <line>#==============================================================================</line>
-    <line></line>
-    <line>${HOME}/src/elli/ebin:</line>
-    <line>	(cd ${HOME}/src; git clone https://github.com/knutin/elli.git)</line>
-    <line>	(cd ${HOME}/src/elli ; git checkout tags/v1.0.5 ; make)</line>
-    <line></line>
-    <line>./lib/elli-1.0.5/ebin: ${HOME}/src/elli/ebin</line>
-    <line>	mkdir -p ./lib/elli-1.0.5</line>
-    <line>	cp -r $< ./lib/elli-1.0.5</line>
-    <line></line>
-    <line>./lib/elli-1.0.5/include: ${HOME}/src/elli</line>
-    <line>	mkdir -p ./lib/elli-1.0.5</line>
-    <line>	cp -r ${HOME}/src/elli/include ./lib/elli-1.0.5</line>
-    <line></line>
-    <line>${HOME}/src/jsx/_build/default/lib/jsx/ebin:</line>
-    <line>	(cd ${HOME}/src; git clone https://github.com/talentdeficit/jsx.git)</line>
-    <line>	(cd ${HOME}/src/jsx ; git checkout tags/v2.8.1 ; rebar3 compile)</line>
-    <line></line>
-    <line>./lib/jsx-2.8.1/ebin: ${HOME}/src/jsx/_build/default/lib/jsx/ebin</line>
-    <line>	mkdir -p ./lib/jsx-2.8.1</line>
-    <line>	cp -r $< ./lib/jsx-2.8.1</line>
-    </pre>
+            <pre><code>
+    all: ./lib/jsx-2.8.1/ebin ./lib/elli-1.0.5/ebin ./lib/elli-1.0.5/include
+    
+    #==============================================================================
+    #
+    #                           D E P E N D E N C I E S
+    #
+    #  Check out Elli and JSX from github to $HOME/src, compile each and copy the
+    #  ebin directories and the elli include directory under ./lib.
+    #==============================================================================
+    
+    ${HOME}/src/elli/ebin:
+    	(cd ${HOME}/src; git clone https://github.com/knutin/elli.git)
+    	(cd ${HOME}/src/elli ; git checkout tags/v1.0.5 ; make)
+    
+    ./lib/elli-1.0.5/ebin: ${HOME}/src/elli/ebin
+    	mkdir -p ./lib/elli-1.0.5
+    	cp -r $< ./lib/elli-1.0.5
+    
+    ./lib/elli-1.0.5/include: ${HOME}/src/elli
+    	mkdir -p ./lib/elli-1.0.5
+    	cp -r ${HOME}/src/elli/include ./lib/elli-1.0.5
+    
+    ${HOME}/src/jsx/_build/default/lib/jsx/ebin:
+    	(cd ${HOME}/src; git clone https://github.com/talentdeficit/jsx.git)
+    	(cd ${HOME}/src/jsx ; git checkout tags/v2.8.1 ; rebar3 compile)
+    
+    ./lib/jsx-2.8.1/ebin: ${HOME}/src/jsx/_build/default/lib/jsx/ebin
+    	mkdir -p ./lib/jsx-2.8.1
+    	cp -r $< ./lib/jsx-2.8.1
+    </code></pre>
     
     </section>
     
@@ -77,28 +77,28 @@ erlang
     </span>
     is passed in as a configuration argument, as described in the next section.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(json_handler).</line>
-    <line></line>
-    <line>-export([handle/2, handle_event/3]).</line>
-    <line></line>
-    <line>-include_lib("elli/include/elli.hrl").</line>
-    <line></line>
-    <line>-behaviour(elli_handler).</line>
-    <line></line>
-    <line>handle(Req, Args) -></line>
-    <line>    handle(Req#req.method, elli_request:path(Req), Req, Args).</line>
-    <line></line>
-    <line>handle(&rsquo;GET&rsquo;, [<<"events">>], _Req, Args) -></line>
-    <line>    Events = proplists:get_value(events, Args),</line>
-    <line>    {ok, [], jsx:encode(Events)};</line>
-    <line>handle(_, _, _Req, _Args) -> {404, [], <<"Not Found">>}.</line>
-    <line></line>
-    <line>handle_event(Event, Data, Args) -></line>
-    <line>    io:format("Event=~p~n, Data=~p~n, Args=~p~n",</line>
-    <line>              [Event, Data, Args]),</line>
-    <line>    ok.</line>
-    </pre>
+            <pre><code>
+    -module(json_handler).
+    
+    -export([handle/2, handle_event/3]).
+    
+    -include_lib("elli/include/elli.hrl").
+    
+    -behaviour(elli_handler).
+    
+    handle(Req, Args) ->
+        handle(Req#req.method, elli_request:path(Req), Req, Args).
+    
+    handle(&rsquo;GET&rsquo;, [<<"events">>], _Req, Args) ->
+        Events = proplists:get_value(events, Args),
+        {ok, [], jsx:encode(Events)};
+    handle(_, _, _Req, _Args) -> {404, [], <<"Not Found">>}.
+    
+    handle_event(Event, Data, Args) ->
+        io:format("Event=~p~n, Data=~p~n, Args=~p~n",
+                  [Event, Data, Args]),
+        ok.
+    </code></pre>
     
     <p>This handler also dumps each Elli event to stdout because it implements the <code>handle_event</code> method of the elli behavior.
     
@@ -110,34 +110,34 @@ erlang
     
     <p>The <code>MiddlewareConfig</code> variable configures the <code>json_handler</code> to get the event data returned by the <code>test_events()</code> method.  In a real application you would pass in the registered name of an ets store, or a database connection pool, or some other set of credentials to the data store.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(json_sup).</line>
-    <line></line>
-    <line>-behaviour(supervisor).</line>
-    <line></line>
-    <line>-export([start_link/0]).</line>
-    <line></line>
-    <line>-export([init/1]).</line>
-    <line></line>
-    <line>start_link() -></line>
-    <line>    supervisor:start_link({local, ?MODULE}, ?MODULE, []).</line>
-    <line></line>
-    <line>test_events() -></line>
-    <line>    E1 = [{id, 1}, {name, <<"test1">>}],</line>
-    <line>    E2 = [{id, 2}, {name, <<"test2">>}],</line>
-    <line>    [E1, E2].</line>
-    <line></line>
-    <line>init(_Args) -></line>
-    <line>    Port = 3000,</line>
-    <line>    MiddlewareConfig = [{mods,</line>
-    <line>                         [{json_handler, [{events, test_events()}]}]}],</line>
-    <line>    ElliOpts = [{callback, elli_middleware},</line>
-    <line>                {callback_args, MiddlewareConfig}, {port, Port}],</line>
-    <line>    ElliSpec = {json, {elli, start_link, [ElliOpts]},</line>
-    <line>                permanent, 5000, worker, [elli]},</line>
-    <line>    io:format("starting server on port ~p~n", [Port]),</line>
-    <line>    {ok, {{one_for_one, 5, 10}, [ElliSpec]}}.</line>
-    </pre>
+            <pre><code>
+    -module(json_sup).
+    
+    -behaviour(supervisor).
+    
+    -export([start_link/0]).
+    
+    -export([init/1]).
+    
+    start_link() ->
+        supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+    
+    test_events() ->
+        E1 = [{id, 1}, {name, <<"test1">>}],
+        E2 = [{id, 2}, {name, <<"test2">>}],
+        [E1, E2].
+    
+    init(_Args) ->
+        Port = 3000,
+        MiddlewareConfig = [{mods,
+                             [{json_handler, [{events, test_events()}]}]}],
+        ElliOpts = [{callback, elli_middleware},
+                    {callback_args, MiddlewareConfig}, {port, Port}],
+        ElliSpec = {json, {elli, start_link, [ElliOpts]},
+                    permanent, 5000, worker, [elli]},
+        io:format("starting server on port ~p~n", [Port]),
+        {ok, {{one_for_one, 5, 10}, [ElliSpec]}}.
+    </code></pre>
     </section>
     
     <section>
@@ -145,31 +145,31 @@ erlang
     
     <h3>Implement the application behavior.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(json).</line>
-    <line></line>
-    <line>-behavior(application).</line>
-    <line></line>
-    <line>-export([start/0, start/2, stop/1]).</line>
-    <line></line>
-    <line>start(_Type, _Args) -> json_sup:start_link().</line>
-    <line></line>
-    <line>start() -> application:start(json).</line>
-    <line></line>
-    <line>stop(_State) -> ok.</line>
-    </pre>
+            <pre><code>
+    -module(json).
+    
+    -behavior(application).
+    
+    -export([start/0, start/2, stop/1]).
+    
+    start(_Type, _Args) -> json_sup:start_link().
+    
+    start() -> application:start(json).
+    
+    stop(_State) -> ok.
+    </code></pre>
     
     <h3>Define the application resources.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>{application, json,</line>
-    <line>  [{description, "Produce JSON with Erlang"},</line>
-    <line>   {vsn, "1.0.0"},</line>
-    <line>   {modules, [json, json_sup, json_handler]},</line>
-    <line>   {registered, []},</line>
-    <line>   {applications, [kernel, stdlib]},</line>
-    <line>   {mod, {json,[]}}]}.</line>
-    </pre>
+            <pre><code>
+    {application, json,
+      [{description, "Produce JSON with Erlang"},
+       {vsn, "1.0.0"},
+       {modules, [json, json_sup, json_handler]},
+       {registered, []},
+       {applications, [kernel, stdlib]},
+       {mod, {json,[]}}]}.
+    </code></pre>
     
     </section>
     
@@ -178,61 +178,61 @@ erlang
     
     <h3>The run script starts the server from the command line.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>#! /bin/sh -e</line>
-    <line></line>
-    <line>ERL_LIBS=./lib erl -noshell -s json</line>
-    </pre>
+            <pre><code>
+    #! /bin/sh -e
+    
+    ERL_LIBS=./lib erl -noshell -s json
+    </code></pre>
     
     <h3>Update the Makefile to compile Erlang sources.</h3>
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>all: json_handler.beam json_sup.beam json.beam</line>
-    <line></line>
-    <line>#==============================================================================</line>
-    <line>#</line>
-    <line>#                           D E P E N D E N C I E S</line>
-    <line>#</line>
-    <line>#  Check out Elli and JSX from github to $HOME/src, compile each and copy</line>
-    <line>#  ebin directory under ./lib.</line>
-    <line>#==============================================================================</line>
-    <line></line>
-    <line>${HOME}/src/elli/ebin:</line>
-    <line>	(cd ${HOME}/src; git clone https://github.com/knutin/elli.git)</line>
-    <line>	(cd ${HOME}/src/elli ; git checkout tags/v1.0.5 ; make)</line>
-    <line></line>
-    <line>./lib/elli-1.0.5/ebin: ${HOME}/src/elli/ebin</line>
-    <line>	mkdir -p ./lib/elli-1.0.5</line>
-    <line>	cp -r $< ./lib/elli-1.0.5</line>
-    <line></line>
-    <line>./lib/elli-1.0.5/include: ${HOME}/src/elli</line>
-    <line>	mkdir -p ./lib/elli-1.0.5</line>
-    <line>	cp -r ${HOME}/src/elli/include ./lib/elli-1.0.5</line>
-    <line></line>
-    <line>${HOME}/src/jsx/_build/default/lib/jsx/ebin:</line>
-    <line>	(cd ${HOME}/src; git clone https://github.com/talentdeficit/jsx.git)</line>
-    <line>	(cd ${HOME}/src/jsx ; git checkout tags/v2.8.1 ; rebar3 compile)</line>
-    <line></line>
-    <line>./lib/jsx-2.8.1/ebin: ${HOME}/src/jsx/_build/default/lib/jsx/ebin</line>
-    <line>	mkdir -p ./lib/jsx-2.8.1</line>
-    <line>	cp -r $< ./lib/jsx-2.8.1</line>
-    <line></line>
-    <line></line>
-    <line>#==============================================================================</line>
-    <line>#</line>
-    <line>#                      C O M P I L E   A N D   C L E A N </line>
-    <line>#</line>
-    <line>#==============================================================================</line>
-    <line></line>
-    <line>%.beam: %.erl ./lib/elli-1.0.5/ebin ./lib/jsx-2.8.1/ebin ./lib/elli-1.0.5/include</line>
-    <line>	ERL_LIBS=./lib erlc $<</line>
-    <line></line>
-    <line>.PHONY: clean</line>
-    <line>clean:</line>
-    <line>	rm -f *.beam</line>
-    <line>	rm -rf ./lib</line>
-    </pre>
+            <pre><code>
+    all: json_handler.beam json_sup.beam json.beam
+    
+    #==============================================================================
+    #
+    #                           D E P E N D E N C I E S
+    #
+    #  Check out Elli and JSX from github to $HOME/src, compile each and copy
+    #  ebin directory under ./lib.
+    #==============================================================================
+    
+    ${HOME}/src/elli/ebin:
+    	(cd ${HOME}/src; git clone https://github.com/knutin/elli.git)
+    	(cd ${HOME}/src/elli ; git checkout tags/v1.0.5 ; make)
+    
+    ./lib/elli-1.0.5/ebin: ${HOME}/src/elli/ebin
+    	mkdir -p ./lib/elli-1.0.5
+    	cp -r $< ./lib/elli-1.0.5
+    
+    ./lib/elli-1.0.5/include: ${HOME}/src/elli
+    	mkdir -p ./lib/elli-1.0.5
+    	cp -r ${HOME}/src/elli/include ./lib/elli-1.0.5
+    
+    ${HOME}/src/jsx/_build/default/lib/jsx/ebin:
+    	(cd ${HOME}/src; git clone https://github.com/talentdeficit/jsx.git)
+    	(cd ${HOME}/src/jsx ; git checkout tags/v2.8.1 ; rebar3 compile)
+    
+    ./lib/jsx-2.8.1/ebin: ${HOME}/src/jsx/_build/default/lib/jsx/ebin
+    	mkdir -p ./lib/jsx-2.8.1
+    	cp -r $< ./lib/jsx-2.8.1
+    
+    
+    #==============================================================================
+    #
+    #                      C O M P I L E   A N D   C L E A N 
+    #
+    #==============================================================================
+    
+    %.beam: %.erl ./lib/elli-1.0.5/ebin ./lib/jsx-2.8.1/ebin ./lib/elli-1.0.5/include
+    	ERL_LIBS=./lib erlc $<
+    
+    .PHONY: clean
+    clean:
+    	rm -f *.beam
+    	rm -rf ./lib
+    </code></pre>
     </section>
     
     <section>
@@ -240,61 +240,61 @@ erlang
     
     <h3>Start the server.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ ./run.sh </line>
-    <line>starting server on port 3000</line>
-    <line>Event=elli_startup</line>
-    <line>, Data=[]</line>
-    <line>, Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]</line>
-    </pre>
+            <pre><code>
+    $ ./run.sh 
+    starting server on port 3000
+    Event=elli_startup
+    , Data=[]
+    , Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]
+    </code></pre>
     
     <p>Elli fires the <code>elli_startup</code> event and we are up and running.
     
     <h3>Hit this with curl, and we get our events back in JSON.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ curl -D- localhost:3000/events</line>
-    <line>HTTP/1.1 200 OK</line>
-    <line>Connection: Keep-Alive</line>
-    <line>Content-Length: 49</line>
-    <line></line>
-    <line>[{"id":1,"name":"test1"},{"id":2,"name":"test2"}]$</line>
-    </pre>
+            <pre><code>
+    $ curl -D- localhost:3000/events
+    HTTP/1.1 200 OK
+    Connection: Keep-Alive
+    Content-Length: 49
+    
+    [{"id":1,"name":"test1"},{"id":2,"name":"test2"}]$
+    </code></pre>
     
     <h3>And Ellie fires two events while processing the request.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>Event=request_complete</line>
-    <line>, Data=[{req,&rsquo;GET&rsquo;,</line>
-    <line>            [<<"events">>],</line>
-    <line>            [],<<"/events">>,</line>
-    <line>            {1,1},</line>
-    <line>            [{<<"Accept">>,<<"*/*">>},</line>
-    <line>             {<<"User-Agent">>,<<"curl/7.51.0">>},</line>
-    <line>             {<<"Host">>,<<"localhost:3000">>}],</line>
-    <line>            <<>>,<0.69.0>,</line>
-    <line>            {plain,#Port<0.428>},</line>
-    <line>            {elli_middleware,</line>
-    <line>                [{mods,</line>
-    <line>                     [{json_handler,</line>
-    <line>                          [{events,</line>
-    <line>                               [[{id,1},{name,<<"test1">>}],</line>
-    <line>                                [{id,2},{name,<<"test2">>}]]}]}]}]}},</line>
-    <line>        200,</line>
-    <line>        [{<<"Connection">>,<<"Keep-Alive">>},{<<"Content-Length">>,49}],</line>
-    <line>        <<"[{\"id\":1,\"name\":\"test1\"},{\"id\":2,\"name\":\"test2\"}]">>,</line>
-    <line>        [{user_start,{1483,499053,904446}},</line>
-    <line>         {request_end,{1483,499053,910409}},</line>
-    <line>         {accepted,{1483,499053,904331}},</line>
-    <line>         {user_end,{1483,499053,910369}},</line>
-    <line>         {headers_end,{1483,499053,904423}},</line>
-    <line>         {body_end,{1483,499053,904445}},</line>
-    <line>         {request_start,{1483,499053,904411}}]]</line>
-    <line>, Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]</line>
-    <line>Event=request_closed</line>
-    <line>, Data=[]</line>
-    <line>, Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]</line>
-    </pre>
+            <pre><code>
+    Event=request_complete
+    , Data=[{req,&rsquo;GET&rsquo;,
+                [<<"events">>],
+                [],<<"/events">>,
+                {1,1},
+                [{<<"Accept">>,<<"*/*">>},
+                 {<<"User-Agent">>,<<"curl/7.51.0">>},
+                 {<<"Host">>,<<"localhost:3000">>}],
+                <<>>,<0.69.0>,
+                {plain,#Port<0.428>},
+                {elli_middleware,
+                    [{mods,
+                         [{json_handler,
+                              [{events,
+                                   [[{id,1},{name,<<"test1">>}],
+                                    [{id,2},{name,<<"test2">>}]]}]}]}]}},
+            200,
+            [{<<"Connection">>,<<"Keep-Alive">>},{<<"Content-Length">>,49}],
+            <<"[{\"id\":1,\"name\":\"test1\"},{\"id\":2,\"name\":\"test2\"}]">>,
+            [{user_start,{1483,499053,904446}},
+             {request_end,{1483,499053,910409}},
+             {accepted,{1483,499053,904331}},
+             {user_end,{1483,499053,910369}},
+             {headers_end,{1483,499053,904423}},
+             {body_end,{1483,499053,904445}},
+             {request_start,{1483,499053,904411}}]]
+    , Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]
+    Event=request_closed
+    , Data=[]
+    , Args=[{events,[[{id,1},{name,<<"test1">>}],[{id,2},{name,<<"test2">>}]]}]
+    </code></pre>
     
     
     <p>Towards the end of the <code>request_complete</code> event, you can see the timings that were used to produce the Prometheus metrics in <a href="2016-11-23_a_simple_erlang_application_with_prometheus.html">A Simple Erlang Application, with Prometheus</a>.

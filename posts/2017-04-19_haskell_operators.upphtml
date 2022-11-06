@@ -23,24 +23,24 @@ haskell
     
     <p>All of the following are equivalent (per Michael Steele&rsquo;s <a href='http://stackoverflow.com/a/1290727'>answer</a> on Stack Overflow):
     
-    <pre class='code with-wrapping fullwidth'>
-    <line>putStrLn (show (1 + 1))</line>
-    <line>putStrLn (show $ 1 + 1)</line>
-    <line>putStrLn $ show (1 + 1)</line>
-    <line>putStrLn $ show $ 1 + 1</line>
-    <line>(putStrLn . show) (1 + 1)</line>
-    <line>putStrLn . show $ 1 + 1</line>
-    <line>(putStrLn . show . (+ 1)) 1</line>
-    <line>putStrLn . show . (+ 1) $ 1</line>
-    </pre>
+    <pre><code>
+    putStrLn (show (1 + 1))
+    putStrLn (show $ 1 + 1)
+    putStrLn $ show (1 + 1)
+    putStrLn $ show $ 1 + 1
+    (putStrLn . show) (1 + 1)
+    putStrLn . show $ 1 + 1
+    (putStrLn . show . (+ 1)) 1
+    putStrLn . show . (+ 1) $ 1
+    </code></pre>
     
     
     <p>It&rsquo;s type is:
     
-    <pre class='code with-wrapping fullwidth'>
-    <line>Prelude> :type ($)</line>
-    <line>($) :: (a -> b) -> a -> b</line>
-    </pre>
+    <pre><code>
+    Prelude> :type ($)
+    ($) :: (a -> b) -> a -> b
+    </code></pre>
     
     <ol>
     <li>a function that maps type a to type b</li>
@@ -73,10 +73,10 @@ haskell
     
     <p>It&rsquo;s type is:
     
-    <pre class='code with-wrapping fullwidth'>
-    <line>Prelude> :type (.)</line>
-    <line>(.) :: (b -> c) -> (a -> b) -> a -> c</line>
-    </pre>
+    <pre><code>
+    Prelude> :type (.)
+    (.) :: (b -> c) -> (a -> b) -> a -> c
+    </code></pre>
     
     </section>
     
@@ -104,10 +104,10 @@ haskell
     
     <p>And this one is is not an operator, as it doesn&rsquo;t have a type:
     
-    <pre class='code with-wrapping fullwidth'>
-    <line>Prelude> :t (=>)</line>
-    <line><interactive>:1:2: error: parse error on input ‘=>’</line>
-    </pre>
+    <pre><code>
+    Prelude> :t (=>)
+    <interactive>:1:2: error: parse error on input ‘=>’
+    </code></pre>
     
     
     

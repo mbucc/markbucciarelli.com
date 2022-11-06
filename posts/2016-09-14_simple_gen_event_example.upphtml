@@ -39,31 +39,31 @@ erlang
     
     <p>This is counter module is an event handler that counts events and prints status updates to stdout.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(counter).</line>
-    <line></line>
-    <line>-behaviour(gen_event).</line>
-    <line></line>
-    <line>-export([code_change/3, handle_call/2, handle_event/2,</line>
-    <line>         handle_info/2, init/1, terminate/2]).</line>
-    <line></line>
-    <line>init(_Args) -></line>
-    <line>    io:put_chars("** 0: inititalize to zero\n"), {ok, 0}.</line>
-    <line></line>
-    <line>handle_event(Event, Count) -></line>
-    <line>    io:format("** +1: got event ~p~n", [Event]),</line>
-    <line>    {ok, Count + 1}.</line>
-    <line></line>
-    <line>handle_call(Request, Count) -></line>
-    <line>    io:format("** got request ~p~n", [Request]),</line>
-    <line>    {ok, Count, Count}.</line>
-    <line></line>
-    <line>code_change(_OldVsn, State, _Extra) -> {ok, State}.</line>
-    <line></line>
-    <line>handle_info(_Info, State) -> {noreply, State}.</line>
-    <line></line>
-    <line>terminate(_Args, _State) -> ok.</line>
-    </pre>
+            <pre><code>
+    -module(counter).
+    
+    -behaviour(gen_event).
+    
+    -export([code_change/3, handle_call/2, handle_event/2,
+             handle_info/2, init/1, terminate/2]).
+    
+    init(_Args) ->
+        io:put_chars("** 0: inititalize to zero\n"), {ok, 0}.
+    
+    handle_event(Event, Count) ->
+        io:format("** +1: got event ~p~n", [Event]),
+        {ok, Count + 1}.
+    
+    handle_call(Request, Count) ->
+        io:format("** got request ~p~n", [Request]),
+        {ok, Count, Count}.
+    
+    code_change(_OldVsn, State, _Extra) -> {ok, State}.
+    
+    handle_info(_Info, State) -> {noreply, State}.
+    
+    terminate(_Args, _State) -> ok.
+    </code></pre>
     
      <p>In this case, the state is simply the Count of events that have been received.  This could be as complex as you like.
     
@@ -73,9 +73,9 @@ erlang
     
     <p>We name the event manager &ldquo;event_dispatcher&rdquo;.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>    {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),</line>
-    </pre>
+            <pre><code>
+        {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),
+    </code></pre>
     
     <h3>3. Add a handler to the manager</h3>
     
@@ -83,19 +83,19 @@ erlang
     <p>After this, events are sent to the counter&rsquo;s handle_event/2 method.
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>    gen_event:add_handler(event_dispatcher, counter, []),</line>
-    </pre>
+            <pre><code>
+        gen_event:add_handler(event_dispatcher, counter, []),
+    </code></pre>
     
     
     <h3>4. Notify the manager of an event</h3>
     
     <p>An Event can be any Erlang term.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>    Event = {an, event, {can, [be, any, erlang]}, term},</line>
-    <line>    ok = gen_event:notify(event_dispatcher, Event),</line>
-    </pre>
+            <pre><code>
+        Event = {an, event, {can, [be, any, erlang]}, term},
+        ok = gen_event:notify(event_dispatcher, Event),
+    </code></pre>
     
     </section>
     
@@ -108,10 +108,10 @@ erlang
     
     <p>You need to get the data out of the event handler!
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>    Request = {so, can, the, call, request},</line>
-    <line>    Count = gen_event:call(event_dispatcher, counter, Request),</line>
-    </pre>
+            <pre><code>
+        Request = {so, can, the, call, request},
+        Count = gen_event:call(event_dispatcher, counter, Request),
+    </code></pre>
     
     
     <p>The gen_event:call/3 gives you synchronous access to the read model state.
@@ -124,36 +124,36 @@ erlang
     
     <p>Using the counter model exactly as shown above, we can write an escript to show all of these steps.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cat run.escript </line>
-    <line>#! /usr/bin/env escript</line>
-    <line></line>
-    <line>main(_Argv) -></line>
-    <line>    {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),</line>
-    <line>    gen_event:add_handler(event_dispatcher, counter, []),</line>
-    <line>    Event = {an, event, {can, [be, any, erlang]}, term},</line>
-    <line>    ok = gen_event:notify(event_dispatcher, Event),</line>
-    <line>    Request = {so, can, the, call, request},</line>
-    <line>    Count = gen_event:call(event_dispatcher, counter, Request),</line>
-    <line>    io:format("Event count = ~w~n", [Count]).</line>
-    <line></line>
-    <line>$ cat Makefile </line>
-    <line>.PHONY: run</line>
-    <line>run: counter.beam</line>
-    <line>	./run.escript</line>
-    <line></line>
-    <line>%.beam: %.erl</line>
-    <line>	erlc $?</line>
-    <line></line>
-    <line>$ make</line>
-    <line>./run.escript</line>
-    <line>** 0: inititalize to zero</line>
-    <line>** +1: got event {an,event,{can,[be,any,erlang]},term}</line>
-    <line>** got request {so,can,the,call,request}</line>
-    <line>Event count = 1</line>
-    <line></line>
-    <line>$ </line>
-    </pre>
+            <pre><code>
+    $ cat run.escript 
+    #! /usr/bin/env escript
+    
+    main(_Argv) ->
+        {ok, _Pid} = gen_event:start_link({local, event_dispatcher}),
+        gen_event:add_handler(event_dispatcher, counter, []),
+        Event = {an, event, {can, [be, any, erlang]}, term},
+        ok = gen_event:notify(event_dispatcher, Event),
+        Request = {so, can, the, call, request},
+        Count = gen_event:call(event_dispatcher, counter, Request),
+        io:format("Event count = ~w~n", [Count]).
+    
+    $ cat Makefile 
+    .PHONY: run
+    run: counter.beam
+    	./run.escript
+    
+    %.beam: %.erl
+    	erlc $?
+    
+    $ make
+    ./run.escript
+    ** 0: inititalize to zero
+    ** +1: got event {an,event,{can,[be,any,erlang]},term}
+    ** got request {so,can,the,call,request}
+    Event count = 1
+    
+    $ 
+    </code></pre>
     
     </section>
     

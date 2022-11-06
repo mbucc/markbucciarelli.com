@@ -55,22 +55,22 @@ erlang
         <p>For example, here we spawn a process that waits for a message.  The process id is <0.60.0>.  We send the process a message with the bang (!) symbol, and the process prints the message.  The process then stops of it&rsquo;s own accord (because there is no loop statement at the end of the receive clause).
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>~$ erl</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> PrintMessageThenExit = fun() -> receive M -> io:format("Got message ~p~n", [M]) end end.   </line>
-    <line>#Fun&lt;erl_eval.20.52032458></line>
-    <line>2> spawn(PrintMessageThenExit).</line>
-    <line><0.60.0></line>
-    <line>3> Pid = lists:last(processes()).</line>
-    <line><0.60.0></line>
-    <line>4> Pid ! hello.</line>
-    <line>Got message hello</line>
-    <line>hello</line>
-    <line>5> </line>
-    </pre>
+            <pre><code>
+    ~$ erl
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> PrintMessageThenExit = fun() -> receive M -> io:format("Got message ~p~n", [M]) end end.   
+    #Fun&lt;erl_eval.20.52032458>
+    2> spawn(PrintMessageThenExit).
+    <0.60.0>
+    3> Pid = lists:last(processes()).
+    <0.60.0>
+    4> Pid ! hello.
+    Got message hello
+    hello
+    5> 
+    </code></pre>
     
     	<p>Exit signals only travel on links and will use the mailbox only if the process at the other end of the link has turned on error trapping.
     
@@ -99,36 +99,36 @@ erlang
     
         <h3>The erlang shell is a process.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line></line>
-    <line>1> erlang:processes().</line>
-    <line>[<0.0.0>,<0.3.0>,<0.6.0>,<0.7.0>,<0.9.0>,<0.10.0>,<0.11.0>,</line>
-    <line> <0.12.0>,<0.14.0>,<0.15.0>,<0.16.0>,<0.17.0>,<0.18.0>,</line>
-    <line> <0.19.0>,<0.20.0>,<0.21.0>,<0.22.0>,<0.23.0>,<0.24.0>,</line>
-    <line> <0.25.0>,<0.26.0>,<0.27.0>,<0.28.0>,<0.29.0>,<0.33.0>]</line>
-    <line>2> self().</line>
-    <line><0.33.0></line>
-    <line>3> q().</line>
-    <line>ok</line>
-    <line>4> ~/src/erlang-sandbox$</line>
-    </pre>
+            <pre><code>
+    
+    1> erlang:processes().
+    [<0.0.0>,<0.3.0>,<0.6.0>,<0.7.0>,<0.9.0>,<0.10.0>,<0.11.0>,
+     <0.12.0>,<0.14.0>,<0.15.0>,<0.16.0>,<0.17.0>,<0.18.0>,
+     <0.19.0>,<0.20.0>,<0.21.0>,<0.22.0>,<0.23.0>,<0.24.0>,
+     <0.25.0>,<0.26.0>,<0.27.0>,<0.28.0>,<0.29.0>,<0.33.0>]
+    2> self().
+    <0.33.0>
+    3> q().
+    ok
+    4> ~/src/erlang-sandbox$
+    </code></pre>
     
         <h3>The shell process dies and restarts when it receives an exit
     signal.</h3>
     
             <p>This is a special property of the shell process.  You can tell the shell restarted because it&rsquo;s process ID changed.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>1> self().</line>
-    <line><0.33.0>                   % The process id of the shell starts as 0.33.0.</line>
-    <line>2> 1/0.</line>
-    <line>** exception error: an error occurred when evaluating an arithmetic expression</line>
-    <line>     in operator  &rsquo;/&rsquo;/2</line>
-    <line>        called as 1 / 0</line>
-    <line>3> self().</line>
-    <line><0.36.0>                   % The process id of the shell has changed.</line>
-    <line>4></line>
-    </pre>
+            <pre><code>
+    1> self().
+    <0.33.0>                   % The process id of the shell starts as 0.33.0.
+    2> 1/0.
+    ** exception error: an error occurred when evaluating an arithmetic expression
+         in operator  &rsquo;/&rsquo;/2
+            called as 1 / 0
+    3> self().
+    <0.36.0>                   % The process id of the shell has changed.
+    4>
+    </code></pre>
     
         <h3>If the shell spawns but does not link to a process that dies, the shell does not die.</h3>
     
@@ -140,98 +140,98 @@ erlang
       The reason the shell sometimes starts as process id 0.33.0 and other times as 0.57.0 is due to running this code under different versions of Erlang.  The 0.33.0 corresponds to Eshell V7.2.1 and the 0.57.0 to Eshell V8.0.1.
     </span>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>~/src/erlang-sandbox$ cat crasher.erl</line>
-    <line>-module(crasher).</line>
-    <line>-compile([export_all]).</line>
-    <line></line>
-    <line>countdown(N) when N == 0 -></line>
-    <line>   exit(boom);</line>
-    <line></line>
-    <line>countdown(N) when N > 0 -></line>
-    <line>    io:format("child~p~n", [N]),</line>
-    <line>    timer:sleep(1000),</line>
-    <line>    countdown(N - 1).</line>
-    <line></line>
-    <line>1> c(crasher).</line>
-    <line>{ok,crasher}</line>
-    <line>2> self().</line>
-    <line><0.33.0></line>
-    <line>3> spawn(crasher, countdown, [2]).</line>
-    <line>child2                     % countdown/1 output.</line>
-    <line><0.41.0>                   % spawn/3 return value is child pid.</line>
-    <line>child1                     % countdown/1 output.</line>
-    <line>4> self().</line>
-    <line><0.33.0></line>
-    <line>5> spawn(crasher, countdown, [-2]).</line>
-    <line><0.44.0></line>
-    <line>6></line>
-    <line>=ERROR REPORT==== 19-Feb-2016::07:14:57 ===</line>
-    <line>Error in process <0.44.0> with exit value:</line>
-    <line>{function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}</line>
-    <line>self().                    % The sixth command is pushed down by exit output.</line>
-    <line><0.33.0></line>                     
-    <line>7></line>
-    </pre>
+            <pre><code>
+    ~/src/erlang-sandbox$ cat crasher.erl
+    -module(crasher).
+    -compile([export_all]).
+    
+    countdown(N) when N == 0 ->
+       exit(boom);
+    
+    countdown(N) when N > 0 ->
+        io:format("child~p~n", [N]),
+        timer:sleep(1000),
+        countdown(N - 1).
+    
+    1> c(crasher).
+    {ok,crasher}
+    2> self().
+    <0.33.0>
+    3> spawn(crasher, countdown, [2]).
+    child2                     % countdown/1 output.
+    <0.41.0>                   % spawn/3 return value is child pid.
+    child1                     % countdown/1 output.
+    4> self().
+    <0.33.0>
+    5> spawn(crasher, countdown, [-2]).
+    <0.44.0>
+    6>
+    =ERROR REPORT==== 19-Feb-2016::07:14:57 ===
+    Error in process <0.44.0> with exit value:
+    {function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}
+    self().                    % The sixth command is pushed down by exit output.
+    <0.33.0>                     
+    7>
+    </code></pre>
     
         <h3>If we link the shell to it&rsquo;s child, then the shell dies.</h3>
     
             <p>The exit signal travels across the link to the shell process.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>1> self().</line>
-    <line><0.33.0></line>
-    <line>2> link(spawn(crasher, countdown, [2])).</line>
-    <line>true</line>
-    <line>child2</line>
-    <line>child1</line>
-    <line>** exception error: boom</line>
-    <line>3> self().</line>
-    <line><0.38.0>                   % The shell has new PID, so it crashed and restarted.</line>
-    <line>4> link(spawn(crasher, countdown, [-2])).</line>
-    <line>** exception exit: function_clause</line>
-    <line>     in function  crasher:countdown/1</line>
-    <line>        called as crasher:countdown(-2)</line>
-    <line></line>
-    <line>=ERROR REPORT==== 19-Feb-2016::07:19:01 ===</line>
-    <line>Error in process <0.40.0> with exit value:</line>
-    <line>{function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}</line>
-    <line>5> self().</line>
-    <line><0.41.0></line>
-    <line>6></line>
-    </pre>
+            <pre><code>
+    1> self().
+    <0.33.0>
+    2> link(spawn(crasher, countdown, [2])).
+    true
+    child2
+    child1
+    ** exception error: boom
+    3> self().
+    <0.38.0>                   % The shell has new PID, so it crashed and restarted.
+    4> link(spawn(crasher, countdown, [-2])).
+    ** exception exit: function_clause
+         in function  crasher:countdown/1
+            called as crasher:countdown(-2)
+    
+    =ERROR REPORT==== 19-Feb-2016::07:19:01 ===
+    Error in process <0.40.0> with exit value:
+    {function_clause,[{crasher,countdown,[-2],[{file,"crasher.erl"},{line,4}]}]}
+    5> self().
+    <0.41.0>
+    6>
+    </code></pre>
     
         <h3>Unless the error signal is a normal one!</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cat normal_crasher.erl </line>
-    <line>-module(normal_crasher).</line>
-    <line>-compile([export_all]).</line>
-    <line></line>
-    <line>countdown(N) when N == 0 -></line>
-    <line>   exit(normal);           % The exit message is the atom "normal".</line>
-    <line></line>
-    <line>countdown(N) when N > 0 -></line>
-    <line>    io:format("child~p~n", [N]),</line>
-    <line>    timer:sleep(1000),</line>
-    <line>    countdown(N - 1).</line>
-    <line>$ erl</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> c(normal_crasher).</line>
-    <line>{ok,normal_crasher}</line>
-    <line>2> self().</line>
-    <line><0.57.0>                   % Shell starts as process id 0.57.0.</line>
-    <line>3> link(spawn(normal_crasher, countdown, [2])).</line>
-    <line>child2</line>
-    <line>true</line>
-    <line>child1</line>
-    <line>4> self().</line>
-    <line><0.57.0>                   % Same process id for shell, so no crash.</line>
-    <line>5> </line>
-    <line></line>
-    </pre>
+            <pre><code>
+    $ cat normal_crasher.erl 
+    -module(normal_crasher).
+    -compile([export_all]).
+    
+    countdown(N) when N == 0 ->
+       exit(normal);           % The exit message is the atom "normal".
+    
+    countdown(N) when N > 0 ->
+        io:format("child~p~n", [N]),
+        timer:sleep(1000),
+        countdown(N - 1).
+    $ erl
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> c(normal_crasher).
+    {ok,normal_crasher}
+    2> self().
+    <0.57.0>                   % Shell starts as process id 0.57.0.
+    3> link(spawn(normal_crasher, countdown, [2])).
+    child2
+    true
+    child1
+    4> self().
+    <0.57.0>                   % Same process id for shell, so no crash.
+    5> 
+    
+    </code></pre>
     
     
     
@@ -239,27 +239,27 @@ erlang
     
     <p>Continuing shell session from above &hellip;
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>6> process_flag(trap_exit, true).</line>
-    <line>false                      % process_flag/2 return value</line>
-    <line>7> link(spawn(crasher, countdown, [10])).</line>
-    <line>child10                    % countdown/1 output</line>
-    <line>true                       % link/1 return value</line>
-    <line>child9</line>
-    <line>8> receive X -> X end.     % shell blocks waiting for a msg</line>
-    <line>child8</line>
-    <line>child7</line>
-    <line>child6</line>
-    <line>child5</line>
-    <line>child4</line>
-    <line>child3</line>
-    <line>child2</line>
-    <line>child1</line>
-    <line>{&rsquo;EXIT&rsquo;,<0.45.0>,boom}     % shell got an EXIT message</line>
-    <line>9> self().</line>
-    <line><0.41.0></line>
-    <line>10></line>
-    </pre>
+            <pre><code>
+    6> process_flag(trap_exit, true).
+    false                      % process_flag/2 return value
+    7> link(spawn(crasher, countdown, [10])).
+    child10                    % countdown/1 output
+    true                       % link/1 return value
+    child9
+    8> receive X -> X end.     % shell blocks waiting for a msg
+    child8
+    child7
+    child6
+    child5
+    child4
+    child3
+    child2
+    child1
+    {&rsquo;EXIT&rsquo;,<0.45.0>,boom}     % shell got an EXIT message
+    9> self().
+    <0.41.0>
+    10>
+    </code></pre>
     
     </section>
     

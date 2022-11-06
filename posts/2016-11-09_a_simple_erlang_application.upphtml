@@ -22,38 +22,38 @@ erlang
     
     <h3>Directory Structure</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>.</line>
-    <line>├── Makefile</line>
-    <line>├── ebin</line>
-    <line>└── src</line>
-    <line>    ├── erlsrv.app.src</line>
-    <line>    ├── erlsrv.erl</line>
-    <line>    ├── es_callback.erl</line>
-    <line>    └── es_sup.erl</line>
-    </pre>
+            <pre><code>
+    .
+    ├── Makefile
+    ├── ebin
+    └── src
+        ├── erlsrv.app.src
+        ├── erlsrv.erl
+        ├── es_callback.erl
+        └── es_sup.erl
+    </code></pre>
     
     <p>The Erlang <a href="http://erlang.org/doc/design_principles/applications.html">documentation</a> mentions four directories (src, ebin, priv and include) but the application started fine with just two.
     
     <h3>Makefile</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam</line>
-    <line></line>
-    <line>ELLI=${HOME}/src/elli</line>
-    <line>${ELLI}/ebin:</line>
-    <line>	(cd ${ELLI} ; make)</line>
-    <line></line>
-    <line>ebin/%.beam: src/%.erl ${ELLI}/ebin</line>
-    <line>	ERL_LIBS=${ELLI} erlc -o ebin/ $<</line>
-    <line></line>
-    <line>ebin/erlsrv.app: src/erlsrv.app.src</line>
-    <line>	cp $? $@</line>
-    <line></line>
-    <line>.PHONY: clean</line>
-    <line>clean:</line>
-    <line>	rm -f ebin/*</line>
-    </pre>
+            <pre><code>
+    all: ebin/es_sup.beam ebin/es_callback.beam ebin/erlsrv.app ebin/erlsrv.beam
+    
+    ELLI=${HOME}/src/elli
+    ${ELLI}/ebin:
+    	(cd ${ELLI} ; make)
+    
+    ebin/%.beam: src/%.erl ${ELLI}/ebin
+    	ERL_LIBS=${ELLI} erlc -o ebin/ $<
+    
+    ebin/erlsrv.app: src/erlsrv.app.src
+    	cp $? $@
+    
+    .PHONY: clean
+    clean:
+    	rm -f ebin/*
+    </code></pre>
     
     <p><code>ERL_LIBS</code> makes this work.  I cloned the <a href="https://github.com/knutin/elli">Elli</a> repository under <code>$HOME/src</code> and set <code>ERL_LIBS</code> to that before calling <code>erlc</code>.  A simple way to manage dependencies that is built in to Erlang.
     
@@ -71,52 +71,52 @@ erlang
     
     <h3>src/erlsrv.app.src</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>{application, erlsrv, [{mod, {erlsrv,[]}}]}.</line>
-    </pre>
+            <pre><code>
+    {application, erlsrv, [{mod, {erlsrv,[]}}]}.
+    </code></pre>
     
     <p>The smallest possible application configuration file.
     
     <h3>src/erlsrv.erl</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(erlsrv).</line>
-    <line>-behavior(application).</line>
-    <line></line>
-    <line>-export([start/2, stop/1]).</line>
-    <line></line>
-    <line>start(_Type, _Args) -> es_sup:start_link().</line>
-    <line></line>
-    <line>stop(_State) -> ok.</line>
-    </pre>
+            <pre><code>
+    -module(erlsrv).
+    -behavior(application).
+    
+    -export([start/2, stop/1]).
+    
+    start(_Type, _Args) -> es_sup:start_link().
+    
+    stop(_State) -> ok.
+    </code></pre>
     
     <p>The job of the application behavior is to start the main supervisor.
     
     
     <h3>src/es_callback.erl</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(es_callback).</line>
-    <line>-export([handle/2, handle_event/3]).</line>
-    <line></line>
-    <line>-include_lib("elli/include/elli.hrl").</line>
-    <line>-behaviour(elli_handler).</line>
-    <line></line>
-    <line>% Dispatch to handler functions</line>
-    <line>handle(Req, _Args) -></line>
-    <line>    handle(Req#req.method, elli_request:path(Req), Req).</line>
-    <line></line>
-    <line>handle(&rsquo;GET&rsquo;,[<<"hello">>, <<"world">>], _Req) -></line>
-    <line>    {ok, [], <<"Hello World!">>};</line>
-    <line></line>
-    <line>handle(_, _, _Req) -></line>
-    <line>    {404, [], <<"Not Found">>}.</line>
-    <line></line>
-    <line>%% @doc: Handle request events, like request completed, exception</line>
-    <line>%% thrown, client timeout, etc. Must return &rsquo;ok&rsquo;.</line>
-    <line>handle_event(_Event, _Data, _Args) -></line>
-    <line>    ok.</line>
-    </pre>
+            <pre><code>
+    -module(es_callback).
+    -export([handle/2, handle_event/3]).
+    
+    -include_lib("elli/include/elli.hrl").
+    -behaviour(elli_handler).
+    
+    % Dispatch to handler functions
+    handle(Req, _Args) ->
+        handle(Req#req.method, elli_request:path(Req), Req).
+    
+    handle(&rsquo;GET&rsquo;,[<<"hello">>, <<"world">>], _Req) ->
+        {ok, [], <<"Hello World!">>};
+    
+    handle(_, _, _Req) ->
+        {404, [], <<"Not Found">>}.
+    
+    %% @doc: Handle request events, like request completed, exception
+    %% thrown, client timeout, etc. Must return &rsquo;ok&rsquo;.
+    handle_event(_Event, _Data, _Args) ->
+        ok.
+    </code></pre>
     
     <p>Dispatch HTTP calls to handlers.  Elli spawns a process for each request so they are isolated from each other.
     <p>This is the file that will grow as I build a server that does something.
@@ -124,61 +124,61 @@ erlang
     
     <h3>src/es_sup.erl</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>-module(es_sup).</line>
-    <line>-behaviour(supervisor).</line>
-    <line>-export([start_link/0]).</line>
-    <line>-export([init/1]).</line>
-    <line></line>
-    <line>start_link() -></line>
-    <line>    supervisor:start_link({local, ?MODULE}, ?MODULE, []).</line>
-    <line></line>
-    <line>init([]) -></line>
-    <line>    ElliOpts = [{callback, es_callback}, {port, 3000}],</line>
-    <line>    ElliSpec = {</line>
-    <line>        es_http,</line>
-    <line>        {elli, start_link, [ElliOpts]},</line>
-    <line>        permanent,</line>
-    <line>        5000,</line>
-    <line>        worker,</line>
-    <line>        [elli]},</line>
-    <line></line>
-    <line>    {ok, { {one_for_one, 5, 10}, [ElliSpec]} }.</line>
-    </pre>
+            <pre><code>
+    -module(es_sup).
+    -behaviour(supervisor).
+    -export([start_link/0]).
+    -export([init/1]).
+    
+    start_link() ->
+        supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+    
+    init([]) ->
+        ElliOpts = [{callback, es_callback}, {port, 3000}],
+        ElliSpec = {
+            es_http,
+            {elli, start_link, [ElliOpts]},
+            permanent,
+            5000,
+            worker,
+            [elli]},
+    
+        {ok, { {one_for_one, 5, 10}, [ElliSpec]} }.
+    </code></pre>
     
     <p>The supervisor for Elli.  Copied right from Elli&rsquo;s <a href="https://github.com/knutin/elli">github readme</a>.
     
     <h2>Running the application</h2>
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ ERL_LIBS=$HOME/src/elli erl -pa ebin</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> application:start(erlsrv).</line>
-    <line>ok</line>
-    <line>2></line>
-    </pre>
+            <pre><code>
+    $ ERL_LIBS=$HOME/src/elli erl -pa ebin
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> application:start(erlsrv).
+    ok
+    2>
+    </code></pre>
     
     <p>Note the use of ERL_LIBS when starting interpreter.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ curl -v http://127.0.0.1:3000/hello/world</line>
-    <line>*   Trying 127.0.0.1&hellip;</line>
-    <line>* Connected to 127.0.0.1 (127.0.0.1) port 3000 (#0)</line>
-    <line>> GET /hello/world HTTP/1.1</line>
-    <line>> Host: 127.0.0.1:3000</line>
-    <line>> User-Agent: curl/7.49.1</line>
-    <line>> Accept: */*</line>
-    <line>> </line>
-    <line>< HTTP/1.1 200 OK</line>
-    <line>< Connection: Keep-Alive</line>
-    <line>< Content-Length: 12</line>
-    <line>< </line>
-    <line>* Connection #0 to host 127.0.0.1 left intact</line>
-    <line>Hello World!$</line>
-    </pre>
+            <pre><code>
+    $ curl -v http://127.0.0.1:3000/hello/world
+    *   Trying 127.0.0.1&hellip;
+    * Connected to 127.0.0.1 (127.0.0.1) port 3000 (#0)
+    > GET /hello/world HTTP/1.1
+    > Host: 127.0.0.1:3000
+    > User-Agent: curl/7.49.1
+    > Accept: */*
+    > 
+    < HTTP/1.1 200 OK
+    < Connection: Keep-Alive
+    < Content-Length: 12
+    < 
+    * Connection #0 to host 127.0.0.1 left intact
+    Hello World!$
+    </code></pre>
     
     <h2>Notes</h2>
     
@@ -192,12 +192,12 @@ erlang
     
     <h3>Why no rebar?</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cd $HOME/src/rebar3/</line>
-    <line>$ du -sh src</line>
-    <line>692K	src</line>
-    <line>$ </line>
-    </pre>
+            <pre><code>
+    $ cd $HOME/src/rebar3/
+    $ du -sh src
+    692K	src
+    $ 
+    </code></pre>
     
     <p>Violates goal #1.
     
@@ -207,66 +207,66 @@ erlang
     
     <p>For example, if I change the config file to:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>{application, erlsrv, []}.</line>
-    </pre>
+            <pre><code>
+    {application, erlsrv, []}.
+    </code></pre>
     
     <p>I can start the application without error
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ ERL_LIBS=$HOME/src/elll erl -pa ebin</line>
-    <line>Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]</line>
-    <line></line>
-    <line>Eshell V8.0.1  (abort with ^G)</line>
-    <line>1> application:start(erlsrv).</line>
-    <line>ok</line>
-    <line>2> application:info().</line>
-    </pre>
+            <pre><code>
+    $ ERL_LIBS=$HOME/src/elll erl -pa ebin
+    Erlang/OTP 19 [erts-8.0.1] [source-ca40008] [64-bit] [smp:8:8] [async-threads:10] [hipe] [kernel-poll:false]
+    
+    Eshell V8.0.1  (abort with ^G)
+    1> application:start(erlsrv).
+    ok
+    2> application:info().
+    </code></pre>
     
     <p>and the application is loaded
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>2> application:which_applications().</line>
-    <line>[{erlsrv,[],[]},</line>
-    <line> {stdlib,"ERTS  CXC 138 10","3.0"},</line>
-    <line> {kernel,"ERTS  CXC 138 10","5.0"}]</line>
-    <line>3> </line>
-    </pre>
+            <pre><code>
+    2> application:which_applications().
+    [{erlsrv,[],[]},
+     {stdlib,"ERTS  CXC 138 10","3.0"},
+     {kernel,"ERTS  CXC 138 10","5.0"}]
+    3> 
+    </code></pre>
     
     <p>and shows as running
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>3> application:info().</line>
-    <line>[{loaded,[{kernel,"ERTS  CXC 138 10","5.0"},</line>
-    <line>          {stdlib,"ERTS  CXC 138 10","3.0"},</line>
-    <line>          {erlsrv,[],[]}]},</line>
-    <line> {loading,[]},</line>
-    <line> {started,[{erlsrv,temporary},</line>
-    <line>           {stdlib,permanent},</line>
-    <line>           {kernel,permanent}]},</line>
-    <line> {start_p_false,[]},</line>
-    <line> {running,[{erlsrv,undefined},</line>
-    <line>           {stdlib,undefined},</line>
-    <line>           {kernel,<0.33.0>}]},</line>
-    <line> {starting,[]}]</line>
-    <line>4> </line>
-    <line></line>
-    </pre>
+            <pre><code>
+    3> application:info().
+    [{loaded,[{kernel,"ERTS  CXC 138 10","5.0"},
+              {stdlib,"ERTS  CXC 138 10","3.0"},
+              {erlsrv,[],[]}]},
+     {loading,[]},
+     {started,[{erlsrv,temporary},
+               {stdlib,permanent},
+               {kernel,permanent}]},
+     {start_p_false,[]},
+     {running,[{erlsrv,undefined},
+               {stdlib,undefined},
+               {kernel,<0.33.0>}]},
+     {starting,[]}]
+    4> 
+    
+    </code></pre>
     
     <p>(There is supposed to be a process ID instead of the atom <code>undefined</code> on the line <code>{running,[{erlsrv,undefined}</code>.)
     
     <p>Hitting the server with curl produces Connection refused:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ curl -v http://127.0.0.1:3000/hello/world</line>
-    <line>*   Trying 127.0.0.1&hellip;</line>
-    <line>* connect to 127.0.0.1 port 3000 failed: Connection refused</line>
-    <line>* Failed to connect to 127.0.0.1 port 3000: Connection refused</line>
-    <line>* Closing connection 0</line>
-    <line>curl: (7) Failed to connect to 127.0.0.1 port 3000: Connection refused</line>
-    <line>$ </line>
-    </pre>
+            <pre><code>
+    $ curl -v http://127.0.0.1:3000/hello/world
+    *   Trying 127.0.0.1&hellip;
+    * connect to 127.0.0.1 port 3000 failed: Connection refused
+    * Failed to connect to 127.0.0.1 port 3000: Connection refused
+    * Closing connection 0
+    curl: (7) Failed to connect to 127.0.0.1 port 3000: Connection refused
+    $ 
+    </code></pre>
     
     <p>What&rsquo;s happening is that the the <code>mod</code> argument tells the application behavior what module holds the <code>start/2</code> method to call.  If we don&rsquo;t provide that module name, the behavior does not call any start method and the server is not started.
     
@@ -277,12 +277,12 @@ erlang
     <p>By the time I found Elli, I was more familiar with Erlang.  Also, the github readme had exactly the code I needed.</li>
     <p>Also, it&rsquo;s lightweight:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cd $HOME/src/elli</line>
-    <line>$ du -sh src</line>
-    <line> 92K	src</line>
-    <line>$ </line>
-    </pre>
+            <pre><code>
+    $ cd $HOME/src/elli
+    $ du -sh src
+     92K	src
+    $ 
+    </code></pre>
     
     
     

@@ -30,20 +30,20 @@ haskell, stack
     <h2>Create initial Snap project with snap init.</h2>
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ cd sandbox/snap-stack</line>
-    <line>$ snap init barebones</line>
-    <line>$ tree</line>
-    <line>.</line>
-    <line>├── log</line>
-    <line>│   └── placeholder</line>
-    <line>├── snap-stack.cabal</line>
-    <line>└── src</line>
-    <line>    └── Main.hs</line>
-    <line></line>
-    <line>2 directories, 3 files</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ cd sandbox/snap-stack
+    $ snap init barebones
+    $ tree
+    .
+    ├── log
+    │   └── placeholder
+    ├── snap-stack.cabal
+    └── src
+        └── Main.hs
+    
+    2 directories, 3 files
+    $
+    </code></pre>
     
     <p>This creates the Snap hello world app, which is described in detail in the <a href="http://snapframework.com/docs/tutorials/snap-api">Snap API Introduction.</a>
     
@@ -55,34 +55,34 @@ haskell, stack
     <h2>Use Snap&rsquo;s cabal configuration to initialize Stack.</h2>
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack init</line>
-    <line>Looking for .cabal or package.yaml files to use to init the project.</line>
-    <line>Using cabal packages:</line>
-    <line>- snap-stack.cabal</line>
-    <line></line>
-    <line>Selecting the best among 10 snapshots&hellip;</line>
-    <line></line>
-    <line>Downloaded lts-8.4 build plan.</line>
-    <line>Fetching package index &hellip;remote: Counting objects: 2259, done.</line>
-    <line>remote: Compressing objects: 100% (98/98), done.</line>
-    <line>remote: Total 2259 (delta 810), reused 785 (delta 785), pack-reused 1369</line>
-    <line>Receiving objects: 100% (2259/2259), 1.92 MiB | 359.00 KiB/s, done.</line>
-    <line>Resolving deltas: 100% (906/906), completed with 374 local objects.</line>
-    <line>From https://github.com/commercialhaskell/all-cabal-hashes</line>
-    <line>   93b8c00..98d707f  hackage    -> origin/hackage</line>
-    <line> - [tag update]      current-hackage -> current-hackage</line>
-    <line>Fetched package index.</line>
-    <line>Populated index cache.</line>
-    <line>* Matches lts-8.4</line>
-    <line></line>
-    <line>Selected resolver: lts-8.4</line>
-    <line>Initializing configuration using resolver: lts-8.4</line>
-    <line>Total number of user packages considered: 1</line>
-    <line>Writing configuration to file: stack.yaml</line>
-    <line>All done.</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ stack init
+    Looking for .cabal or package.yaml files to use to init the project.
+    Using cabal packages:
+    - snap-stack.cabal
+    
+    Selecting the best among 10 snapshots&hellip;
+    
+    Downloaded lts-8.4 build plan.
+    Fetching package index &hellip;remote: Counting objects: 2259, done.
+    remote: Compressing objects: 100% (98/98), done.
+    remote: Total 2259 (delta 810), reused 785 (delta 785), pack-reused 1369
+    Receiving objects: 100% (2259/2259), 1.92 MiB | 359.00 KiB/s, done.
+    Resolving deltas: 100% (906/906), completed with 374 local objects.
+    From https://github.com/commercialhaskell/all-cabal-hashes
+       93b8c00..98d707f  hackage    -> origin/hackage
+     - [tag update]      current-hackage -> current-hackage
+    Fetched package index.
+    Populated index cache.
+    * Matches lts-8.4
+    
+    Selected resolver: lts-8.4
+    Initializing configuration using resolver: lts-8.4
+    Total number of user packages considered: 1
+    Writing configuration to file: stack.yaml
+    All done.
+    $
+    </code></pre>
     
     <p>Stack looks at the dependencies <code>.cabal</code> (created by Snap) and 
     tries<label for='mn-demo' class='margin-toggle'>&#8853;</label>
@@ -103,12 +103,12 @@ haskell, stack
     package set.  If you try to build, and don&rsquo;t have the correct compiler already installed by Stack, you get this output:
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack build</line>
-    <line>No compiler found, expected minor version match with ghc-8.0.2 (x86_64) (based on resolver setting in /Users/mark/src/markbucciarelli.com/sandbox/snap-stack/stack.yaml).</line>
-    <line>To install the correct GHC into /Users/mark/.stack/programs/x86_64-osx/, try running "stack setup" or use the "--install-ghc" flag.</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ stack build
+    No compiler found, expected minor version match with ghc-8.0.2 (x86_64) (based on resolver setting in /Users/mark/src/markbucciarelli.com/sandbox/snap-stack/stack.yaml).
+    To install the correct GHC into /Users/mark/.stack/programs/x86_64-osx/, try running "stack setup" or use the "--install-ghc" flag.
+    $
+    </code></pre>
     
     <p>
     LTS 8.4<label for='mn-ghc' class='margin-toggle'>&#8853;</label>
@@ -120,19 +120,19 @@ haskell, stack
     install.
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack setup</line>
-    <line>Preparing to install GHC to an isolated location.</line>
-    <line>This will not interfere with any system-level installation.</line>
-    <line>Downloaded ghc-8.0.2.</line>
-    <line>Installed GHC.</line>
-    <line>stack will use a sandboxed GHC it installed</line>
-    <line>For more information on paths, see &rsquo;stack path&rsquo; and &rsquo;stack exec env&rsquo;</line>
-    <line>To use this GHC and packages outside of a project, consider using:</line>
-    <line>stack ghc, stack ghci, stack runghc, or stack exec</line>
-    <line>$</line>
-    <line></line>
-    </pre>
+            <pre><code>
+    $ stack setup
+    Preparing to install GHC to an isolated location.
+    This will not interfere with any system-level installation.
+    Downloaded ghc-8.0.2.
+    Installed GHC.
+    stack will use a sandboxed GHC it installed
+    For more information on paths, see &rsquo;stack path&rsquo; and &rsquo;stack exec env&rsquo;
+    To use this GHC and packages outside of a project, consider using:
+    stack ghc, stack ghci, stack runghc, or stack exec
+    $
+    
+    </code></pre>
     
     <p>Note that ghc is not installed on your path, to run the interpreter, you must run <code>stack ghci</code>.
     
@@ -142,32 +142,32 @@ haskell, stack
     
     <h2>Confirm the project builds with Stack.</h2>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack build</line>
-    <line>[1 of 2] Compiling Main             ( /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.o )</line>
-    <line>[2 of 2] Compiling StackSetupShim   ( /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.o )</line>
-    <line>Linking /Users/mark/.stack/setup-exe-cache/x86_64-osx/tmp-Cabal-simple_mPHDZzAJ_1.24.2.0_ghc-8.0.2 &hellip;</line>
-    <line>bytestring-builder-0.10.8.1.0: configure</line>
-    <line>call-stack-0.1.0: download</line>
-    <line>integer-logarithms-1.0.1: download</line>
-    <line>bytestring-builder-0.10.8.1.0: build</line>
-    <line>network-2.6.3.1: configure</line>
-    <line>bytestring-builder-0.10.8.1.0: copy/register</line>
-    <line>network-2.6.3.1: build</line>
-    <line>primitive-0.6.1.0: configure</line>
-    <line>primitive-0.6.1.0: build</line>
-    <line>mtl-2.2.1: configure</line>
-    <line>mtl-2.2.1: build</line>
-    <line>old-locale-1.0.0.7: configure</line>
-    <line>old-locale-1.0.0.7: build</line>
-    <line>clock-0.7.2: configure</line>
-    <line>clock-0.7.2: build</line>
-    <line>call-stack-0.1.0: configure</line>
-    <line>old-locale-1.0.0.7: copy/register</line>
-    <line>[&hellip; deleted 100 lines &hellip;]</line>
-    <line>Completed 34 action(s).</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ stack build
+    [1 of 2] Compiling Main             ( /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-mPHDZzAJ.o )
+    [2 of 2] Compiling StackSetupShim   ( /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.hs, /Users/mark/.stack/setup-exe-src/setup-shim-mPHDZzAJ.o )
+    Linking /Users/mark/.stack/setup-exe-cache/x86_64-osx/tmp-Cabal-simple_mPHDZzAJ_1.24.2.0_ghc-8.0.2 &hellip;
+    bytestring-builder-0.10.8.1.0: configure
+    call-stack-0.1.0: download
+    integer-logarithms-1.0.1: download
+    bytestring-builder-0.10.8.1.0: build
+    network-2.6.3.1: configure
+    bytestring-builder-0.10.8.1.0: copy/register
+    network-2.6.3.1: build
+    primitive-0.6.1.0: configure
+    primitive-0.6.1.0: build
+    mtl-2.2.1: configure
+    mtl-2.2.1: build
+    old-locale-1.0.0.7: configure
+    old-locale-1.0.0.7: build
+    clock-0.7.2: configure
+    clock-0.7.2: build
+    call-stack-0.1.0: configure
+    old-locale-1.0.0.7: copy/register
+    [&hellip; deleted 100 lines &hellip;]
+    Completed 34 action(s).
+    $
+    </code></pre>
     
     <p>Success!
     
@@ -180,83 +180,83 @@ haskell, stack
     
     <h3>Create an empty Stack project in the sub directory <code>tmp</code>.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack new tmp</line>
-    <line>Downloading template "new-template" to create project "tmp" in tmp/ &hellip;</line>
-    <line></line>
-    <line>The following parameters were needed by the template but not provided: author-email, author-name, category, copyright, github-username</line>
-    <line>You can provide them in /Users/mark/.stack/config.yaml, like this:</line>
-    <line>templates:</line>
-    <line>  params:</line>
-    <line>    author-email: value</line>
-    <line>    author-name: value</line>
-    <line>    category: value</line>
-    <line>    copyright: value</line>
-    <line>    github-username: value</line>
-    <line>Or you can pass each one as parameters like this:</line>
-    <line>stack new tmp new-template -p "author-email:value" -p "author-name:value" -p "category:value" -p "copyright:value" -p "github-username:value"</line>
-    <line></line>
-    <line>Looking for .cabal or package.yaml files to use to init the project.</line>
-    <line>Using cabal packages:</line>
-    <line>- tmp/tmp.cabal</line>
-    <line></line>
-    <line>Selecting the best among 10 snapshots&hellip;</line>
-    <line></line>
-    <line>* Matches lts-8.4</line>
-    <line></line>
-    <line>Selected resolver: lts-8.4</line>
-    <line>Initialising configuration using resolver: lts-8.4</line>
-    <line>Total number of user packages considered: 1</line>
-    <line>Writing configuration to file: tmp/stack.yaml</line>
-    <line>All done.</line>
-    <line>$ cd tmp</line>
-    </pre>
+            <pre><code>
+    $ stack new tmp
+    Downloading template "new-template" to create project "tmp" in tmp/ &hellip;
+    
+    The following parameters were needed by the template but not provided: author-email, author-name, category, copyright, github-username
+    You can provide them in /Users/mark/.stack/config.yaml, like this:
+    templates:
+      params:
+        author-email: value
+        author-name: value
+        category: value
+        copyright: value
+        github-username: value
+    Or you can pass each one as parameters like this:
+    stack new tmp new-template -p "author-email:value" -p "author-name:value" -p "category:value" -p "copyright:value" -p "github-username:value"
+    
+    Looking for .cabal or package.yaml files to use to init the project.
+    Using cabal packages:
+    - tmp/tmp.cabal
+    
+    Selecting the best among 10 snapshots&hellip;
+    
+    * Matches lts-8.4
+    
+    Selected resolver: lts-8.4
+    Initialising configuration using resolver: lts-8.4
+    Total number of user packages considered: 1
+    Writing configuration to file: tmp/stack.yaml
+    All done.
+    $ cd tmp
+    </code></pre>
     
     <p>The standard Stack directories:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ tree tmp</line>
-    <line>tmp</line>
-    <line>├── LICENSE</line>
-    <line>├── Setup.hs</line>
-    <line>├── app</line>
-    <line>│   └── Main.hs</line>
-    <line>├── src</line>
-    <line>│   └── Lib.hs</line>
-    <line>├── stack.yaml</line>
-    <line>├── test</line>
-    <line>│   └── Spec.hs</line>
-    <line>└── tmp.cabal</line>
-    <line></line>
-    <line>3 directories, 7 files</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ tree tmp
+    tmp
+    ├── LICENSE
+    ├── Setup.hs
+    ├── app
+    │   └── Main.hs
+    ├── src
+    │   └── Lib.hs
+    ├── stack.yaml
+    ├── test
+    │   └── Spec.hs
+    └── tmp.cabal
+    
+    3 directories, 7 files
+    $
+    </code></pre>
     
     <p>No change in <code>stack.yaml</code>:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ diff stack.yaml tmp/stack.yaml</line>
-    <line>$</line>
-    </pre>
+            <pre><code>
+    $ diff stack.yaml tmp/stack.yaml
+    $
+    </code></pre>
     
     <h3>Move directories around.</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ mv src app</line>
-    <line>$ mv tmp/src .</line>
-    <line>$ mv tmp/test .</line>
-    </pre>
+            <pre><code>
+    $ mv src app
+    $ mv tmp/src .
+    $ mv tmp/test .
+    </code></pre>
     
     <h3>Update cabal file.</h3>
     
     <p>The Stack one is bigger, so start with that.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ ls -l snap-stack.cabal</line>
-    <line>-rw-r--r--  1 mark  staff  960 Mar  7 21:44 snap-stack.cabal</line>
-    <line>$ ls -l tmp/tmp.cabal</line>
-    <line>-rw-r--r--  1 mark  staff  1158 Mar  8 06:13 tmp/tmp.cabal</line>
-    </pre>
+            <pre><code>
+    $ ls -l snap-stack.cabal
+    -rw-r--r--  1 mark  staff  960 Mar  7 21:44 snap-stack.cabal
+    $ ls -l tmp/tmp.cabal
+    -rw-r--r--  1 mark  staff  1158 Mar  8 06:13 tmp/tmp.cabal
+    </code></pre>
     
     <p>Copy:
     
@@ -277,64 +277,64 @@ haskell, stack
     <p>We end up with the following diff:
     
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ diff -uw tmp/tmp.cabal.orig snap-stack.cabal</line>
-    <line>&mdash; tmp/tmp.cabal.orig    2017-03-08 06:41:24.000000000 -0500</line>
-    <line>+++ snap-stack.cabal    2017-03-08 06:59:30.000000000 -0500</line>
-    <line>@@ -1,16 +1,14 @@</line>
-    <line>-name:                tmp</line>
-    <line>+name:                snap-stack</line>
-    <line> version:             0.1.0.0</line>
-    <line> -- synopsis:</line>
-    <line> -- description:</line>
-    <line>-homepage:            https://github.com/githubuser/tmp#readme</line>
-    <line>+homepage:            https://github.com/githubuser/snap-stack#readme</line>
-    <line> license:             BSD3</line>
-    <line>-license-file:        LICENSE</line>
-    <line> author:              Author name here</line>
-    <line> maintainer:          example@example.com</line>
-    <line> copyright:           2017 Author name here</line>
-    <line> category:            Web</line>
-    <line> build-type:          Simple</line>
-    <line>-extra-source-files:  README.md</line>
-    <line> cabal-version:       >=1.10</line>
-    <line></line>
-    <line> library</line>
-    <line>@@ -19,23 +17,28 @@</line>
-    <line>   build-depends:       base >= 4.7 && < 5</line>
-    <line>   default-language:    Haskell2010</line>
-    <line></line>
-    <line>-executable tmp-exe</line>
-    <line>+executable snap-stack-exe</line>
-    <line>   hs-source-dirs:      app</line>
-    <line>   main-is:             Main.hs</line>
-    <line>   ghc-options:         -threaded -rtsopts -with-rtsopts=-N</line>
-    <line>   build-depends:       base</line>
-    <line>-                     , tmp</line>
-    <line>+                     , snap-stack</line>
-    <line>+                     , bytestring                >= 0.9.1 && < 0.11</line>
-    <line>+                     , monad-control             >= 1.0   && < 1.1</line>
-    <line>+                     , mtl                       >= 2     && < 3</line>
-    <line>+                     , snap-core                 >= 1.0   && < 1.1</line>
-    <line>+                     , snap-server               >= 1.0   && < 1.1</line>
-    <line>   default-language:    Haskell2010</line>
-    <line></line>
-    <line>-test-suite tmp-test</line>
-    <line>+test-suite snap-stack-test</line>
-    <line>   type:                exitcode-stdio-1.0</line>
-    <line>   hs-source-dirs:      test</line>
-    <line>   main-is:             Spec.hs</line>
-    <line>   build-depends:       base</line>
-    <line>-                     , tmp</line>
-    <line>+                     , snap-stack</line>
-    <line>   ghc-options:         -threaded -rtsopts -with-rtsopts=-N</line>
-    <line>   default-language:    Haskell2010</line>
-    <line></line>
-    <line> source-repository head</line>
-    <line>   type:     git</line>
-    <line>-  location: https://github.com/githubuser/tmp</line>
-    <line>+  location: https://github.com/githubuser/snap-stack</line>
-    </pre>
+            <pre><code>
+    $ diff -uw tmp/tmp.cabal.orig snap-stack.cabal
+    &mdash; tmp/tmp.cabal.orig    2017-03-08 06:41:24.000000000 -0500
+    +++ snap-stack.cabal    2017-03-08 06:59:30.000000000 -0500
+    @@ -1,16 +1,14 @@
+    -name:                tmp
+    +name:                snap-stack
+     version:             0.1.0.0
+     -- synopsis:
+     -- description:
+    -homepage:            https://github.com/githubuser/tmp#readme
+    +homepage:            https://github.com/githubuser/snap-stack#readme
+     license:             BSD3
+    -license-file:        LICENSE
+     author:              Author name here
+     maintainer:          example@example.com
+     copyright:           2017 Author name here
+     category:            Web
+     build-type:          Simple
+    -extra-source-files:  README.md
+     cabal-version:       >=1.10
+    
+     library
+    @@ -19,23 +17,28 @@
+       build-depends:       base >= 4.7 && < 5
+       default-language:    Haskell2010
+    
+    -executable tmp-exe
+    +executable snap-stack-exe
+       hs-source-dirs:      app
+       main-is:             Main.hs
+       ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+       build-depends:       base
+    -                     , tmp
+    +                     , snap-stack
+    +                     , bytestring                >= 0.9.1 && < 0.11
+    +                     , monad-control             >= 1.0   && < 1.1
+    +                     , mtl                       >= 2     && < 3
+    +                     , snap-core                 >= 1.0   && < 1.1
+    +                     , snap-server               >= 1.0   && < 1.1
+       default-language:    Haskell2010
+    
+    -test-suite tmp-test
+    +test-suite snap-stack-test
+       type:                exitcode-stdio-1.0
+       hs-source-dirs:      test
+       main-is:             Spec.hs
+       build-depends:       base
+    -                     , tmp
+    +                     , snap-stack
+       ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+       default-language:    Haskell2010
+    
+     source-repository head
+       type:     git
+    -  location: https://github.com/githubuser/tmp
+    +  location: https://github.com/githubuser/snap-stack
+    </code></pre>
     
     </section>
     
@@ -343,19 +343,19 @@ haskell, stack
     
     <p>Start web server on localhost &hellip;
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ stack exec snap-stack</line>
-    <line>no port specified, defaulting to port 8000</line>
-    <line>Listening on http://0.0.0.0:8000</line>
-    </pre>
+            <pre><code>
+    $ stack exec snap-stack
+    no port specified, defaulting to port 8000
+    Listening on http://0.0.0.0:8000
+    </code></pre>
     
     <p>&hellip; and test.
     
-    <!-- vi: .,/<\/pre/-1 s;.*;<line>&</line>;   -->
-            <pre class='code with-wrapping fullwidth'>
-    <line>$ curl localhost:8000</line>
-    <line>hello world~$</line>
-    </pre>
+    <!-- vi: .,/<\/pre/-1 s;.*;&;   -->
+            <pre><code>
+    $ curl localhost:8000
+    hello world~$
+    </code></pre>
     
     
     

@@ -12,12 +12,12 @@ alpine
         <li>tarsnap 1.0.39</li>
       </ol>
     
-      <pre class='code with-wrapping fullwidth'>
-    <line>tarsnap --keyfile tarsnap.key  --list-archives | sort | tail -1</line>
-    <line># wait for it ...</line>
+      <pre><code>
+    tarsnap --keyfile tarsnap.key  --list-archives | sort | tail -1
+    # wait for it ...
     
-    <line># ... then list the contents of the last file</line>
-    <line>tarsnap --keyfile tarsnap.key  -tvf tallis-2019-01-09_05-02-00</line>
-    </pre>
+    # ... then list the contents of the last file
+    tarsnap --keyfile tarsnap.key  -tvf tallis-2019-01-09_05-02-00
+    </code></pre>
     
     </section>

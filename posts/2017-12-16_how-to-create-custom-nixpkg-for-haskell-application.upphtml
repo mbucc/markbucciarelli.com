@@ -47,33 +47,33 @@ haskell, nix
     
     <p>OSX:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ nix-channel add https://nixos.org/channels/nixpkgs-17.09-darwin</line>
-    </pre>
+    <pre><code>
+    $ nix-channel add https://nixos.org/channels/nixpkgs-17.09-darwin
+    </code></pre>
     
     <p>GNU/Linux:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ nix-channel add https://nixos.org/channels/nixpkgs-17.09</line>
-    </pre>
+    <pre><code>
+    $ nix-channel add https://nixos.org/channels/nixpkgs-17.09
+    </code></pre>
     
     
     
     <h3>Step 2: Install cabal2nix</h3>
       
-    <pre class="code with-wrapping fullwidth">
-    <line>$ nix-env -i cabal2nix</line>
-    <line>installing ‘cabal2nix-2.6’</line>
-    <line>these paths will be fetched (0.00 MiB download, 0.00 MiB unpacked):</line>
-    <line>  /nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc</line>
-    <line>fetching path ‘/nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc’&hellip;</line>
-    <line></line>
-    <line>*** Downloading ‘https://cache.nixos.org/nar/0zw5lhqzz21cyf7l6cs211alv211ykngjx11ngk0y8yd37gr0ih9.nar.xz’ (signed by ‘cache.nixos.org-1’) to ‘/nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc’&hellip;</line>
-    <line>&hellip;</line>
-    <line>building path(s) ‘/nix/store/33jqmv0asmxk3sy84f5h86fikm95l9yj-user-environment’</line>
-    <line>created 251 symlinks in user environment</line>
-    <line>$</line>
-    </pre>
+    <pre><code>
+    $ nix-env -i cabal2nix
+    installing ‘cabal2nix-2.6’
+    these paths will be fetched (0.00 MiB download, 0.00 MiB unpacked):
+      /nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc
+    fetching path ‘/nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc’&hellip;
+    
+    *** Downloading ‘https://cache.nixos.org/nar/0zw5lhqzz21cyf7l6cs211alv211ykngjx11ngk0y8yd37gr0ih9.nar.xz’ (signed by ‘cache.nixos.org-1’) to ‘/nix/store/5qsfk8sm53bkzb29mdj0z92hzdpl955h-cabal2nix-2.6-doc’&hellip;
+    &hellip;
+    building path(s) ‘/nix/store/33jqmv0asmxk3sy84f5h86fikm95l9yj-user-environment’
+    created 251 symlinks in user environment
+    $
+    </code></pre>
     
     
     
@@ -86,49 +86,49 @@ haskell, nix
     
     <p>Convert dependencies in cabal file to a nix expression:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ cabal2nix . > eventarelli-api.nix</line>
-    <line>$ cat eventarelli-api.nix</line>
-    <line>{ mkDerivation, aeson, base, bytestring, data-default-class, hspec</line>
-    <line>, http-types, mime-types, monad-control, mtl, mustache, QuickCheck</line>
-    <line>, random, scotty, sqlite-simple, stdenv, tagsoup, text, time</line>
-    <line>, timezone-olson, timezone-series, utf8-string, wai, wai-extra</line>
-    <line>, warp, warp-tls</line>
-    <line>}:</line>
-    <line>mkDerivation {</line>
-    <line>  pname = "eventarelli-api";</line>
-    <line>  version = "1.1.0";</line>
-    <line>  src = ./.;</line>
-    <line>  isLibrary = true;</line>
-    <line>  isExecutable = true;</line>
-    <line>  libraryHaskellDepends = [</line>
-    <line>    aeson base bytestring mustache sqlite-simple tagsoup text time</line>
-    <line>    timezone-olson timezone-series utf8-string</line>
-    <line>  ];</line>
-    <line>  executableHaskellDepends = [</line>
-    <line>    aeson base bytestring data-default-class http-types mime-types</line>
-    <line>    monad-control mtl mustache random scotty sqlite-simple text time</line>
-    <line>    timezone-olson timezone-series utf8-string wai wai-extra warp</line>
-    <line>    warp-tls</line>
-    <line>  ];</line>
-    <line>  testHaskellDepends = [</line>
-    <line>    base hspec mtl QuickCheck sqlite-simple time timezone-olson</line>
-    <line>    timezone-series</line>
-    <line>  ];</line>
-    <line>  description = "Backend for Eventarelli web site";</line>
-    <line>  license = stdenv.lib.licenses.unfree;</line>
-    <line>}</line>
-    <line>$ </line>
-    <line>$ cat > default.nix</line>
-    <line>{ nixpkgs ? import <nixpkgs> {}, compiler ? "ghc802" }:</line>
-    <line>nixpkgs.pkgs.haskell.packages.${compiler}.callPackage ./eventarelli-api.nix { } </line>
-    <line>$ </line>
-    <line>$ </line>
-    <line>$ cat > shell.nix</line>
-    <line>{ nixpkgs ? import <nixpkgs> {}, compiler ? "ghc802" }:</line>
-    <line>(import ./default.nix { inherit nixpkgs compiler; }).env</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ cabal2nix . > eventarelli-api.nix
+    $ cat eventarelli-api.nix
+    { mkDerivation, aeson, base, bytestring, data-default-class, hspec
+    , http-types, mime-types, monad-control, mtl, mustache, QuickCheck
+    , random, scotty, sqlite-simple, stdenv, tagsoup, text, time
+    , timezone-olson, timezone-series, utf8-string, wai, wai-extra
+    , warp, warp-tls
+    }:
+    mkDerivation {
+      pname = "eventarelli-api";
+      version = "1.1.0";
+      src = ./.;
+      isLibrary = true;
+      isExecutable = true;
+      libraryHaskellDepends = [
+        aeson base bytestring mustache sqlite-simple tagsoup text time
+        timezone-olson timezone-series utf8-string
+      ];
+      executableHaskellDepends = [
+        aeson base bytestring data-default-class http-types mime-types
+        monad-control mtl mustache random scotty sqlite-simple text time
+        timezone-olson timezone-series utf8-string wai wai-extra warp
+        warp-tls
+      ];
+      testHaskellDepends = [
+        base hspec mtl QuickCheck sqlite-simple time timezone-olson
+        timezone-series
+      ];
+      description = "Backend for Eventarelli web site";
+      license = stdenv.lib.licenses.unfree;
+    }
+    $ 
+    $ cat > default.nix
+    { nixpkgs ? import <nixpkgs> {}, compiler ? "ghc802" }:
+    nixpkgs.pkgs.haskell.packages.${compiler}.callPackage ./eventarelli-api.nix { } 
+    $ 
+    $ 
+    $ cat > shell.nix
+    { nixpkgs ? import <nixpkgs> {}, compiler ? "ghc802" }:
+    (import ./default.nix { inherit nixpkgs compiler; }).env
+    $ 
+    </code></pre>
     
     <h3>Step 4: Build the package</h3>
     
@@ -141,63 +141,63 @@ haskell, nix
       <footer>Nixpkgs Contributors Guide, <cite><a href="https://nixos.org/nixpkgs/manual/#how-to-create-nix-builds-for-your-own-private-haskell-packages">9.5.3.1. How to build a stand-alone project</a></cite> (Version 17.09.2378.af7e47921c4)</footer>
     </blockquote>
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ export NIX_PATH=nixpkgs=/Users/mark/.nix-defexpr/channels/nixpkgs-17.09-darwin</line>
-    <line>$ nix-build </line>
-    <line>error: Package ‘eventarelli-api-1.1.0’ in /Users/mark/src/mycode/eventarelli/eventarelli/api/eventarelli-api.nix:8 has an unfree license (‘unfree’), refusing to evaluate.</line>
-    <line></line>
-    <line>a) For &lsquo;nixos-rebuild&lsquo; you can set</line>
-    <line>  { nixpkgs.config.allowUnfree = true; }</line>
-    <line>in configuration.nix to override this.</line>
-    <line></line>
-    <line>b) For &lsquo;nix-env&lsquo;, &lsquo;nix-build&lsquo;, &lsquo;nix-shell&lsquo; or any other Nix command you can add</line>
-    <line>  { allowUnfree = true; }</line>
-    <line>to ~/.config/nixpkgs/config.nix.</line>
-    <line></line>
-    <line>$ find $HOME -maxdepth 2 -type f | grep config.nix</line>
-    <line>/Users/mark/.nixpkgs/config.nix</line>
-    <line>$ vi /Users/mark/.nixpkgs/config.nix</line>
-    <line>$ cat /Users/mark/.nixpkgs/config.nix</line>
-    <line> {</line>
-    <line>   allowBroken = true;</line>
-    <line>   pkgs = {</line>
-    <line>     vim = {</line>
-    <line>       python = true;</line>
-    <line>     };</line>
-    <line>   };</line>
-    <line>   allowUnfree = true;</line>
-    <line>}</line>
-    <line>$ nix-build</line>
-    <line>these derivations will be built:</line>
-    <line>  /nix/store/74wxmnrac9d777h5asj6fpvv5hkis7sb-remove-references-to.drv</line>
-    <line>  /nix/store/5kwhv5qn0qq9bjn4agqw51pmy1nsckgg-eventarelli-api-1.1.0.drv</line>
-    <line>these paths will be fetched (264.60 MiB download, 2159.94 MiB unpacked):</line>
-    <line>  /nix/store/009s1l4g2f3cc9ndb27j5inplry6xd6r-async-2.1.1.1-doc</line>
-    <line>  /nix/store/06mi088axz39hn09llyciciwm9wf6ri5-regex-posix-0.95.2-doc</line>
-    <line>  /nix/store/0bg4sdpkngwfpyrqq55jjkmd3k8s9qb6-libyaml-0.1.7</line>
-    <line>&hellip;</line>
-    <line>Creating package registration file:</line>
-    <line>/nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib/ghc-8.0.2/package.conf.d/eventarelli-api-1.1.0.conf</line>
-    <line>post-installation fix up</line>
-    <line>stripping (with flags -S) in /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib  /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/bin </line>
-    <line>patching script interpreter paths in /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0</line>
-    <line>patching script interpreter paths in /nix/store/ghvid80b6q5hygh4a6sav2fm7lmvamwr-eventarelli-api-1.1.0-doc</line>
-    <line>/nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0</line>
-    <line>$</line>
-    </pre>
+    <pre><code>
+    $ export NIX_PATH=nixpkgs=/Users/mark/.nix-defexpr/channels/nixpkgs-17.09-darwin
+    $ nix-build 
+    error: Package ‘eventarelli-api-1.1.0’ in /Users/mark/src/mycode/eventarelli/eventarelli/api/eventarelli-api.nix:8 has an unfree license (‘unfree’), refusing to evaluate.
+    
+    a) For &lsquo;nixos-rebuild&lsquo; you can set
+      { nixpkgs.config.allowUnfree = true; }
+    in configuration.nix to override this.
+    
+    b) For &lsquo;nix-env&lsquo;, &lsquo;nix-build&lsquo;, &lsquo;nix-shell&lsquo; or any other Nix command you can add
+      { allowUnfree = true; }
+    to ~/.config/nixpkgs/config.nix.
+    
+    $ find $HOME -maxdepth 2 -type f | grep config.nix
+    /Users/mark/.nixpkgs/config.nix
+    $ vi /Users/mark/.nixpkgs/config.nix
+    $ cat /Users/mark/.nixpkgs/config.nix
+     {
+       allowBroken = true;
+       pkgs = {
+         vim = {
+           python = true;
+         };
+       };
+       allowUnfree = true;
+    }
+    $ nix-build
+    these derivations will be built:
+      /nix/store/74wxmnrac9d777h5asj6fpvv5hkis7sb-remove-references-to.drv
+      /nix/store/5kwhv5qn0qq9bjn4agqw51pmy1nsckgg-eventarelli-api-1.1.0.drv
+    these paths will be fetched (264.60 MiB download, 2159.94 MiB unpacked):
+      /nix/store/009s1l4g2f3cc9ndb27j5inplry6xd6r-async-2.1.1.1-doc
+      /nix/store/06mi088axz39hn09llyciciwm9wf6ri5-regex-posix-0.95.2-doc
+      /nix/store/0bg4sdpkngwfpyrqq55jjkmd3k8s9qb6-libyaml-0.1.7
+    &hellip;
+    Creating package registration file:
+    /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib/ghc-8.0.2/package.conf.d/eventarelli-api-1.1.0.conf
+    post-installation fix up
+    stripping (with flags -S) in /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib  /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/bin 
+    patching script interpreter paths in /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0
+    patching script interpreter paths in /nix/store/ghvid80b6q5hygh4a6sav2fm7lmvamwr-eventarelli-api-1.1.0-doc
+    /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0
+    $
+    </code></pre>
     
     
     <h3>Step 5: Install the package</h3>
     
     <p>Immutability:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ rm -rf result</line>
-    <line>$ stack clean</line>
-    <line>$ nix-build</line>
-    <line>/nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ rm -rf result
+    $ stack clean
+    $ nix-build
+    /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0
+    $ 
+    </code></pre>
     
     <p>Note that if we hadn&rsquo;t deleted the <code>result</code> directory,
     we would have rebuild a different hash (i.e., another version of
@@ -206,24 +206,24 @@ haskell, nix
     
     <p>Ok, let&rsquo;s install it:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ rm result</line>
-    <line>$ nix-env -f default.nix -i eventarelli-api</line>
-    <line>installing ‘eventarelli-api-1.1.0’</line>
-    <line>building path(s) ‘/nix/store/qzhcw2ypa4h1ll62qf3d77ivgbgk7gha-user-environment’</line>
-    <line>created 259 symlinks in user environment</line>
-    <line>$</line>
-    </pre>
+    <pre><code>
+    $ rm result
+    $ nix-env -f default.nix -i eventarelli-api
+    installing ‘eventarelli-api-1.1.0’
+    building path(s) ‘/nix/store/qzhcw2ypa4h1ll62qf3d77ivgbgk7gha-user-environment’
+    created 259 symlinks in user environment
+    $
+    </code></pre>
     
     <p>And run it:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ eventarelli-api </line>
-    <line>eventarelli-api: error: export ELMARELLI_TEMPLATES=<val></line>
-    <line>CallStack (from HasCallStack):</line>
-    <line>  error, called at src/Main.hs:78:16 in main:Main</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ eventarelli-api 
+    eventarelli-api: error: export ELMARELLI_TEMPLATES=<val>
+    CallStack (from HasCallStack):
+      error, called at src/Main.hs:78:16 in main:Main
+    $ 
+    </code></pre>
     
     </section>
     
@@ -232,35 +232,35 @@ haskell, nix
     
     <h3>Where is executable?</h3>
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ which eventarelli-api</line>
-    <line>/Users/mark/.nix-profile/bin/eventarelli-api</line>
-    <line>$ ls -l $(which eventarelli-api)</line>
-    <line>lrwxr-xr-x  1 root  wheel  85 Dec 31  1969 /Users/mark/.nix-profile/bin/eventarelli-api -> /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/bin/eventarelli-api</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ which eventarelli-api
+    /Users/mark/.nix-profile/bin/eventarelli-api
+    $ ls -l $(which eventarelli-api)
+    lrwxr-xr-x  1 root  wheel  85 Dec 31  1969 /Users/mark/.nix-profile/bin/eventarelli-api -> /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/bin/eventarelli-api
+    $ 
+    </code></pre>
     
     
     <h3>What is in /nix/store for the app?</h3>
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ tree -d -L 3 /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/</line>
-    <line>/nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/</line>
-    <line>├── bin</line>
-    <line>├── lib</line>
-    <line>│   ├── ghc-8.0.2</line>
-    <line>│   │   ├── eventarelli-api-1.1.0</line>
-    <line>│   │   ├── package.conf.d</line>
-    <line>│   │   └── x86_64-osx-ghc-8.0.2</line>
-    <line>│   └── links</line>
-    <line>└── nix-support</line>
-    </pre>
+    <pre><code>
+    $ tree -d -L 3 /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/
+    /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/
+    ├── bin
+    ├── lib
+    │   ├── ghc-8.0.2
+    │   │   ├── eventarelli-api-1.1.0
+    │   │   ├── package.conf.d
+    │   │   └── x86_64-osx-ghc-8.0.2
+    │   └── links
+    └── nix-support
+    </code></pre>
     
     <p>Lots of stuff!  In fact: <code>du -sh</code> says 7.4M of stuff in 39 different files.
     
     <p>The <code>ghc-8.0.2</code> directory holds outputs from ghc.  This makes up 37 of the files.
     
-    <pre class="code with-wrapping fullwidth">
+    <pre><code>
     $ tree /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib/ghc-8.0.2 | head
     /nix/store/4asrshpg52rh9dnrissailjs4xwyl9x1-eventarelli-api-1.1.0/lib/ghc-8.0.2
     ├── eventarelli-api-1.1.0
@@ -272,15 +272,15 @@ haskell, nix
     │   │   ├── Venue.dyn_hi
     │   │   └── Venue.hi
     │   ├── Commands.dyn_hi
-    </pre>
+    </code></pre>
     
     <p> The <code>lib/links</code> directory holds a ton of symbolic links (149 to be exact).
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ ls -l |head -2 | tail -1</line>
-    <line>lrwxr-xr-x  1 root  wheel  149 Dec 31  1969 libHSHUnit-1.5.0.0-DvjF79OHhCC7SzfeEty4OI-ghc8.0.2.dylib -> /nix/store/7r29b8b1xf7h6pfxh0r1b2n5grg9bm0d-HUnit-1.5.0.0/lib/ghc-8.0.2/x86_64-osx-ghc-8.0.2/libHSHUnit-1.5.0.0-DvjF79OHhCC7SzfeEty4OI-ghc8.0.2.dylib</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ ls -l |head -2 | tail -1
+    lrwxr-xr-x  1 root  wheel  149 Dec 31  1969 libHSHUnit-1.5.0.0-DvjF79OHhCC7SzfeEty4OI-ghc8.0.2.dylib -> /nix/store/7r29b8b1xf7h6pfxh0r1b2n5grg9bm0d-HUnit-1.5.0.0/lib/ghc-8.0.2/x86_64-osx-ghc-8.0.2/libHSHUnit-1.5.0.0-DvjF79OHhCC7SzfeEty4OI-ghc8.0.2.dylib
+    $ 
+    </code></pre>
     
     <p>My app depends on HUnit, and the version it uses is <code>/nix/store/7r29b8b1xf7h6pfxh0r1b2n5grg9bm0d-HUnit-1.5.0.0</code>.
     If this dependency was upgraded, it would be a different immutable package and my application hash would be different.  But my the previous
@@ -353,30 +353,30 @@ haskell, nix
     
     <p>You can list what profiles nix-store uses by
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ nix-store --gc --print-roots</line>
-    <line>/Users/mark/src/mycode/eventarelli/eventarelli-deploy/elmarelli-api/result -> /nix/store/z8iikvbgxclxfa213h5p32ph8qk8dlci-elmarelli-api-1.1.0</line>
-    <line>/nix/var/nix/profiles/default-1-link -> /nix/store/asgx51wzbswgg1j506pg7sq4jyclv0qn-user-environment</line>
-    <line>/nix/var/nix/profiles/default-2-link -> /nix/store/4yj1xa5dbdy1ccdhnqpma16hfi6aly10-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/channels-1-link -> /nix/store/p4y8j01s28xy9z8yqschnwl0gnkbvyql-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/channels-2-link -> /nix/store/cfdi9c63z5c82k002xjb937f4gl3mnv7-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-1-link -> /nix/store/a8jn4axpj24sa43zmi1f9gc1g9in0jr1-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-10-link -> /nix/store/b54m0gp0dp5n5xdai0vh570rd98q06k9-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-11-link -> /nix/store/mrj4nb5nsp3lvijiazccp73mjzjn3ffy-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-12-link -> /nix/store/qzhcw2ypa4h1ll62qf3d77ivgbgk7gha-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-13-link -> /nix/store/mrj4nb5nsp3lvijiazccp73mjzjn3ffy-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-2-link -> /nix/store/wv3qbp2jhxi21wgfz8bjir37hwydkm2k-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-3-link -> /nix/store/kli1w7b79j4rwc1rdbrrlnw9lcm0jhpi-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-4-link -> /nix/store/9i0i0j8lxc4541i09njhzfzbdmcck4fq-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-5-link -> /nix/store/nkq331785flvbydry3f66j9l69qz9yyf-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-6-link -> /nix/store/wvm0s8qv3a76kr44qxgn49v6n5df2sda-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-7-link -> /nix/store/33jqmv0asmxk3sy84f5h86fikm95l9yj-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-8-link -> /nix/store/6j9kadfschyvsqxnkx4x7k575wvqdqiv-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/mark/profile-9-link -> /nix/store/xmz347y7r53hz2j8v8gx1ayipl0481cs-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/root/channels-1-link -> /nix/store/y9bzakg6jiac6nz6z79njcyqwfy1cjp9-user-environment</line>
-    <line>/nix/var/nix/profiles/per-user/root/channels-2-link -> /nix/store/p4y8j01s28xy9z8yqschnwl0gnkbvyql-user-environment</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ nix-store --gc --print-roots
+    /Users/mark/src/mycode/eventarelli/eventarelli-deploy/elmarelli-api/result -> /nix/store/z8iikvbgxclxfa213h5p32ph8qk8dlci-elmarelli-api-1.1.0
+    /nix/var/nix/profiles/default-1-link -> /nix/store/asgx51wzbswgg1j506pg7sq4jyclv0qn-user-environment
+    /nix/var/nix/profiles/default-2-link -> /nix/store/4yj1xa5dbdy1ccdhnqpma16hfi6aly10-user-environment
+    /nix/var/nix/profiles/per-user/mark/channels-1-link -> /nix/store/p4y8j01s28xy9z8yqschnwl0gnkbvyql-user-environment
+    /nix/var/nix/profiles/per-user/mark/channels-2-link -> /nix/store/cfdi9c63z5c82k002xjb937f4gl3mnv7-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-1-link -> /nix/store/a8jn4axpj24sa43zmi1f9gc1g9in0jr1-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-10-link -> /nix/store/b54m0gp0dp5n5xdai0vh570rd98q06k9-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-11-link -> /nix/store/mrj4nb5nsp3lvijiazccp73mjzjn3ffy-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-12-link -> /nix/store/qzhcw2ypa4h1ll62qf3d77ivgbgk7gha-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-13-link -> /nix/store/mrj4nb5nsp3lvijiazccp73mjzjn3ffy-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-2-link -> /nix/store/wv3qbp2jhxi21wgfz8bjir37hwydkm2k-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-3-link -> /nix/store/kli1w7b79j4rwc1rdbrrlnw9lcm0jhpi-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-4-link -> /nix/store/9i0i0j8lxc4541i09njhzfzbdmcck4fq-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-5-link -> /nix/store/nkq331785flvbydry3f66j9l69qz9yyf-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-6-link -> /nix/store/wvm0s8qv3a76kr44qxgn49v6n5df2sda-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-7-link -> /nix/store/33jqmv0asmxk3sy84f5h86fikm95l9yj-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-8-link -> /nix/store/6j9kadfschyvsqxnkx4x7k575wvqdqiv-user-environment
+    /nix/var/nix/profiles/per-user/mark/profile-9-link -> /nix/store/xmz347y7r53hz2j8v8gx1ayipl0481cs-user-environment
+    /nix/var/nix/profiles/per-user/root/channels-1-link -> /nix/store/y9bzakg6jiac6nz6z79njcyqwfy1cjp9-user-environment
+    /nix/var/nix/profiles/per-user/root/channels-2-link -> /nix/store/p4y8j01s28xy9z8yqschnwl0gnkbvyql-user-environment
+    $ 
+    </code></pre>
     
     <p>This is getting into the innards of how nix works; every time you change your list of installed packages, 
     nix generates a new profile for your user. 
@@ -384,36 +384,36 @@ haskell, nix
     <p>To garbage collect a package, you must delete any profile that refers to that package.  You can either
     do this manually; for example,
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ rm /nix/var/nix/profiles/per-user/mark/profile-8-link</line>
-    </pre>
+    <pre><code>
+    $ rm /nix/var/nix/profiles/per-user/mark/profile-8-link
+    </code></pre>
     
     <p>or use the <code>nix-collect-garbage</code> utility; for example:
     
-    <pre class="code with-wrapping fullwidth">
-    <line>$ nix-collect-garbage --delete-older-than 30d</line>
-    <line>removing old generations of profile /nix/var/nix/profiles/per-user/mark/profile</line>
-    <line>removing generation 3</line>
-    <line>removing generation 2</line>
-    <line>removing generation 1</line>
-    <line>removing old generations of profile /nix/var/nix/profiles/per-user/mark/channels</line>
-    <line>finding garbage collector roots&hellip;</line>
-    <line>deleting garbage&hellip;</line>
-    <line>deleting ‘/nix/store/f9hcj6p17kxx1rd3p4979ky3y85zc30y-user-environment.drv’</line>
-    <line>deleting ‘/nix/store/kli1w7b79j4rwc1rdbrrlnw9lcm0jhpi-user-environment’</line>
-    <line>deleting ‘/nix/store/y6vkk87yg28rx8mmvafy7fz964kpn1fr-env-manifest.nix’</line>
-    <line>deleting ‘/nix/store/ssnz2ngjrz0dcaax2f5sgsm099avd4sp-user-environment.drv’</line>
-    <line>deleting ‘/nix/store/wv3qbp2jhxi21wgfz8bjir37hwydkm2k-user-environment’</line>
-    <line>deleting ‘/nix/store/hcg4wdyaj75msjdl90zv3sf2jma4ir9k-user-environment.drv’</line>
-    <line>deleting ‘/nix/store/a8jn4axpj24sa43zmi1f9gc1g9in0jr1-user-environment’</line>
-    <line>deleting ‘/nix/store/4jh7mj8a7qq2ywb5cl4yprli56fjxipl-env-manifest.nix’</line>
-    <line>deleting ‘/nix/store/x316m7rgs38306sdyx7ypy4mhkcjm116-env-manifest.nix’</line>
-    <line>deleting ‘/nix/store/trash’</line>
-    <line>deleting unused links&hellip;</line>
-    <line>note: currently hard linking saves 0.00 MiB</line>
-    <line>9 store paths deleted, 0.02 MiB freed</line>
-    <line>$ </line>
-    </pre>
+    <pre><code>
+    $ nix-collect-garbage --delete-older-than 30d
+    removing old generations of profile /nix/var/nix/profiles/per-user/mark/profile
+    removing generation 3
+    removing generation 2
+    removing generation 1
+    removing old generations of profile /nix/var/nix/profiles/per-user/mark/channels
+    finding garbage collector roots&hellip;
+    deleting garbage&hellip;
+    deleting ‘/nix/store/f9hcj6p17kxx1rd3p4979ky3y85zc30y-user-environment.drv’
+    deleting ‘/nix/store/kli1w7b79j4rwc1rdbrrlnw9lcm0jhpi-user-environment’
+    deleting ‘/nix/store/y6vkk87yg28rx8mmvafy7fz964kpn1fr-env-manifest.nix’
+    deleting ‘/nix/store/ssnz2ngjrz0dcaax2f5sgsm099avd4sp-user-environment.drv’
+    deleting ‘/nix/store/wv3qbp2jhxi21wgfz8bjir37hwydkm2k-user-environment’
+    deleting ‘/nix/store/hcg4wdyaj75msjdl90zv3sf2jma4ir9k-user-environment.drv’
+    deleting ‘/nix/store/a8jn4axpj24sa43zmi1f9gc1g9in0jr1-user-environment’
+    deleting ‘/nix/store/4jh7mj8a7qq2ywb5cl4yprli56fjxipl-env-manifest.nix’
+    deleting ‘/nix/store/x316m7rgs38306sdyx7ypy4mhkcjm116-env-manifest.nix’
+    deleting ‘/nix/store/trash’
+    deleting unused links&hellip;
+    note: currently hard linking saves 0.00 MiB
+    9 store paths deleted, 0.02 MiB freed
+    $ 
+    </code></pre>
     
     <p>Another way to fix things, which I figured out before getting on chat, was to run <code>nix-build --repair</code> as root.
     

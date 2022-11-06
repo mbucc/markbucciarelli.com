@@ -72,41 +72,41 @@ erlang
     </span>
     
     
-    <pre class="code with-wrapping fullwidth">
-    <line>% Write event to event log.</line>
-    <line>write_event(F, Event, Id) -></line>
-    <line>    Msg = [{id, Id}, {event, Event}],</line>
-    <line>    ok = io:format(F, "~p.~n", [Msg]),</line>
-    <line>    ok.</line>
-    </pre>
+    <pre><code>
+    % Write event to event log.
+    write_event(F, Event, Id) ->
+        Msg = [{id, Id}, {event, Event}],
+        ok = io:format(F, "~p.~n", [Msg]),
+        ok.
+    </code></pre>
     
     <p>and here is the code to read events from the log file:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>% Read event from event log.</line>
-    <line>read_event(F) -></line>
-    <line>    case io:read(F, &rdquo;) of</line>
-    <line>      {ok, Term} -></line>
-    <line>          Id = proplists:get_value(id, Term),</line>
-    <line>          Event = proplists:get_value(event, Term),</line>
-    <line>          {ok, Id, Event};</line>
-    <line>      eof -> eof</line>
-    <line>    end.</line>
-    </pre>
+            <pre><code>
+    % Read event from event log.
+    read_event(F) ->
+        case io:read(F, &rdquo;) of
+          {ok, Term} ->
+              Id = proplists:get_value(id, Term),
+              Event = proplists:get_value(event, Term),
+              {ok, Id, Event};
+          eof -> eof
+        end.
+    </code></pre>
     
     <h3>Handling any event</h3>
     
     <p>In Erlang, events are arbitrary terms so the above code will read and write any event.  Also, since event handlers use their mailbox to process events one-by-one, we can maintain an event id in the handler state and write that to disk with each event:
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>handle_event([replay | _], State) -> {ok, State};</line>
-    <line>% Write event to disk with next id.</line>
-    <line>handle_event(Event, State) -></line>
-    <line>    Id = proplists:get_value(id, State) + 1,</line>
-    <line>    F = proplists:get_value(file, State),</line>
-    <line>    write_event(F, Event, Id),</line>
-    <line>    {ok, [{file, F}, {id, Id}]}.</line>
-    </pre>
+            <pre><code>
+    handle_event([replay | _], State) -> {ok, State};
+    % Write event to disk with next id.
+    handle_event(Event, State) ->
+        Id = proplists:get_value(id, State) + 1,
+        F = proplists:get_value(file, State),
+        write_event(F, Event, Id),
+        {ok, [{file, F}, {id, Id}]}.
+    </code></pre>
     
     
     <h3>Replaying Events</h3>
@@ -123,28 +123,28 @@ erlang
     
     <p>We use the replay prefix to allow the event handlers to distinguish between the original event and the replayed event, as the <code>log_event.erl</code> handler does above.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>% Replay all events in log.  Returns id of the last event logged.</line>
-    <line>replay_events(File, LastId) -></line>
-    <line>    case read_event(File) of</line>
-    <line>      {ok, Id, Event} -></line>
-    <line>          ok = gen_event:notify(event_dispatcher,</line>
-    <line>                                [replay | Event]),</line>
-    <line>          replay_events(File, Id);</line>
-    <line>      eof -> LastId</line>
-    <line>    end.</line>
-    <line></line>
-    <line>init(Args) -></line>
-    <line>    [LogFile | _] = Args,</line>
-    <line>    case file:open(LogFile, [read, binary]) of</line>
-    <line>      {ok, F} -></line>
-    <line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
-    <line>      {error, enoent} -> LastId = 0</line>
-    <line>    end,</line>
-    <line>    io:format("using event log ~p~n", [LogFile]),</line>
-    <line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
-    <line>    {ok, [{file, F1}, {id, LastId}]}.</line>
-    </pre>
+            <pre><code>
+    % Replay all events in log.  Returns id of the last event logged.
+    replay_events(File, LastId) ->
+        case read_event(File) of
+          {ok, Id, Event} ->
+              ok = gen_event:notify(event_dispatcher,
+                                    [replay | Event]),
+              replay_events(File, Id);
+          eof -> LastId
+        end.
+    
+    init(Args) ->
+        [LogFile | _] = Args,
+        case file:open(LogFile, [read, binary]) of
+          {ok, F} ->
+              LastId = replay_events(F, 0), ok = file:close(F);
+          {error, enoent} -> LastId = 0
+        end,
+        io:format("using event log ~p~n", [LogFile]),
+        {ok, F1} = file:open(LogFile, [append, binary]),
+        {ok, [{file, F1}, {id, LastId}]}.
+    </code></pre>
     
     <p>The rest of the code is scaffolding, things like exports and empty behavior method implementations to silence the compiler.  The full module source is included at the end of this blog post.
     
@@ -181,73 +181,73 @@ erlang
     <section>
     <h2><code>log_event.erl</code></h2>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>% Maintain event ID sequence and serialize events to disk.</line>
-    <line>% Replay events on a restart.</line>
-    <line>-module(log_event).</line>
-    <line></line>
-    <line>-behaviour(gen_event).</line>
-    <line></line>
-    <line>-export([code_change/3, handle_call/2, handle_event/2,</line>
-    <line>         handle_info/2, init/1, terminate/2]).</line>
-    <line></line>
-    <line>-export([read_event/1, write_event/3]).</line>
-    <line></line>
-    <line>% Write event to event log.</line>
-    <line>write_event(F, Event, Id) -></line>
-    <line>    Msg = [{id, Id}, {event, Event}],</line>
-    <line>    ok = io:format(F, "~p.~n", [Msg]),</line>
-    <line>    ok.</line>
-    <line></line>
-    <line>% Read event from event log.</line>
-    <line>read_event(F) -></line>
-    <line>    case io:read(F, &rdquo;) of</line>
-    <line>      {ok, Term} -></line>
-    <line>          Id = proplists:get_value(id, Term),</line>
-    <line>          Event = proplists:get_value(event, Term),</line>
-    <line>          {ok, Id, Event};</line>
-    <line>      eof -> eof</line>
-    <line>    end.</line>
-    <line></line>
-    <line>% Replay all events in log.  Returns id of the last event logged.</line>
-    <line>replay_events(File, LastId) -></line>
-    <line>    case read_event(File) of</line>
-    <line>      {ok, Id, Event} -></line>
-    <line>          ok = gen_event:notify(event_dispatcher,</line>
-    <line>                                [replay | Event]),</line>
-    <line>          %{ok, EmailMetricState} = email_matrics:handle_event([replay|Event], []),</line>
-    <line>          replay_events(File, Id);</line>
-    <line>      eof -> LastId</line>
-    <line>    end.</line>
-    <line></line>
-    <line>init(Args) -></line>
-    <line>    [LogFile | _] = Args,</line>
-    <line>    case file:open(LogFile, [read, binary]) of</line>
-    <line>      {ok, F} -></line>
-    <line>          LastId = replay_events(F, 0), ok = file:close(F);</line>
-    <line>      {error, enoent} -> LastId = 0</line>
-    <line>    end,</line>
-    <line>    io:format("using event log ~p~n", [LogFile]),</line>
-    <line>    {ok, F1} = file:open(LogFile, [append, binary]),</line>
-    <line>    {ok, [{file, F1}, {id, LastId}]}.</line>
-    <line></line>
-    <line>handle_event([replay | _], State) -> {ok, State};</line>
-    <line>% Write event to disk with next id.</line>
-    <line>handle_event(Event, State) -></line>
-    <line>    Id = proplists:get_value(id, State) + 1,</line>
-    <line>    F = proplists:get_value(file, State),</line>
-    <line>    write_event(F, Event, Id),</line>
-    <line>    {ok, [{file, F}, {id, Id}]}.</line>
-    <line></line>
-    <line>handle_call(_Request, State) -> {ok, noreply, State}.</line>
-    <line></line>
-    <line>code_change(_OldVsn, State, _Extra) -> {ok, State}.</line>
-    <line></line>
-    <line>handle_info(_Info, State) -> {noreply, State}.</line>
-    <line></line>
-    <line>terminate(_Args, State) -></line>
-    <line>    F = proplists:get_value(file, State), file:close(F), ok.</line>
-    </pre>
+            <pre><code>
+    % Maintain event ID sequence and serialize events to disk.
+    % Replay events on a restart.
+    -module(log_event).
+    
+    -behaviour(gen_event).
+    
+    -export([code_change/3, handle_call/2, handle_event/2,
+             handle_info/2, init/1, terminate/2]).
+    
+    -export([read_event/1, write_event/3]).
+    
+    % Write event to event log.
+    write_event(F, Event, Id) ->
+        Msg = [{id, Id}, {event, Event}],
+        ok = io:format(F, "~p.~n", [Msg]),
+        ok.
+    
+    % Read event from event log.
+    read_event(F) ->
+        case io:read(F, &rdquo;) of
+          {ok, Term} ->
+              Id = proplists:get_value(id, Term),
+              Event = proplists:get_value(event, Term),
+              {ok, Id, Event};
+          eof -> eof
+        end.
+    
+    % Replay all events in log.  Returns id of the last event logged.
+    replay_events(File, LastId) ->
+        case read_event(File) of
+          {ok, Id, Event} ->
+              ok = gen_event:notify(event_dispatcher,
+                                    [replay | Event]),
+              %{ok, EmailMetricState} = email_matrics:handle_event([replay|Event], []),
+              replay_events(File, Id);
+          eof -> LastId
+        end.
+    
+    init(Args) ->
+        [LogFile | _] = Args,
+        case file:open(LogFile, [read, binary]) of
+          {ok, F} ->
+              LastId = replay_events(F, 0), ok = file:close(F);
+          {error, enoent} -> LastId = 0
+        end,
+        io:format("using event log ~p~n", [LogFile]),
+        {ok, F1} = file:open(LogFile, [append, binary]),
+        {ok, [{file, F1}, {id, LastId}]}.
+    
+    handle_event([replay | _], State) -> {ok, State};
+    % Write event to disk with next id.
+    handle_event(Event, State) ->
+        Id = proplists:get_value(id, State) + 1,
+        F = proplists:get_value(file, State),
+        write_event(F, Event, Id),
+        {ok, [{file, F}, {id, Id}]}.
+    
+    handle_call(_Request, State) -> {ok, noreply, State}.
+    
+    code_change(_OldVsn, State, _Extra) -> {ok, State}.
+    
+    handle_info(_Info, State) -> {noreply, State}.
+    
+    terminate(_Args, State) ->
+        F = proplists:get_value(file, State), file:close(F), ok.
+    </code></pre>
     </section>
     
     < section>

@@ -47,23 +47,23 @@ functional, kotlin
           Bull.</code>
         </span>
     
-        <pre class='code with-wrapping fullwidth'>
-    <line>    routing {</line>
-    <line>      get("/customers/{id}") {</line>
-    <line>          call.parameters.readId()</line>
-    <line>              .andThen(CustomerId.Companion::create)</line>
-    <line>              .andThen(CustomerService::getById)</line>
-    <line>              .mapError(::messageToResponse)</line>
-    <line>              .mapBoth(</line>
-    <line>                  success = { customer -></line>
-    <line>                      call.respond(HttpStatusCode.OK, CustomerDto.from(customer))</line>
-    <line>                  },</line>
-    <line>                  failure = { (status, message) -></line>
-    <line>                      call.respond(status, message)</line>
-    <line>                  }</line>
-    <line>              )</line>
-    <line>      }</line>
-      </pre>
+        <pre><code>
+        routing {
+          get("/customers/{id}") {
+              call.parameters.readId()
+                  .andThen(CustomerId.Companion::create)
+                  .andThen(CustomerService::getById)
+                  .mapError(::messageToResponse)
+                  .mapBoth(
+                      success = { customer ->
+                          call.respond(HttpStatusCode.OK, CustomerDto.from(customer))
+                      },
+                      failure = { (status, message) ->
+                          call.respond(status, message)
+                      }
+                  )
+          }
+      </code></pre>
       </figure>
     
       <p>
@@ -86,32 +86,32 @@ functional, kotlin
           in the above data pipeline example.
         </span>
     
-        <pre class='code with-wrapping fullwidth'>
-    <line>    package com.github.michaelbull.result.example.model.domain</line>
-    <line></line>
-    <line>    import com.github.michaelbull.result.Err</line>
-    <line>    import com.github.michaelbull.result.Ok</line>
-    <line>    import com.github.michaelbull.result.Result</line>
-    <line>    </line>
-    <line>    data class PersonalName(</line>
-    <line>        val first: String,</line>
-    <line>        val last: String</line>
-    <line>    ) {</line>
-    <line>        companion object {</line>
-    <line>            private const val MAX_LENGTH = 10</line>
-    <line>    </line>
-    <line>            fun create(first: String?, last: String?): Result<PersonalName, DomainMessage> {</line>
-    <line>                return when {</line>
-    <line>                    first.isNullOrBlank() -> Err(FirstNameRequired)</line>
-    <line>                    last.isNullOrBlank() -> Err(LastNameRequired)</line>
-    <line>                    first.length > MAX_LENGTH -> Err(FirstNameTooLong)</line>
-    <line>                    last.length > MAX_LENGTH -> Err(LastNameTooLong)</line>
-    <line>                    else -> Ok(PersonalName(first, last))</line>
-    <line>                }</line>
-    <line>            }</line>
-    <line>        }</line>
-    <line>    }</line>
-      </pre>
+        <pre><code>
+        package com.github.michaelbull.result.example.model.domain
+    
+        import com.github.michaelbull.result.Err
+        import com.github.michaelbull.result.Ok
+        import com.github.michaelbull.result.Result
+        
+        data class PersonalName(
+            val first: String,
+            val last: String
+        ) {
+            companion object {
+                private const val MAX_LENGTH = 10
+        
+                fun create(first: String?, last: String?): Result<PersonalName, DomainMessage> {
+                    return when {
+                        first.isNullOrBlank() -> Err(FirstNameRequired)
+                        last.isNullOrBlank() -> Err(LastNameRequired)
+                        first.length > MAX_LENGTH -> Err(FirstNameTooLong)
+                        last.length > MAX_LENGTH -> Err(LastNameTooLong)
+                        else -> Ok(PersonalName(first, last))
+                    }
+                }
+            }
+        }
+      </code></pre>
       </figure>
     
       <p>
@@ -133,20 +133,20 @@ functional, kotlin
           type.
         </span>
     
-        <pre class='code with-wrapping fullwidth'>
-    <line>/**</line>
-    <line> * All possible things that can happen in the use-cases</line>
-    <line> */</line>
-    <line>sealed class DomainMessage</line>
-    <line></line>
-    <line>/* validation errors */</line>
-    <line></line>
-    <line>object CustomerRequired : DomainMessage()</line>
-    <line>object CustomerIdMustBePositive : DomainMessage()</line>
-    <line></line>
-    <line>object FirstNameRequired : DomainMessage()</line>
-    <line>object FirstNameTooLong : DomainMessage()</line>
-    </pre>
+        <pre><code>
+    /**
+     * All possible things that can happen in the use-cases
+     */
+    sealed class DomainMessage
+    
+    /* validation errors */
+    
+    object CustomerRequired : DomainMessage()
+    object CustomerIdMustBePositive : DomainMessage()
+    
+    object FirstNameRequired : DomainMessage()
+    object FirstNameTooLong : DomainMessage()
+    </code></pre>
     
       </figure>
     

@@ -100,107 +100,107 @@ cqrs, oop
     </span>
     that implements this model.
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>PRAGMA foreign_keys = ON</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS workson</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS task</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS workday</line>
-    <line>;</line>
-    <line>CREATE TABLE task(</line>
-    <line>  name       TEXT PRIMARY KEY,</line>
-    <line>  canceled  TEXT NOT NULL CHECK (canceled IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE workday(</line>
-    <line>  date       TEXT PRIMARY KEY</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE workson(</line>
-    <line>  task_name       TEXT    NOT NULL REFERENCES task    (name)       ON UPDATE CASCADE,</line>
-    <line>  date            TEXT    NOT NULL REFERENCES workday (date)       ON UPDATE CASCADE,</line>
-    <line>  first_estimate  INTEGER NOT NULL CHECK (first_estimate > 0), </line>
-    <line>  planned         TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;,</line>
-    <line>  interruptions   INTEGER NOT NULL CHECK (interruptions >= 0)      DEFAULT  0, </line>
-    <line>  completed       TEXT    NOT NULL CHECK (completed IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;,</line>
-    <line>  second_estimate INTEGER          CHECK (second_estimate > 0), </line>
-    <line>  third_estimate  INTEGER          CHECK (third_estimate IS NULL </line>
-    <line>                                          OR (second_estimate IS NOT NULL </line>
-    <line>                                              AND third_estimate > 0)),</line>
-    <line>  actual          INTEGER          CHECK (actual > 0), </line>
-    <line>  PRIMARY KEY(task_name, date)</line>
-    <line>)</line>
-    <line>;</line>
-    <line>DROP VIEW IF EXISTS record</line>
-    <line>;</line>
-    <line>CREATE VIEW record AS</line>
-    <line>WITH actuals </line>
-    <line>        AS (</line>
-    <line>        SELECT   date</line>
-    <line>               , sum(actual) n</line>
-    <line>               , sum(interruptions) int</line>
-    <line>          FROM workson</line>
-    <line>         GROUP BY date),</line>
-    <line>     planned </line>
-    <line>        AS (</line>
-    <line>        SELECT date, count(*) n</line>
-    <line>          FROM workson</line>
-    <line>         WHERE planned = &rsquo;Y&rsquo;</line>
-    <line>         GROUP BY date),</line>
-    <line>     unplanned </line>
-    <line>        AS (</line>
-    <line>        SELECT date, count(*) n</line>
-    <line>          FROM workson</line>
-    <line>         WHERE planned = &rsquo;N&rsquo;</line>
-    <line>         GROUP BY date),</line>
-    <line>     completed</line>
-    <line>        AS (</line>
-    <line>        SELECT date, count(*) n</line>
-    <line>          FROM workson</line>
-    <line>         WHERE completed = &rsquo;Y&rsquo;</line>
-    <line>         GROUP BY date),</line>
-    <line>     under</line>
-    <line>        AS (</line>
-    <line>        SELECT date, count(*) n</line>
-    <line>          FROM workson</line>
-    <line>         WHERE second_estimate IS NOT NULL</line>
-    <line>         GROUP BY date),</line>
-    <line>     over</line>
-    <line>        AS (</line>
-    <line>        SELECT   date</line>
-    <line>               , SUM(first_estimate) - sum(actual) n</line>
-    <line>          FROM workson</line>
-    <line>         WHERE completed = &rsquo;Y&rsquo;</line>
-    <line>           AND first_estimate > actual</line>
-    <line>         GROUP BY date)</line>
-    <line>SELECT   workday.date</line>
-    <line>       , IFNULL(actuals.n,   0) AS pomodoros</line>
-    <line>       , IFNULL(actuals.int, 0) AS interruptions</line>
-    <line>       , IFNULL(planned.n,   0) AS planned_tasks</line>
-    <line>       , IFNULL(unplanned.n, 0) AS unplanned_tasks</line>
-    <line>       , IFNULL(under.n,     0) AS under_estimated_tasks</line>
-    <line>       , IFNULL(over.n,      0) AS total_over_estimate</line>
-    <line>  FROM workday</line>
-    <line>  LEFT OUTER JOIN actuals   ON actuals.date   = workday.date</line>
-    <line>  LEFT OUTER JOIN planned   ON planned.date   = workday.date</line>
-    <line>  LEFT OUTER JOIN unplanned ON unplanned.date = workday.date</line>
-    <line>  LEFT OUTER JOIN under     ON under.date     = workday.date</line>
-    <line>  LEFT OUTER JOIN over      ON over.date      = workday.date</line>
-    <line>;</line>
-    <line>DROP VIEW IF EXISTS inventory</line>
-    <line>;</line>
-    <line>CREATE VIEW inventory AS</line>
-    <line>SELECT name</line>
-    <line>  FROM task</line>
-    <line> WHERE name NOT IN (SELECT DISTINCT task_name</line>
-    <line>                      FROM workson</line>
-    <line>                     WHERE completed = &rsquo;Y&rsquo;)</line>
-    <line>   AND canceled = &rsquo;N&rsquo;</line>
-    <line>;</line>
-    <line></line>
-    </pre>
+            <pre><code>
+    PRAGMA foreign_keys = ON
+    ;
+    DROP TABLE IF EXISTS workson
+    ;
+    DROP TABLE IF EXISTS task
+    ;
+    DROP TABLE IF EXISTS workday
+    ;
+    CREATE TABLE task(
+      name       TEXT PRIMARY KEY,
+      canceled  TEXT NOT NULL CHECK (canceled IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;
+    )
+    ;
+    CREATE TABLE workday(
+      date       TEXT PRIMARY KEY
+    )
+    ;
+    CREATE TABLE workson(
+      task_name       TEXT    NOT NULL REFERENCES task    (name)       ON UPDATE CASCADE,
+      date            TEXT    NOT NULL REFERENCES workday (date)       ON UPDATE CASCADE,
+      first_estimate  INTEGER NOT NULL CHECK (first_estimate > 0), 
+      planned         TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;,
+      interruptions   INTEGER NOT NULL CHECK (interruptions >= 0)      DEFAULT  0, 
+      completed       TEXT    NOT NULL CHECK (completed IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;)) DEFAULT &rsquo;N&rsquo;,
+      second_estimate INTEGER          CHECK (second_estimate > 0), 
+      third_estimate  INTEGER          CHECK (third_estimate IS NULL 
+                                              OR (second_estimate IS NOT NULL 
+                                                  AND third_estimate > 0)),
+      actual          INTEGER          CHECK (actual > 0), 
+      PRIMARY KEY(task_name, date)
+    )
+    ;
+    DROP VIEW IF EXISTS record
+    ;
+    CREATE VIEW record AS
+    WITH actuals 
+            AS (
+            SELECT   date
+                   , sum(actual) n
+                   , sum(interruptions) int
+              FROM workson
+             GROUP BY date),
+         planned 
+            AS (
+            SELECT date, count(*) n
+              FROM workson
+             WHERE planned = &rsquo;Y&rsquo;
+             GROUP BY date),
+         unplanned 
+            AS (
+            SELECT date, count(*) n
+              FROM workson
+             WHERE planned = &rsquo;N&rsquo;
+             GROUP BY date),
+         completed
+            AS (
+            SELECT date, count(*) n
+              FROM workson
+             WHERE completed = &rsquo;Y&rsquo;
+             GROUP BY date),
+         under
+            AS (
+            SELECT date, count(*) n
+              FROM workson
+             WHERE second_estimate IS NOT NULL
+             GROUP BY date),
+         over
+            AS (
+            SELECT   date
+                   , SUM(first_estimate) - sum(actual) n
+              FROM workson
+             WHERE completed = &rsquo;Y&rsquo;
+               AND first_estimate > actual
+             GROUP BY date)
+    SELECT   workday.date
+           , IFNULL(actuals.n,   0) AS pomodoros
+           , IFNULL(actuals.int, 0) AS interruptions
+           , IFNULL(planned.n,   0) AS planned_tasks
+           , IFNULL(unplanned.n, 0) AS unplanned_tasks
+           , IFNULL(under.n,     0) AS under_estimated_tasks
+           , IFNULL(over.n,      0) AS total_over_estimate
+      FROM workday
+      LEFT OUTER JOIN actuals   ON actuals.date   = workday.date
+      LEFT OUTER JOIN planned   ON planned.date   = workday.date
+      LEFT OUTER JOIN unplanned ON unplanned.date = workday.date
+      LEFT OUTER JOIN under     ON under.date     = workday.date
+      LEFT OUTER JOIN over      ON over.date      = workday.date
+    ;
+    DROP VIEW IF EXISTS inventory
+    ;
+    CREATE VIEW inventory AS
+    SELECT name
+      FROM task
+     WHERE name NOT IN (SELECT DISTINCT task_name
+                          FROM workson
+                         WHERE completed = &rsquo;Y&rsquo;)
+       AND canceled = &rsquo;N&rsquo;
+    ;
+    
+    </code></pre>
     </section>
     
     <section>
@@ -233,88 +233,88 @@ cqrs, oop
     
     <h3>CQRS SQL</h3>
     
-            <pre class='code with-wrapping fullwidth'>
-    <line>PRAGMA foreign_keys = ON</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS task_added</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS task_estimated</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS task_done</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS pomodoro_started</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS pomodoro_done</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS work_day_done</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS event</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS inventory</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS record</line>
-    <line>;</line>
-    <line>DROP TABLE IF EXISTS error</line>
-    <line>;</line>
-    <line>CREATE TABLE event(</line>
-    <line>  id         INTEGER PRIMARY KEY,</line>
-    <line>  date       TEXT     NOT NULL,</line>
-    <line>  -- current_timestamp is in UTC timezone</line>
-    <line>  timestamp  DATETIME NOT NULL DEFAULT current_timestamp,</line>
-    <line>  type       TEXT     NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE task_added(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
-    <line>  task_name    TEXT    NOT NULL,</line>
-    <line>  planned      TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE task_estimated(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
-    <line>  task_name    TEXT    NOT NULL,</line>
-    <line>  estimate     INTEGER NOT NULL CHECK (estimate > 0)</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE task_done(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
-    <line>  task_name    TEXT    NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE pomodoro_started(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
-    <line>  task_name    TEXT    NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE pomodoro_done(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id),</line>
-    <line>  task_name    TEXT    NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE work_day_done(</line>
-    <line>  event_id     INTEGER NOT NULL REFERENCES event (id)</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE record(</line>
-    <line>  date                  TEXT     NOT NULL,</line>
-    <line>  pomodoros             INTEGER,</line>
-    <line>  interruptions         INTEGER,</line>
-    <line>  planned_tasks         INTEGER  NOT NULL CHECK (planned_tasks > 0),</line>
-    <line>  unplanned_tasks       INTEGER,</line>
-    <line>  under_estimated_tasks INTEGER,</line>
-    <line>  total_over_estimate   INTEGER</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE inventory(</line>
-    <line>  task_name    TEXT    NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    <line>CREATE TABLE error(</line>
-    <line>  command_id  INTEGER NOT NULL,</line>
-    <line>  text        TEXT NOT NULL</line>
-    <line>)</line>
-    <line>;</line>
-    </pre>
+            <pre><code>
+    PRAGMA foreign_keys = ON
+    ;
+    DROP TABLE IF EXISTS task_added
+    ;
+    DROP TABLE IF EXISTS task_estimated
+    ;
+    DROP TABLE IF EXISTS task_done
+    ;
+    DROP TABLE IF EXISTS pomodoro_started
+    ;
+    DROP TABLE IF EXISTS pomodoro_done
+    ;
+    DROP TABLE IF EXISTS work_day_done
+    ;
+    DROP TABLE IF EXISTS event
+    ;
+    DROP TABLE IF EXISTS inventory
+    ;
+    DROP TABLE IF EXISTS record
+    ;
+    DROP TABLE IF EXISTS error
+    ;
+    CREATE TABLE event(
+      id         INTEGER PRIMARY KEY,
+      date       TEXT     NOT NULL,
+      -- current_timestamp is in UTC timezone
+      timestamp  DATETIME NOT NULL DEFAULT current_timestamp,
+      type       TEXT     NOT NULL
+    )
+    ;
+    CREATE TABLE task_added(
+      event_id     INTEGER NOT NULL REFERENCES event (id),
+      task_name    TEXT    NOT NULL,
+      planned      TEXT    NOT NULL CHECK (planned IN (&rsquo;Y&rsquo;, &rsquo;N&rsquo;))   DEFAULT &rsquo;Y&rsquo;
+    )
+    ;
+    CREATE TABLE task_estimated(
+      event_id     INTEGER NOT NULL REFERENCES event (id),
+      task_name    TEXT    NOT NULL,
+      estimate     INTEGER NOT NULL CHECK (estimate > 0)
+    )
+    ;
+    CREATE TABLE task_done(
+      event_id     INTEGER NOT NULL REFERENCES event (id),
+      task_name    TEXT    NOT NULL
+    )
+    ;
+    CREATE TABLE pomodoro_started(
+      event_id     INTEGER NOT NULL REFERENCES event (id),
+      task_name    TEXT    NOT NULL
+    )
+    ;
+    CREATE TABLE pomodoro_done(
+      event_id     INTEGER NOT NULL REFERENCES event (id),
+      task_name    TEXT    NOT NULL
+    )
+    ;
+    CREATE TABLE work_day_done(
+      event_id     INTEGER NOT NULL REFERENCES event (id)
+    )
+    ;
+    CREATE TABLE record(
+      date                  TEXT     NOT NULL,
+      pomodoros             INTEGER,
+      interruptions         INTEGER,
+      planned_tasks         INTEGER  NOT NULL CHECK (planned_tasks > 0),
+      unplanned_tasks       INTEGER,
+      under_estimated_tasks INTEGER,
+      total_over_estimate   INTEGER
+    )
+    ;
+    CREATE TABLE inventory(
+      task_name    TEXT    NOT NULL
+    )
+    ;
+    CREATE TABLE error(
+      command_id  INTEGER NOT NULL,
+      text        TEXT NOT NULL
+    )
+    ;
+    </code></pre>
     
     
     

@@ -8,19 +8,19 @@ kotlin
       <p>The software used for this howto is Kotlin 1.3.50.</p>
     
     
-      <pre class='code with-wrapping fullwidth'>
-    <line>data class Hour(val n: Int) {</line>
-    <line>  init {</line>
-    <line>      require(n in 0..23) { "invalid hour $n" }</line>
-    <line>  }</line>
-    <line></line>
-    <line>  companion object {</line>
-    <line>      @JvmStatic</line>
-    <line>      fun parse(x : String) = Hour(x.toInt())</line>
-    <line>  }</line>
-    <line></line>
-    <line>}</line>
-      </pre>
+      <pre><code>
+    data class Hour(val n: Int) {
+      init {
+          require(n in 0..23) { "invalid hour $n" }
+      }
+    
+      companion object {
+          @JvmStatic
+          fun parse(x : String) = Hour(x.toInt())
+      }
+    
+    }
+      </code></pre>
     
       <p>
         Hat tip to Alexis King's blog post
@@ -59,18 +59,18 @@ kotlin
           <a
             href='https://docs.oracle.com/javase/8/docs/api/java/time/ZonedDateTime.html'>java.time.ZonedDateTime</a>
           Immutable. Go from month, day, etc to an Instant, for example:
-          <pre class='code with-wrapping fullwidth'>
-    <line>ZonedDateTime.of(</line>
-    <line>    2019,</line>
-    <line>    11,</line>
-    <line>    7,</line>
-    <line>    8,</line>
-    <line>    21,</line>
-    <line>    0,</line>
-    <line>    0,</line>
-    <line>    TimeZone.getTimeZone(" US/Eastern") </line>
-    <line>).toInstant()</line>
-    </pre>
+          <pre><code>
+    ZonedDateTime.of(
+        2019,
+        11,
+        7,
+        8,
+        21,
+        0,
+        0,
+        TimeZone.getTimeZone(" US/Eastern") 
+    ).toInstant()
+    </code></pre>
         </li>
       </ul>
     </section>
