@@ -1,13 +1,8 @@
-<article>
-    <h1>kotlin: Value object with input validation</h1>
-    <p class=subtitle>November 9, 2019
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#kotlin>kotlin</a>
-    </span>
-
-</p>
+<!--
+kotlin: Value object with input validation
+November 9, 2019
+kotlin
+-->
     <section style='clear: both;'>
     
       <p>The software used for this howto is Kotlin 1.3.50.</p>
@@ -79,4 +74,3 @@
         </li>
       </ul>
     </section>
-</article>

@@ -1,13 +1,8 @@
-<article>
-    <h1>How to return JSON from an Erlang web service</h1>
-    <p class=subtitle>January 4, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+How to return JSON from an Erlang web service
+January 4, 2017
+erlang
+-->
     <section>
     
         <p>In this HOWTO, we use Elli and JSX to return JSON from an Erlang web service.
@@ -324,4 +319,3 @@
     </ul>
     
     </section>
-</article>

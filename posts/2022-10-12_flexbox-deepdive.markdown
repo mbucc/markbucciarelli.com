@@ -103,9 +103,7 @@ is rendered with the "Hello World!" taking up the entire screen
 and centered both horizontally and vertically on all devices.
 Here is how it looks on an iPhone SE:
 
-<figure>
 ![](/img/flexbox1.png)
-</figure>
 
 
 Text is centered as long as it fits on one line.

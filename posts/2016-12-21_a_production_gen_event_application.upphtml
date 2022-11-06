@@ -1,13 +1,8 @@
-<article>
-    <h1>A production gen_event application</h1>
-    <p class=subtitle>December 21, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+A production gen_event application
+December 21, 2016
+erlang
+-->
     <section>
     
         <p>I've been blogging about Erlang since June, so it's about time.  My first production application records email sends and opens, exposes the metrics via Prometheus and uses event sourcing, which I discuss in detail.
@@ -285,4 +280,3 @@
     
     </section>
     
-</article>

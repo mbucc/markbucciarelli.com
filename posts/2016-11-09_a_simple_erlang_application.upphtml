@@ -1,13 +1,8 @@
-<article>
-    <h1>A Simple Erlang Application</h1>
-    <p class=subtitle>November 9, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+A Simple Erlang Application
+November 9, 2016
+erlang
+-->
     <section>
     
         <p>An HTTP server structured as an Erlang application.  Built with Elli, it uses ERL_LIBS and make instead of rebar.
@@ -304,4 +299,3 @@
     <li>add logging and basic auth</li>
     </ul>
     
-</article>

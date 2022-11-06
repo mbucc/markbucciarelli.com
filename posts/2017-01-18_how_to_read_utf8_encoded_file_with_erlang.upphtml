@@ -1,13 +1,8 @@
-<article>
-    <h1>How to read a UTF-8 encoded file with Erlang</h1>
-    <p class=subtitle>January 18, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+How to read a UTF-8 encoded file with Erlang
+January 18, 2017
+erlang
+-->
     <section>
     
         <p>In this HOWTO, we create a file with UTF-8 encoded text, read it with an Erlang program, and verify that the bytes Erlang stores in-memory matches what is on disk.
@@ -174,4 +169,3 @@
     <p>Looks like Erlang binaries treat files as a list of bytes.  Which is just how C treats strings, and I know that works just fine with encoded strings.  I also know that appending binaries in Erlang is fast.  So until I learn more about how Erlang strings work, I&rsquo;ll keep my text data in binary form because I know that works.
     
     </section>
-</article>

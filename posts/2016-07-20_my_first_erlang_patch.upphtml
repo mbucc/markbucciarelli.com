@@ -1,13 +1,8 @@
-<article>
-    <h1>My first Erlang patch</h1>
-    <p class=subtitle>July 20, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+My first Erlang patch
+July 20, 2016
+erlang
+-->
     <section>
     
         <p>Example of how you can contribute to Erlang by fixing a bug and having the fix committed to the Erlang source tree.
@@ -299,4 +294,3 @@
             <p>It took less that a month to get committed, and that was delayed because the Erlang team was in the middle of a release.
     
     </section>
-</article>

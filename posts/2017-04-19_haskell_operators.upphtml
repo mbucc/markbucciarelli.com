@@ -1,13 +1,8 @@
-<article>
-    <h1>Haskell operators I have trouble with</h1>
-    <p class=subtitle>April 19, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#haskell>haskell</a>
-    </span>
-
-</p>
+<!--
+Haskell operators I have trouble with
+April 19, 2017
+haskell
+-->
     <section>
     
         <p>The Haskell $, . , and => operators.
@@ -118,4 +113,3 @@
     
     
     </section>
-</article>

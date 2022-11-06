@@ -1,14 +1,8 @@
-<article>
-    <h1>Install Alpine Linux on a Raspberry PI using macOS</h1>
-    <p class=subtitle>May 5, 2019
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#alpine>alpine</a>, 
-        <a href=/tags.html#rpi>rpi</a>
-    </span>
-
-</p>
+<!--
+Install Alpine Linux on a Raspberry PI using macOS
+May 5, 2019
+alpine, rpi
+-->
     <section style='clear: both;'>
     
       <p>The software and hardware used for this HOWTO are:</p>
@@ -253,4 +247,3 @@
     <!-- So we mount DOS boot on second partition. -->
     <!-- All of these are in the /boot directory: vmlinuz-rpi, initramfs-rpi, modloop-rpi -->
     <!-- Note: The contents of cmdline.txt are passed as arguments to the kernel.  -->
-</article>

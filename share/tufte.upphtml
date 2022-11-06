@@ -10,12 +10,8 @@
     <meta name='twitter:site' content='@mbucc' />
     <meta name='twitter:title' content='"$3"' />
     
-    <style>
-    #!
-    pp "${SHARE:?no theme directory set}"/s.uppcss
-    #!
-    </style>
-    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="/css/tufte.min.css">
+    <link rel="stylesheet" href="/css/tufte.tweaks.css">
 </head>
 
 <body>
@@ -24,10 +20,19 @@
     <h1>"$3"</h1>
     <p class=subtitle>"$4"</p>
 
+    <section>
+
 #!
-"$6/tufte.sh" < "$1"
+if echo "$1"|grep \.markdown > /dev/null
+then
+	"$6/tufte.sh" < "$1"
+else
+	# Handle older HTML sources
+	sed -n '6,$p' < "$1"
+fi
 #!
 
+    </section>
     <section>
         <p>Tags:
 #!

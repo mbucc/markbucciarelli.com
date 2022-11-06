@@ -1,13 +1,8 @@
-<article>
-    <h1>How to push to github from Travis CI</h1>
-    <p class=subtitle>January 26, 2019
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#ci>ci</a>
-    </span>
-
-</p>
+<!--
+How to push to github from Travis CI
+January 26, 2019
+ci
+-->
     <section>
     
       <p>
@@ -238,4 +233,3 @@
     
     
     </section>
-</article>

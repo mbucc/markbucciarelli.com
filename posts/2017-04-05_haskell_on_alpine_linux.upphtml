@@ -1,14 +1,8 @@
-<article>
-    <h1>Haskell on Alpine Linux</h1>
-    <p class=subtitle>April 5, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#haskell>haskell</a>, 
-        <a href=/tags.html#alpine>alpine</a>
-    </span>
-
-</p>
+<!--
+Haskell on Alpine Linux
+April 5, 2017
+haskell, alpine
+-->
     <section>
     
         <p>How to run Haskell on Alpine Linux, a Linux distribution built on musc libc and busybox, and which requires only 8 MB of storage for a container and 130 MB of storage for a minimal installation to disk.
@@ -110,4 +104,3 @@
     </ol>
     
     </section>
-</article>

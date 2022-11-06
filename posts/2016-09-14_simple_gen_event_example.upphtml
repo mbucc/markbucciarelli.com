@@ -1,13 +1,8 @@
-<article>
-    <h1>A simple gen_event example.</h1>
-    <p class=subtitle>September 14, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+A simple gen_event example.
+September 14, 2016
+erlang
+-->
     <section>
     
         <p>The gen_event behavior makes it simple to add basic event sourcing to your Erlang application.
@@ -196,4 +191,3 @@
     	          <li>Add photo location as Coney Island.</li>
     	       </ul>
     </section>
-</article>

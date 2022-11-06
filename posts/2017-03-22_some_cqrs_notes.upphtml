@@ -1,13 +1,8 @@
-<article>
-    <h1>Some CQRS Notes</h1>
-    <p class=subtitle>March 22, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#cqrs>cqrs</a>
-    </span>
-
-</p>
+<!--
+Some CQRS Notes
+March 22, 2017
+cqrs
+-->
     <section>
     
         <p>Notes taken while building a CQRS application.
@@ -133,4 +128,3 @@
     this simpler approach.
     
     </section>
-</article>

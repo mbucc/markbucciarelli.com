@@ -1,13 +1,8 @@
-<article>
-    <h1>Why do so many T-shirts have &lambda;&rsquo;s on them</h1>
-    <p class=subtitle>August 31, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#functional>functional</a>
-    </span>
-
-</p>
+<!--
+Why do so many T-shirts have &lambda;&rsquo;s on them
+August 31, 2016
+functional
+-->
     <section>
     
         <p>Last week I was wrestling with some code when a light went off and I came up with a short and sweet solution that uses foldl.
@@ -198,4 +193,3 @@
            <h3>Sep. 1, 2016</h3>
                <ul><li>Fixed bug in record example and updated output.</li></ul>
     </section>
-</article>

@@ -18,26 +18,34 @@ then
 	exit 1
 fi
 
-#for t in "${SRC}"/*.markdown
-#do
-set +x
-t="${SRC}"/2022-10-12_flexbox-deepdive.markdown
+TIDY_ARGS="-i -w 80 -u -q -omit --indent yes --tidy-mark no --vertical-space yes --wrap-attributes yes --show-warnings no"
+
+bindir=$(dirname $0)
+for t in "${SRC}"/*.markdown
+do
 	outf="$(basename "${t%.markdown}".html)"
 	echo "Making $outf"
         title=$(grep -B 1 '^===========' "$t"|head -1)
         date=$(head -1 "$t"|sed 's/  *$//')
 	tags=$(grep -i '^tags' "$t"|sed 's/^[tT]ags[^a-z]*//')
-	bindir=$(dirname $0)
-	pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" > "$outf"
-#done
+	pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" \
+		> "$outf"
+done
 
 for t in "${SRC}"/*.upphtml
 do
 	outf="$(basename "${t%.upphtml}".html)"
 	echo "Making $outf"
-	title=$(grep -i '<h1>' $t |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
-	[ "$outf" = "index.html" ] && title="Archive"
-	pp "${SHARE}"/l.upphtml "${t}" "$1" "$title" > "$outf"
+        title=$(head -2 $t|tail -1)
+        date=$(head -3 $t|tail -1)
+	tags=$(head -4 $t|tail -1)
+	if  [ "$outf" = "index.html" ]
+	then
+		pp "${SHARE}"/l.upphtml "${t}" "$1" Archive > "$outf"
+	else
+		pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" \
+			> "$outf"
+	fi
 done
 
 echo "Making sitemap.xml"

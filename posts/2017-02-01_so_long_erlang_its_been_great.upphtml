@@ -1,14 +1,8 @@
-<article>
-    <h1>So long Erlang, it&rsquo;s been great!</h1>
-    <p class=subtitle>February 1, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>, 
-        <a href=/tags.html#elm>elm</a>
-    </span>
-
-</p>
+<!--
+So long Erlang, it&rsquo;s been great!
+February 1, 2017
+erlang, elm
+-->
     <section>
     
         <p>Moving on from Erlang to Haskell, I look back at what I've learned in last six months, explain the reasons for the change, and say thank you.
@@ -75,4 +69,3 @@
     </section>
     
     <h2>.</h2>
-</article>

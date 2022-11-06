@@ -1,14 +1,8 @@
-<article>
-    <h1>Hello Elm and Haskell!</h1>
-    <p class=subtitle>February 21, 2017
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#elm>elm</a>, 
-        <a href=/tags.html#haskell>haskell</a>
-    </span>
-
-</p>
+<!--
+Hello Elm and Haskell!
+February 21, 2017
+elm, haskell
+-->
     <section>
     
         <p>Briefly describe my first Elm application and list the reasons why I decided to programming exclusively in Elm.
@@ -125,4 +119,3 @@
     Erlang before that) made it easier to start being productive with Haskell.
     
     </section>
-</article>

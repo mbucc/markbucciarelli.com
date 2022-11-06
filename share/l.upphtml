@@ -6,12 +6,7 @@
 <meta charset=${LANG##*.}>
 <meta name=viewport content='width=device-width, initial-scale=1'>
 
-<style>
-#!
-pp "${SHARE:?no theme directory set}"/s.uppcss
-#!
-</style>
-<link rel="stylesheet" href="/css/default.css">
+<link rel="stylesheet" href="/css/tufte.min.css">
 
 #!
 pp "$1"

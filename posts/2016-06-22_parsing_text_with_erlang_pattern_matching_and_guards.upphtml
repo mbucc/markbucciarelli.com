@@ -1,13 +1,8 @@
-<article>
-    <h1>Parsing text with Erlang pattern matching and guards</h1>
-    <p class=subtitle>June 22, 2016
-    <label for=blog-title class=margin-toggle>&#8853;</label>
-    <input type=checkbox id=blog-title class=margin-toggle />
-    <span class=marginnote id=blogtags>Tags:
-        <a href=/tags.html#erlang>erlang</a>
-    </span>
-
-</p>
+<!--
+Parsing text with Erlang pattern matching and guards
+June 22, 2016
+erlang
+-->
     <section>
     
         <p>A simple example of parsing a time string and that illustrates some Erlang pattern matching and guard basics.
@@ -170,4 +165,3 @@
     
     	<p>Erlang will try the AM version of the function before the PM version, simply because it occurs first in the source.  It doesn&rsquo;t matter in this code, but often this feature is useful.
     </section>
-</article>
