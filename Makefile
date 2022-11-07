@@ -1,12 +1,15 @@
 SITE=http://markbucciarelli.com
 
 .PHONY: site
-site: posts
+site: posts www/css/tufte.tweaks.css
 
 .PHONY: posts
 posts:
 	mkdir -p www/posts
 	(cd www/posts && MKWSTHEMEDIR=../../share ../../bin/mkws ${SITE} ../../posts)
+
+www/css/tufte.tweaks.css: css/tufte.tweaks.css
+	cp $? $@
 
 .PHONY: deploy
 deploy: site
