@@ -1,7 +1,0 @@
-flags: {}
-extra-package-dbs: []
-packages:
-- .
-extra-deps:
-  - hakyll-4.15.1.1
-resolver: lts-19.16

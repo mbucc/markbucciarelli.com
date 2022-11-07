@@ -1,2 +1,0 @@
-#! /bin/sh -e
-ls Main.hs |watch.sh stack ghc Main.hs

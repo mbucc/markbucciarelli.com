@@ -22,7 +22,7 @@ NO - Wrap code in latest blog post to 70 characters.
 X- Add fullwidth class to all code pre tags
 X- add links to tag anchor in upphtml?  or do as part of rendering?
 - grep tags from posts and generate tags page (use one page + anchors)
-- Delete all leftover Haskell stuff
+X- Delete all leftover Haskell stuff
 - Only copy stuff I want to deploy to the www dir.
 - Fix font 404's
 - Add proxy to Apache config to forward to thttpd (simpler to test locally)
