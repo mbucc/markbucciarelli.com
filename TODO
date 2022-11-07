@@ -14,15 +14,17 @@ X- Fix title on posts/index.html
 NO- Add redirects to Apache vhost configuration
 X- Write awk scripts---process HTML after cmark---markdown inside manual tags is ignored by cmark
 X- Add tag rendering to share/tufte.upphtml
-- Add responsive break points for pre>code font size.
-- Add 'white-space: pre-wrap;'.
-- Copy new CSS override file to css folder.
-- Wrap code in latest blog post to 70 characters.
-- Add fullwidth class to all code pre tags
-- reduce code font size for smaller screens.
-- wrap code to N characters (6% view blog at 414 or less pixels wide)
+X- Add responsive break points for pre>code font size.
+X- Fix break points ... not working right
+X- Add 'white-space: pre-wrap;'.
+X- Copy new CSS override file to css folder.
+NO - Wrap code in latest blog post to 70 characters.
+X- Add fullwidth class to all code pre tags
+X- add links to tag anchor in upphtml?  or do as part of rendering?
+- grep tags from posts and generate tags page (use one page + anchors)
 - Delete all leftover Haskell stuff
 - Only copy stuff I want to deploy to the www dir.
+- Fix font 404's
 - Add proxy to Apache config to forward to thttpd (simpler to test locally)
 - Add redirects
     archive.html -> posts
@@ -32,5 +34,3 @@ X- Add tag rendering to share/tufte.upphtml
      - put those on the index page 
 - add a menu (create in one share directory, then ln -s)
 - same for CSS
-- grep tags from posts and generate tags page (use one page + anchors)
-- add links to tag anchor in upphtml?  or do as part of rendering?
