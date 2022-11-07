@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: http://markbucciarelli.com/sitemap.xml

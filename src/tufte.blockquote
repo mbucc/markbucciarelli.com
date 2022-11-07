@@ -1,6 +1,0 @@
-
-<blockquote>
-  <p>The idea is to divide the code for a process in a generic part (a behaviour module) and a specific part (a callback module).</p>
-  <footer>erlang.org, <cite><a href="http://erlang.org/doc/design_principles/des_princ.html">OTP Design Principles, Overview</a></cite> (retrieved August 3, 2016)</footer>
-</blockquote>
-

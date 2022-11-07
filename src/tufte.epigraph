@@ -1,7 +1,0 @@
-    <div class="epigraph">
-        <blockquote>
-            <p>Quote goes here.</p>
-            <p>With multiple paragraphs, if necessary.</p>
-            <footer>Author, <cite><a href=""><u>Document Name</u></a></cite> (publication date)</footer>
-        </blockquote>
-    </div>
