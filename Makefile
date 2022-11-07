@@ -11,6 +11,9 @@ posts:
 www/css/tufte.tweaks.css: css/tufte.tweaks.css
 	cp $? $@
 
+www/css/tufte.css: css/tufte.css
+	cp $? $@
+
 .PHONY: deploy
 deploy: site
 	./mksitemap.sh > _site/sitemap.txt
