@@ -4,4 +4,4 @@
 
 # sudo port install thttpd
 
-thttpd -d ./www -p 8080 -l /dev/stdout
+thttpd -d ./work -p 8080 -l /dev/stdout

@@ -34,5 +34,5 @@ sandbox/json/lib/
 _cache
 _site
 .idea
-www/
+work/
 test/test.actual
