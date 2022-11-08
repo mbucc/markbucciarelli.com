@@ -42,4 +42,4 @@ deploy: site
 
 .PHONY: clean
 clean:
-	rm -rf work
+	rm -rf work/*
