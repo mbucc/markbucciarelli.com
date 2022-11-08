@@ -37,8 +37,9 @@ fi
         <p>Tags:
 #!
 for tag in $5; do
+  t=$(echo $tag|tr -d ', ')
 #!
-          <a href=/tags.html#"$tag">"$tag"</a>
+          <a href=/tags.html#"$t">"$t"</a>
 #!
 done
 #!

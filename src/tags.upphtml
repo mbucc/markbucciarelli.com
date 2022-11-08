@@ -1,0 +1,29 @@
+<!--
+Tags
+-->
+
+<div class=fullwidth>
+#!
+tags=$(grep -h tags\.html posts/*.html|sed -e 's/.*#//' -e 's/>.*//'|tr -d ,|sort -u)
+for t in $tags
+do
+#!
+  <p>
+    <a id="$t">"$t"</a>
+  </p>
+  <ul>
+#!
+for f in $(grep -l tags\.html#$t posts/*)
+do
+  title=$(grep -i '<h1>' $f |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
+  dt=$(grep -i "subtitle" $f |sed -e 's/^.*<p[^>]*>//' -e 's;</p>;;')
+#!
+      <li><a href="$f">"$title"</a> - "$dt"</li>
+#!
+done
+#!
+  </ul>
+#!
+done
+#!
+</div>

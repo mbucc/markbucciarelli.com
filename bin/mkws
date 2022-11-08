@@ -39,13 +39,15 @@ do
         title=$(head -2 $t|tail -1)
         date=$(head -3 $t|tail -1)
 	tags=$(head -4 $t|tail -1)
-	if  [ "$outf" = "index.html" ]
-	then
+	case "$outf" in
+	"index.html" | "tags.html")
 		pp "${SHARE}"/index.upphtml "${t}" "$1" "$title" > "$outf"
-	else
+		;;
+	*)
 		pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" \
 			> "$outf"
-	fi
+		;;
+	esac
 done
 
 echo "Making sitemap.xml"
