@@ -40,7 +40,7 @@ do
         date=$(head -3 $t|tail -1)
 	tags=$(head -4 $t|tail -1)
 	case "$outf" in
-	"index.html" | "tags.html")
+	"index.html" | "tags.html" | "about.html")
 		pp "${SHARE}"/index.upphtml "${t}" "$1" "$title" > "$outf"
 		;;
 	*)
