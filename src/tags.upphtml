@@ -4,7 +4,7 @@ Tags
 
 <div class=fullwidth>
 #!
-tags=$(grep -h tags\.html posts/*.html|sed -e 's/.*#//' -e 's/>.*//'|tr -d ,|sort -u)
+tags=$(grep -h tags\.html# posts/*.html|sed -e 's/.*#//' -e 's/>.*//'|tr -d ,|sort -u)
 for t in $tags
 do
 #!
