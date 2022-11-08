@@ -3,7 +3,7 @@ Archive
 -->
 
 <div class=fullwidth>
-  <ul>
+  <ol reversed>
 #!
 for f in $(ls 20*.html|sort -rn); do
   title=$(grep -i '<h1>' $f |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
@@ -13,5 +13,5 @@ for f in $(ls 20*.html|sort -rn); do
 #!
 done
 #!
-  </ul>
+  </ol>
 </div>
