@@ -1,7 +1,7 @@
 SITE=http://markbucciarelli.com
 
 .PHONY: site
-site: root posts css fonts images
+site: posts root css fonts images
 	find work -type f -exec chmod 644 {} \;
 
 .PHONY: root
