@@ -1,3 +1,7 @@
+- Add proxy to Apache config to forward to thttpd (simpler to test locally)
+- Add redirects
+    archive.html -> posts
+    *.html -> * ??
 X - create posts/share/l.upphtml for the post-specific template
 X - cd www/posts ; ../../bin/mkws ../../posts   <-- make sure this works.
 X- install apache2
@@ -25,11 +29,7 @@ X- grep tags from posts and generate tags page (use one page + anchors)
 X- Delete all leftover Haskell stuff
 X- Only copy stuff I want to deploy to the www dir.
 X- Fix font 404's
-- Add proxy to Apache config to forward to thttpd (simpler to test locally)
-- Add redirects
-    archive.html -> posts
-    *.html -> * ??
 X- create ./index.upphtml that:
 X     - lists ten most recent blog posts
 X     - put those on the index page 
-- add a menu (create in one share directory, then ln -s)
+X- add a menu (create in one share directory, then ln -s)
