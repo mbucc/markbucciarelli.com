@@ -1,7 +1,7 @@
 <!--
-alpine: set current time with chrony
-May 20, 2019
-alpine
+tarsnap: how to list an archive
+May 23, 2019
+tarsnap
 -->
     <section style='clear: both;'>
     
@@ -9,49 +9,15 @@ alpine
     
       <ol>
         <li>Alpine Linux 3.8.4, armhf</li>
-        <li>chrony-3.3-r0</li>
+        <li>tarsnap 1.0.39</li>
       </ol>
     
-      <p>To reset the time on the box to the current time:</p>
       <pre><code>
-    # chronyc makestep
+    tarsnap --keyfile tarsnap.key  --list-archives | sort | tail -1
+    # wait for it ...
+    
+    # ... then list the contents of the last file
+    tarsnap --keyfile tarsnap.key  -tvf tallis-2019-01-09_05-02-00
     </code></pre>
-    
-      <p>Before running this, chrony had the right time ('Ref time:'):</p>
-      <pre><code>
-    # chronyc tracking
-    Reference ID    : D0719D9D (meanwhile.dreamhost.com)
-    Stratum         : 3
-    Ref time (UTC)  : Mon May 20 11:08:40 2019
-    System time     : 1557773184.000000000 seconds slow of NTP time
-    Last offset     : -0.000073435 seconds
-    RMS offset      : 0.000131348 seconds
-    Frequency       : 1.268 ppm fast
-    Residual freq   : +0.000 ppm
-    Skew            : 0.020 ppm
-    Root delay      : 0.033056431 seconds
-    Root dispersion : 0.019526452 seconds
-    Update interval : 964.1 seconds
-    Leap status     : Normal
-    #
-      </code></pre>
-    
-      <p>but the system time was way off:</p>
-      <pre><code>
-    # date
-    Wed Jan  7 11:25:52 EST 1970
-      </code></pre>
-    
-      <p>For reference, my chrony.conf is the Alpine default:</p>
-    
-      <pre><code>
-    # cat /etc/chrony/chrony.conf 
-    # default config
-    
-    pool pool.ntp.org iburst
-    initstepslew 10 pool.ntp.org
-    driftfile /var/lib/chrony/chrony.drift
-    rtcsync
-        </code></pre>
     
     </section>
