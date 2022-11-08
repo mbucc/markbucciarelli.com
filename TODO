@@ -21,7 +21,7 @@ X- Copy new CSS override file to css folder.
 NO - Wrap code in latest blog post to 70 characters.
 X- Add fullwidth class to all code pre tags
 X- add links to tag anchor in upphtml?  or do as part of rendering?
-- grep tags from posts and generate tags page (use one page + anchors)
+X- grep tags from posts and generate tags page (use one page + anchors)
 X- Delete all leftover Haskell stuff
 X- Only copy stuff I want to deploy to the www dir.
 X- Fix font 404's
@@ -29,7 +29,7 @@ X- Fix font 404's
 - Add redirects
     archive.html -> posts
     *.html -> * ??
-- create ./index.upphtml that:
-     - lists ten most recent blog posts
-     - put those on the index page 
+X- create ./index.upphtml that:
+X     - lists ten most recent blog posts
+X     - put those on the index page 
 - add a menu (create in one share directory, then ln -s)
