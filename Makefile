@@ -1,7 +1,8 @@
 SITE=http://markbucciarelli.com
 
 .PHONY: site
-site: posts work/css/tufte.tweaks.css work/css/tufte.min.css
+site: posts work/css/tufte.tweaks.css work/css/tufte.min.css fonts images
+	find work -type f -exec chmod 644 {} \;
 
 .PHONY: posts
 posts:
@@ -11,6 +12,17 @@ posts:
 work/css/%.css: src/css/%.css
 	mkdir -p work/css
 	cp $? $@
+
+.PHONY: fonts
+fonts:
+	cp -r src/css/et-book ./work/css/
+
+.PHONY: images
+images:
+	mkdir -p work/img
+	cp -r src/img work/
+	mkdir -p work/imginfo
+	cp src/imginfo/* work/imginfo/
 
 .PHONY: deploy
 deploy: site
