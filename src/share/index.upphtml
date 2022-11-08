@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang=${LANG%%_*}>
+<head>
 
 <title>"$3"</title>
 
@@ -8,6 +9,21 @@
 
 <link rel="stylesheet" href="/css/tufte.min.css">
 
+</head>
+
+<body>
+<article>
+
+<h1>"$3"</h1>
+
+<section>
+
 #!
+#   Skip over the first line, which contains the page title.
 pp "$1"
 #!
+
+</section>
+</article>
+</body>
+</html>

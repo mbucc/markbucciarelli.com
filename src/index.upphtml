@@ -1,9 +1,9 @@
 <!--
-Archive
+This and That
 -->
 <ul>
 #!
-for f in $(ls 20*.html|sort -rn); do
+for f in $(ls posts/*.html|grep -v index.html|sort -rn|head -15); do
   title=$(grep -i '<h1>' $f |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
   dt=$(grep -i "subtitle" $f |sed -e 's/^.*<p[^>]*>//' -e 's;</p>;;')
 #!

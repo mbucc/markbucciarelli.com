@@ -41,7 +41,7 @@ do
 	tags=$(head -4 $t|tail -1)
 	if  [ "$outf" = "index.html" ]
 	then
-		pp "${SHARE}"/l.upphtml "${t}" "$1" Archive > "$outf"
+		pp "${SHARE}"/index.upphtml "${t}" "$1" "$title" > "$outf"
 	else
 		pp "${SHARE}"/tufte.upphtml "${t}" "$1" "$title" "$date" "$tags" "$bindir" \
 			> "$outf"

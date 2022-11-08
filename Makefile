@@ -1,13 +1,21 @@
 SITE=http://markbucciarelli.com
 
 .PHONY: site
-site: posts work/css/tufte.tweaks.css work/css/tufte.min.css fonts images
+site: root posts css fonts images
 	find work -type f -exec chmod 644 {} \;
+
+.PHONY: root
+root:
+	mkdir -p work
+	(cd work && MKWSTHEMEDIR=../src/share ../bin/mkws ${SITE} ../src)
 
 .PHONY: posts
 posts:
 	mkdir -p work/posts
 	(cd work/posts && MKWSTHEMEDIR=../../src/share ../../bin/mkws ${SITE} ../../src/posts)
+
+.PHONY: css
+css: work/css/tufte.tweaks.css work/css/tufte.min.css
 
 work/css/%.css: src/css/%.css
 	mkdir -p work/css

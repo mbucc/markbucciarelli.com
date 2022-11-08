@@ -23,8 +23,8 @@ X- Add fullwidth class to all code pre tags
 X- add links to tag anchor in upphtml?  or do as part of rendering?
 - grep tags from posts and generate tags page (use one page + anchors)
 X- Delete all leftover Haskell stuff
-- Only copy stuff I want to deploy to the www dir.
-- Fix font 404's
+X- Only copy stuff I want to deploy to the www dir.
+X- Fix font 404's
 - Add proxy to Apache config to forward to thttpd (simpler to test locally)
 - Add redirects
     archive.html -> posts
@@ -33,4 +33,3 @@ X- Delete all leftover Haskell stuff
      - lists ten most recent blog posts
      - put those on the index page 
 - add a menu (create in one share directory, then ln -s)
-- same for CSS
