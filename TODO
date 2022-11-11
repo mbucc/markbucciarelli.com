@@ -1,7 +1,3 @@
-- Add proxy to Apache config to forward to thttpd (simpler to test locally)
-- Add redirects
-    archive.html -> posts
-    *.html -> * ??
 X - create posts/share/l.upphtml for the post-specific template
 X - cd www/posts ; ../../bin/mkws ../../posts   <-- make sure this works.
 X- install apache2
@@ -33,3 +29,11 @@ X- create ./index.upphtml that:
 X     - lists ten most recent blog posts
 X     - put those on the index page 
 X- add a menu (create in one share directory, then ln -s)
+- Ansible
+  * install apache2
+  * install certbot
+  * 
+- Add proxy to Apache config to forward to thttpd (simpler to test locally)
+- Add redirects
+    archive.html -> posts
+    *.html -> * ??
