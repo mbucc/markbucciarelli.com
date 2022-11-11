@@ -29,6 +29,12 @@ pp "$1"
 #!
 
 </section>
+
+#!
+pp ${SHARE}/footer.upphtml
+#!
+
 </article>
+
 </body>
 </html>

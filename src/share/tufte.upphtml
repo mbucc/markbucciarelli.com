@@ -49,6 +49,11 @@ done
 #!
         </p>
     </section>
+
+#!
+pp ${SHARE}/footer.upphtml
+#!
+
 </article>
 </body>
 </html>
