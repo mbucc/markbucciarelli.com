@@ -17,6 +17,10 @@
 <body>
 
 <article>
+
+#!
+pp "${SHARE}/header.upphtml"
+#!
     <h1>"$3"</h1>
     <p class=subtitle>"$4"</p>
 

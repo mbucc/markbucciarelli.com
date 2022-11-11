@@ -15,14 +15,9 @@
 
 <article>
 
-<header>
-  <nav>
-    <a href="/">home</a>
-    <a href="/about.html">about</a>
-    <a href="/posts">archive</a>
-    <a href="/tags.html">tags</a>
-  </nav>
-</header>
+#!
+pp ${SHARE}/header.upphtml
+#!
 
 <h1>"$3"</h1>
 

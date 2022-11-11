@@ -1,0 +1,8 @@
+<header>
+  <nav>
+    <a href="/">home</a>
+     &bull; <a href="/tags.html">tags</a>
+     &bull; <a href="/posts">archive</a>
+     &bull; <a href="/about.html">about</a>
+  </nav>
+</header>
