@@ -36,6 +36,31 @@
     - name: start apache if it is not running
       service: name=apache2 state=started
 
+    #
+    #                    SSL Certification.
+    #
+
+    - name: need community package repo to install certbot
+      lineinfile:
+        path: /etc/apk/repositories
+        regexp: '^http://dl-cdn.alpinelinux.org/alpine/v3.16/community'
+        insertafter: '^# *http://dl-cdn.alpinelinux.org/alpine/v3.16/community'
+        line: http://dl-cdn.alpinelinux.org/alpine/v3.16/community
+
+    - name: create apache2ctl symlink to make certbot happy
+      file:
+        src: /usr/sbin/apachectl
+        dest: /usr/sbin/apache2ctl
+        state: link
+
+    - name: install certbot for Lets Encrypt SSL server cert
+      package: name=certbot-apache
+
+    - name: install apache SSL module
+      package: name=apache2-ssl
+      notify: restart apache2
+
+
   handlers:
     - name: restart apache2
       service: name=apache2 state=restarted
