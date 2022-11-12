@@ -32,13 +32,9 @@ images:
 	mkdir -p work/imginfo
 	cp src/imginfo/* work/imginfo/
 
-.PHONY: deploy
-deploy: site
-	./mksitemap.sh > _site/sitemap.txt
-	eval `ssh-agent`
-	ssh-add $$HOME/.ssh/id_tinyvz_production
-	rsync -avz ./_site/ tinyvz:/home/markbucciarelli/work
-	ssh tinyvz chown -R markbucciarelli:markbucciarelli /home/markbucciarelli/work
+.PHONY: deploytest
+deploytest: site
+	rsync -avz ./work/ testblog:/var/www/test.markbucciarelli.com
 
 .PHONY: clean
 clean:
