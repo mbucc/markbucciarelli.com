@@ -1,6 +1,9 @@
 ---
 - hosts: apache
 
+  vars:
+    domain: test.markbucciarelli.com
+
   tasks:
 
     - name: install Apache2
@@ -16,8 +19,21 @@
         regexp: '^LoadModule rewrite_module '
         insertafter: '^#LoadModule rewrite_module '
         line: LoadModule rewrite_module modules/mod_rewrite.so
+      notify:
+       - restart apache2
 
-    - name: start apache if it is stopped
+    - name: create document root for virtual host
+      file: path=/var/www/{{ domain }} state=directory
+
+    - name: create log file directory for virtual host
+      file: path=/var/www/logs/{{ domain }} state=directory
+
+    - name: create virtual host file
+      template: src=vhost.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
+      notify:
+       - restart apache2
+
+    - name: start apache if it is not running
       service: name=apache2 state=started
 
   handlers:
