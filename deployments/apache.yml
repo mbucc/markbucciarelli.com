@@ -1,0 +1,25 @@
+---
+- hosts: apache
+
+  tasks:
+
+    - name: install Apache2
+      package:
+        name:
+          - apache2
+          - apache2-ctl
+          - apache2-doc
+
+    - name: enable mod_rewrite
+      lineinfile:
+        path: /etc/apache2/httpd.conf
+        regexp: '^LoadModule rewrite_module '
+        insertafter: '^#LoadModule rewrite_module '
+        line: LoadModule rewrite_module modules/mod_rewrite.so
+
+    - name: start apache if it is stopped
+      service: name=apache2 state=started
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
