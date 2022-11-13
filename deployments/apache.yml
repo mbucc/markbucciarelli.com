@@ -2,7 +2,7 @@
 - hosts: apache
 
   vars:
-    domain: test.markbucciarelli.com
+    domain: markbucciarelli.com
 
   tasks:
 
@@ -59,7 +59,7 @@
       register: privkey_result
 
     - name: create an SSL certificate
-      command: certbot certonly --dry-run -d {{ domain }},www.{{ domain }} --apache --apache-ctl /usr/sbin/apachectl -n
+      command: certbot certonly -d {{ domain }},www.{{ domain }} --apache --apache-ctl /usr/sbin/apachectl -n
       when: not privkey_result.stat.exists
 
     - name: create SSL virtual host file

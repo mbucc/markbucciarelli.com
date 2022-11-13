@@ -9,7 +9,8 @@ Need to install certbot-apache package.
     The requested apache plugin does not appear to be installed
 
 
-Need to symlinks /usr/sbin/apachectl to /usr/sbin/apache2ctl
+Need to symlink /usr/sbin/apachectl to /usr/sbin/apache2ctl
+Or pass `--apache-ctl /usr/sbin/apachectl` arg to certbot.
 
     The apache plugin is not working; there may be problems with your existing configuration.
     The error was: NoInstallationError('Cannot find Apache executable apache2ctl')
@@ -71,9 +72,9 @@ Need to install SSL module.
 After installing apache ssl:
 
 
-   dev:/etc/apache2# certbot install --cert-name test.markbucciarelli.com
-   Saving debug log to /var/log/letsencrypt/letsencrypt.log
-   Unable to read ssl_module file; not disabling session tickets.
-   Deploying certificate
-   Successfully deployed certificate for test.markbucciarelli.com to /etc/apache2/conf.d/test.markbucciarelli.com-le-ssl.conf
-   dev:/etc/apache2# 
+    dev:/etc/apache2# certbot install --cert-name test.markbucciarelli.com
+    Saving debug log to /var/log/letsencrypt/letsencrypt.log
+    Unable to read ssl_module file; not disabling session tickets.
+    Deploying certificate
+    Successfully deployed certificate for test.markbucciarelli.com to /etc/apache2/conf.d/test.markbucciarelli.com-le-ssl.conf
+    dev:/etc/apache2# 

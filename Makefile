@@ -36,9 +36,9 @@ images:
 orch:
 	(cd deployments ; ansible-playbook apache.yml)
 
-.PHONY: deploytest
-deploytest: site orch
-	rsync -avz ./work/ testblog:/var/www/test.markbucciarelli.com
+.PHONY: deploy
+deploy: site orch
+	rsync -avz ./work/ blog:/var/www/markbucciarelli.com
 
 .PHONY: clean
 clean:
