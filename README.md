@@ -11,6 +11,7 @@ that.
 
     .
     ├── bin                 mkws and awk scripts
+    ├── deployments         Setup Apache and Let's Encrypt w/ Ansible.
     ├── doc                 Spec for how I markdown to Tufte DOM
     ├── scripts
     ├── src
