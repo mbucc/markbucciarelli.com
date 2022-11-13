@@ -33,11 +33,11 @@
     #
 
     - name: check if virtual host file already exists
-      stat: path=/etc/apache2/conf.d/{{ domain }}.conf
+      stat: path=/etc/apache2/conf.d/z1_{{ domain }}.conf
       register: vhost_result
 
     - name: create the first-time, port 80-only, virtual host file
-      template: src=vhost-pre-ssl.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
+      template: src=vhost-pre-ssl.conf dest=/etc/apache2/conf.d/z1_{{ domain }}.conf
       when: not vhost_result.stat.exists
 
     - name: need community package repo to install certbot
@@ -63,12 +63,12 @@
       when: not privkey_result.stat.exists
 
     - name: create SSL virtual host file
-      template: src=vhost-ssl.conf dest=/etc/apache2/conf.d/{{ domain }}-le-ssl.conf
+      template: src=vhost-ssl.conf dest=/etc/apache2/conf.d/z1_{{ domain }}-le-ssl.conf
       notify:
        - restart apache2
 
     - name: update http virtual host file to redirect all unencrypted traffic to SSL
-      template: src=vhost.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
+      template: src=vhost.conf dest=/etc/apache2/conf.d/z1_{{ domain }}.conf
       notify:
        - restart apache2
 
