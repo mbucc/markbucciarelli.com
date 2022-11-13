@@ -28,17 +28,17 @@
     - name: create log file directory for virtual host
       file: path=/var/www/logs/{{ domain }} state=directory
 
-    - name: create virtual host file
-      template: src=vhost.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
-      notify:
-       - restart apache2
-
-    - name: start apache if it is not running
-      service: name=apache2 state=started
-
     #
     #                    SSL Certification.
     #
+
+    - name: check if virtual host file already exists
+      stat: path=/etc/apache2/conf.d/{{ domain }}.conf
+      register: vhost_result
+
+    - name: create the first-time, port 80-only, virtual host file
+      template: src=vhost-pre-ssl.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
+      when: not vhost_result.stat.exists
 
     - name: need community package repo to install certbot
       lineinfile:
@@ -47,12 +47,6 @@
         insertafter: '^# *http://dl-cdn.alpinelinux.org/alpine/v3.16/community'
         line: http://dl-cdn.alpinelinux.org/alpine/v3.16/community
 
-    - name: create apache2ctl symlink to make certbot happy
-      file:
-        src: /usr/sbin/apachectl
-        dest: /usr/sbin/apache2ctl
-        state: link
-
     - name: install certbot for Lets Encrypt SSL server cert
       package: name=certbot-apache
 
@@ -60,6 +54,37 @@
       package: name=apache2-ssl
       notify: restart apache2
 
+    - name: check if we already have a Lets Encrypt certificate
+      stat: path=/etc/letsencrypt/live/{{ domain }}/privkey.pem
+      register: privkey_result
+
+    - name: create an SSL certificate
+      command: certbot certonly --dry-run -d {{ domain }},www.{{ domain }} --apache --apache-ctl /usr/sbin/apachectl -n
+      when: not privkey_result.stat.exists
+
+    - name: create SSL virtual host file
+      template: src=vhost-ssl.conf dest=/etc/apache2/conf.d/{{ domain }}-le-ssl.conf
+      notify:
+       - restart apache2
+
+    - name: update http virtual host file to redirect all unencrypted traffic to SSL
+      template: src=vhost.conf dest=/etc/apache2/conf.d/{{ domain }}.conf
+      notify:
+       - restart apache2
+
+    # cron minutes generated with awk 'BEGIN{srand(); print int(rand()*(60+1))}'
+    - name: check twice daily if certificate needs to be updated
+      cron:
+        name: renew_cert
+        minute: "32"
+        hour: "0,12"
+        job: "certbot renew -q"
+
+    - name: add Lets Encrypt hook that restarts apache when a certificate is renewed
+      template: src=apache.sh dest=/etc/letsencrypt/renewal-hooks/post/apache.sh mode='750'
+
+    - name: start apache if it is not running
+      service: name=apache2 state=started
 
   handlers:
     - name: restart apache2

@@ -29,14 +29,13 @@ X- create ./index.upphtml that:
 X     - lists ten most recent blog posts
 X     - put those on the index page 
 X- add a menu (create in one share directory, then ln -s)
-##?- Ansible
-##?  * install apache2
-##?  * install certbot
-##?  * 
+X- Ansible
+X  * install apache2
+X  * install certbot
+X  * 
 NO- Add proxy to Apache config to forward to thttpd (simpler to test locally)
+X- setup crontab to renew cert.
+X- redirect 80 to 443
 - Add redirects
     archive.html -> posts
     *.html -> * ??
-- setup crontab to renew cert.
-- redirect 80 to 443
-- add goatcounter to footer
