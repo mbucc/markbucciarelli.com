@@ -29,18 +29,18 @@ public class BlogStack extends Stack {
         //                  Create an S3 bucket.  Private by default.
         //
         Bucket bucket = Bucket.Builder.create(this, "BlogContent")
-            .bucketName("blog_content")
+            .bucketName("blog-content-for-marks-blog")
             .encryption(BucketEncryption.S3_MANAGED)
             //.versioned(true)
             .build();
 
         //
-        //                  Create an identity to give CloudFront bucket access.
+        //                  Create an identity so CloudFront can access to the S3 bucket.
         //
-        var cdnIdentity = new OriginAccessIdentity(this, "cdnBucketAccess");
+        var cdnIdentity = new OriginAccessIdentity(this, "cdnIdentity");
 
         //
-        //                  Grant CDN identity read permissions to the bucket.
+        //                  Grant the CDN identity read permissions to the bucket.
         //
         bucket.grantRead(cdnIdentity);
 
