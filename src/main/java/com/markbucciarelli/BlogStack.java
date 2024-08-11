@@ -40,12 +40,38 @@ public class BlogStack extends Stack {
         bucket.grantRead(cdnIdentity);
 
         //
+        //                  Define the origin of the content.
+        //
+        //                  Currently (Aug, 2024), CDK does not support origin
+        //                  access control, the preferred security method.
+        //
+        //                  This open source RFC is tracking Amazon's progress:
+        //                  https://github.com/aws/aws-cdk-rfcs/issues/617.
+        //
+        //                  Although the web console marks origin access identity
+        //                  as "Legacy", the three features it does not support are:
+        //
+        //                    * All Amazon S3 buckets in all AWS Regions, including
+        //                      opt-in Regions launched after December 2022
+        //
+        //                    * Amazon S3 server-side encryption with AWS KMS (SSE-KMS)
+        //
+        //                    * Dynamic requests (PUT and DELETE) to Amazon S3
+        //
+        //                  We do not need any of these features.
+        //
+
+        var s3Origin = S3Origin.Builder.create(bucket)
+            .originAccessIdentity(cdnIdentity)
+            .build();
+
+        //
         //                  Define the behavior for the origin.
         //
 
         var defaultCdnBehavior = BehaviorOptions.builder()
             .allowedMethods(AllowedMethods.ALLOW_GET_HEAD)
-            .origin(S3Origin.Builder.create(bucket).originAccessIdentity(cdnIdentity).build())
+            .origin(s3Origin)
             .cachePolicy(CloudDevelopmentKit.s3CachePolicy())
             .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
             .compress(true)
