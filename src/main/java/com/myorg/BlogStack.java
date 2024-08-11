@@ -95,18 +95,26 @@ public class BlogStack extends Stack {
      * A cache policy defines the key for the cache and other attributes.
      *
      * <p>
-     *     Namely,
+     *     Specifically, a cache policy defines
      * </p>
      *     <ol>
-     *         <li>time-to-live for a cache entry</li>
-     *         <li>additional values to add to the default cache key</li>
-     *         <li>if compressed objects are cached</li>
+     *         <li>name,</li>
+     *         <li>description,</li>
+     *         <li>the cache entry time-to-live,</li>
+     *         <li>any additional values to add to the default cache key, and</li>
+     *         <li>if compressed objects are cached.</li>
      *     </ol>
      *
      * <p>
-     *     The default "cache key" is (domain_name, URL path); for example,
+     *     The default cache key is (domain_name, URL path); for example,
      *     ("d111111abcdef8.cloudfront.net", "/index.html")
      *
+     * </p>
+     *
+     * <p>
+     *     The AWS-provided "Managed-CachingOptimized",
+     *     returned by this method,
+     *     defines the following policy:
      * </p>
      *     <ol>
      *     <li>TTL
