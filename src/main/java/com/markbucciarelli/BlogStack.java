@@ -7,7 +7,7 @@ import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
 import software.amazon.awscdk.services.cloudfront.ViewerProtocolPolicy;
 import software.amazon.awscdk.services.s3.Bucket;
-import software.amazon.awscdk.services.s3.BucketEncryption;
+import software.amazon.awscdk.services.s3.ObjectOwnership;
 import software.constructs.Construct;
 
 public class BlogStack extends Stack {
@@ -21,25 +21,40 @@ public class BlogStack extends Stack {
         super(scope, id, props);
 
         //
-        //                  Create an S3 bucket.  Private by default.
+        //                  Create an S3 bucket for content.  Private by default.
         //
-        Bucket bucket = Bucket.Builder.create(this, "BlogContent")
-            .bucketName("blog-content-for-marks-blog")
-            .encryption(BucketEncryption.S3_MANAGED)
+
+        Bucket contentBucket = Bucket.Builder.create(this, "BlogContent")
+            .bucketName("blog-content-mb")
             .versioned(true)
             .build();
 
         //
+        //                  Create an S3 bucket for logs.
+        //
+
+        Bucket loggingBucket = Bucket.Builder.create(this, "BlogLogs")
+            .bucketName("blog-logs-mb")
+            .objectOwnership(ObjectOwnership.BUCKET_OWNER_PREFERRED)
+            .build();
+
+
+
+        //
         //                  Define the behavior for the origin.
+        //
+        //                  Set the origin, cache policy and specify to redirect
+        //                  all traffic from HTTP to HTTPS.
         //
 
         var defaultCdnBehavior = BehaviorOptions.builder()
             .allowedMethods(AllowedMethods.ALLOW_GET_HEAD)
-            .origin(CloudDevelopmentKit.s3OriginSecuredWithOriginAccessIdentity(this, bucket))
+            .origin(CloudDevelopmentKit.s3OriginSecuredWithOriginAccessIdentity(this, contentBucket))
             .cachePolicy(CloudDevelopmentKit.s3CachePolicy())
             .viewerProtocolPolicy(ViewerProtocolPolicy.REDIRECT_TO_HTTPS)
             .compress(true)
             .build();
+
 
         //
         //                  Create the CloudFront distribution.
@@ -47,6 +62,8 @@ public class BlogStack extends Stack {
 
         Distribution.Builder.create(this, "BlogCDN")
             .defaultBehavior(defaultCdnBehavior)
+            //.priceClass(PriceClass.PRICE_CLASS_100)
+            .logBucket(loggingBucket)
             .build();
     }
 
