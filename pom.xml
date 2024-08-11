@@ -33,6 +33,19 @@
                     <mainClass>com.myorg.BlogApp</mainClass>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <!-- show>private</show -->
+                    <nohelp>true</nohelp>
+                    <links>
+                        <link>https://docs.aws.amazon.com/cdk/api/v2/java</link>
+                    </links>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
