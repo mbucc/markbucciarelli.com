@@ -3,7 +3,6 @@ package com.myorg;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.cloudfront.Behavior;
-import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.CachePolicy;
 import software.amazon.awscdk.services.cloudfront.CloudFrontAllowedMethods;
 import software.amazon.awscdk.services.cloudfront.CloudFrontWebDistribution;
@@ -108,7 +107,6 @@ public class BlogStack extends Stack {
      * <p>
      *     The default cache key is (domain_name, URL path); for example,
      *     ("d111111abcdef8.cloudfront.net", "/index.html")
-     *
      * </p>
      *
      * <p>
