@@ -43,6 +43,7 @@
                     <nohelp>true</nohelp>
                     <links>
                         <link>https://docs.aws.amazon.com/cdk/api/v2/java</link>
+                        <link>https://javadoc.io/doc/software.constructs/constructs/latest</link>
                     </links>
                 </configuration>
             </plugin>
