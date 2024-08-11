@@ -46,6 +46,19 @@ public class CloudDevelopmentKit {
 	 *     <li>cache both gzip and brotli compressed objects</li>
 	 *  </ol>
 	 *
+	 *  <p>
+	 *      While no headers are explicitly included, turning on the support
+	 *      for compressed objects implicitly adds the normalized Accept-Encoding
+	 *      header (source:
+	 *      <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cache-key-understand-cache-policy.html#cache-policy-compressed-objects">
+	 *          CloudFront Compression support</a>.)
+	 *  </p>
+	 *
+	 *  <p>
+	 *      Note: as of August, 2024, {@code CACHING_OPTIMIZED.getCachePolicyId()}
+	 *      returns 658327ea-f89d-4fab-a63d-7e88639e58f6.
+	 *  </p>
+	 *
 	 * @return The AWS-provided "Managed-CachingOptimized" policy.
 	 *
 	 * @see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cache-key-understand-cache-policy.html">Understand cache policies</a>
@@ -53,6 +66,8 @@ public class CloudDevelopmentKit {
 	 * @see <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html">Control the cache key with a policy</a>
 	 */
 	public static ICachePolicy s3CachePolicy() {
+		// CACHING_OPTIMIZED.getCachePolicyId() = 658327ea-f89d-4fab-a63d-7e88639e58f6
 		return CachePolicy.CACHING_OPTIMIZED;
 	}
+
 }
