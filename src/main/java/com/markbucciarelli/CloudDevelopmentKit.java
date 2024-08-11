@@ -1,4 +1,4 @@
-package com.myorg;
+package com.markbucciarelli;
 
 import software.amazon.awscdk.services.cloudfront.CachePolicy;
 import software.amazon.awscdk.services.cloudfront.ICachePolicy;
@@ -14,6 +14,42 @@ public class CloudDevelopmentKit {
 	 * cache policy to use with an S3 bucket.
 	 *
 	 * <p>
+	 *     Sample code (based on sample code in {@link software.amazon.awscdk.services.cloudfront.CachePolicy}):
+	 * </p>
+	 *
+	 * <blockquote><pre>
+	 *  import static com.markbucciarelli.CloudDevelopmentKit.s3CachePolicy;
+	 *
+	 *      //
+	 *      // ... then, down in your Stack definition ...
+	 *      //
+	 *
+	 *      S3Origin bucketOrigin;
+	 *      Distribution.Builder.create
+	 *         ( this
+	 *         , "myDistManagedPolicy"
+	 *         )
+	 *         .defaultBehavior
+	 *             (BehaviorOptions
+	 *             .builder()
+	 *             .origin(bucketOrigin)
+	 *             .cachePolicy(s3CachePolicy())
+	 *             .build()
+	 *             )
+	 *         .build();
+	 * </pre></blockquote>
+	 *
+	 *  <p>
+	 *      To define a CloudFront caching policy in CDK, you must use a
+	 *      {@link software.amazon.awscdk.services.cloudfront.Distribution}.
+	 *  </p>
+	 *  <p>
+	 *      The older
+	 *      {@link software.amazon.awscdk.services.cloudfront.CloudFrontWebDistribution}
+	 *      does not support caching policies.
+	 *  </p>
+	 *
+	 * <p>
 	 * A cache policy defines a
 	 * </p>
 	 *     <ol>
@@ -27,6 +63,10 @@ public class CloudDevelopmentKit {
 	 * <p>
 	 *     The default cache key is (domain_name, URL path); for example,
 	 *     ("d111111abcdef8.cloudfront.net", "/index.html")
+	 * </p>
+	 *
+	 * <p>
+	 *     The policy returned by this method has the following configuration:
 	 * </p>
 	 *
 	 * <ol>
@@ -55,7 +95,9 @@ public class CloudDevelopmentKit {
 	 *  </p>
 	 *
 	 *  <p>
-	 *      Note: as of August, 2024, {@code CACHING_OPTIMIZED.getCachePolicyId()}
+	 *      The interface returned by this method has single method:
+	 *      {@link software.amazon.awscdk.services.cloudfront.ICachePolicy#getCachePolicyId() }
+	 *      and as of this writing {@code CACHING_OPTIMIZED.getCachePolicyId()}
 	 *      returns 658327ea-f89d-4fab-a63d-7e88639e58f6.
 	 *  </p>
 	 *
