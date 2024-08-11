@@ -110,8 +110,8 @@ public class BlogStack extends Stack {
      * </p>
      *
      * <p>
-     *     The AWS-provided "Managed-CachingOptimized",
-     *     returned by this method,
+     *     The AWS-provided "Managed-CachingOptimized"
+     *     returned by this method
      *     defines the following policy:
      * </p>
      *     <ol>
@@ -121,7 +121,7 @@ public class BlogStack extends Stack {
      *         <li>max=31536000 seconds (1 year), and</li>
      *         <li>default=86400 seconds (1 day)</li>
      *     </ul></li>
-     *     <li>key: the default (none, none, none), which means that no additional
+     *     <li>key: the default (none, none, none), which means that no
      *         <ul>
      *             <li>header values,</li>
      *             <li>cookie values, or</li>
