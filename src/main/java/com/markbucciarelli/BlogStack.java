@@ -64,6 +64,7 @@ public class BlogStack extends Stack {
             .defaultBehavior(defaultCdnBehavior)
             //.priceClass(PriceClass.PRICE_CLASS_100)
             .logBucket(loggingBucket)
+            .defaultRootObject("index.html")
             .build();
     }
 
