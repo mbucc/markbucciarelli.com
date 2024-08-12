@@ -203,9 +203,6 @@ public class CloudDevelopmentKit {
 
 	public static class CertUtil {
 
-		public static boolean isNotInEnv(String arnEnvVar) {
-			return ! isInEnv(arnEnvVar);
-		}
 		public static boolean isInEnv(String arnEnvVar) {
 			var arn = System.getenv(Objects.requireNonNull(arnEnvVar, "null arg"));
 			return arn != null && !arn.isBlank();
