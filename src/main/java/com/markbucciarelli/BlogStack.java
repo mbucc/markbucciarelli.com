@@ -62,7 +62,6 @@ public class BlogStack extends Stack {
 
         Distribution.Builder.create(this, "BlogCDN")
             .defaultBehavior(defaultCdnBehavior)
-            //.priceClass(PriceClass.PRICE_CLASS_100)
             .logBucket(loggingBucket)
             .defaultRootObject("index.html")
             .build();
