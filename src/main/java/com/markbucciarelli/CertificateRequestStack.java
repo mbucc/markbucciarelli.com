@@ -5,9 +5,6 @@ import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.constructs.Construct;
 
-import static com.markbucciarelli.BlogStack.BLOG_DEV_CERT_ARN_ENVVAR;
-import static com.markbucciarelli.CloudDevelopmentKit.CertUtil.isNotInEnv;
-
 public class
 
 

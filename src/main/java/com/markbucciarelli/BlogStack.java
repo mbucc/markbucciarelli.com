@@ -2,7 +2,6 @@ package com.markbucciarelli;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
-import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.AllowedMethods;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
@@ -13,7 +12,6 @@ import software.constructs.Construct;
 
 import java.util.Collections;
 
-import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_CERT_ID;
 import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_DOMAIN_NAME;
 
 public class BlogStack extends Stack {
