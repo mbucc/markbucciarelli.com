@@ -2,6 +2,7 @@ package com.markbucciarelli;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.AllowedMethods;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
@@ -10,7 +11,14 @@ import software.amazon.awscdk.services.s3.Bucket;
 import software.amazon.awscdk.services.s3.ObjectOwnership;
 import software.constructs.Construct;
 
+import java.util.Collections;
+
+import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_CERT_ID;
+import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_DOMAIN_NAME;
+
 public class BlogStack extends Stack {
+
+    public static final String BLOG_DEV_CERT_ARN_ENVVAR = "BLOG_DEV_CERT_ARN";
 
     public BlogStack(final Construct scope, final String id) {
         this(scope, id, null);
@@ -60,11 +68,20 @@ public class BlogStack extends Stack {
         //                  Create the CloudFront distribution.
         //
 
-        Distribution.Builder.create(this, "BlogCDN")
+        var distBuilder = Distribution.Builder.create(this, "BlogCDN")
             .defaultBehavior(defaultCdnBehavior)
             .logBucket(loggingBucket)
-            .defaultRootObject("index.html")
-            .build();
+            .defaultRootObject("index.html");
+
+        if (CloudDevelopmentKit.CertUtil.isInEnv(BLOG_DEV_CERT_ARN_ENVVAR)) {
+            System.out.println("adding dev blog cert from envvar " + BLOG_DEV_CERT_ARN_ENVVAR);
+            var cert = CloudDevelopmentKit.CertUtil.getDevBlogCert(this, BLOG_DEV_CERT_ARN_ENVVAR);
+            distBuilder.certificate(cert);
+            distBuilder.domainNames(Collections.singletonList(DEVBLOG_DOMAIN_NAME));
+        }
+
+        distBuilder.build();
+
     }
 
 }

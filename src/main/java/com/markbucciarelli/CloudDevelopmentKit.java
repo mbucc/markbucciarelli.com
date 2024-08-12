@@ -1,5 +1,7 @@
 package com.markbucciarelli;
 
+import software.amazon.awscdk.services.certificatemanager.Certificate;
+import software.amazon.awscdk.services.certificatemanager.ICertificate;
 import software.amazon.awscdk.services.cloudfront.CachePolicy;
 import software.amazon.awscdk.services.cloudfront.ICachePolicy;
 import software.amazon.awscdk.services.cloudfront.IOrigin;
@@ -7,6 +9,10 @@ import software.amazon.awscdk.services.cloudfront.OriginAccessIdentity;
 import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
 import software.amazon.awscdk.services.s3.Bucket;
 import software.constructs.Construct;
+
+import java.util.Objects;
+
+import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_CERT_ID;
 
 
 /**
@@ -194,5 +200,27 @@ public class CloudDevelopmentKit {
 			.originAccessIdentity(cdnIdentity)
 			.build();
 	}
+
+	public static class CertUtil {
+
+		public static boolean isNotInEnv(String arnEnvVar) {
+			return ! isInEnv(arnEnvVar);
+		}
+		public static boolean isInEnv(String arnEnvVar) {
+			var arn = System.getenv(Objects.requireNonNull(arnEnvVar, "null arg"));
+			return arn != null && !arn.isBlank();
+		}
+
+		public static String getCertArn(String arnEnvVar) {
+			return System.getenv(Objects.requireNonNull(arnEnvVar, "null arg"));
+		}
+
+		public static ICertificate getDevBlogCert(Construct scope, String arnEnvVar) {
+			assert isInEnv(arnEnvVar);
+			return Certificate.fromCertificateArn(scope, DEVBLOG_CERT_ID, getCertArn(arnEnvVar));
+		}
+
+	}
+
 
 }

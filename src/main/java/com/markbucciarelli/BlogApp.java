@@ -10,8 +10,8 @@ public class BlogApp {
 
         new BlogStack(app, "BlogStack", StackProps.builder()
 
-                // CDK sets these environmental variables from the AWS profile; either –profile
-                // the default.
+                // CDK sets these environmental variables from the AWS profile; either --profile
+                // or the default.
                 //      If you don't specify 'env', this stack will be environment-agnostic.
                 // Account/Region-dependent features and context lookups will not work,
                 // but a single synthesized template can be deployed anywhere.
@@ -22,6 +22,13 @@ public class BlogApp {
                         .build())
 
                 .build());
+
+        new CertificateRequestStack(app, "CertificateRequestStack", StackProps.builder()
+            .env(Environment.builder()
+                .account(System.getenv("CDK_DEFAULT_ACCOUNT"))
+                .region(System.getenv("CDK_DEFAULT_REGION"))
+                .build())
+            .build());
 
         app.synth();
     }
