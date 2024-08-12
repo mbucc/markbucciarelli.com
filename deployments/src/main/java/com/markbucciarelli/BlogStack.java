@@ -2,6 +2,7 @@ package com.markbucciarelli;
 
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
+import software.amazon.awscdk.services.certificatemanager.Certificate;
 import software.amazon.awscdk.services.cloudfront.AllowedMethods;
 import software.amazon.awscdk.services.cloudfront.BehaviorOptions;
 import software.amazon.awscdk.services.cloudfront.Distribution;
@@ -12,11 +13,28 @@ import software.constructs.Construct;
 
 import java.util.Collections;
 
-import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_DOMAIN_NAME;
+import static com.markbucciarelli.CertificateRequestStack.BLOG_CERT;
 
+/**
+ * Deploy my blog.
+ *
+ * <ul>
+ *     <li>S3 bucket for content</li>
+ *     <li>S3 bucket for access logs</li>
+*  </ul>
+ *
+ *  <p>
+ *      If certificate arn is not null (see
+ *      source code in the
+ *      {@link CertificateRequestStack#BLOG_CERT}) add
+ *  </p>
+ *
+ *  <ul>
+ *      <li>the domain markbucciarelli.com and</li>
+ *      <li>the SSL certificate</li>
+ * </ul>
+ */
 public class BlogStack extends Stack {
-
-    public static final String BLOG_DEV_CERT_ARN_ENVVAR = "BLOG_DEV_CERT_ARN";
 
     public BlogStack(final Construct scope, final String id) {
         this(scope, id, null);
@@ -71,11 +89,10 @@ public class BlogStack extends Stack {
             .logBucket(loggingBucket)
             .defaultRootObject("index.html");
 
-        if (CloudDevelopmentKit.CertUtil.isInEnv(BLOG_DEV_CERT_ARN_ENVVAR)) {
-            System.out.println("adding dev blog cert from envvar " + BLOG_DEV_CERT_ARN_ENVVAR);
-            var cert = CloudDevelopmentKit.CertUtil.getDevBlogCert(this, BLOG_DEV_CERT_ARN_ENVVAR);
+        if (BLOG_CERT.arn() != null && !BLOG_CERT.arn().isBlank()) {
+            var cert = Certificate.fromCertificateArn(this, BLOG_CERT.id(), BLOG_CERT.arn());
             distBuilder.certificate(cert);
-            distBuilder.domainNames(Collections.singletonList(DEVBLOG_DOMAIN_NAME));
+            distBuilder.domainNames(Collections.singletonList(BLOG_CERT.domain()));
         }
 
         distBuilder.build();

@@ -32,13 +32,9 @@ images:
 	mkdir -p work/imginfo
 	cp src/imginfo/* work/imginfo/
 
-.PHONY: orch
-orch:
-	(cd deployments ; ansible-playbook apache.yml)
-
 .PHONY: deploy
-deploy: site orch
-	rsync -avz ./work/ blog:/var/www/markbucciarelli.com
+deploy: site
+	aws --profile blog s3 sync work s3://blog-content-mb
 
 .PHONY: clean
 clean:

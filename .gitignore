@@ -36,3 +36,5 @@ _site
 .idea
 work/
 test/test.actual
+deployments/target/
+deployments/cdk.out/

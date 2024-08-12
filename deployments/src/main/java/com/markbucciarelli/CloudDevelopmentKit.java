@@ -1,7 +1,6 @@
 package com.markbucciarelli;
 
-import software.amazon.awscdk.services.certificatemanager.Certificate;
-import software.amazon.awscdk.services.certificatemanager.ICertificate;
+
 import software.amazon.awscdk.services.cloudfront.CachePolicy;
 import software.amazon.awscdk.services.cloudfront.ICachePolicy;
 import software.amazon.awscdk.services.cloudfront.IOrigin;
@@ -10,13 +9,9 @@ import software.amazon.awscdk.services.cloudfront.origins.S3Origin;
 import software.amazon.awscdk.services.s3.Bucket;
 import software.constructs.Construct;
 
-import java.util.Objects;
-
-import static com.markbucciarelli.CertificateRequestStack.DEVBLOG_CERT_ID;
-
 
 /**
- * Utility methods with detailed CDK documentation.
+ * CDK helper methods.
  */
 public class CloudDevelopmentKit {
 
@@ -31,9 +26,9 @@ public class CloudDevelopmentKit {
 	 * <blockquote><pre>
 	 *  import static com.markbucciarelli.CloudDevelopmentKit.s3CachePolicy;
 	 *
-	 *      //
+	 *      * 
 	 *      // ... then, down in your Stack definition ...
-	 *      //
+	 *      * 
 	 *
 	 *      S3Origin bucketOrigin;
 	 *      Distribution.Builder.create
@@ -199,24 +194,6 @@ public class CloudDevelopmentKit {
 		return S3Origin.Builder.create(bucket)
 			.originAccessIdentity(cdnIdentity)
 			.build();
-	}
-
-	public static class CertUtil {
-
-		public static boolean isInEnv(String arnEnvVar) {
-			var arn = System.getenv(Objects.requireNonNull(arnEnvVar, "null arg"));
-			return arn != null && !arn.isBlank();
-		}
-
-		public static String getCertArn(String arnEnvVar) {
-			return System.getenv(Objects.requireNonNull(arnEnvVar, "null arg"));
-		}
-
-		public static ICertificate getDevBlogCert(Construct scope, String arnEnvVar) {
-			assert isInEnv(arnEnvVar);
-			return Certificate.fromCertificateArn(scope, DEVBLOG_CERT_ID, getCertArn(arnEnvVar));
-		}
-
 	}
 
 }
