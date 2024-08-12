@@ -15,13 +15,13 @@ that.
     ├── doc                 Spec for how I markdown to Tufte DOM
     ├── scripts
     ├── src
-    │   ├── css
-    │   ├── img
-    │   ├── imginfo
-    │   └─ posts
-    │       └── share       mkws templates
+    │   ├── css
+    │   ├── img
+    │   ├── imginfo
+    │   └─ posts
+    │      └── share       mkws templates
     ├── test
-    └── work                Build local version for testing & deploy
+    └── work               Build local version for testing & deploy
 
 
 To test site locally:
