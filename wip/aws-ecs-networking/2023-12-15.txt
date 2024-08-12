@@ -1,0 +1,476 @@
+Fri Dec 15 03:21:37 EST 2023
+
+
+
+
+Detour ... Spring + GraalVM
+
+https://www.baeldung.com/spring-native-intro
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/native-image.html
+
+	Started MyApplication in 0.08 seconds (process
+	running for 0.095)
+
+	!!
+
+	When writing native image applications, we
+	recommend that you continue to use the JVM
+	whenever possible to develop the majority of
+	your unit and integration tests.
+
+Base image used by Spring Native
+https://github.com/paketo-buildpacks/builder-jammy-tiny
+
+
+
+		Very light weight.
+
+		Clear docs on what is contained.
+
+
+
+Spring Boot with GraalVM
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-with-GraalVM
+
+
+	Using beans defined as lambdas or instance
+	suppliers with AOT/native is not yet supported
+
+	Field injection with @Resource does not work.
+	Please use constructor injection or
+	@Autowired-based field injection instead.
+
+	To use SpEL expressions in a native image,
+	runtime hints must be provided to enable the
+	reflective calls that the expression requires.
+
+	Log4j2 is not supported in native images.
+
+	Logback is supported ... [but] loading
+	different XML configuration at runtime is not
+	supported.
+
+	Mockito is not supported yet
+
+	Paketo Buildpacks do not yet have official
+	support for building images for ARM. But there
+	are alternative builders available which
+	support building on ARM.
+
+	The optional usage of @ModelAttribute ... does
+	not allow ahead-of-time inference of the needed
+	data binding reflection hints.  ... annotate
+	the method parameters with @ModelAttribute
+	where binding is required.
+
+	WebJars are not recommended with native images.
+
+	tomcat-embed-programmatic is an experimental
+	Tomcat dependency designed to lower the memory
+	footprint. Using it produces smaller native
+	images.
+
+
+
+
+03:51:15
+AWS Lambda function handler in Java
+(cont.)
+
+
+	You can specify the type of the request JSON by
+	implementing a RequestHandler.  For example, a
+	Handler that takes a Map<String, String> like
+	this:
+
+		// Handler value: example.Handler
+		public class Handler
+		implements
+		RequestHandler<
+			Map<String,String>,
+			String
+			>
+		{
+
+			@Override
+			public String
+			handleRequest(
+				Map<String,String> event,
+				Context context
+			)
+
+	will accept a request like this:
+
+		{
+			"temperatureK": 281,
+			"windKmh": -3,
+			"humidityPct": 0.55,
+			"pressureHPa": 1020
+		}
+
+
+	You can also use a stream handler:
+
+		// Handler value: example.HandlerStream
+		public class HandlerStream
+		implements RequestStreamHandler {
+			@Override
+			/*
+			Takes an InputStream and an
+			OutputStream. Reads from the
+			InputStream,and copies all
+			characters to the OutputStream.
+			*/
+			public void
+			handleRequest(
+				InputStream inputStream,
+				OutputStream outputStream,
+				Context context
+			)
+			throws IOException
+			{
+
+
+04:08:27
+AWS Lambda context object in Java
+https://docs.aws.amazon.com/lambda/latest/dg/java-context.html
+
+	public class Handler
+	implements RequestHandler<
+		Map<String,String>,
+		String
+	> {
+		Gson gson = new GsonBuilder()
+			.setPrettyPrinting()
+			.create();
+
+		@Override
+		public String
+		handleRequest(
+			Map<String,String> event,
+			Context context
+		) {
+			LambdaLogger logger =
+				context.getLogger();
+
+			String response = new String("200 OK");
+
+			// log execution details
+			logger.log(
+				"ENVIRONMENT VARIABLES: " +
+				gson.toJson(System.getenv())
+			);
+
+			logger.log(
+				"CONTEXT: " +
+				gson.toJson(context)
+			);
+
+			// process event
+			logger.log(
+				"EVENT: " +
+				gson.toJson(event)
+			);
+
+			logger.log(
+				"EVENT TYPE: " +
+				event.getClass().toString()
+			);
+
+			return response;
+		}
+	}
+
+	START RequestId: 6bc28136-xmpl-4365-b021-0ce6b2e64ab0 Version: $LATEST
+	...
+	CONTEXT:
+	{
+		"memoryLimit": 512,
+		"awsRequestId": "6bc28136-xmpl-4365-b021-0ce6b2e64ab0",
+		"functionName": "java-console",
+		...
+	}
+	...
+	END RequestId: 6bc28136-xmpl-4365-b021-0ce6b2e64ab0
+	REPORT RequestId: 6bc28136-xmpl-4365-b021-0ce6b2e64ab0	Duration: 198.50 ms
+
+
+04:15:15
+S3 image resizer (Java)
+https://github.com/awsdocs/aws-lambda-developer-guide/tree/main/sample-apps/s3-java
+
+	1. create s3 bucket
+
+	2. build layer (aka lambda zip)
+
+	3. deploy
+
+		a. aws cp
+			images/sample-s3-java.png
+			s3://$ARTIFACT_BUCKET/inbound/sample-s3-java.png
+
+		b. package and deploy template.yml
+		using cloudformation
+
+		Note: template refers to lamda zip.
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Lambda application that calls the Lambda API.
+Resources:
+	bucket:
+		Type: AWS::S3::Bucket
+		DeletionPolicy: Retain
+	function:
+		Type: AWS::Serverless::Function
+		Properties:
+			CodeUri: build/distributions/s3-java.zip
+			Handler: example.Handler
+			Runtime: java8
+			Description: Java function
+			MemorySize: 512
+			Timeout: 30
+			# Function's execution role
+			Policies:
+				- AWSLambdaBasicExecutionRole
+				- AWSLambda_ReadOnlyAccess
+				- AWSXrayWriteOnlyAccess
+				- AWSLambdaVPCAccessExecutionRole
+				- AmazonS3FullAccess
+				...
+
+	4. upload
+
+		aws cp
+			images/sample-s3-java.png
+			s3://$BUCKET/inbound/
+
+	5. invoke
+
+		set -eo pipefail
+		FUNCTION=$(aws cloudformation
+			describe-stack-resource
+			--stack-name s3-java
+			--logical-resource-id function
+			--query 'StackResourceDetail.PhysicalResourceId'
+			--output text
+		)
+
+		BUCKET_NAME=$(aws cloudformation
+			describe-stack-resource
+			--stack-name s3-java
+			--logical-resource-id bucket
+			--query 'StackResourceDetail.PhysicalResourceId'
+			--output text
+		)
+
+
+		cp event.json.template event.json
+		sed
+			-i''
+			-e "s/BUCKET_NAME/$BUCKET_NAME/" event.json
+
+		while true
+
+			aws lambda invoke
+				--function-name $FUNCTION
+				--payload fileb://event.json out.json
+
+			cat out.json
+
+			echo ""
+
+			sleep 2
+
+		done
+
+
+
+
+04:30:20
+Write some code!
+
+	Code Plan
+
+		1. Drain input stream.
+
+		2. Return HTML, headers and all.  Reuse
+		existing HTTP functions if possible.
+
+
+	Deploy as is.  No JLink, no GraalVM.
+
+	Point gardening-journal.com domain to
+	the API Gateway.
+
+
+04:44:03
+Download the SDK
+
+	https://sdk-for-java.amazonwebservices.com/latest/aws-java-sdk.zip
+
+	To use the SDK, add the full path to the lib
+	and third-party directories to the dependencies
+	in your build file, and add them to your java
+	CLASSPATH to run your code.
+
+
+04:54:41
+package com.amazonaws.services.lambda.runtime does not exist
+
+	https://stackoverflow.com/a/31154218/1789168
+
+	Both of those classes are contained in the
+	aws-lambda-java-core jar, which is distributed
+	separately from the AWS SDK.
+
+
+05:36:51
+Deploy Java Lambda functions with .zip or JAR file archives
+https://docs.aws.amazon.com/lambda/latest/dg/java-package.html
+
+	Need to create a fat jar.
+
+	Can test in AWS console.
+
+	SUCCESS!!
+
+		Init duration
+		259.43 ms
+
+		Billed duration
+		14 ms
+
+		Resources configured
+		512 MB
+
+		Max memory used
+		98 MB
+
+	Turn down memory to 128 MB
+
+
+package gj;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+
+//				Render home page.
+public class HomePage implements RequestStreamHandler {
+
+	@Override
+	public void handleRequest(
+		InputStream inputStream,
+		OutputStream outputStream,
+		Context context
+	) {
+		LambdaLogger logger = context.getLogger();
+		try {
+			inputStream.transferTo(OutputStream.nullOutputStream());
+			outputStream.write("200 OK".getBytes(StandardCharsets.UTF_8));
+		} catch (Exception e) {
+			logger.log(
+				"error handliing %s: %s".formatted(
+						context.getAwsRequestId(),
+						e.getMessage()
+					)
+			);
+		}
+	}
+}
+
+
+
+
+#		May break if multiple jars define same files.
+#		Only use jars that don't do that.
+#		TODO: write a script to check a set of jars.
+target/homepage.jar: target/classes/gj/HomePage.class fmt.touch vendor/aws-lambda-java-core-1.2.3.jar
+	unzip vendor/aws-lambda-java-core-1.2.3.jar -d target/classes
+	jar c -C target/classes . > $@
+
+
+
+
+
+06:04:32
+Failed, and no logging
+Setup a cloud watch group
+
+
+	"Access logging disabled"
+
+
+	Need cloud watch arn to setup access log?
+
+
+	Huh, in cloud watch I see log entries from
+	testing but non from when I hit my API gateway
+	URL.
+
+
+06:17:08
+Setting up CloudWatch logging for a REST API in API Gateway
+
+	You can obtain a log group ARN in the
+	CloudWatch console, provided that the ARN
+	column is selected for display.
+
+	To enable CloudWatch Logs, you must grant API
+	Gateway permission to read and write logs to
+	CloudWatch for your account.
+
+	The AmazonAPIGatewayPushToCloudWatchLogs
+	managed policy (with an ARN of
+	arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs)
+	has all the required permissions:
+
+
+	Create an IAM role
+
+		apigateway.amazonaws.com as its trusted
+		entity
+
+		attach the managed policy
+		arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs.
+
+
+	Huh, IAM is not responsive.
+
+		Took forever to load "Service or use case"
+
+		Clicking Next and Cancel had no effect.
+
+	Closed browser and retried and it worked.
+
+		Used existing role from drop down.
+
+		role name = api-logging
+
+	Now, when I hit endpoint, I get something
+	logged.
+
+	Browser shows:
+
+		{"message":"Internal Server Error"}
+
+	But log only shows
+
+		INIT_START
+
+		START
+
+		END
+
+		REPORT
+
+		No errors.
+
+
+06:47:54		STOP FOR TODAY.
+

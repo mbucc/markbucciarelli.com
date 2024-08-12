@@ -1,0 +1,163 @@
+Thu Dec 14 06:50:26 EST 2023
+
+RDS was charging me 2 cents / day
+$7.30 / year
+only thing i saw on RDS dashboard
+was a defaut VPC
+I deleted that.
+
+06:56:21
+
+AWS App Runner
+6.4 cents/hour (vCPU)
+0.8 cents/hour (GB RAM)
+no prior AWS experience required
+
+07:00:59
+AWS Application Load Balancer vs API Gateway
+Comprehensive feature comparison
+alb vs gtw
+
+07:05:49
+Use request validation in API Gateway
+perform basic validation of an API request
+request parameters in URI, query, and headers are:
+	included and
+	not blank.
+request payload matches a JSON schema
+
+07:08:02
+Amazon API Gateway
+
+	Choose an API type
+
+		HTTP API  --> Click "Build"
+
+		WebSocket API
+
+		REST API
+
+		REST API Private
+
+	Create an API
+
+		Create and configure integrations
+
+			Lambda  --> Pick
+
+			Http
+
+		Lambda
+
+			AWS Region --> us-east-1 (defaults)
+
+			Lambda function --> none on file!
+
+			Version --> 2.0 (default)
+
+
+07:12:20
+AWS Lambda
+
+	Click "Create function"
+
+		Author from scratch --> default
+
+		Use a blueprint
+
+		Container image
+
+	Author from scratch
+
+		function name --> hello-world-java21
+
+		Runtime --> Java 21
+
+		Architecture --> arm64 (default = x86_64)
+
+		Permissions
+
+			No choice.
+
+			"By default, Lambda will create
+			an execution role with
+			permissions to upload logs to
+			Amazon CloudWatch Logs. You can
+			customize this default role
+			later when adding triggers."
+
+
+		Change default execution role
+
+			collapsed by default
+
+			Create a new role with basic	--> default
+			Lambda permissions
+
+			Use an existing role
+
+			Create a new role from AWS
+			policy templates
+
+
+			Lambda will create an execution
+			role named
+			hello-world-java21-role-fz86ve7m,
+			with permission to upload logs
+			to Amazon CloudWatch Logs.
+
+
+		Advanced settings (none checked by default)
+
+			Enable Code signing
+
+			Use code signing configurations
+			to ensure that the code has
+			been signed by an approved
+			source and has not been altered
+			since signing.
+
+			Enable function URLInfo
+
+			Use function URLs to assign
+			HTTP(S) endpoints to your
+			Lambda function.  Enable
+			tagsInfo
+
+			A tag is a label that you
+			assign to an AWS resource. Each
+			tag consists of a key and an
+			optional value. You can use
+			tags to search and filter your
+			resources, track your AWS
+			costs, and enforce
+			attribute-based access control.
+
+			Enable VPC
+
+			Connect your function to a VPC
+			to access private resources
+			during invocation.
+
+		Click "Create function"
+
+
+08:24:04
+AWS Lambda function handler in Java
+
+
+	Lambda runs your static code and the class
+	constructor during the initialization phase
+
+	Anything created during initialization stays in
+	memory between invocations and can be reused by
+	the handler thousands of times.
+
+08:36:29
+(done dealing w/ dad/covid/contagion research)
+1 in 5 that take paxlovid have rebound case
+vs a very small # (1%
+
+
+
+

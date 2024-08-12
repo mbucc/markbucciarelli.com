@@ -1,0 +1,582 @@
+Script started on Sat Dec  9 12:21:41 2023
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[Jmarkbucciarelli@Marks-MacBook-Air posts % [K[?2004hPPS3 1="# "[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004hGGOAL  G  112:22: g     1  PPS1="%5 t# "[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM# [K[?2004hPS1="%t# " # "[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:22PM # [K[?2004hGGOALO : deploy simple landing page to ecs, let it run for a  mon   month and checkou t costs.[?2004l
+zsh: command not found: GOAL:
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:23PM # [K[?2004h## If my guess is right, this will be cheapt er than my current RAM Host acou  counts .[?2004l
+zsh: command not found: #
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:23PM # [K[?2004h:: test comment?[?2004l
+zsh: no matches found: comment?
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:25PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:25PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:25PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:25PM # [K[?2004hccat >/dev/nul l <<EOF[?2004l
+[Jheredoc> [K[?2004hFFirst google: https://www.google.com/search?client=safari&rls=en&q=ecs+deploy+landing+page&ie=UTF-8&oe=UTF-8#ip=1[99Dhttps://www.google.com/search?client=safari&rls=en&q=ecs+deploy+landing+page&ie=UTF-8&oe=UTF-8#ip=                                     [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF E  FFirst google phrase: https://www.google.com/search?client=safari&rls=en&q=ecs+deploy+landing+page&ie=UTF-8&oe=UTF-8#ip=1[K[A[29Chttps://www.google.com/search?client=safari&rls=en&q=ecs+deploy+landing+page&ie=UTF-8&oe=UTF-8#ip=1[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hecs deploy landing page[23Decs deploy landing page[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hffirst hit; Tutorial: Deploy an application to Amazon ECS[45DTutorial: Deploy an application to Amazon ECS[?2004l
+[Jheredoc> [K[?2004hhttps://docs.aws.amazon.com/codecatalyst/latest/userguide/deploy-tut-ecs.html[77Dhttps://docs.aws.amazon.com/codecatalyst/latest/userguide/deploy-tut-ecs.html[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hn nneed Amazon's CodeCatalyst[12DCodeCatalyst, which I don't want.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hii'm looking for more basic stuff.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hSSo ... also on results page is [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hHow to deploy a minimalistic web application using ECS and Fargate[66DHow to deploy a minimalistic web application using ECS and Fargate[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhttps://www.padok.fr/en/blog/ecs-fargate-deployment-app[55Dhttps://www.padok.fr/en/blog/ecs-fargate-deployment-app[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick through cookie prompts[?2004l
+[Jheredoc> [K[?2004hiin french[?2004l
+[Jheredoc> [K[?2004hwwhich i can navigate[?2004l
+[Jheredoc> [K[?2004hbbecaus they look the sm ame[?2004l
+[Jheredoc> [K[?2004haas the 100's of other[?2004l
+[Jheredoc> [K[?2004hccookie prompts i have answered.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h
+zsh: do you wish to see all 2481 possibilities (621 lines)? n[J[A[9C[KEEOF[?2004l
+[J%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:28PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004haart a  [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhhis blog is good.[?2004l
+[Jheredoc> [K[?2004hssteps you g through [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##1 setting up a vpc[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##2 creating a cluster in vpc (virtual private cloud)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##3 Creating a service in the cluster[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##4 Create task[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       iam, cpu, ram[?2004l
+[Jheredoc> [K[?2004h       docker image (pulled from docker hub)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##5 setup networking in service[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       also , security[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h% ##6 setup load balancer[?2004l
+[Jheredoc> [K[?2004h       service port was not made public[?2004l
+[Jheredoc> [K[?2004h       in step #5 above.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       name    [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       create name[?2004l
+[Jheredoc> [K[?2004h       select containers[?2004l
+[Jheredoc> [K[?2004h       port to listen on[?2004l
+[Jheredoc> [K[?2004h       target group (where traffic goes)[?2004l
+[Jheredoc> [K[?2004h       [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##7: make load pa  balancer listen to public traffic[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       ec2 panel[?2004l
+[Jheredoc> [K[?2004h       load balancer tab[?2004l
+[Jheredoc> [K[?2004h       change subnets from private ot public[?2004l
+[Jheredoc> [K[?2004h       allow ingress in the default security group[?2004l
+[Jheredoc> [K[?2004h               still in ec2 panel[?2004l
+[Jheredoc> [K[?2004h               go to security groups dashboard[?2004l
+[Jheredoc> [K[?2004h               inbound rules[?2004l
+[Jheredoc> [K[?2004h               edit inbound rule[?2004l
+[Jheredoc> [K[?2004h               custom tcp 8080[?2004l
+[Jheredoc> [K[?2004h               anywhere ipv4[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hLLet's try it![?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:39PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:39PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:39PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:39PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:39PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004h
+zsh: do you wish to see all 2481 possibilities (621 lines)? n[J[A[9C[KEEOF[?2004l
+[J%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:49PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:49PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:49PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:49PM # [K[?2004hccat >/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004hSStrat over.  Got distracted by closing hacker news tabs.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hNNOTE: CKD[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hiimean  CDK[?2004l
+[Jheredoc> [K[?2004hCCloud Development Kit[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hHHas Java.[?2004l
+[Jheredoc> [K[?2004hOOpinioated way to create apps in ECS[?2004l
+[Jheredoc> [K[?2004hhttps://aws.amazon.com/cdk/resources/[37Dhttps://aws.amazon.com/cdk/resources/[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004htthis is pretty cool code:[?2004l
+[Jheredoc> [K[?2004h    List<IManagedPolicy> managedPolicyArray = new ArrayList<IManagedPolicy>();
+    managedPolicyArray.add([K
+        (IManagedPolicy) ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess"));[K
+[K
+    Role.Builder.create(this, "RestAPIRole")[K
+        .assumedBy(new ServicePrincipal("apigateway.amazonaws.com"))[K
+        .managedPolicies(managedPolicyArray)[K
+        .build();[K[7A[8D    List<IManagedPolicy> managedPolicyArray = new ArrayList<IManagedPolicy>();[1B    managedPolicyArray.add([1B        (IManagedPolicy) ManagedPolicy.fromAwsManagedPolicyName("AmazonS3FullAccess"));[2B    Role.Builder.create(this, "RestAPIRole")[1B        .assumedBy(new ServicePrincipal("apigateway.amazonaws.com"))[1B        .managedPolicies(managedPolicyArray)[1B        .build();[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhttps://github.com/aws-samples/aws-cdk-examples/blob/master/java/my-widget-service/src/main/java/software/amazon/awscdk/examples/MyWidgetServiceStack.java[K[A[26Dhttps://github.com/aws-samples/aws-cdk-examples/blob/master/java/my-widget-service/src/main/java/software/amazon/awscdk/examples/MyWidgetServiceStack.java[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h((closig that tab too)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004htthis page was a goo d howto on [?2004l
+[Jheredoc> [K[?2004hddeploying a sprintboog app w/ CDK[?2004l
+[Jheredoc> [K[?2004hhttps://reflectoring.io/deploy-spring-boot-app-with-aws-cdk/[60Dhttps://reflectoring.io/deploy-spring-boot-app-with-aws-cdk/[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hffinally, CSPMCSPM is what Prisma Cloud gives.[?2004l
+[Jheredoc> [K[?2004hCCompare later to ecs security[?2004l
+[Jheredoc> [K[?2004hgga[?2004l
+[Jheredoc> [K[?2004hgguardog?[?2004l
+[Jheredoc> [K[?2004hnno[?2004l
+[Jheredoc> [K[?2004hGGuardDuty[?2004l
+[Jheredoc> [K[?2004hhttps://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-ecs-runtime-monitoring-including-aws-fargate/?sc_icampaign=launch_reinvent23-amazon-guardduty-ec2-runtime-monitoring-preview&sc_ichannel=ha&sc_icontent=awssm-3986_launch_reinvent23&sc_iplace=ribbon&trk=8e510520-1260-4c74-95da-ea1b33f0faa8~ha_awssm-3986_launch_reinvent23[K[A[A[76Dhttps://aws.amazon.com/blogs/aws/introducing-amazon-guardduty-ecs-runtime-monitoring-including-aws-fargate/?sc_icampaign=launch_reinvent23-amazon-guardduty-ec2-runtime-monitoring-preview&sc_ichannel=ha&sc_icontent=awssm-3986_launch_reinvent23&sc_iplace=ribbon&trk=8e510520-1260-4c74-95da-ea1b33f0faa8~ha_awssm-3986_launch_reinvent23[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hllooks like it cost me 88 cents to start up[?2004l
+[Jheredoc> [K[?2004haan RDS instance[?2004l
+[Jheredoc> [K[?2004hoof Oracle[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haall i did was create it[?2004l
+[Jheredoc> [K[?2004hmmake it multi AZ[?2004l
+[Jheredoc> [K[?2004htthen export a snapshot[?2004l
+[Jheredoc> [K[?2004haand delete it.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h$$0.13  for 0.293 Hrs of RED db.m5.large single ZA  Z AZ (@.438 $)[?2004l
+[Jheredoc> [K[?2004h$$0.72   0.181 h Hrs of same for Multi-AZ (@ $0.86 76 per h Hr)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h((make that 0.818 Hrs)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h00.818 Hrs = 40  49 minutes.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hOOk, back to ECS[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hSSearch for VPC (upper left corner)[?2004l
+[Jheredoc> [K[?2004hcclick ... wait.[?2004l
+[Jheredoc> [K[?2004hii'm using 1 vpc w/ six subnets.[?2004l
+[Jheredoc> [K[?2004hAmazon Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that you've defined. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS.[K[A[A[33DAmazon Virtual Private Cloud (Amazon VPC) enables you to launch AWS resources into a virtual network that you've defined. This virtual network closely resembles a traditional network that you'd operate in your own data center, with the benefits of using the scalable infrastructure of AWS.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hddunno what that is, but leave it for now.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hCClick "Create VPC button.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hVVPC and more[?2004l
+[Jheredoc> [K[?2004hnname tag = gj  (under auto generate check box)[?2004l
+[Jheredoc> [K[?2004hccidr block size at min (/16)[?2004l
+[Jheredoc> [K[?2004hnni p[?2004l
+[Jheredoc> [K[?2004hnno ipv6 cidr block[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hjjust o use 1 ZA [?2004l
+[Jheredoc> [K[?2004hjjust use 1 AZ for now.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haadd one NAt gateway[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick ' "Create P[?2004l
+[Jheredoc> [K[?2004hcclick "Create VPC"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:05PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:05PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:05PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:05PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:05PM # [K[?2004hPPS1= " '%t # '[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM # [K[?2004hPPS1="%t "[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM [K[?2004hPPS1="# "[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J# [K[?2004hPS1='%t # '[11DPS1='%t # '[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:06PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h.... still waiting for VPC to finish ...[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hNNAT Gateways seem to take a long time.[?2004l
+[Jheredoc> [K[?2004hddate[?2004l
+[Jheredoc> [K[?2004h$$(date)[?2004l
+[Jheredoc> [K[?2004hddone[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hvview vpc.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:08PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:08PM # [K[?2004hccat>>/deve/  /null<<EOF[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hOOK, create cluster in VPC.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hssearch EC2[?2004l
+[Jheredoc> [K[?2004hppick EC2: Virtual Servicers in the Cloud[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hii have one public ip: gj-eip-us-east-a 1s[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hgj-eip-us-east-1a[17Dgj-eip-us-east-1a[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h11 snapshot from 1122[?2004l
+[Jheredoc> [K[?2004hffrom Nov 22, 2012 !!![?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h22 security groups[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hII'm tempted to delete all this and a start again.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhheh, i tried just dle  eleting thees  se two groups[?2004l
+[Jheredoc> [K[?2004haand amazon would not let me[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004htthey are default security groups[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hbbio break ...[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:14PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:35PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004hOOk, back at it.  time to create a cluster.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004heec2 dasboard (left column menu, top)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnnope.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hssearch for "elastic container"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick "Create Cluster"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnname = gj-cluser  ter[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haaws fargate (serverless)[?2004l
+[Jheredoc> [K[?2004hlleave monitoring off.[?2004l
+[Jheredoc> [K[?2004h       it does not do web monitoring[?2004l
+[Jheredoc> [K[?2004h       but cpum , memory and disk       , disk and network.[?2004l
+[Jheredoc> [K[?2004hcclc[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick '[?2004l
+[Jheredoc> [K[?2004hcclick "Create"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h((did not see networking tab yet)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hwwow, got an AWS error:  big red box at top:[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hThere was an error creating cluster gj-cluster.
+Resource handler returned message: "Error occurred during operation 'CreateCluster SDK error: Service Unavailable. Please try again later. (Service: AmazonECS; Status Code: 500; Error Code: ServerException; Request ID: 6972259b-7a24-479a-82fa-e92e34e2b957; Proxy: null)'." (RequestToken: 69c86068-9e9f-cf5a-85eb-fd14e8325c65, HandlerErrorCode: GeneralServiceException)[K[3A[103DThere was an error creating cluster gj-cluster.[1BResource handler returned message: "Error occurred during operation 'CreateCluster SDK error: Service Unavailable. Please try again later. (Service: AmazonECS; Status Code: 500; Error Code: ServerException; Request ID: 6972259b-7a24-479a-82fa-e92e34e2b957; Proxy: null)'." (RequestToken: 69c86068-9e9f-cf5a-85eb-fd14e8325c65, HandlerErrorCode: GeneralServiceException)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hrrefresh page, no cluster[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hllet's try again.[?2004l
+[Jheredoc> [K[?2004hnnope: another red error:[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hThere was an error creating cluster gj-cluster.
+Stack [Infra-ECS-Cluster-gj-cluster-94b1e74f] already exists[K[A[51DThere was an error creating cluster gj-cluster.[1BStack [Infra-ECS-Cluster-gj-cluster-94b1e74f] already exists[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004httri y again, this time with the name "gj"[?2004l
+[Jheredoc> [K[?2004htthat time it worked.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclickedov[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclicked over into "Cloud Formation" link,[?2004l
+[Jheredoc> [K[?2004hwwhich provide s a det[?2004l
+[Jheredoc> [K[?2004hwwhich provides a log of events.[?2004l
+[Jheredoc> [K[?2004hsshows both the first and second cluster events[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hppretty cool.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hvvery detailed.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhhmmm.  but i don't see a way to associated[?2004l
+[Jheredoc> [K[?2004htthis new cluster[?2004l
+[Jheredoc> [K[?2004hwwith my private vpc network.[?2004l
+[Jheredoc> [K[?2004haas described in blog post.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhhmmm.  maybe it's because i only picked on A[?2004l
+[Jheredoc> [K[?2004hoone AZ.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hllet's try to confinue.[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:54PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:54PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:54PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:54PM # [K[?2004hccat>>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hccreate a service in the cluster.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004huuse custom capacity provider : farget (picked)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnno family to pick from (diverged from blog)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hsset service name to gj_service[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hddesired tasks leave a s1[?2004l
+[Jheredoc> [K[?2004haas 1.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhheh ... blog actuall says[?2004l
+[Jheredoc> [K[?2004h""you shoud not have a family available"[?2004l
+[Jheredoc> [K[?2004h""since we never created a Task definition"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haah, the seri vice does have networking.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hppike  cked th gj-vpc[?2004l
+[Jheredoc> [K[?2004hcchose both subjets[?2004l
+[Jheredoc> [K[?2004hssubnets[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hlleave public ip on[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004huuse existing security group[?2004l
+[Jheredoc> [K[?2004haand pick th sg=0af6192 default[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnno load balancing[?2004l
+[Jheredoc> [K[?2004hnno auto scaling[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick "Create"[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hffailed ... the family i s  required.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haah ... didn't read bloc carefully enough.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hllooks like you create the task definition[?2004l
+[Jheredoc> [K[?2004hllink inside the service creation?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hllet's try again ...[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclicked create task link [?2004l
+[Jheredoc> [K[?2004hiin service create screen[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclicke    c  [?2004l
+[Jheredoc> [K[?2004hiin new tab, clicked create new task definition[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004httask def [?2004l
+[Jheredoc> [K[?2004hffamily name[?2004l
+[Jheredoc> [K[?2004h=[?2004l
+[Jheredoc> [K[?2004hggj_reverse_proxy[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hppik ck   p [?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcchn[?2004l
+[Jheredoc> [K[?2004hcchange from Linux/X86_64 to Linux/ARM64[?2004l
+[Jheredoc> [K[?2004hppick smallest cpu and memory[?2004l
+[Jheredoc> [K[?2004h002[?2004l
+[Jheredoc> [K[?2004h00.25 vCPU and 0.5 GB[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hiin container - 1[?2004l
+[Jheredoc> [K[?2004hnname = nginx[?2004l
+[Jheredoc> [K[?2004hiimage uri = nginx:latest[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hsset cpu limit to 0.25[?2004l
+[Jheredoc> [K[?2004haand mmemory limit to 0.5 GB[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004httons of good config in here.[?2004l
+[Jheredoc> [K[?2004hkkept all defaults[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hccool, provides open telemtry in monitoring[?2004l
+[Jheredoc> [K[?2004h((optional)[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:13PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hNNow, I can go back and add te ask family [?2004l
+[Jheredoc> [K[?2004htto service.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hyyup.  nice[?2004l
+[Jheredoc> [K[?2004htthe drop down refreshes when you [?2004l
+[Jheredoc> [K[?2004hcclick it.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hrrevision latest did not work.[?2004l
+[Jheredoc> [K[?2004hhhad to put in a 1[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004httool k 3 minutes to start up.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:23PM # [K[?2004hccat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004hNNow, how do i access it?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004httry t  nneed to turn on public ip addresses [?2004l
+[Jheredoc> [K[?2004hffor public vpc subnet[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hvvpcs[?2004l
+[Jheredoc> [K[?2004hcclick vpc id fro  [?2004l
+[Jheredoc> [K[?2004hcclci[?2004l
+[Jheredoc> [K[?2004hcclick VPC ID column in table[?2004l
+[Jheredoc> [K[?2004hffor the 
+[J2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.upphtml
+2016-07-06_what_is_cqrs.upphtml
+2016-07-20_my_first_erlang_patch.upphtml
+2016-08-03_the_essence_of_otp.upphtml
+2016-08-17_erlang_error_handling_primitives.upphtml
+2016-08-31_why_so_many_lambda_tshirts.upphtml
+2016-09-14_simple_gen_event_example.upphtml
+2016-10-27_cqrs_versus_oop.upphtml
+2016-11-09_a_simple_erlang_application.upphtml
+2016-11-23_a_simple_erlang_application_with_prometheus.upphtml
+2016-12-07_a_closure_with_erlang.upphtml
+2016-12-21_a_production_gen_event_application.upphtml
+2017-01-04_how_to_return_json_from_an_erlang_web_service.upphtml
+2017-01-18_how_to_read_utf8_encoded_file_with_erlang.upphtml
+2017-02-01_so_long_erlang_its_been_great.upphtml
+2017-02-21_hello_elm_and_haskell.upphtml
+2017-03-07_how_to_build_snap_with_stack.upphtml
+2017-03-22_some_cqrs_notes.upphtml
+2017-04-05_haskell_on_alpine_linux.upphtml
+2017-04-19_haskell_operators.upphtml
+2017-12-10_passive-house-energy-consumption-vs-my-house.markdown
+2017-12-16_how-to-create-custom-nixpkg-for-haskell-application.upphtml
+2019-01-26_how-to-push-to-github-from-travis-ci.upphtml
+2019-05-05_install-alpine-on-raspberry-pi-using-macos.upphtml
+2019-05-20_set-current-time-with-chrony.upphtml
+2019-05-23_how-to-list-tarsnap-archive.upphtml
+2019-06-08_carbon_savings_with_tesla.upphtml
+2019-11-09_kotlin_value_object.upphtml
+2019-11-10_kotlin_consumer.upphtml
+2019-11-15_event-storning-notes.upphtml
+2020-01-04_kotlin_functional_gold_mine.upphtml
+2022-07-31_double-entry-accounting.markdown
+2022-10-12_flexbox-deepdive.markdown
+2022-10-15_apple-keychain-com.apple.cfnetwork
+2022-11-11_how-to-setup-alpine-on-ramhost.markdown
+2023-12-09.script
+2023-12-09_learn-amazon-ecs-day1.markdown
+index.upphtml
+share/[39A[9Cfor the[K[1C2016-06-22_parsing_text_with_erlang_pattern_matching_and_guards.upphtml[?2004l
+[J[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hclick VPC ID column in table[28Dclick VPC ID column in table[?2004l
+[Jheredoc> [K[?2004hffor the[?2004l
+[Jheredoc> [K[?2004hggj-vpc row[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclick subnets in the [?2004l
+[Jheredoc> [K[?2004hvvertical menu on the left[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hccheck the box[?2004l
+[Jheredoc> [K[?2004hnnext to the public[?2004l
+[Jheredoc> [K[?2004hnname[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hggj-subnet-public1-us-east-1a[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hppull down actions[?2004l
+[Jheredoc> [K[?2004h((button in upper right)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hppick [?2004l
+[Jheredoc> [K[?2004hEEdit subnet settings[?2004l
+[Jheredoc> [K[?2004haactxion[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hccheck the box that sys[?2004l
+[Jheredoc> [K[?2004hAAuto-assign IP settings[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hcclic Save.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004ht sstill stuck [?2004l
+[Jheredoc> [K[?2004haaccessing vpc.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004htthis page looks good[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhttps://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html[74Dhttps://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hTTODO: figure that out . later, [?2004l
+[Jheredoc> [K[?2004httime for a nap.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:50PM # [K[?2004h[?2004l
+%                                                                                                                                ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 2:50PM # [K[?2004heexit[?2004l
+
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
+Deleting expired sessions...       8 completed.
+
+Script done on Sat Dec  9 14:50:07 2023

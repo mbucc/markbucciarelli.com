@@ -1,0 +1,316 @@
+Mon Dec 11 06:25:51 EST 2023
+
+costs from yesterday
+
+	MTD (only two days in December)
+
+		Elastic Compute Cloud
+
+			$0.45	NatGateway, 10 hr @ 4.5 cents/hr
+
+		Elastic Container Service
+
+			$0.18	Fargate - ARM - vCPU, 5.427 hr @ 3.3 cents/hr
+
+			$0.04	Fargate - ARM - Memory, 10.853 hr @ 0.37 cents/hr
+
+
+An ec2 t4g.nano instance
+has an on-demand
+hourly cost
+of 0.42 cents.
+
+https://calculator.aws/
+
+
+
+vs. ~ 3.6 cents for fargate cpu + memory.
+
+
+should move to using
+API Gateway over NAT.
+
+
+two days
+ECS cost = 22 cents
+about $40/year
+
+
+fargate vs ec2?
+
+	https://containersonaws.com/blog/2023/ec2-or-aws-fargate/
+
+	ec2: you manage server (e.g., security updates)
+
+	fargate: amazon manages servers
+
+fargate cost calculator
+
+	https://aws.amazon.com/fargate/pricing/
+
+		$1.50/month
+
+			1 task / day
+
+			1 hours / day  (time the task is running
+
+			0.25 vCPU  / 0.5 GB RAM
+
+
+Hmm, probably don't need nginx at all.
+It serves same purpose as AWS load balancer
+or API Gateway.
+
+Also ... can have multiple containers in a task.
+Fargate pricing is by task.
+
+
+
+Lambda?
+https://www.usenix.org/system/files/atc23-brooker.pdf
+
+	One factor that attracts customers to Lambda is its ability
+	to scale up to handle increased load, typically in less
+	than one second (and often as quickly as 50ms). This scale-up
+	time, which customers have come to refer to as cold-start
+	time, is one of the most important metrics that determine
+	the customer experience in FaaS systems.
+
+	FaaS = Function-as-a-service
+
+https://ottofeller.com/blog/aws-lambdas-free-tier-is-the-best-way-to-host-your-websites-for-free-isnt-it#
+
+	the Lambda free tier is permanent, which means it doesn’t
+	expire in 12 months like some of the other AWS services!
+
+	In order to deploy on Lambda, you need to upload your code
+	onto AWS S3 and do some configuration of the Lambda service
+	to point it to the uploaded code.
+
+	Lambda can also serve the other side of a website: the API.
+	It can perform DB requests, call 3rd parties, process
+	uploaded files, and more. It can scale resources up and
+	down on-demand automatically, so you don’t need to set up
+	and maintain a resource-and-money-consuming computational
+	cluster.
+
+
+
+
+
+07:45:04
+
+Build a Serverless Web Application
+https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito/
+
+	AWS Amplify
+
+		hosts static web resources
+
+	Amazon Cognito
+
+		user management and authentication functions
+
+	Amazon API Gateway
+
+		JavaScript executed in the browser sends and receives
+		data from a public backend API built using Lambda
+		and API Gateway.
+
+
+
+	Pricing?
+
+
+		Amazon Cognito
+
+			Amazon Cognito user pools has a free tier
+			of 50,000 MAUs per account for users who
+			sign in directly to Amazon Cognito user
+			pools and 50 MAUs for users federated through
+			SAML 2.0 based identity providers.
+
+			The free tier does not automatically expire
+			at the end of your 12 month AWS Free Tier
+			term, and it is available to both existing
+			and new AWS customers indefinitely.
+
+			https://aws.amazon.com/cognito/pricing/
+
+
+		AWS Amplify
+
+			DATA STORAGE
+
+				$0.023 per GB per month
+
+			DATA TRANSFER OUT
+
+				$0.15 per GB served
+
+			REQUEST COUNT (SSR)
+
+				$0.30 per 1 million requests
+
+			REQUEST DURATION (SSR)
+
+				$0.20 per hour (GB-hour)
+
+
+			Includes public SSL certificates at no
+			additional cost.
+
+
+		Amazon API Gateway
+
+			$1.00 / month for a million API requests.
+
+
+		AWS Lambda
+
+			Always Free: 1 million free requests per
+			month
+
+
+
+Awesome!
+Done for this morning: 07:52:59
+
+Actually, delete VPC & cluster  now ...
+
+	To delete VPC
+
+		I must first delete the network interface
+
+		to delete the  ENI,
+
+			i must delete the cluster
+
+				which also deletes the
+				the CloudFormation stack
+				Infra-ECS-Cluster-gj-1f2be4f0
+
+
+			still won't delete
+
+
+	Internet GTW: detach from VPC, then delete.
+
+		Done.
+
+	Delete VPC Endpoint
+
+		Done.
+
+	Now I can delete the VPC
+
+		Will also delete
+
+			public/private routing tables
+
+				gj-rtb-private1-us-east-1a
+
+				gj-rtb-public
+
+			public/private subnets
+
+				gj-subnet-private1-us-east-1a
+
+				gj-subnet-public1-us-east-1a
+
+
+	In VPC dashboard, I still had a DHCP Option Set.  Delete.
+
+		Done.
+
+	Check EC2 Dashboard
+
+		All empty
+
+	Check ECS Dashboard
+
+		All empty (aka no Clusters)
+
+08:03:09  Stop.
+
+
+16:50:04	Start again
+
+JLink notes
+
+	Build a custom Java runtime for AWS Lambda
+	AWS Compute Blog, 26 APR 2022
+	https://aws.amazon.com/blogs/compute/build-a-custom-java-runtime-for-aws-lambda/
+
+		warm starts are much faster.
+
+
+Build a Serverless Web Application
+https://aws.amazon.com/getting-started/hands-on/build-serverless-web-app-lambda-apigateway-s3-dynamodb-cognito
+
+	Setting up custom domains
+	https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html
+
+		Have to wait, need an AWS Amplify site first.
+
+	Install AWS CLI
+	https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+		install as current user.
+
+		create directory ~/aws-cli-install
+
+		create XML file in that dir called choices.xml
+
+			<string>/Users/myusername</string>
+
+			--> installer will create `/Users/myusername/aws-cli`
+
+
+		curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+
+			38.7M
+
+		% installer -pkg AWSCLIV2.pkg \
+		            -target CurrentUserHomeDirectory \
+		            -applyChoiceChangesXML choices.xml
+		installer: Package name is AWS Command Line Interface
+		installer: choices changes file 'choices.xml' applied
+		installer: Installing at base path /Users/markbucciarelli
+		installer: The install was successful.
+		%
+
+
+		% ln -s $(pwd)/aws-cli/aws ~/bin
+		% ln -s /Users/markbucciarelli/aws-cli/aws_completer ~/bin
+		%
+
+		% which aws
+		/Users/markbucciarelli/bin/aws
+		% aws --version
+		aws-cli/2.15.0 Python/3.11.6 Darwin/23.1.0 exe/x86_64 prompt/off
+
+
+	Create new branch develop/aws in my git repo and push
+
+	Setting up Amplify access to GitHub repositories
+	https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html
+
+		Open Amplify Console in AWS
+
+		Create an app
+
+			Had to allow popups to open.
+
+			Then I picked specific repo.
+
+			Next w
+
+
+17:56:45
+TANGENT: https://maxday.github.io/lambda-perf/
+Lambda start times by language
+
+
+
+

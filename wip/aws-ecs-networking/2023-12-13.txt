@@ -1,0 +1,368 @@
+Wed Dec 13 05:21:29 EST 2023
+
+Amazon API Gateway
+https://aws.amazon.com/api-gateway/
+
+	API Gateway handles
+
+		traffic management,
+
+		CORS support,
+
+		authorization and access control,
+
+		throttling,
+
+		monitoring, and
+
+		API version management
+
+
+	REST APIs and HTTP APIs are both RESTful API
+	products.
+
+	HTTP APIs are designed with minimal features so that
+	they can be offered at a lower price.
+
+	Choosing between REST APIs and HTTP APIs
+	https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-vs-rest.html
+
+
+
+Tackling Java Cold Startup Times On AWS Lambda With
+GraalVM
+https://arnoldgalovics.com/java-cold-start-aws-lambda-graalvm/
+
+	great blog post, very detailed.
+
+	wrote his own custom lambda runtime for java
+
+		Ctrl-F "customer lambda runtimes"
+
+		a lambda needs
+
+
+TANGENT: Lambda runtimes
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#
+
+	a language-specific environment
+
+	that relays
+
+		invocation events,
+
+		context information, and
+
+		responses
+
+	between Lambda and the function.
+
+	a lambda can be deployed as
+
+		a container image or
+
+		a zip file
+
+	in a zip, the runtime is defined in the
+	function's configuration.
+
+
+Understanding the AWS Lambda Runtime API
+https://dev.to/wojciechmatuszewski/understanding-the-aws-lambda-runtime-api-286n
+
+
+	component diagram:
+
+		Lambda Service
+
+		^
+		|
+		|
+		v
+
+		Execution Environment
+
+			^
+			|
+			|
+			v
+
+			Lambda Runtime API
+
+			^
+			|
+			|	HTTP
+			|
+			v
+
+			Lambda Runtime
+
+				polls lambda runtime API
+
+				for events
+
+			^
+			|
+			|
+			v
+
+			Your code
+
+
+	The Runtime API is a bridge between the Lambda
+	Service and the Lambda runtime your function is
+	deployed with.
+
+
+06:24:35
+
+Tutorial – Publishing a custom runtime
+https://docs.aws.amazon.com/lambda/latest/dg/runtimes-walkthrough.html
+
+	bash function and custom runtime
+
+	AMAZING BLOG POST!
+
+
+function.sh
+
+	function handler () {
+	  EVENT_DATA=$1
+	  echo "$EVENT_DATA" 1>&2;
+	  RESPONSE="Echoing request: '$EVENT_DATA'"
+
+	  echo $RESPONSE
+	}
+
+
+bootstrap (custom runtime)
+
+Note: The standard format for the _HANDLER
+environmental variable "is file.method, where file is
+the name of the file without an extension, and method
+is the name of a method or function that's defined in
+the file."
+
+ref: https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html
+
+
+	#!/bin/sh
+
+	set -euo pipefail
+
+	# Initialization - load function handler
+	#
+	# 	_HANDLER = "function.handler" in this example
+	#	and is defined by the `--function` argument used
+	#	with the `aws lambda create-function` (see below).
+	#
+	source $LAMBDA_TASK_ROOT/"$(echo $_HANDLER | cut -d. -f1).sh"
+
+	# Processing
+	while true
+	do
+	  HEADERS="$(mktemp)"
+	  # Get an event. The HTTP request will block until one is received
+	  EVENT_DATA=$(curl -sS -LD "$HEADERS" "http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/next")
+
+	  # Extract request ID by scraping response headers received above
+	  REQUEST_ID=$(grep -Fi Lambda-Runtime-Aws-Request-Id "$HEADERS" | tr -d '[:space:]' | cut -d: -f2)
+
+	  # Run the handler function from the script
+	  RESPONSE=$($(echo "$_HANDLER" | cut -d. -f2) "$EVENT_DATA")
+
+	  # Send the response
+	  curl "http://${AWS_LAMBDA_RUNTIME_API}/2018-06-01/runtime/invocation/$REQUEST_ID/response"  -d "$RESPONSE"
+	done
+
+
+Make executable and zip up.
+
+	$ chmod 755 function.sh bootstrap
+	$ zip function.zip function.sh bootstrap
+
+
+Create an AWS function.
+You need to create the `--role` in IAM.
+
+	$ aws lambda create-function \
+	--function-name bash-runtime \
+	--zip-file fileb://function.zip \
+	--handler function.handler \
+	--runtime provided.al2023 \
+	--role arn:aws:iam::123456789012:role/lambda-role
+
+Run AWS function.
+
+	$ aws lambda invoke \
+	--function-name bash-runtime \
+	--payload '{"text":"Hello"}' response.txt \
+	--cli-binary-format raw-in-base64-out
+	{
+	    "StatusCode": 200,
+	    "ExecutedVersion": "$LATEST"
+	}
+
+	$ cat response.txt
+	Echoing request: '{"text":"Hello"}'
+
+
+06:37:20
+
+Lambda execution role
+https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
+
+	A Lambda function's execution role is an AWS
+	Identity and Access Management (IAM) role that
+	grants the function permissions.
+
+	The role's trust policy must specify the Lambda
+	service principal (lambda.amazonaws.com) as a
+	trusted service.
+
+	When you invoke your function, Lambda
+	automatically provides your function with
+	temporary credentials by assuming this role.
+
+	You can add or remove permissions from a
+	function's execution role at any time, or
+	configure your function to use a different
+	role.
+
+		When you add permissions to your
+		function's execution role, update its
+		code or configuration to forces running
+		instances of your function, which have
+		outdated credentials, to stop and be
+		replaced.
+
+
+06:56:46
+
+Continuing with Arnold Galovics's post Tackling Java
+Cold Startup Times On AWS Lambda With GraalVM.
+
+	Build with gradle.
+
+	His custom Java runtime is a build dependency:
+
+		io.redskap:aws-lambda-java-runtime:0.0.1
+
+	Main class is the NativeApp class in his runtime.
+
+	Uses Docker to build the image.
+
+		FROM gradle:6.8.3-jdk11 as builder
+		COPY --chown=gradle:gradle . /home/application
+		WORKDIR /home/application
+		RUN gradle clean shadowJar --no-daemon
+		FROM amazon/aws-lambda-provided:al2.2021.03.22.18 as graalvm
+		ENV LANG=en_US.UTF-8
+		RUN yum install -y gcc gcc-c++ libc6-dev zlib1g-dev curl bash zlib zlib-devel zip tar gzip
+		ENV GRAAL_VERSION 21.0.0.2
+		ENV JDK_VERSION java11
+		ENV GRAAL_FILENAME graalvm-ce-${JDK_VERSION}-linux-amd64-${GRAAL_VERSION}.tar.gz
+		RUN curl -4 -L https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAAL_VERSION}/${GRAAL_FILENAME} -o /tmp/${GRAAL_FILENAME}
+		RUN tar -zxf /tmp/${GRAAL_FILENAME} -C /tmp \
+		    && mv /tmp/graalvm-ce-${JDK_VERSION}-${GRAAL_VERSION} /usr/lib/graalvm
+		RUN rm -rf /tmp/*
+		CMD ["/usr/lib/graalvm/bin/native-image"]
+		FROM graalvm
+		COPY --from=builder /home/application/ /home/application/
+		WORKDIR /home/application
+		ENV BUILT_JAR_NAME=aws-lambda-java-native-0.0.1-SNAPSHOT-all
+		RUN /usr/lib/graalvm/bin/gu install native-image
+		RUN /usr/lib/graalvm/bin/native-image --verbose -jar build/libs/${BUILT_JAR_NAME}.jar
+		RUN mv ${BUILT_JAR_NAME} function
+		RUN chmod 777 function
+		RUN zip -j function.zip bootstrap function
+		ENTRYPOINT ["bash"]
+
+Build image:
+
+	$ docker build . -t aws-lambda-java-native
+
+Start container:
+
+	$ docker run --rm -it aws-lambda-java-native
+
+
+Copy built zip file out of container.
+
+	$ docker ps
+
+	$ docker cp <container id>:/home/application/function.zip build/function.zip
+
+
+Results (for Java function w/o Dynamo DB, 128 MB)
+
+	Cold Start: nearly twice as fast.
+
+		Max
+
+			435ms	JVM image
+
+			270ms	Native
+
+		Avg
+
+			376ms	JVM image
+
+			204ms	Native
+
+		Min
+
+			315ms	JVM image
+
+			159ms	Native
+
+07:10:50
+
+Note: Increasing memory seems to really help the image
+with Dynamo DB; maybe similar improvement could be
+acheived with the native image.
+
+
+07:15:28
+Avoiding AWS Lambda cold starts
+https://bell-sw.com/blog/avoiding-aws-lambda-cold-starts/
+
+	Use GraalVM.
+
+	Good background info
+
+
+
+07:18:12
+Scala AWS Lambda Runtimes
+https://github.com/melgenek/scala-lambda-runtimes
+
+	P95
+
+		4867ms	Java 8
+
+		1733ms	Java8 Proguard
+
+		5181ms	Java 11
+
+		240ms	NodeJS 12
+
+		356ms	Graal Native
+
+
+07:21:36
+Serverless cold start for the rest of us
+https://ticketguy.dev/blogs/2022-12-05-cold-start-java/
+
+	jlink
+
+	new snapstart
+
+	layers
+
+	shared dependencies
+
+
+
+
+

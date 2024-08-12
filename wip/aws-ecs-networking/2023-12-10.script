@@ -1,0 +1,479 @@
+Script started on Sun Dec 10 07:57:37 2023
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[Jmarkbucciarelli@Marks-MacBook-Air posts % [K[?2004hPPS1="%t # "[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:57AM # [K[?2004hcctc cat>/dev/null<<EOF[?2004l
+[Jheredoc> [K[?2004hGGot stumped yesterday trying to access app from [?2004l
+[Jheredoc> [K[?2004htthe internet.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hTThis morning when I logged in [?2004l
+[Jheredoc> [K[?2004hII got some new costs on my [?2004l
+[Jheredoc> [K[?2004hbbill.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hTThese were[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEElastic Compute Cloud[?2004l
+[Jheredoc> [K[?2004h       US East (N. Virginia)[21DUS East (N. Virginia)[?2004l
+[Jheredoc> [K[?2004h               Amazon Elastic Compute Cloud NatGateway[39DAmazon Elastic Compute Cloud NatGateway[?2004l
+[Jheredoc> [K[?2004h                       0.00    
+$0.045 per GB Data Processed by NAT Gateways[K$0.045 per GB Data Processed by NAT Gateways[1C(0GB)[?2004l
+[Jheredoc> [K[?2004h                       0.18  ) $).  0.045 per NAT Gateway Hour (4 hours)[?2004l
+[Jheredoc> [K[?2004h               EBS[?2004l
+[Jheredoc> [K[?2004h                       0.01  $.0  0.05 per GB-Month of snapshot data stored - US East (Northern Virg[61Dper GB-Month of snapshot data stored - US East (Northern Virg ( (0.118 GB-Mo[11D0.118 GB-Mo)[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEElastic Container Service[25DElastic Container Service[?2004l
+[Jheredoc> [K[?2004h       Amazon Elastic Container Service USE1-Fargate-ARM-GB-Hours[58DAmazon Elastic Container Service USE1-Fargate-ARM-GB-Hours[?2004l
+[Jheredoc> [K[?2004h               0.00    Q AWS Fargate - ARM - Memory - US East (N. Virginia)[49DWS Fargate - ARM - Memory - US East (N. Virginia) 0.853 hours[?2004l
+[Jheredoc> [K[?2004h       Amazon Elastic Container Service USE1-Fargate-ARM-vCPU-Hours:per[64DAmazon Elastic Container Service USE1-Fargate-ARM-vCPU-Hours:per[?2004l
+[Jheredoc> [K[?2004h               0.01    AWS Fargate - ARM - vCPU - US East (N. Virginia[46DWS Fargate - ARM - vCPU - US East (N. Virginia 0.427 hours[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hVirtual Private Cloud[21DVirtual Private Cloud[?2004l
+[Jheredoc> [K[?2004h       Amazon Virtual Private Cloud USE1-PublicIPv4:InUseAddress[57DAmazon Virtual Private Cloud USE1-PublicIPv4:InUseAddress[?2004l
+[Jheredoc> [K[?2004h               0.00    $0.005 per In-use public IPv4 address per hour[44D.005 per In-use public IPv4 address per hour  1.709 hours[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:03AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:03AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:03AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:03AM # [K[?2004hTTHe T The last line shows they are provin      charging me for an in-use[?2004l
+zsh: command not found: The
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:03AM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 8:04AM # [K[?2004hccat > <<EOF[?2004l
+[Jheredoc> [K[?2004hTThe ls s ast line [?2004l
+[Jheredoc> [K[?2004hshows they are charging me[26Dshows they are charging me[?2004l
+[Jheredoc> [K[?2004hffor a n in-use IP  [?2004l
+[Jheredoc> [K[?2004hppublic[?2004l
+[Jheredoc> [K[?2004hIIPV v4 address![?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hSSo, where it s it?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hAAlso, at a rate of 2 $0.   20 cents[?2004l
+[Jheredoc> [K[?2004hpper day[?2004l
+[Jheredoc> [K[?2004haa year of service[?2004l
+[Jheredoc> [K[?2004hwwill cost[?2004l
+[Jheredoc> [K[?2004h$$73.00,[?2004l
+[Jheredoc> [K[?2004hoor $6/month.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+The last line 
+shows they are charging me
+for an in-use
+public
+IPv4 address!
+
+So, where is it?
+
+
+
+
+Also, at a rate of 20 cents
+per day
+a year of service
+will cost
+.00,
+or /month.
+
+
+
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:40PM # [K[?2004hccat c  cat<<EOF
+The last line[K
+shows they are charging me[K
+for an in-use[K
+public[K
+IPv4 address![K
+[K
+So, where is it?[K
+[K
+[K
+[K
+[K
+Also, at a rate of 20 cents[K
+per day[K
+a year of service[K
+will cost[K
+$73.00,[K
+or $6/month.[K
+[K
+[K
+[K
+EOF[K[21A[7C        [1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[1B[K[21A[10C[?2004l[1B%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J12:40PM # [K[?2004hccat >/dev/n       <<EOF[?2004l
+[Jheredoc> [K[?2004hwwent over to house and did electrical[?2004l
+[Jheredoc> [K[?2004hpplan.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnnow back.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hrreading dee veloper guide for amazon ecs[?2004l
+[Jheredoc> [K[?2004hhttps://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html[72Dhttps://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haapp - == container == tak sk.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hpprovisioning =  cdk, sdk, management admi n UI, aws command line.[?2004l
+[Jheredoc> [K[?2004hccontroller   = Amazone 's ECS scheduler.[?2004l
+[Jheredoc> [K[?2004hccapait  city     -  = C EC2 or   , Fargate, or on-prem compute.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       Amazon ECS Anywhere provides support for registering an external instance such as an on-premises server or virtual machine (VM), to your Amazon ECS cluster.[K[A[35DAmazon ECS Anywhere provides support for registering an external instance such as an on-premises server or virtual machine (VM), to your Amazon ECS cluster.[A[120C[?2004l[1B
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haa task definition[?2004l
+[Jheredoc> [K[?2004hiis a JSON file[?2004l
+[Jheredoc> [K[?2004hw tthat df efines[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       one or more containers[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       parameters for the OS[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       which ports to oep  pen[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       and   which data volumes to use[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haand is deployed[?2004l
+[Jheredoc> [K[?2004haas either[?2004l
+[Jheredoc> [K[?2004haa service[?2004l
+[Jheredoc> [K[?2004hoor[?2004l
+[Jheredoc> [K[?2004haa ta ask[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haa task[?2004l
+[Jheredoc> [K[?2004hiis the instantiation[?2004l
+[Jheredoc> [K[?2004hoofa   a task definition.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hyyou can group tasks[?2004l
+[Jheredoc> [K[?2004httogether in a cluster.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004haa service[?2004l
+[Jheredoc> [K[?2004hiis used to tell[?2004l
+[Jheredoc> [K[?2004htthe controller[?2004l
+[Jheredoc> [K[?2004hhhow many tasks you would[?2004l
+[Jheredoc> [K[?2004hllke l like to keep running[?2004l
+[Jheredoc> [K[?2004hiin the  lust    cluster.           i  ssimulat a  taneously[?2004l
+[Jheredoc> [K[?2004hiint  the cluster.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hii check that[?2004l
+[Jheredoc> [K[?2004htthe task does expose[?2004l
+[Jheredoc> [K[?2004haa port.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hiit does: 80.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hnnext  n  [?2004l
+[Jheredoc> [K[?2004heexe  nnext, tried to change [?2004l
+[Jheredoc> [K[?2004hggj cluster[?2004l
+[Jheredoc> [K[?2004htto only be in[?2004l
+[Jheredoc> [K[?2004hppublic subnet.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hccould not[?2004l
+[Jheredoc> [K[?2004hffigure that out[?2004l
+[Jheredoc> [K[?2004hddoes not seem[?2004l
+[Jheredoc> [K[?2004hllike you can[?2004l
+[Jheredoc> [K[?2004hddo thi s from the[?2004l
+[Jheredoc> [K[?2004hccluster managment UI.[?2004l
+[Jheredoc> [K[?2004hmmust need       m  mmaybe it is under[?2004l
+[Jheredoc> [K[?2004hssune  bnet?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+went over to house and did electrical
+plan.
+
+now back.
+
+reading developer guide for amazon ecs
+https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html
+
+
+app == container == task.
+
+provisioning = cdk, sdk, management admin UI, aws command line.
+controller   = Amazon's ECS scheduler.
+capacity     = EC2, Fargate, or on-prem compute.
+
+	Amazon ECS Anywhere provides support for registering an external instance such as an on-premises server or virtual machine (VM), to your Amazon ECS cluster.
+
+
+
+a task definition
+is a JSON file
+that defines
+
+	one or more containers
+
+	parameters for the OS
+
+	which ports to open
+
+	which data volumes to use
+
+
+and is deployed
+as either
+a service
+or
+a task
+
+
+a task
+is the instantiation
+of a task definition.
+
+
+you can group tasks
+together in a cluster.
+
+
+a service
+is used to tell
+the controller
+how many tasks you would
+like to keep running
+simultaneously
+in the cluster.
+
+
+i check that
+the task does expose
+a port.
+
+it does: 80.
+
+
+next, tried to change 
+gj cluster
+to only be in
+public subnet.
+
+
+could not
+figure that out
+does not seem
+like you can
+do this from the
+cluster managment UI.
+maybe it is under
+subnet?
+
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 1:03PM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 3:55PM # [K[?2004hccat<<EOF[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hFFoud nd it.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hYYou can  han    set the subnets[?2004l
+[Jheredoc> [K[?2004haat the service level.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hBBut when I try to[?2004l
+[Jheredoc> [K[?2004huupdate the service,[?2004l
+[Jheredoc> [K[?2004hII see no way to edit[?2004l
+[Jheredoc> [K[?2004htthe subnets the service[?2004l
+[Jheredoc> [K[?2004hiis in.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hGGood HOWTOs[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##1 Serverless public facing website hosted on AWS Fargate[54DServerless public facing website hosted on AWS Fargate[?2004l
+[Jheredoc> [K[?2004hhttps://containersonaws.com/pattern/public-facing-web-ecs-fargate-cloudformation[80Dhttps://containersonaws.com/pattern/public-facing-web-ecs-fargate-cloudformation[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       A static HTML site.[?2004l
+[Jheredoc> [K[?2004h       That does not have a high security nn eeds                  scrit    trict netwokr  rking security requiem  rements.[?2004l
+[Jheredoc> [K[?2004h               Uses a Load Bla  alancerl [?2004l
+[Jheredoc> [K[?2004h               instead ofa   a   a n NAT gateway[?2004l
+[Jheredoc> [K[?2004h                       which routes incoming[?2004l
+[Jheredoc> [K[?2004h                       internet traffic from[?2004l
+[Jheredoc> [K[?2004h                       the public subnet to[?2004l
+[Jheredoc> [K[?2004h                       a private subnet.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h                       with a NAT, you pay ext   [?2004l
+[Jheredoc> [K[?2004h                       extra / GB of outgoig ng[?2004l
+[Jheredoc> [K[?2004h                       traffic.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##2 Serverless public facing API hosted on AWS Fargate[50DServerless public facing API hosted on AWS Fargate[?2004l
+[Jheredoc> [K[?2004hhttps://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation[80Dhttps://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       API with extra layer of security.[?2004l
+[Jheredoc> [K[?2004h       That is, no public IP address.[?2004l
+[Jheredoc> [K[?2004h       The public IP is                     [?2004l
+[Jheredoc> [K[?2004h       Load balancer provides et xten rnal IP address.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       API can connect outto    to internet via a NAT[?2004l
+[Jheredoc> [K[?2004h       G gatw eway.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       Can scale horizontally big time and still[?2004l
+[Jheredoc> [K[?2004h       use a small set of IPs for the outt going [?2004l
+[Jheredoc> [K[?2004h       connections from the API seric  vices.[?2004l
+[Jheredoc> [K[?2004h       The NAT gateway contains this small set[?2004l
+[Jheredoc> [K[?2004h       of IPs, and the API goes through these.[?2004l
+[Jheredoc> [K[?2004h       These IPs can be whitelisted and do not[?2004l
+[Jheredoc> [K[?2004h               [8Dneed to expand as h the APIe   expands.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h##3 Serverless public facing API hosted on AWS Fargate[50DServerless public facing API hosted on AWS Fargate[?2004l
+[Jheredoc> [K[?2004hhttps://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation[80Dhttps://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       [?2004l
+[Jheredoc> [K[?2004h##3 Serverless API Gateway Ingress for AWS Fargate, in CloudFormation[65DServerless API Gateway Ingress for AWS Fargate, in CloudFormation[?2004l
+[Jheredoc> [K[?2004hhttps://containersonaws.com/pattern/api-gateway-fargate-cloudformation[70Dhttps://containersonaws.com/pattern/api-gateway-fargate-cloudformation[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       AWS Cloud Map[13DAWS Cloud Map: service registry.  ECS registers tasks here.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       Amazon API Gateway[18DAmazon API Gateway: servier   erless ingress.  Uses cl  Clod  ud Map.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h       Gateway uses IP that cloud map retru  urns to access th                               a VPC Link to open a connection to the [?2004l
+[Jheredoc> [K[?2004h       private IP address reture ned by the cloudn d         Clound Map     d Map.  and proxies[?2004l
+[Jheredoc> [K[?2004h       the response back to the internet.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hFFar F  QQ: How lon      What is minimum time to start up a Fargate Conti ainer?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hAA: 3 40 seconds         30 seconds for an Alpine image.  Farget    gate goes back        pulls down[?2004l
+[Jheredoc> [K[?2004htthe image on eery   very str artup.[?2004l
+[Jheredoc> [K[?2004hrre: r  [?2004l
+[Jheredoc> [K[?2004hrref: https://stackoverflow.com/a/52317386/1789168[44Dhttps://stackoverflow.com/a/52317386/1789168[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hQQ: Can JLink help?  make smaller containers?[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hAA: I thnk so       W It   Yes.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hL JJlink   J JLink "creates a minimal Java runtime environment[42Dcreates a minimal Java runtime environment[?2004l
+[Jheredoc> [K[?2004h" with only the necessary modules[31Dwith only the necessary modules required by[11Drequired by your[?2004l
+[Jheredoc> [K[?2004haapplication."[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhttps://snyk.io/blog/jlink-create-docker-images-spring-boot-java/[65Dhttps://snyk.io/blog/jlink-create-docker-images-spring-boot-java/[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+
+Found it.
+
+
+You set the subnets
+at the service level.
+
+But when I try to
+update the service,
+I see no way to edit
+the subnets the service
+is in.
+
+
+
+Good HOWTOs
+
+
+#1 Serverless public facing website hosted on AWS Fargate
+https://containersonaws.com/pattern/public-facing-web-ecs-fargate-cloudformation
+
+	A static HTML site.
+	That does not have strict networking security requirements.
+		Uses a Load Balancer
+		instead of a NAT gateway
+			which routes incoming
+			internet traffic from
+			the public subnet to
+			a private subnet.
+
+			with a NAT, you pay
+			extra / GB of outgoing
+			traffic.
+
+#2 Serverless public facing API hosted on AWS Fargate
+https://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation
+
+	API with extra layer of security.
+	That is, no public IP address.
+
+	Load balancer provides external IP address.
+
+	API can connect out to internet via a NAT
+	gateway.
+
+	Can scale horizontally big time and still
+	use a small set of IPs for the outgoing 
+	connections from the API services.
+	The NAT gateway contains this small set
+	of IPs, and the API goes through these.
+	These IPs can be whitelisted and do not
+	need to expand as the API expands.
+
+
+#3 Serverless public facing API hosted on AWS Fargate
+https://containersonaws.com/pattern/public-facing-api-ecs-fargate-cloudformation
+
+
+#3 Serverless API Gateway Ingress for AWS Fargate, in CloudFormation
+https://containersonaws.com/pattern/api-gateway-fargate-cloudformation
+
+	AWS Cloud Map: service registry.  ECS registers tasks here.
+
+	Amazon API Gateway: serverless ingress.  Uses Cloud Map.
+
+	Gateway uses a VPC Link to open a connection to the 
+	private IP address returned by Cloud Map and proxies
+	the response back to the internet.
+
+
+
+Q: What is minimum time to start up a Fargate Container?
+
+A: 30 seconds for an Alpine image.  Fargate pulls down
+the image on every startup.
+
+ref: https://stackoverflow.com/a/52317386/1789168
+
+
+Q: Can JLink help make smaller containers?
+
+A: Yes.
+
+JLink "creates a minimal Java runtime environment
+with only the necessary modules required by your
+application."
+
+https://snyk.io/blog/jlink-create-docker-images-spring-boot-java/
+
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 4:33PM # [K[?2004h[?2004l
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:47PM # [K[?2004hccat <<EOF[?2004l
+[Jheredoc> [K[?2004hMMore on Jlin   Link.[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hhttps://stackoverflow.com/a/61347750/1789168[44Dhttps://stackoverflow.com/a/61347750/1789168[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hjlink is meant to make Java applications be easily shippable to other machines without the expectation of it having a JVM installed. Instead of shipping jars and running them with a local java command (which may not match the Java version the program was compiled against), you ship your application as a self-contained image which includes not only your code, but the JVM's code as well (but only the parts required to run the application).[K
+[K
+A typical, not so big jlink application, after compacted, will be only around 50MB (again, this is including the JVM).[K[5A[109Djlink is meant to make Java applications be easily shippable to other machines without the expectation of it having a JVM installed. Instead of shipping jars and running them with a local java command (which may not match the Java version the program was compiled against), you ship your application as a self-contained image which includes not only your code, but the JVM's code as well (but only the parts required to run the application).[2BA typical, not so big jlink application, after compacted, will be only around 50MB (again, this is including the JVM).[?2004l
+[Jheredoc> [K[?2004h[?2004l
+[Jheredoc> [K[?2004hEEOF[?2004l
+More on JLink.
+
+https://stackoverflow.com/a/61347750/1789168
+
+
+jlink is meant to make Java applications be easily shippable to other machines without the expectation of it having a JVM installed. Instead of shipping jars and running them with a local java command (which may not match the Java version the program was compiled against), you ship your application as a self-contained image which includes not only your code, but the JVM's code as well (but only the parts required to run the application).
+
+A typical, not so big jlink application, after compacted, will be only around 50MB (again, this is including the JVM).
+
+%                                                                                                                         ]7;file://Marks-MacBook-Air.local/Users/markbucciarelli/src/mycode/markbucciarelli.com/src/posts[J 7:48PM # [K[?2004heexit[?2004l
+
+Saving session...
+...copying shared history...
+...saving history...truncating history files...
+...completed.
+Deleting expired sessions...none found.
+
+Script done on Sun Dec 10 19:48:13 2023
