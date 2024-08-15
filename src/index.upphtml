@@ -3,11 +3,46 @@ This and That
 -->
 
 <div class=fullwidth>
-  <ul>
 #!
-for f in $(ls posts/*.html|grep -v index.html|sort -rn|head -15); do
+LAST_YEAR=""
+for f in $(ls posts/*.html|grep -v index.html|sort -rn); do
   title=$(grep -i '<h1>' $f |sed -e 's/^.*<h1>//' -e 's;</h1>;;')
   dt=$(grep -i "subtitle" $f |sed -e 's/^.*<p[^>]*>//' -e 's;</p>;;')
+
+
+  #
+  #             Format of $dt is "November 11, 2022".
+  #
+
+  YEAR=$(echo "$dt"|awk '{print $3}')
+
+  #
+  #             The year has changed ...
+  #
+
+  if [ "$LAST_YEAR" != "$YEAR" ]; then
+
+  #
+  #             If not the first new year, close the list.
+  #
+
+    if [ "x$LAST_YEAR" != "x" ]; then
+#!
+  </ul>
+#!
+    fi
+    LAST_YEAR="$YEAR"
+
+  #
+  #             Print the new year and start a new list.
+  #
+
+#!
+  <h2>${YEAR}</h2>
+  <ul>
+#!
+  fi
+
 #!
     <li><a href=${f}>${title}</a> - ${dt}</li>
 #!
