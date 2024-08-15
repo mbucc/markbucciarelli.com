@@ -34,7 +34,7 @@ images:
 
 .PHONY: deploy
 deploy: site
-	aws --profile blog s3 sync work s3://blog-content-mb
+	aws --profile blog s3 sync --size-only work s3://blog-content-mb
 
 .PHONY: clean
 clean:
