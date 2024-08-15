@@ -86,7 +86,7 @@ public class CloudDevelopmentKit {
 	 *         <ul>
 	 *             <li>header values,</li>
 	 *             <li>cookie values, or</li>
-	 *             <li>query parmameter values</li>
+	 *             <li>query parameter values</li>
 	 *         </ul>
 	 *         are added to the cache key.</li>
 	 *     <li>cache both gzip and brotli compressed objects</li>
