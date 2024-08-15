@@ -180,6 +180,41 @@ public class CloudDevelopmentKit {
 	 *     was created to add support for OAC to CDK.
 	 * </p>
 	 *
+	 * <p>
+	 *     The bucket policy that is automatically created by using an OAI is:
+	 * </p>
+	 *
+	 * <pre>
+	 * {
+	 *     "Version": "2012-10-17",
+	 *     "Statement": [
+	 *         {
+	 *             "Effect": "Allow",
+	 *             "Principal": {
+	 *                 "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E3UCGS5OHCAWT3"
+	 *             },
+	 *             "Action": [
+	 *                 "s3:GetBucket*",
+	 *                 "s3:GetObject*",
+	 *                 "s3:List*"
+	 *             ],
+	 *             "Resource": [
+	 *                 "arn:aws:s3:::blog-content-mb",
+	 *                 "arn:aws:s3:::blog-content-mb/*"
+	 *             ]
+	 *         },
+	 *         {
+	 *             "Effect": "Allow",
+	 *             "Principal": {
+	 *                 "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity E3UCGS5OHCAWT3"
+	 *             },
+	 *             "Action": "s3:GetObject",
+	 *             "Resource": "arn:aws:s3:::blog-content-mb/*"
+	 *         }
+	 *     ]
+	 * }
+	 * </pre>
+	 *
 	 * @see
 	 *   <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html">
 	 *       Restrict access to an Amazon Simple Storage Service origin</a>
