@@ -3,7 +3,10 @@
   and styled by <a href=https://edwardtufte.github.io/tufte-css/>Tufte CSS</a>.
   Source at <a href=https://github.com/mbucc/markbucciarelli.com>github</a>.
   <br><br>
-  &copy; 2016 - 2022 Mark Bucciarelli
+#!
+YEAR=$(date +%Y)
+#!
+  &copy; 2016 - ${YEAR} Mark Bucciarelli
 </footer>
 <script>
     // Only load on production environment.
